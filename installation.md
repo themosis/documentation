@@ -44,7 +44,7 @@ The theme:
 -----------------------------
 1. Copy the 2 plugins `themosis-core` and `themosis-datas` to your `wp-content/plugins` directory.
 2. Copy the theme `themosis-theme` to your `wp-content/themes` directory. **Note:** You can rename the folder to fit your project.
-3. Open your _Terminal_ or _Console_ and go to the `themosis-core` plugin. There is a `composer.json` ready for installing dependencies.
+3. Open your _Terminal_ or _Console_ and navigate to the `themosis-core` plugin. There is a `composer.json` ready for installing dependencies.
 4. In the _Terminal_ or _Console_, type the following command: `composer update`
 
 This will load the default dependencies used by the framework.
