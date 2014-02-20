@@ -15,3 +15,7 @@ Development team
 The framework was created by [Julien Lambé](http://www.themosis.com/), who continues to lead the development.
 
 More details about contributing to the framework will be posted once it is released.
+
+Next
+----
+Check the [installation guide](https://github.com/themosis/documentation/blob/master/installation.md)
