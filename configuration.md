@@ -5,8 +5,7 @@ _Beside the `composer.json` file, there is nothing else to edit in the `themosis
 You'll spend most of your time writing your code inside the `themosis-datas` plugin and `themosis-theme` theme.
 
 1. Folder structure
-2. Introduction
-3. Configurations
+2. Configuration
 
 1. Folder structure
 -------------------
@@ -27,8 +26,8 @@ The **theme** folder structure:
 - **/views**: This folder allows you to organize your views - HTML. You can point to subdirectories using a dot syntax.
 - **routes.php**: This file handles your website routes. An "if" statement on streroids. Check the routing guide for more information.
 
-2.Introduction
---------------
+2. Configuration
+----------------
 
 Most of the configuration files are stored in the `app/config` folder of either the `themosis-datas` plugins and `themosis-theme` theme.
 
@@ -42,6 +41,9 @@ $textdomain = Application::get('textdomain');
 
 **Note:** You can't set/modify configuration values at run-time. Configuration values are read only.
 
+### List of the plugin configuration files:
+* application: Main configuration file. The only one you can access at runtime using ```php $value = Application::get('key');```
+* 
 
 
 
