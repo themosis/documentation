@@ -51,7 +51,7 @@ Here are complete lists of the configuration files.
 ### List of the theme configuration files:
 * **menus**: Allow you to define custom navigation menus. More infos in the[WordPress codex](http://codex.wordpress.org/Navigation_Menus).
 * **sidebars**: Help you register your sidebars for your website/application. Uses the same arguments as in the [WordPress codex: register_sidebar()](http://codex.wordpress.org/Function_Reference/register_sidebar).
-* **supports**: Equivalent to the [add\\_theme\\_support()](http://codex.wordpress.org/Function_Reference/add_theme_support) function.
+* **supports**: Equivalent to the [add\_theme\_support()](http://codex.wordpress.org/Function_Reference/add_theme_support) function.
 * **templates**: Handles the custom page templates system of the framework. Define yours inside this file by providing a `key` name.
 
 Next
