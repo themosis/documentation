@@ -70,7 +70,7 @@ Route::is('page', function(){
 ```php
 Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
 
-	return 'Hello World!;
+	return 'Hello World!';
 
 });
 ```
@@ -81,7 +81,7 @@ Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
 ```php
 Route::only('single', 'welcome-post', function(){
 
-	return 'Hello World!;
+	return 'Hello World!';
 
 });
 ```
