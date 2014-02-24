@@ -25,7 +25,26 @@ The **theme** folder structure:
 - **/config**: Contains the theme configuration files: `menus`, `sidebars`, `supports`, `templates`.
 - **/controllers**: This folder stores all your controllers.
 - **/views**: This folder allows you to organize your views - HTML. You can point to subdirectories using a dot syntax.
-- **routes.php**:
+- **routes.php**: This file handles your website routes. An "if" statement on streroids. Check the routing guide for more information.
+
+2.Introduction
+--------------
+
+Most of the configuration files are stored in the `app/config` folder of either the `themosis-datas` plugins and `themosis-theme` theme.
+
+Sometimes you may want to access configuration values at run-time. But you're constrained to only access the values of the `application.config.php` file stored in the `themosis-datas` plugin.
+
+### Access application configuration values
+
+```php
+Application::get('textdomain');
+```
+
+**Note:** You can't set/modify configuration values at run-time. Configuration values are read only.
+
+
+
+
 
 
 
