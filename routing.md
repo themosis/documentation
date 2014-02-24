@@ -56,3 +56,37 @@ Route::is('home', function(){
 ```
 
 By default, all routes handle _any_ request type: GET, POST,...
+
+### Route to any page
+```php
+Route::is('page', function(){
+
+	return 'Hello World!';
+
+});
+```;
+
+### One route for mutliple pages
+```php
+Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
+
+	return 'Hello World!;
+
+});
+```;
+
+**Note**: The array you pass as a second parameter is equivalent to the one you pass when using the WordPress conditional tags.
+
+### Route to a single post
+```php
+Route::only('single', 'welcome-post', function(){
+
+	return 'Hello World!;
+
+});
+```;
+
+### Route to a Themosis page template
+```php
+
+```;
