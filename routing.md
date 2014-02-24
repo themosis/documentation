@@ -64,7 +64,7 @@ Route::is('page', function(){
 	return 'Hello World!';
 
 });
-```;
+```
 
 ### One route for mutliple pages
 ```php
@@ -73,7 +73,7 @@ Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
 	return 'Hello World!;
 
 });
-```;
+```
 
 **Note**: The array you pass as a second parameter is equivalent to the one you pass when using the WordPress conditional tags.
 
@@ -84,9 +84,9 @@ Route::only('single', 'welcome-post', function(){
 	return 'Hello World!;
 
 });
-```;
+```
 
 ### Route to a Themosis page template
 ```php
 
-```;
+```
