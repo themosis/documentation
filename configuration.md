@@ -37,7 +37,7 @@ Sometimes you may want to access configuration values at run-time. But you're co
 ### Access application configuration values
 
 ```php
-Application::get('textdomain');
+$textdomain = Application::get('textdomain');
 ```
 
 **Note:** You can't set/modify configuration values at run-time. Configuration values are read only.
