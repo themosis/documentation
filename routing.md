@@ -46,6 +46,14 @@ Here is the current list of available route conditional tags in alphabetical ord
 3. Routes
 ---------
 
+There are 3 methods for the Route class:
+
+* **Route::is()** - Accepts no extra parameters than a conditional tag and a closure callback or a controller (check the [controller guide]()).
+* **Route::are()** - Accepts extra parameters for multiple "URIs".
+* **Route::only()** - Accept extra parameters for one "URI".
+
+***
+
 ### Basic route
 ```php
 Route::is('home', function(){
@@ -56,6 +64,16 @@ Route::is('home', function(){
 ```
 
 By default, all routes handle _any_ request type: GET, POST,...
+
+If you define a front page in the WordPress administration, use the `front` conditional tag.
+
+```php
+Route::is('front', function(){
+	
+	return 'Hello World!';
+
+});
+```
 
 ### Route to any page
 ```php
@@ -77,6 +95,15 @@ Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
 
 **Note**: The array you pass as a second parameter is equivalent to the one you pass when using the WordPress conditional tags.
 
+### One route for a specific page
+```php
+Route::only('page', 'Contact us', function(){
+
+	return 'Hello World!';
+
+});
+```
+
 ### Route to a single post
 ```php
 Route::only('single', 'welcome-post', function(){
@@ -88,5 +115,28 @@ Route::only('single', 'welcome-post', function(){
 
 ### Route to a Themosis page template
 ```php
+Route::only('template', 'my-custom-template', function(){
 
+	return 'Hello World!';
+
+});
 ```
+
+This is specific to page templates. The second parameter is the slug of your registered template from the `app/config/templates.config.php` file stored in your `themosis-theme`.
+
+### Route to custom post type archive
+```php
+Route::only('postTypeArchive', 'my-custom-post-type', function(){
+
+	return 'Hello World!';
+
+});
+```
+
+### Route to a single custom post type
+Route::only('singular', 'my-custom-post-type', function(){
+
+	return 'Hello World!';
+
+});
+
