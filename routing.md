@@ -157,7 +157,7 @@ Route::only('single', 'my-post', function(){
 ```php
 Route::only('single', 'my-post', function(){
 
-	return 'Hello World!;
+	return 'Hello World!';
 
 }, array('method' => 'post'));
 ```
