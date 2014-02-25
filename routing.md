@@ -170,6 +170,10 @@ Route::only('single', 'my-post', function(){
 
 }, array('ssl' => true));
 ```
+
+> This will also auto-convert asset paths to their `https` equivalent if registered in a custom field.
+
+
 Next
 ----
 Check the [views guide](https://github.com/themosis/documentation/blob/master/views.md)
