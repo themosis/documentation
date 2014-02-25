@@ -61,7 +61,7 @@ This view may be returned to the browser like so:
 ```php
 Route::is('home', function(){
 
-	return View::make(pages.home);
+	return View::make('pages.home');
 
 });
 ```
