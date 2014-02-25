@@ -54,7 +54,7 @@ There are 3 methods for the Route class:
 
 ***
 
-### Basic route
+### Basic routing
 ```php
 Route::is('home', function(){
 	
@@ -75,7 +75,7 @@ Route::is('front', function(){
 });
 ```
 
-### Route to any page
+#### Route to any page
 ```php
 Route::is('page', function(){
 
@@ -84,7 +84,7 @@ Route::is('page', function(){
 });
 ```
 
-### One route for multiple specific pages
+#### One route for multiple specific pages
 ```php
 Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
 
@@ -95,7 +95,7 @@ Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
 
 **Note**: The array you pass as a second parameter is equivalent to the one you pass when using the WordPress conditional tags.
 
-### One route for a specific page
+#### One route for a specific page
 ```php
 Route::only('page', 'Contact us', function(){
 
@@ -104,7 +104,7 @@ Route::only('page', 'Contact us', function(){
 });
 ```
 
-### Route to a single post
+#### Route to a single post
 ```php
 Route::only('single', 'welcome-post', function(){
 
@@ -113,7 +113,7 @@ Route::only('single', 'welcome-post', function(){
 });
 ```
 
-### Route to a Themosis page template
+#### Route to a Themosis page template
 ```php
 Route::only('template', 'my-custom-template', function(){
 
@@ -124,7 +124,7 @@ Route::only('template', 'my-custom-template', function(){
 
 This is specific to page templates. The second parameter is the slug of your registered template from the `app/config/templates.config.php` file stored in your `themosis-theme`.
 
-### Route to custom post type archive
+#### Route to custom post type archive
 ```php
 Route::only('postTypeArchive', 'my-custom-post-type', function(){
 
@@ -133,7 +133,7 @@ Route::only('postTypeArchive', 'my-custom-post-type', function(){
 });
 ```
 
-### Route to a single custom post type
+#### Route to a single custom post type
 ```php
 Route::only('singular', 'my-custom-post-type', function(){
 
@@ -142,3 +142,13 @@ Route::only('singular', 'my-custom-post-type', function(){
 });
 ```
 
+### Route parameters
+
+#### Listen to GET requests only
+```php
+Route::only('single', 'my-post', function(){
+
+	return 'Hello World!';
+
+}, array('method' => 'get'));
+```
