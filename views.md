@@ -43,6 +43,30 @@ Or you can pass a `$datas` array as a second parameter in the `make` method like
 $view = View::make('welcome', array('name' => 'Julien'));
 ```
 
+#### Organizing your views
+You can organize your views into sub-folders and access them using a dot syntax.
+
+```html
+<!-- This view is stored in app/views/pages/home.scout.php -->
+<html>
+	<head>
+		<title>Welcome</title>
+	</head>
+	<body>
+		<p>This is the home page</p>
+	</body>
+</html>
+```
+This view may be returned to the browser like so:
+```php
+Route::is('home', function(){
+
+	return View::make(pages.home);
+
+});
+```
+> There is no limitation to the number of sub-folders you want to use to organize your views.
+
 2. Templates
 ------------
 Themosis framework is bundled with a templating engine called `Scout`. The engine provides helpers in order to rapidly build your view.
@@ -76,19 +100,66 @@ Hello {{ $name }}
 #### If statements
 ```php
 @if(isset($value))
+
 	<p>The value is {{ $value }}.</p>
+
 @elseif(is_array($value))
+
 	<p>The value is an array.</p>
+
 @else
+
 	<p>Something is wrong, there is no value.</p>
+
 @endif
 ```
 
 #### Loop statements
+##### For
 ```php
+@for($i = 0; $i < 10; $i++)
 
+	<ul>
+		<li>Item {{ $i }}</li>
+	</ul>
+
+@endfor
 ```
+
+##### While
+```php
+@while(true)
+
+	<p>Show it!</p>
+
+@endwhile
+```
+
+##### Foreach
+```php
+@foreach($objects as $key => $value)
+
+	<p>This {{ $value }} opens that {{ $key }}.</p>
+
+@endforeach
+```
+
+#### WordPress Loop
+```php
+@loop(array('post_type' => 'post', 'posts_per_page' => -1))
+	
+	<h1>{{ Loop::title() }}</h1>
+	<div>
+		{{ Loop::content() }}
+	</div>
+
+@endloop
+```
+
+The array you pass inside the `@loop` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query.
+
+> The `Loop`class used in the example is a core class to be used only inside the WordPress Loop. More details on the `Loop` class [here](https://github.com/themosis/documentation/blob/master/loop.md).
 
 Next
 ----
-Check the [controllers guide](https://github.com/themosis/documentation/blob/master/routing.md)
+Check the [controllers guide](https://github.com/themosis/documentation/blob/master/controllers.md)
