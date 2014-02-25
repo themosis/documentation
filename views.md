@@ -25,3 +25,17 @@ Route::is('home', function(){
 ```
 
 The second argument is an array of data available to the view.
+
+#### Passing datas to the view
+```php
+$view = View::make('welcome')->with(array('name' => 'Julien'));
+```
+
+Or you can pass a `$datas` array as a second parameter in the `make` method like so:
+```php
+$view = View::make('welcome', array('name' => 'Julien'));
+```
+
+Next
+----
+Check the [controllers guide](https://github.com/themosis/documentation/blob/master/routing.md)
