@@ -65,7 +65,29 @@ Route::is('home', function(){
 
 });
 ```
+### Other Scout control structures
 
+#### Echo data
+```php
+Hello {{ $name }}
+```
+> The double curly braces echo the data but do not escape it.
+
+#### If statements
+```php
+@if(isset($value))
+	<p>The value is {{ $value }}.</p>
+@elseif(is_array($value))
+	<p>The value is an array.</p>
+@else
+	<p>Something is wrong, there is no value.</p>
+@endif
+```
+
+#### Loop statements
+```php
+
+```
 
 Next
 ----
