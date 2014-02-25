@@ -48,7 +48,7 @@ Here is the current list of available route conditional tags in alphabetical ord
 
 There are 3 methods for the Route class:
 
-* **Route::is()** - Accepts no extra parameters than a conditional tag and a closure callback or a controller (check the [controller guide]()).
+* **Route::is()** - Accepts no extra parameters than a conditional tag and a closure callback or a controller (check the [controller guide](https://github.com/themosis/documentation/blob/master/controllers.md)).
 * **Route::are()** - Accepts extra parameters for multiple "URIs".
 * **Route::only()** - Accepts extra parameters for one "URI".
 
@@ -144,7 +144,7 @@ Route::only('singular', 'my-custom-post-type', function(){
 
 ### Route parameters
 
-#### Listen to GET requests only
+#### Listen to GET requests
 ```php
 Route::only('single', 'my-post', function(){
 
@@ -152,3 +152,24 @@ Route::only('single', 'my-post', function(){
 
 }, array('method' => 'get'));
 ```
+
+#### Listen to POST requests
+```php
+Route::only('single', 'my-post', function(){
+
+	return 'Hello World!;
+
+}, array('method' => 'post'));
+```
+
+#### Force HTTPS request
+```php
+Route::only('single', 'my-post', function(){
+
+	return 'Hello World!';
+
+}, array('ssl' => true));
+```
+Next
+----
+Check the [views guide](https://github.com/themosis/documentation/blob/master/views.md)
