@@ -50,7 +50,7 @@ There are 3 methods for the Route class:
 
 * **Route::is()** - Accepts no extra parameters than a conditional tag and a closure callback or a controller (check the [controller guide]()).
 * **Route::are()** - Accepts extra parameters for multiple "URIs".
-* **Route::only()** - Accept extra parameters for one "URI".
+* **Route::only()** - Accepts extra parameters for one "URI".
 
 ***
 
@@ -84,7 +84,7 @@ Route::is('page', function(){
 });
 ```
 
-### One route for mutliple pages
+### One route for multiple specific pages
 ```php
 Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
 
@@ -134,9 +134,11 @@ Route::only('postTypeArchive', 'my-custom-post-type', function(){
 ```
 
 ### Route to a single custom post type
+```php
 Route::only('singular', 'my-custom-post-type', function(){
 
 	return 'Hello World!';
 
 });
+```
 
