@@ -81,7 +81,7 @@ Discover the other features/API of the framework below:
 
 * [Ajax](https://github.com/themosis/documentation/blob/master/ajax.md)
 * [Asset](https://github.com/themosis/documentation/blob/master/asset.md)
-* PostType
+* [PostType](https://github.com/themosis/documentation/blob/master/posttype.md)
 * Metabox
 * Taxonomy
 * Page
