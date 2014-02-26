@@ -30,9 +30,9 @@ Here is the method details:
 Ajax::run($action, $logged, $closure);
 ```
 
-* `$action`: string. Your custom action name for the Ajax request.
-* `$logged`: string. Possible values are `yes`, `no`, `both`. You tell if the ajax action should be performed for logged in or logged out users or both.
-* `$closure`: callback. A callback function where you run your custom code.
+* `$action`: _string_. Your custom action name for the Ajax request.
+* `$logged`: _string_. Possible values are `yes`, `no`, `both`. You tell if the ajax action should be performed for logged in or logged out users or both.
+* `$closure`: _callback_. A callback function where you run your custom code.
 
 ### Example:
 The code below shows a simple AJAX process. It uses a javascript file and a php file. Check the comments in the code for more tips/hints.
