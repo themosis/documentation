@@ -40,9 +40,11 @@ Route::is('home', 'home@index');
 
 To link a controller to a route, use this syntax `'name@method'`. In the example above, the route is linked to the `Home_Controller` class and calls the `index` method of that same class.
 
+**Note**: At the moment, you can't organize your controller files in sub-folders like in the `app/views` directory.
+
 ### Perform actions at controller instantiation
 
-You have the possibity to define a constructor method in your controller class. Using the constructor, you'll be able to perform common actions before the route call the controller method responsible to render the view.
+You have the possibity to define a constructor method in your controller class. Using the constructor, you'll be able to perform common actions before the route calls the controller method responsible to render the view.
 
 Here is an example:
 ```php
