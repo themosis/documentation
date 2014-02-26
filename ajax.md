@@ -39,7 +39,8 @@ The code below shows a simple AJAX process. It uses a javascript file and a php 
 
 ```js
 // This file is stored in app/assets/js/application.js
-// Let's assume this ajax request is made when a user click a button. When the ajax request is done, we simply display it in the console.
+// Let's assume this ajax request is made when a user click a button.
+// When the ajax request is done, we simply display it in the console.
 
 $.ajax({
 
@@ -73,7 +74,7 @@ Now that the user has clicked the button and ran the ajax request. Let's handle 
 		// Check nonce value
 		check_ajax_referer(Session::nonceName, 'security');
 
-		// Run custom code - Make sure to sanitize and check values
+		// Run custom code - Make sure to sanitize and check values before
 		$result = 2 + $_POST['number'];
 		
 		// "Return" the result
@@ -91,7 +92,7 @@ Now that the user has clicked the button and ran the ajax request. Let's handle 
 
 In the previous javascript example, we get access to some values using the following syntax:
 
-```javascript
+```js
 {
 	url: themosis.ajaxurl
 }
@@ -122,6 +123,20 @@ var themosis = {
 
 }
 ```
+
+### Change the Themosis global object name
+
+You can easily change the variable name of this global object. In order to do so, open the `app/config/application.config.php` file stored in your `themosis-datas` plugin and change the `namespace` value:
+
+```php
+array(
+
+	'namespace' => 'themosis' // Change this value...
+
+)
+```
+
+***
 
 ### More resources:
 
