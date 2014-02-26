@@ -62,3 +62,57 @@ The `to()` method only accepts two values:
 * **login** : Loads the asset in the WordPress login area.
 
 ### Load an asset on a specific URI
+
+#### By using the routes.php
+
+Inside your Route callback function, you can call the `Asset::add()` method in order to load the asset for the specific URI/page request.
+
+Simply add your code before returning a view:
+
+```php
+
+Route::is('home', function(){
+
+	Asset::add('my-handle', 'js/file.js', array('jquery'), '1.0', true);
+
+	return View::make('home');
+
+});
+
+```
+
+#### By using a controller
+
+First specify a controller inside your routes.php file.
+
+```php
+
+Route::is('home', 'home@index');
+
+```
+
+Then use the constructor method of your controller to load your asset for this specific URI/page request.
+
+```php
+// File stored in app/controllers/home.controller.php
+
+class Home_Controller
+{
+
+	public function __construct(){
+		
+		// This asset is only available to the home page
+		Asset::add('my-handle', 'css/tool.css', array('main-style'), '1.0', 'screen');
+
+	}
+	
+	// Method responsible to render the home view
+	public function index(){
+	
+		return View::make('home');
+
+	}
+
+}
+
+```
