@@ -24,7 +24,7 @@ The parameters you insert in the `Asset::add()` method are the same from the Wor
 * [wp\_enqueue\_script function](http://codex.wordpress.org/Function_Reference/wp_enqueue_script)
 * [wp\_enqueue\_style function](https://codex.wordpress.org/Function_Reference/wp_enqueue_style)
 
-Here is the method details:
+Here are the method details:
 ```php
 Asset::add($handle, $path, $deps, $version, $mixed);
 ```

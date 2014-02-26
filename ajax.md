@@ -25,7 +25,7 @@ Ajax::run('my_action', 'both', function(){
 });
 ```
 
-Here is the method details:
+Here are the method details:
 ```php
 Ajax::run($action, $logged, $closure);
 ```
