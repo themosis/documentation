@@ -80,7 +80,7 @@ This article closes the "Getting started" guide.
 Discover the other features/API of the framework below:
 
 * [Ajax](https://github.com/themosis/documentation/blob/master/ajax.md)
-* Asset
+* [Asset](https://github.com/themosis/documentation/blob/master/asset.md)
 * PostType
 * Metabox
 * Taxonomy
