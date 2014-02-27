@@ -84,8 +84,8 @@ Discover the other features/API of the framework below:
 * [PostType](https://github.com/themosis/documentation/blob/master/posttype.md)
 * [Field](https://github.com/themosis/documentation/blob/master/field.md)
 * [Metabox](https://github.com/themosis/documentation/blob/master/metabox.md)
-* Taxonomy
-* Page
-* Helpers
+* [Taxonomy](https://github.com/themosis/documentation/blob/master/taxonomy.md)
+* [Page](https://github.com/themosis/documentation/blob/master/page.md)
+* [Helpers](https://github.com/themosis/documentation/blob/master/helpers.md)
 
 

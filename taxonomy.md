@@ -34,4 +34,4 @@ Taxonomy::make('brands', 'Brands', 'clothes')->set(array(
 ));
 ```
 
-This builds a `Brands`taxonomy for the `clothes` custom post type.
+This builds a `Brands` taxonomy for the `clothes` custom post type.
