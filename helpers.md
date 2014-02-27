@@ -38,6 +38,7 @@ $iconUrl = themosisAssets().'/images/favicon.ico';
 
 ## themosisIsPost($id)
 
+@param int
 @return boolean
 
 A function that checks you're on a specified admin page, post or custom post type(edit screen) in order to display a certain content.
@@ -50,6 +51,7 @@ $isPage = themosisIsPost($page->ID);
 
 ## themosisAttachmentIdFromUrl($url)
 
+@param string
 @return int|boolean
 
 This functions returns an attachment `ID` based on the URL/path given. If no attachment is found, it returns `false`.
