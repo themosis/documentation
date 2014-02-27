@@ -78,7 +78,7 @@ $settings = array(
 Finally, let's register the page.
 
 ```php
-Page::make('ECommerce', 'ecommerce-slug', $sections, $settings)->set();
+Page::make('Shop', 'shop-slug', $sections, $settings)->set();
 ```
 
 ### Other methods
