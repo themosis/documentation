@@ -38,7 +38,9 @@ Metabox::make($title, $postType, $options)->set($fields);
 
 * `$fields`: _array_. An array of custom fields. Check the [Field guide](https://github.com/themosis/documentation/blob/master/field.md).
 
-Example of a metabox:
+### Custom post type metabox
+
+Example of a metabox link to a custom post type with a slug of `custom-books`:
 
 ```php
 // Define fields
@@ -56,6 +58,21 @@ $fields = array(
 
 // A metabox object is always returned in order to be able to chain methods.
 Metabox::make('Book details', 'custom-books')->set($fields);
+```
+
+### Page metabox
+
+Example of a metabox link to a page.
+
+```php
+// You can define directly your fields inside the set() method.
+Metabox::make('Informations', 'page')->set(array(
+
+	Field::text('name'),
+	Field::text('phone'),
+	Field::textarea('address')
+
+));
 ```
 
 Next
