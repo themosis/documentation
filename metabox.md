@@ -40,7 +40,7 @@ Here is the list of custom fields available:
 Build a simple text field: `<input type="text"/>`
 
 ```php
-Field::text($name, $extra = array());
+Field::text($name, $extras = array());
 ```
 
 * `$name`: _string_. The field/meta name/key.
@@ -122,3 +122,82 @@ Field::select($name, $options, $multiple = false, $extras = array());
 * `$options`: _array_. The select options values.
 * `$multiple`: _boolean_. If select tag use single or multiple value. Default to `false`.
 * `$extras`: _array_. The extra properties. Check the Text field.
+
+#### Basic select field
+
+Build a simple select field with **numeric** values:
+
+```php
+Field::select('my-field', array(
+	'None',
+	'Belgium',
+	'France',
+	'United States'
+), false, array('title' => 'Choose a country:'));
+```
+
+Build a simple select field with **custom** values:
+
+```php
+Field::select('my-field', array(
+	
+	array(
+		'none'	=> 'None',
+		'bel' 	=> 'Belgium',
+		'fra'	=> 'France',
+		'usa'	=> 'United States'
+	)
+
+), false, array('title' => 'Choose a country:'));
+```
+
+#### Select field with subgroups
+
+Build a select field with subgroup of options using **numeric** values:
+
+```php
+Field::select('my-field', array(
+	
+	'europe' 	=> array(
+	
+		'Belgium',
+		'France'
+	
+	),
+
+	'america'	=> array(
+
+		'United States'
+
+	)
+
+));
+```
+
+Build a select field with subgroup of options using **custom** values:
+
+```php
+Field::select('my-field', array(
+	
+	'europe' 	=> array(
+	
+		'bel'	=> 'Belgium',
+		'fra'	=> 'France'
+	
+	),
+
+	'america'	=> array(
+
+		'usa'	=> 'United States'
+
+	)
+
+));
+```
+
+#### Select multiple values
+
+Simply set the third parameter `$multiple` to `true`.
+
+### Editor field
+
