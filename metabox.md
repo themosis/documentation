@@ -5,7 +5,10 @@ As the name suggests, the `Metabox` class helps you build custom WordPress metab
 
 Before digging into the `Metabox` documentation, make sure to read the [Field class guide](https://github.com/themosis/documentation/blob/master/field.md).
 
-### Build a metabox
+1. Build a metabox
+2. Retrieve datas
+
+## 1. Build a metabox
 
 ```php
 Metabox::make($title, $postType, $options = array())->set($fields);
@@ -75,8 +78,13 @@ Metabox::make('Informations', 'page')->set(array(
 ));
 ```
 
+## 2. Retrieve datas
+
+In order to retrieve the custom fields datas, please refer to the [Meta guide](https://github.com/themosis/documentation/blob/master/meta.md).
+
 Next
 ----
 
+* [Meta guide](https://github.com/themosis/documentation/blob/master/meta.md)
 * [Taxonomy guide](https://github.com/themosis/documentation/blob/master/taxonomy.md)
 * [Page guide](https://github.com/themosis/documentation/blob/master/page.md)
