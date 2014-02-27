@@ -86,6 +86,7 @@ Discover the other features/API of the framework below:
 * [Metabox](https://github.com/themosis/documentation/blob/master/metabox.md)
 * [Taxonomy](https://github.com/themosis/documentation/blob/master/taxonomy.md)
 * [Page](https://github.com/themosis/documentation/blob/master/page.md)
+* [Option](https://github.com/themosis/documentation/blob/master/option.md)
 * [Helpers](https://github.com/themosis/documentation/blob/master/helpers.md)
 
 
