@@ -25,7 +25,7 @@ tp($value);
 
 ## themosisAssets()
 
-@return string
+* **@return** _string_
 
 This function returns the URL path of the `themosis-theme` assets directory. Useful if you want to point an asset without using the `Asset` class.
 
@@ -38,9 +38,8 @@ $iconUrl = themosisAssets().'/images/favicon.ico';
 
 ## themosisIsPost($id)
 
-@param int
-
-@return boolean
+* **@param** _int_
+* **@return** _boolean_
 
 A function that checks you're on a specified admin page, post or custom post type(edit screen) in order to display a certain content.
 
@@ -52,11 +51,10 @@ $isPage = themosisIsPost($page->ID);
 
 ## themosisAttachmentIdFromUrl($url)
 
-@param string
+* **@param** _string_
+* **@return** _int|boolean_
 
-@return int|boolean
-
-This functions returns an attachment `ID` based on the URL/path given. If no attachment is found, it returns `false`.
+This function returns an attachment `ID` based on the URL/path given. If no attachment is found, it returns `false`.
 
 ```php
 $url = 'http://www.domain.com/wp-content/uploads/2014/02/Image150x150.jpg';
@@ -64,4 +62,18 @@ $url = 'http://www.domain.com/wp-content/uploads/2014/02/Image150x150.jpg';
 // Return the media attachment ID
 $id = themosisAttachmentIdFromUrl($url);
 ```
+
+## themosis_path($name)
+
+* **@param** _string_
+* **@return** _string_
+
+This function returns the real path of each part of the framework you ask for by providing the `$name` parameter.
+
+You can choose 3 values to pass:
+
+* `sys`: Return the `themosis-core` root path.
+* `datas`: Return the `themosis-datas``root path.
+* `app`: Return the `themosis-theme>app` folder path.
+
 
