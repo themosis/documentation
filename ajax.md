@@ -9,7 +9,7 @@ Ajax
 
 The `Ajax` class handles the WordPress mechanism for easily handling ajax requests.
 
-**Note**: All the code in order to customize WordPress should be stored inside the `app/admin` directory of the `themosis-datas` plugin.
+**Note**: All the code in order to customize WordPress should be stored inside the `app/admin` directory of the `themosis` plugin.
 
 In order to listen to a WordPress ajax action, use the method below:
 
@@ -126,7 +126,7 @@ var themosis = {
 
 ### Change the Themosis global object name
 
-You can easily change the variable name of this global object. In order to do so, open the `app/config/application.config.php` file stored in your `themosis-datas` plugin and change the `namespace` value:
+You can easily change the variable name of this global object. In order to do so, open the `app/config/application.config.php` file stored in your `themosis` plugin and change the `namespace` value:
 
 ```php
 array(

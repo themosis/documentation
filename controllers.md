@@ -44,7 +44,7 @@ To link a controller to a route, use this syntax `'name@method'`. In the example
 
 ### Perform actions at controller instantiation
 
-You have the possibity to define a constructor method in your controller class. Using the constructor, you'll be able to perform common actions before the route calls the controller method responsible to render the view.
+You have the possibility to define a constructor method in your controller class. Using the constructor, you'll be able to perform common actions before the route calls the controller method responsible to render the view.
 
 Here is an example:
 ```php
@@ -75,18 +75,6 @@ class Home_Controller
 
 Next
 ----
-This article closes the "Getting started" guide.
-
-Discover the other features/API of the framework below:
-
-* [Ajax](https://github.com/themosis/documentation/blob/master/ajax.md)
-* [Asset](https://github.com/themosis/documentation/blob/master/asset.md)
-* [PostType](https://github.com/themosis/documentation/blob/master/posttype.md)
-* [Field](https://github.com/themosis/documentation/blob/master/field.md)
-* [Metabox](https://github.com/themosis/documentation/blob/master/metabox.md)
-* [Taxonomy](https://github.com/themosis/documentation/blob/master/taxonomy.md)
-* [Page](https://github.com/themosis/documentation/blob/master/page.md)
-* [Option](https://github.com/themosis/documentation/blob/master/option.md)
-* [Helpers](https://github.com/themosis/documentation/blob/master/helpers.md)
+Check the [models guide](https://github.com/themosis/documentation/blob/master/models.md)
 
 

@@ -25,14 +25,11 @@ On Windows, you can use the Composer [Windows installer](https://getcomposer.org
 
 3. Themosis framework suite
 ---------------------------
-When you download Themosis, you get a "suite" of tools. This set contains 2 plugins and 1 theme.
+When you download Themosis, you get a "suite" of tools. This set contains 1 plugin and 1 theme.
 
-The plugins:
+The plugin:
 
-- themosis-core
-- themosis-datas
-
-> Note: The `themosis-datas` folder name can be change to anything you want. It is the plugin that contains all your application/website datas. Also this is where you shape the WordPress administration and main configuration.
+- themosis
 
 The theme:
 
@@ -42,20 +39,22 @@ The theme:
 
 4. Install Themosis framework
 -----------------------------
-1. Copy the 2 plugins `themosis-core` and `themosis-datas` to your `wp-content/plugins` directory.
+
+1. Copy the plugin `themosis` to your `wp-content/plugins` directory.
 2. Copy the theme `themosis-theme` to your `wp-content/themes` directory. **Note:** You can rename the folder to fit your project.
-3. Open your _Terminal_ or _Console_ and navigate to the `themosis-core` plugin. There is a `composer.json` ready for installing dependencies.
+3. Open your _Terminal_ or _Console_ and navigate to the `themosis` plugin. There is a `composer.json` ready for installing dependencies.
 4. In the _Terminal_ or _Console_, type the following command: `composer update`
 
 This will load the default dependencies used by the framework.
 
 > If you want to install other dependencies or libraries, check the [packagist website](https://packagist.org/).
 
-> Always install the dependencies before trying to activate the `themosis-core` plugin.
+> Always install the dependencies before trying to activate the `themosis` plugin.
 
 5. Activate the framework
 -------------------------
-1. Simply connect to your WordPress administration. Go to the `Plugins` page and activate the `themosis-core` and then the `themosis-datas` plugins.
+
+1. Simply connect to your WordPress administration. Go to the `Plugins` page and activate the `themosis` plugin.
 2. Finally, under the `Appearance>Themes` page, activate your `themosis-theme`.
 3. Visit the public home page and you should see a congratulation message prompting that everything is installed correctly.
 

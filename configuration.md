@@ -1,8 +1,7 @@
 Configuration
 =============
-_Beside the `composer.json` file, there is nothing else to edit in the `themosis-core` plugin._
 
-You'll spend most of your time writing your code inside the `themosis-datas` plugin and `themosis-theme` theme.
+You'll spend most of your time writing your code inside the `themosis` plugin and `themosis-theme` theme.
 
 1. Folder structure
 2. Configuration
@@ -10,7 +9,8 @@ You'll spend most of your time writing your code inside the `themosis-datas` plu
 
 1. Folder structure
 -------------------
-On both the `themosis-datas` plugin and `themosis-theme` theme, there is a folder called `app`. This is the main folder where you write your code.
+
+On both the `themosis` plugin and `themosis-theme` theme, there is a folder called `app`. This is the main folder where you write your code.
 
 The **plugin** folder structure:
 
@@ -30,9 +30,9 @@ The **theme** folder structure:
 2. Configuration
 ----------------
 
-Most of the configuration files are stored in the `app/config` folder of either the `themosis-datas` plugins and `themosis-theme` theme.
+Most of the configuration files are stored in the `app/config` folder of either the `themosis` plugin and `themosis-theme` theme.
 
-Sometimes you may want to access configuration values at run-time. But you're constrained to only access the values of the `application.config.php` file stored in the `themosis-datas` plugin.
+Sometimes you may want to access configuration values at run-time. But you're constrained to only access the values of the `application.config.php` file stored in the `themosis` plugin.
 
 ### Access application configuration values
 
@@ -50,7 +50,7 @@ Here are complete lists of the configuration files.
 * **errors**: Control display of PHP errors. By default, set for production environment.
 
 ### List of the theme configuration files:
-* **menus**: Allow you to define custom navigation menus. More infos in the[WordPress codex](http://codex.wordpress.org/Navigation_Menus).
+* **menus**: Allow you to define custom navigation menus. More infos in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
 * **sidebars**: Help you register your sidebars for your website/application. Uses the same arguments as in the [WordPress codex: register_sidebar()](http://codex.wordpress.org/Function_Reference/register_sidebar).
 * **supports**: Equivalent to the [add\_theme\_support()](http://codex.wordpress.org/Function_Reference/add_theme_support) function.
 * **templates**: Handles the custom page template system of the framework. Define yours inside this file by providing a `key` name.

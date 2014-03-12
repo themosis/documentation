@@ -63,7 +63,7 @@ Route::is('home', function(){
 });
 ```
 
-By default, all routes handle _any_ request type: GET, POST,...
+By default, all routes handle `any` request type: GET, POST,...
 
 If you define a front page in the WordPress administration, use the `front` conditional tag.
 

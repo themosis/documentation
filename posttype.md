@@ -3,7 +3,7 @@ PostType
 
 The `PostType` class helps register/build WordPress custom post types.
 
-**Note**: All the code in order to customize WordPress should be stored inside the `app/admin` directory of the `themosis-datas` plugin.
+**Note**: All the code in order to customize WordPress should be stored inside the `app/admin` directory of the `themosis` plugin.
 
 ### Basic custom post type
 
