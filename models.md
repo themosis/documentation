@@ -52,7 +52,6 @@ class Books_Model extends BaseModel{
 Then we can retrieve all the books for our view like so:
 
 ```php
-
 Route::is('home', function(){
 
 	return View::make('pages.home', array(
@@ -62,7 +61,6 @@ Route::is('home', function(){
 	));
 
 });
-
 ```
 
 All your `models` classes should be stored in the `app/models` directory and use the `.model.php` file extension.
@@ -87,7 +85,7 @@ You can call the model by using its name: `News::someMethod()`
 
 ### Resolve name conflicts
 
-If there is a name conflict at run-time, you can define a class property `alias` to change the class alias name.
+If there is a name conflict at run-time, you can define a class property `$alias` to change the class alias name.
 
 Here is an example using the previous `news.model.php` class.
 
