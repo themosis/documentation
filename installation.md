@@ -29,11 +29,11 @@ When you download Themosis, you get a "suite" of tools. This set contains 1 plug
 
 The plugin:
 
-- themosis
+- **themosis**: Contains the core classes. You will write your code inside the plugin in order to customize your WordPress administration and define the datas of your website or application.
 
 The theme:
 
-- themosis-theme
+- **themosis-theme**: Define the look and feel of your project. Is considered as the "public" part of your website or application. You will define your routes, controllers, assets, views, ... inside this theme.
 
 > Note: The `themosis-theme` folder name can be change to anything you want in order to fit your project. It handles the public/front-end of your website/application.
 
