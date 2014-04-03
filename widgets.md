@@ -20,7 +20,7 @@ class MyCustomWidget_Widget extends WP_Widget
 		$params = array(
 
 			'description' 	=> 'The widget description',
-			'name			=> 'My Custom Widget'
+			'name'			=> 'My Custom Widget'
 	
 		);
 
