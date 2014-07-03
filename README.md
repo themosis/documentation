@@ -1,7 +1,7 @@
 Themosis framework documentation
 ================================
 
-** NOTE: We are currently writing our new documentation for the Themosis Framework 1.0. Some APIs are no longer valid for our next stable release. Follow us on Twitter for updates: [@Themosis](https://twitter.com/Themosis) **
+#### NOTE: We are currently writing our new documentation for the Themosis Framework 1.0. Some APIs are no longer valid for our next stable release. Follow us on Twitter for updates: [@Themosis](https://twitter.com/Themosis)
 
 
 If you find any mistakes within the docs, please use the Github issues system. For grammar issues add the label `Typo` and for code issues add the label `Code`.
