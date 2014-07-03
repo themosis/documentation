@@ -89,7 +89,16 @@ Route::is('home', function(){
 
 });
 ```
-### Other Scout control structures
+
+In the previous example, we used the `@include` syntax. This function allows you to include `.php` view files that are located in the root of the `app/views` directory. **Note:** The `@include` function do not work with view files with an extension of `.scout.php` at the moment and you can't organize them into sub-folders. But these features will be available on a later version.
+
+### Scout control structures
+
+#### Include views
+```php
+@include('header')
+```
+> This will include into your view the `header.php` file stored inside the root of your `app/views` directory.
 
 #### Echo data
 ```php
