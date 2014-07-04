@@ -35,10 +35,16 @@ The Themosis framework uses [WP-CLI](http://wp-cli.org/) in order to install the
 
 ### Install WP-CLI on UNIX like environment.
 
-Execute the following statements in your _Terminal_
+Execute the following statements in your `Terminal`:
 
 ```bash
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+```
+
+```bash
+chmod +x wp-cli.phar
+
+sudo mv wp-cli.phar /usr/local/bin/wp
 ```
 
 
