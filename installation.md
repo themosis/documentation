@@ -4,8 +4,8 @@ Installation
 1. Requirements
 2. Install Composer
 3. Install WP-Cli
-4. Install Themosis framework
-5. Enjoy!
+4. Download the Themosis framework
+5. Install WordPress
 
 
 1. Requirements:
@@ -26,10 +26,12 @@ The Themosis framework uses [Composer](https://getcomposer.org/) to manage its d
 
 On Windows, you can use the Composer [Windows installer](https://getcomposer.org/Composer-Setup.exe).
 
+> We recommend to install Composer globally on your system.
+
 3. Install WP-CLI
 -----------------
 
-The Themosis framework uses [WP-CLI](http://wp-cli.org/) in order to install the latest WordPress version. Beside installing WordPress, [WP-CLI](http://wp-cli.org/) will allow you to perform tasks on your WordPress installation using the command-line tool.
+The Themosis framework uses [WP-CLI](http://wp-cli.org/) to install the latest WordPress version. Beside installing WordPress, [WP-CLI](http://wp-cli.org/) will allow you to perform tasks on your WordPress installation using the command-line tool.
 
 > Please first check the [WP-CLI requirements](http://wp-cli.org/#requirements) before installing it.
 
@@ -47,43 +49,47 @@ chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
 ```
 
+This will allow you to use the `wp` command in your Terminal.
 
-3. Themosis framework suite
----------------------------
-When you download Themosis, you get a "suite" of tools. This set contains 1 plugin and 1 theme.
+### Install WP-CLI on Windows.
 
-The plugin:
+Run the following composer statement from your `Console`:
 
-- **themosis**: Contains the core classes. You will write your code inside the plugin in order to customize your WordPress administration and define the datas of your website or application.
+```bash
+composer create-project wp-cli/wp-cli --no-dev
+```
 
-The theme:
+This will download and create a directory `wp-cli` on your system. We recommend to store this directory on a location like `c:\developer\tools\` to avoid mixing your development tools and personal files.
 
-- **themosis-theme**: Define the look and feel of your project. Is considered as the "public" part of your website or application. You will define your routes, controllers, assets, views, ... inside this theme.
+Then add the `wp-cli\bin` folder to your system variable `PATH`. For example, using the recommended installation location, you'll store the following path to your system variable `PATH`: `c:\developer\tools\wp-cli\bin;`
 
-> Note: The `themosis-theme` folder name can be change to anything you want in order to fit your project. It handles the public/front-end of your website/application.
+This will allow you to use the `wp` command in your Console.
 
-4. Install Themosis framework
------------------------------
+4. Download the Themosis framework
+---------------------------------
 
-1. Copy the plugin `themosis` to your `wp-content/plugins` directory.
-2. Copy the theme `themosis-theme` to your `wp-content/themes` directory. **Note:** You can rename the folder to fit your project.
-3. Open your _Terminal_ or _Console_ and navigate to the `themosis` plugin. There is a `composer.json` ready for installing dependencies.
-4. In the _Terminal_ or _Console_, type the following command: `composer update`
+Open your `Terminal` or `Console` and execute the following command:
 
-This will load the default dependencies used by the framework.
+```bash
+composer create-project themosis/themosis my-project-name --prefer-dist
+```
 
-> If you want to install other dependencies or libraries, check the [packagist website](https://packagist.org/).
+This will create a directory called `my-project-name` on your system and automatically download the latest WordPress version along with the latest Themosis framework version and its dependencies.
 
-> Always install the dependencies before trying to activate the `themosis` plugin.
+5. Install WordPress
+--------------------
 
-5. Activate the framework
--------------------------
+Your project comes with a default `wp-config.php` file configured to load the Themosis framework dependencies. Use this file to configure your database, nonce and common WordPress configuration.
 
-1. Simply connect to your WordPress administration. Go to the `Plugins` page and activate the `themosis` plugin.
-2. Finally, under the `Appearance>Themes` page, activate your `themosis-theme`.
-3. Visit the public home page and you should see a congratulation message prompting that everything is installed correctly.
+> Your project will have the following `vendor` directory installed beside the default WordPress files. This `vendor` directory is created by default by Composer. It stores package dependencies used by the Themosis framework.
+
+Once your `wp-config.php` file is setup, start the default WordPress installation process and log in your WordPress administration. Activate the Themosis framework plugin and the Themosis framework theme.
+
+Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework
+
+> If you don't see the welcome message, check our troubleshooting information page for help.
 
 Next
 ----
-Check the [configuration guide](https://github.com/themosis/documentation/blob/master/configuration.md)
+Read the [configuration guide](https://github.com/themosis/documentation/blob/master/configuration.md)
 
