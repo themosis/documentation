@@ -2,26 +2,45 @@ Installation
 ============
 
 1. Requirements
-- Install Composer
-- Themosis framework suite
-- Install Themosis framework
-- Activate the framework
+2. Install Composer
+3. Install WP-Cli
+4. Install Themosis framework
+5. Enjoy!
+
 
 1. Requirements:
 ----------------
-The framework has a few system requirements:
 
-- PHP >= 5.3
+The framework has a few system requirements before getting started:
 
-Otherwise the setup is the same as WordPress. [Check here](http://wordpress.org/about/requirements/) for other WordPress server requirements.
+- PHP >= 5.3.3
+
+Otherwise the server requirements are the same as WordPress. [Check here](http://wordpress.org/about/requirements/) for default WordPress server requirements.
 
 > Please note this framework has only been tested on **Apache** server only.
 
 2. Install Composer
 -------------------
-Themosis uses [Composer](https://getcomposer.org/) to manage its dependencies and easily load its classes. Follow the instructions [here](https://getcomposer.org/doc/00-intro.md) in order to install Composer either locally or globally on your computer.
+
+The Themosis framework uses [Composer](https://getcomposer.org/) to manage its dependencies and easily load its classes. Please follow the instructions [here](https://getcomposer.org/doc/00-intro.md) in order to install Composer either locally or globally on your computer.
 
 On Windows, you can use the Composer [Windows installer](https://getcomposer.org/Composer-Setup.exe).
+
+3. Install WP-CLI
+-----------------
+
+The Themosis framework uses [WP-CLI](http://wp-cli.org/) in order to install the latest WordPress version. Beside installing WordPress, [WP-CLI](http://wp-cli.org/) will allow you to perform tasks on your WordPress installation using the command-line tool.
+
+> Please first check the [WP-CLI requirements](http://wp-cli.org/#requirements) before installing it.
+
+### Install WP-CLI on UNIX like environment.
+
+Execute the following statements in your _Terminal_
+
+```bash
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+```
+
 
 3. Themosis framework suite
 ---------------------------
