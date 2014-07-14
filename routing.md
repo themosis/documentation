@@ -144,8 +144,6 @@ Route::get('singular', array('my-custom-post-type', function(){
 }));
 ```
 
-### Route parameters
-
 #### Listen to POST requests
 ```php
 Route::post('single', array('my-post', function(){
@@ -155,7 +153,7 @@ Route::post('single', array('my-post', function(){
 }));
 ```
 
-#### Force HTTPS request
+#### Force to listen to HTTPS request
 ```php
 Route::get('single', array('my-post', 'https', function(){
 
