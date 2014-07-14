@@ -16,7 +16,7 @@ On both the `themosis-plugin` plugin and `themosis-theme` theme, there is a fold
 
 ### The plugin folder structure:
 
-- **/admin**: This folder is an extension of the classic `functions.php` file. You can add as many files as you want at the root. **Note:** The framework will load them in alphabetical order. As the name suggests, this is where you'll write your code in order to shape the WordPress administration and set your data: custom post types, metaboxes, custom fields, pages,...
+- **/admin**: This folder is an extension of the classic `functions.php` file. You can add as many files as you want at its root. As the name suggests, this is where you'll write your code in order to shape the WordPress administration and set your data: custom post types, metaboxes, custom fields, pages,... **Note:** The framework will load your files in alphabetical order. An `application.php` file is loaded by default.
 
 
 - **/config**: Contains the main configuration files: `application`, `constants`, `errors`, `images`, `models`.
@@ -78,7 +78,7 @@ Here are complete lists of the configuration files.
 
 * **controllers**: Define the controller classes you want to autoload.
 
-* **menus**: Allow you to define custom navigation menus. More info in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
+* **menus**: Allow you to define custom navigation menus. More information in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
 
 * **sidebars**: Help you register your sidebars for your website/application. Uses the same arguments found in the [WordPress codex: register_sidebar()](http://codex.wordpress.org/Function_Reference/register_sidebar).
 
