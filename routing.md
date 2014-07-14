@@ -153,7 +153,7 @@ Route::post('single', array('my-post', function(){
 }));
 ```
 
-#### Force to listen to HTTPS request
+#### Force to listen to HTTPS requests
 ```php
 Route::get('single', array('my-post', 'https', function(){
 
@@ -162,7 +162,7 @@ Route::get('single', array('my-post', 'https', function(){
 }));
 ```
 
-> This will also auto-convert asset paths to their `https` equivalent if registered in a custom field.
+> If you save asset URL in custom fields and using them by calling the `Meta` class, they will be auto-converted to their `https` equivalent.
 
 
 Next
