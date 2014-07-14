@@ -48,27 +48,27 @@ Here is the current list of available route conditional tags in alphabetical ord
 
 There are 3 methods for the Route class:
 
-* **Route::is()** - Accepts no extra parameters than a conditional tag and a closure callback or a controller (check the [controller guide](https://github.com/themosis/documentation/blob/master/controllers.md)).
-* **Route::are()** - Accepts extra parameters for multiple "URIs".
-* **Route::only()** - Accepts extra parameters for one "URI".
+* **Route::get()** - Listen to `GET` and `HEAD` HTTP requests.
+
+* **Route::post()** - Listen to `POST` HTTP requests.
+
+* **Route::any()** - Currently listening to `GET`, `HEAD`, `POST` requests.
 
 ***
 
 ### Basic routing
 ```php
-Route::is('home', function(){
+Route::get('home', function(){
 	
 	return 'Hello World!';
 
 });
 ```
 
-By default, all routes handle `any` request type: GET, POST,...
-
 If you define a front page in the WordPress administration, use the `front` conditional tag.
 
 ```php
-Route::is('front', function(){
+Route::get('front', function(){
 	
 	return 'Hello World!';
 
@@ -77,98 +77,91 @@ Route::is('front', function(){
 
 #### Route to any page
 ```php
-Route::is('page', function(){
+Route::get('page', function(){
 
 	return 'Hello World!';
 
 });
 ```
+
+#### Route to one specific page
+```php
+Route::get('page', array('contact', function(){
+
+	return 'Hello World!';
+
+}));
+```
+
+**Note**: Just pass a string, a page ID or an array.
 
 #### One route for multiple specific pages
 ```php
-Route::are('page', array('about', 'contact', 24, 'Our Team'), function(){
+Route::get('page', array(array('about', 'contact', 24, 'Our Team'), function(){
 
 	return 'Hello World!';
 
-});
+}));
 ```
 
-**Note**: The array you pass as a second parameter is equivalent to the one you pass when using the WordPress conditional tags.
-
-#### One route for a specific page
-```php
-Route::only('page', 'Contact us', function(){
-
-	return 'Hello World!';
-
-});
-```
+**Note**: Just pass an array equivalent to the one you pass when using the WordPress conditional tags.
 
 #### Route to a single post
 ```php
-Route::only('single', 'welcome-post', function(){
+Route::get('single', array('welcome-post', function(){
 
 	return 'Hello World!';
 
-});
+}));
 ```
 
 #### Route to a Themosis page template
 ```php
-Route::only('template', 'my-custom-template', function(){
+Route::get('template', array('my-custom-template', function(){
 
 	return 'Hello World!';
 
-});
+}));
 ```
 
-This is specific to page templates. The second parameter is the slug of your registered template from the `app/config/templates.config.php` file stored in your `themosis-theme`.
+**Note**: This is specific to page templates. The string parameter is the slug of your registered template from the `app/config/templates.config.php` file stored in your `themosis-theme`.
 
 #### Route to custom post type archive
 ```php
-Route::only('postTypeArchive', 'my-custom-post-type', function(){
+Route::get('postTypeArchive', array('my-custom-post-type', function(){
 
 	return 'Hello World!';
 
-});
+}));
 ```
 
 #### Route to a single custom post type
 ```php
-Route::only('singular', 'my-custom-post-type', function(){
+Route::get('singular', array('my-custom-post-type', function(){
 
 	return 'Hello World!';
 
-});
+}));
 ```
 
 ### Route parameters
 
-#### Listen to GET requests
-```php
-Route::only('single', 'my-post', function(){
-
-	return 'Hello World!';
-
-}, array('method' => 'get'));
-```
-
 #### Listen to POST requests
 ```php
-Route::only('single', 'my-post', function(){
+Route::post('single', array('my-post', function(){
 
 	return 'Hello World!';
 
-}, array('method' => 'post'));
+}));
 ```
 
 #### Force HTTPS request
 ```php
-Route::only('single', 'my-post', function(){
+Route::get('single', array('my-post', 'https', function(){
 
 	return 'Hello World!';
 
-}, array('ssl' => true));
+}));
 ```
 
 > This will also auto-convert asset paths to their `https` equivalent if registered in a custom field.
@@ -176,4 +169,4 @@ Route::only('single', 'my-post', function(){
 
 Next
 ----
-Check the [views guide](https://github.com/themosis/documentation/blob/master/views.md)
+Read the [views guide](https://github.com/themosis/documentation/blob/master/views.md)
