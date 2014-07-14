@@ -24,7 +24,7 @@ Here is an example of a simple view:
 
 And this view may be returned to the browser like so:
 ```php
-Route::is('home', function(){
+Route::get('home', function(){
 
 	return View::make('welcome', array('name' => 'Julien'));
 
@@ -35,10 +35,10 @@ The second argument is an array of data available to the view.
 
 #### Passing datas to the view
 ```php
-$view = View::make('welcome')->with(array('name' => 'Julien'));
+$view = View::make('welcome')->with('name', 'Julien'));
 ```
 
-Or you can pass a `$datas` array as a second parameter in the `make` method like so:
+Or you can pass a `$data` array as a second parameter in the `make` method like so:
 ```php
 $view = View::make('welcome', array('name' => 'Julien'));
 ```
@@ -59,7 +59,7 @@ You can organize your views into sub-folders and access them using a dot syntax.
 ```
 This view may be returned to the browser like so:
 ```php
-Route::is('home', function(){
+Route::get('home', function(){
 
 	return View::make('pages.home');
 
@@ -67,47 +67,119 @@ Route::is('home', function(){
 ```
 > There is no limitation to the number of sub-folders you want to use to organize your views.
 
-2. Templates
-------------
-Themosis framework is bundled with a templating engine called `Scout`. The engine provides helpers in order to rapidly build your view.
+2. Scout template
+-----------------
+
+Themosis framework is bundled with a templating engine called `Scout`. The engine is a fork of the Laravel Blade engine and provides helpers in order to rapidly build your view.
 
 In order to use the Scout engine, all your template/view files should use the `.scout.php` extension.
 
 #### Basic Scout view
 ```html
 <!-- View stored in app/views/welcome.scout.php -->
-@include('header')
+@extends('layouts.main')
+
+@section('main')
+	
 	<h1>Hello, {{ $name }}</h1>
-@include('footer')
+
+@stop
+
+@section('sidebar')
+
+	<h3>Latest posts</h3>
+	<ul>
+		<li>First post</li>
+		<li>Second post</li>
+	</ul>
+
+@stop
 ```
 
 And this view may be returned to the browser like so:
+
 ```php
-Route::is('home', function(){
+Route::get('home', function(){
 
 	return View::make('welcome', array('name' => 'Julien'));
 
 });
 ```
 
-In the previous example, we used the `@include` syntax. This function allows you to include `.php` view files that are located in the root of the `app/views` directory. **Note:** The `@include` function do not work with view files with an extension of `.scout.php` at the moment and you can't organize them into sub-folders. But these features will be available on a later version.
+In the previous example, we used the `@extends` syntax. This function allows you to use layouts:
+
+```html
+<!-- Layout stored in app/views/layouts/main.scout.php -->
+@include('header')
+
+	<div class="container">
+
+		@yield('main')
+
+	</div>
+
+	<div class="sidebar">
+
+		@section('sidebar')	
+
+			<p>Sidebar section from the "main" layout file.</p>
+
+		@show
+
+	</div>
+
+@include('footer')
+```
 
 ### Scout control structures
 
 #### Include views
-```php
+```html
 @include('header')
 ```
-> This will include into your view the `header.php` file stored inside the root of your `app/views` directory.
+> This will include into your view the `header.php` or `header.scout.php` file stored inside the root of your `app/views` directory.
+
+#### Pass data to included views
+```html
+@include('header', array('title' => 'Documentation')
+```
+
+#### Override sections
+```html
+@extends('layouts.main')
+
+@section('sidebar')
+
+	<p>New sidebar content</p>
+
+@overwrite
+```
 
 #### Echo data
-```php
+```html
 Hello {{ $name }}
 ```
 > The double curly braces echo the data but do not escape it.
 
+#### Echo escaped data
+```html
+Hello {{{ $name }}}
+```
+
+#### Echoing data after checking for existence
+
+By default you could write the following statement:
+```html
+{{{ isset($name) ? $name : 'Default' }}}
+```
+Instead of writing a ternary statement, Scout allows you to use the following convenient short-cut:
+
+```html
+{{{ $name or 'Default' }}}
+```
+
 #### If statements
-```php
+```html
 @if(isset($value))
 
 	<p>The value is {{ $value }}.</p>
@@ -125,7 +197,7 @@ Hello {{ $name }}
 
 #### Loop statements
 ##### For
-```php
+```html
 @for($i = 0; $i < 10; $i++)
 
 	<ul>
@@ -136,7 +208,7 @@ Hello {{ $name }}
 ```
 
 ##### While
-```php
+```html
 @while(true)
 
 	<p>Show it!</p>
@@ -145,7 +217,7 @@ Hello {{ $name }}
 ```
 
 ##### Foreach
-```php
+```html
 @foreach($objects as $key => $value)
 
 	<p>This {{ $value }} opens that {{ $key }}.</p>
@@ -154,7 +226,7 @@ Hello {{ $name }}
 ```
 
 #### WordPress Loop
-```php
+```html
 @loop(array('post_type' => 'post', 'posts_per_page' => -1))
 	
 	<h1>{{ Loop::title() }}</h1>
@@ -169,6 +241,18 @@ The array you pass inside the `@loop` statement is equivalent to the one you pas
 
 > The `Loop`class used in the example is a core class to be used only inside the WordPress Loop. More details on the `Loop` class [here](https://github.com/themosis/documentation/blob/master/loop.md).
 
+#### Displaying raw text with curly braces
+
+If you need to display a string that is wrapped in curly braces, you may escape the Scout behavior by prefixing your text with an @ symbol:
+```html
+@{{ This is not processed by Scout }}
+```
+
+#### Comments
+```html
+{{-- This comment will not be rendered in HTML --}}
+```
+
 Next
 ----
-Check the [controllers guide](https://github.com/themosis/documentation/blob/master/controllers.md)
+Read the [controllers guide](https://github.com/themosis/documentation/blob/master/controllers.md)
