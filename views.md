@@ -146,7 +146,7 @@ In the previous example, we used the `@extends` syntax. This function allows you
 @include('header', array('title' => 'Documentation')
 ```
 
-#### Override sections
+#### Overwrite sections
 ```html
 @extends('layouts.main')
 
@@ -163,7 +163,7 @@ Hello {{ $name }}
 ```
 > The double curly braces echo the data but do not escape it.
 
-#### Echo escaped data
+#### Echo and escape data
 ```html
 Hello {{{ $name }}}
 ```
@@ -200,13 +200,15 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 #### Loop statements
 ##### For
 ```html
-@for($i = 0; $i < 10; $i++)
+<ul>
 
-	<ul>
+	@for($i = 0; $i < 10; $i++)
+	
 		<li>Item {{ $i }}</li>
-	</ul>
+	
+	@endfor
 
-@endfor
+</ul>
 ```
 
 ##### While
