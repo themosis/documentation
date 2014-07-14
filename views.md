@@ -2,7 +2,9 @@ Views
 =====
 
 1. Views
-2. Templates
+2. Scout templates
+
+
 
 1. Views
 --------
@@ -67,8 +69,8 @@ Route::get('home', function(){
 ```
 > There is no limitation to the number of sub-folders you want to use to organize your views.
 
-2. Scout template
------------------
+2. Scout templates
+------------------
 
 Themosis framework is bundled with a templating engine called `Scout`. The engine is a fork of the Laravel Blade engine and provides helpers in order to rapidly build your view.
 
