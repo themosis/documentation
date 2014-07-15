@@ -50,7 +50,7 @@ To link a controller to a route, use this syntax `'ClassName@method'`. In the ex
 
 #### Other way to use a controller
 
-Sometimes routes need more parameters. For example when you define a route for a specific page. So in order to use a controller, you can add the `uses` key to the route parameters and set its value to the controller like so:
+Sometimes routes need more parameters. For example when you define a route for a specific page. To use a controller, you can add the `uses` key to the route parameters and set its value to the controller like so:
 
 ```php
 Route::get('page', array('about-us', 'uses' => 'AboutController@index'));

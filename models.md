@@ -9,110 +9,64 @@ Models
 
 Themosis framework comes with a basic system of models.
 
-A model will store the methods/functions that manipulate your datas. You can perform actions to retrieve datas from your WordPress database using WordPress core functions or you can perform actions to update those datas.
-
-At the moment, Themosis framework allows you to build your model as you want but in order to avoid class name conflicts at run-time, you have to follow a default convention for your files's name and class name.
+A model will store the methods/functions that manipulate your data. You can perform actions to retrieve data from your WordPress database using WordPress core functions or you can perform actions to update those data.
 
 2. Register a Model
 -------------------
 
-Here is an example of a model class:
+Here is an example of a model class that comes by default with the framework:
 
 ```php
 <?php
 
-// This file is stored in 'app/models/books.model.php'
+// This file is stored in 'app/models/PostModel.php'
 
-class Books_Model extends BaseModel{
-
+class PostModel
+{
 	/**
-	 * Retrieve all books custom post type
-	 * with a slug of 'books'.
+	 * Return a list of all published posts.
 	 * 
 	 * @return array
 	*/
 	public static function all(){
 
 		$query = new WP_Query(array(
-		
-			'post_type'			=> 'books',
-			'posts_per_page'	=> -1
+            'post_type'         => 'post',
+            'posts_per_page'    => -1,
+            'post_status'       => 'publish'
+        ));
 
-		));
-
-		return $query->get_posts();
-
+        return $query->get_posts();
 	}
-
 }
 
 ?>
 ```
-
-Then we can retrieve all the books for our view like so:
+In order to use your model class, you must add it to the `models.config.php` file located in the `app/config` directory of the `themosis-plugin` plugin. The config file is used to auto-load the model classes using a class mapping. Add your model like so:
 
 ```php
-Route::is('home', function(){
+
+// Key is the class name and the value is the path to the class file.
+'PostModel'		=> themosis_path('plugin').'models'.DS.'PostModel.php'
+```
+
+The function `themosis_path('plugin')` return the plugin `app` folder path. More information about the `themosis_path` function in the [Helpers guide]().
+
+Then we can retrieve all the `posts` for our view like so:
+
+```php
+Route::get('home', function(){
 
 	return View::make('pages.home', array(
 
-		'books' => Books::all() // The name of the class does not use
+		'posts' => PostModel::all()
 	
 	));
 
 });
 ```
 
-All your `models` classes should be stored in the `app/models` directory and use the `.model.php` file extension.
-
-By convention, the name of your file before the extension `.model.php` must be lowercase and be used as a class name with its first letter to uppercase followed by `_Model`. This name is also the model's class name used when you call it.
-
-And all your models should extend the `BaseModel` class.
-
-Here is another example to illustrate the name convention for a file stored in `app/models/news.model.php`:
-
-```php
-// The file is stored in 'app/models/news.model.php'
-
-class News_Model extends BaseModel{
-
-	// Some methods...
-
-}
-```
-
-You can call the model by using its name: `News::someMethod()`
-
-### Resolve name conflicts
-
-If there is a name conflict at run-time, you can define a class property `$alias` to change the class alias name.
-
-Here is an example using the previous `news.model.php` class.
-
-```php
-class News_model extends BaseModel{
-
-	private $alias = 'Articles';
-
-	// Some methods
-
-}
-```
-You can now call your class using this `$alias` name:
-
-```php
-Route::is('home', function(){
-
-	return View::make('home', array(
-
-		'news'	=> Articles::someMethod()
-
-	));
-
-});
-```
-The `Articles::someMethod` class is calling behind the `News::someMethod` class.
-
+> Store your `model` classes in the `app/models` directory.
 
 Next
 ----
