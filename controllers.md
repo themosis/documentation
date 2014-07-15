@@ -10,9 +10,9 @@ Here is an example of a basic controller class:
 ```php
 <?php
 
-// This class is stored in app/controllers/home.controller.php
+// This class is stored in app/controllers/HomeController.php
 
-class Home_Controller
+class HomeController extends BaseController
 {
 
 	public function index(){
@@ -26,21 +26,35 @@ class Home_Controller
 ?>
 ```
 
-All controller files should be stored inside the `app/controllers` directory of your `themosis-theme` theme and the controller file should be saved with the `.controller.php` extension.
+It is recommended to store your controllers inside the `app/controllers` directory of your `themosis-theme` theme.
 
-By convention, the name of your file before the extension `.controller.php` must be lowercase and be used as a class name with its first letter to uppercase followed by `_Controller`. This name is also the controller's name used by the `Route` class.
+> All your controller classes must extend the `BaseController` class in order to work.
 
-So the controller class file name of the previous example is: `home.controller.php` and its class name is `Home_Controller`.
-
-Now we can route to this controller action like so:
+In order to use your controller class, you must add it to the `controllers.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the controller classes using a class mapping. Add your controller like so:
 
 ```php
-Route::is('home', 'home@index');
+
+// Key is the class name and the value is the path to the class file.
+'HomeController'	=> themosis_path('theme').'controllers'.DS.'HomeController.php'
 ```
 
-To link a controller to a route, use this syntax `'name@method'`. In the example above, the route is linked to the `Home_Controller` class and calls the `index` method of that same class.
+The function `themosis_path('theme')` return the theme `app` folder path. More information about the `themosis_path` function in the [Helpers guide]().
 
-**Note**: At the moment, you can't organize your controller files in sub-folders like in the `app/views` directory.
+Now we can route to this controller and its method/action like so:
+
+```php
+Route::get('home', 'HomeController@index');
+```
+
+To link a controller to a route, use this syntax `'ClassName@method'`. In the example above, the route is linked to the `HomeController` class and calls the `index` method of that same class.
+
+#### Other way to use a controller
+
+Sometimes routes need more parameters. For example when you define a route for a specific page. So in order to use a controller, you can add the `uses` key to the route parameters and set its value to the controller like so:
+
+```php
+Route::get('page', array('about-us', 'uses' => 'AboutController@index'));
+```
 
 ### Perform actions at controller instantiation
 
@@ -50,7 +64,7 @@ Here is an example:
 ```php
 <?php
 
-class Home_Controller
+class HomeController extends BaseController
 {
 
 	private $property;
@@ -75,6 +89,6 @@ class Home_Controller
 
 Next
 ----
-Check the [models guide](https://github.com/themosis/documentation/blob/master/models.md)
+Read the [models guide](https://github.com/themosis/documentation/blob/master/models.md)
 
 
