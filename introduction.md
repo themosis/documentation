@@ -16,7 +16,7 @@ Development team
 ----------------
 The framework was created by [Julien Lambé](http://www.themosis.com/), who continues to lead the development.
 
-More details about contributing to the framework will be posted once the stable release is out. But you can already help by reporting any code issue you may find with the Github issues system of the [themosis/plugin](https://github.com/themosis/plugin/issues) repository and apply the `bug` label to it so we can review it.
+More details about contributing to the framework will be posted once the stable release is out. But you can already help by reporting any code issue you may find with the Github issues system of the [themosis/framework](https://github.com/themosis/framework/issues) repository and apply the `bug` label to it so we can review it.
 
 Next
 ----
