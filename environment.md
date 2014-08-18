@@ -42,7 +42,47 @@ return array(
 );
 ```
 
-> WordPress is defined as dependency and is loaded by the framework inside the `cms` directory located in the web root folder `htdocs`. Make sure to always define the `WP_SITEURL` value with `/cms` appended at the end.
+> WordPress is defined as a dependency and is loaded by the framework inside the `cms` directory located in the web root folder `htdocs`. Make sure to always define the `WP_SITEURL` value with `/cms` appended at the end.
+
+> The `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `WP_HOME`, `WP_SITEURL` variables are all required. You can retrieve those values any time by using the PHP function `getenv('DB_NAME');`.
+
+Once your credentials are registered, we need to identify the local environment.
+
+#### 2 - Identify your local environment
+
+In order for the framework to identify your `local` environment, you have to register your machine/computer `hostname` in the `environment.php` file located inside the `config` directory.
+
+##### Find hostname on *NIX
+
+Open your Terminal and simply run the following command:
+```bash
+hostname
+```
+
+##### Find hostname on Windows
+
+Open your Console and run the following command:
+```bash
+ipconfig/all
+```
+
+Look at the first displayed line `hostname`.
+
+Once you get your hostname, open the `environment.php` file and replace the value of the `local` key:
+
+```php
+<?php
+
+/*----------------------------------------------------*/
+// Define your environments
+/*----------------------------------------------------*/
+return array(
+
+    'local'             => 'WRITE YOUR HOSTNAME HERE',
+    'production'        => 'remote machine hostname'
+
+);
+```
 
 
 
