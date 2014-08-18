@@ -84,12 +84,43 @@ return array(
 );
 ```
 
+> The key defined in the `environment.php` file is used to load the `.env.{$environment}.php` file and also the `{$environment}.php` file located in the `config/environments` directory.
 
+##### Add configurations
 
+By default, the Themosis framework defines a `local` environment and loads the default `local.php` file stored in the `config/environments` folder:
 
+```php
+<?php
 
-Once your environment is setup, start the default WordPress installation process and log in your WordPress administration. Activate the Themosis framework plugin and the Themosis framework theme.
+/*----------------------------------------------------*/
+// Local config
+/*----------------------------------------------------*/
+// Database
+define('DB_NAME', getenv('DB_NAME'));
+define('DB_USER', getenv('DB_USER'));
+define('DB_PASSWORD', getenv('DB_PASSWORD'));
+define('DB_HOST', getenv('DB_HOST') ? getenv('DB_HOST') : 'localhost');
+
+// WordPress URLs
+define('WP_HOME', getenv('WP_HOME'));
+define('WP_SITEURL', getenv('WP_SITEURL'));
+
+// Development
+define('SAVEQUERIES', true);
+define('WP_DEBUG', true);
+define('SCRIPT_DEBUG', true);
+
+// Themosis framework
+define('THEMOSIS_ERROR_DISPLAY', true);
+define('THEMOSIS_ERROR_SHUTDOWN', true);
+define('THEMOSIS_ERROR_REPORT', -1);
+```
+
+Some configurations are the same whatever environment you're using: WP_LANG, Authentication salts,... Common configuration can be found into the `shared.php` file stored in the `config` directory. You can dig into this file or simply jump to the shared environment section below.
+
+Once your environment is setup, open your browser and start the default WordPress installation process and log in your WordPress administration. Activate the Themosis framework plugin and the Themosis framework theme.
 
 Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework.
 
-> If you don't see the welcome message, check our troubleshooting information page for help.
+> Make sure to set write permissions on the `storage` folder located inside the `app` directory of the Themosis framework theme.
