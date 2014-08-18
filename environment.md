@@ -2,27 +2,29 @@ Environment Setup
 =================
 
 1. Introduction
-2. Install on local environment
-3. Install on production environment
-4. Shared environment configuration
+2. Register your environment
+3. Shared environment configuration
+4. Install WordPress
 
 1.Introduction
 --------------
 
-The Themosis framework has its own way for defining WordPress configurations. It's done on purpose to facilitate collaboration. By default, the Themosis framework comes with a `local` and a `production` environment.
+The Themosis framework has its own way for defining WordPress configurations. It's done on purpose to facilitate collaboration. By default, the Themosis framework comes with a `local` and a `production` environments pre-configured.
 
 You'll start by registering your database credentials and application URLs into a `.env.{environment}.php` file located in the root directory of your project. Then you'll be able to define your environment configurations by modifying files located in the `config` directory.
 
 > Opening your project in a text editor or IDE should show you two default `.env` files: `.env.local.php`, `.env.production.php`.
 
+2.Register your environment
+--------------------------
+
 Let's start by installing your WordPress application on a local environment.
 
-2.Install on local environment
-------------------------------
+>Follow the same steps for a remote/production environment or any custom ones.
 
 #### 1 - Set your credentials and URLs
 
-Open the default `.env.local.php` file located in the root of your project. Fill in the values with your local database credentials and specify your local virtual host.
+Open the default `.env.local.php` file located in the root of your project. Fill in the values with your local database credentials and specify your local virtual host URLs.
 
 ```php
 <?php
@@ -66,7 +68,7 @@ Open your Console and run the following command:
 ipconfig/all
 ```
 
-Look at the first displayed line `hostname`.
+Look at the first displayed line `Host Name`.
 
 Once you get your hostname, open the `environment.php` file and replace the value of the `local` key:
 
@@ -116,11 +118,48 @@ define('THEMOSIS_ERROR_DISPLAY', true);
 define('THEMOSIS_ERROR_SHUTDOWN', true);
 define('THEMOSIS_ERROR_REPORT', -1);
 ```
+This is the pre-configured local configuration file. You can add as many as you want configurations to this file. These are only available for your `local` environment.
 
-Some configurations are the same whatever environment you're using: WP_LANG, Authentication salts,... Common configuration can be found into the `shared.php` file stored in the `config` directory. You can dig into this file or simply jump to the shared environment section below.
+3.Shared environment configuration
+----------------------------------
 
-Once your environment is setup, open your browser and start the default WordPress installation process and log in your WordPress administration. Activate the Themosis framework plugin and the Themosis framework theme.
+Some WordPress configurations are the same whatever environment you're using: WP_LANG, Authentication salts,...
+
+Common configuration can be found into the `shared.php` file stored in the `config` directory.
+
+In order to define shared configuration, you can edit this `shared.php` file. Fill in default configuration or add custom ones.
+
+In order to finish our local configuration, open the `shared.php` file and fill in the authentication salts:
+
+```php
+<?php
+
+/*----------------------------------------------------*/
+// Authentication unique keys and salts
+/*----------------------------------------------------*/
+/**
+ * @link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service 
+ */
+define('AUTH_KEY',         'put your unique phrase here');
+define('SECURE_AUTH_KEY',  'put your unique phrase here');
+define('LOGGED_IN_KEY',    'put your unique phrase here');
+define('NONCE_KEY',        'put your unique phrase here');
+define('AUTH_SALT',        'put your unique phrase here');
+define('SECURE_AUTH_SALT', 'put your unique phrase here');
+define('LOGGED_IN_SALT',   'put your unique phrase here');
+define('NONCE_SALT',       'put your unique phrase here');
+
+```
+
+4.Install WordPress
+-------------------
+
+Once your environment is setup, open your browser and start the default WordPress installation process. Log in your WordPress administration, activate the Themosis framework plugin and the Themosis framework theme.
 
 Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework.
 
 > Make sure to set write permissions on the `storage` folder located inside the `app` directory of the Themosis framework theme.
+
+Next
+----
+Read the [framework guide](https://github.com/themosis/documentation/blob/master/framework.md)
