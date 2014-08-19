@@ -4,9 +4,10 @@ Routing
 1. Introduction
 2. Conditional tags
 3. Routes
+4. The Globals
 
 1. Introduction
-===============
+---------------
 
 Most of the routes of your website/application will be defined in the `app/routes.php` file of your `themosis-theme` theme.
 
@@ -15,7 +16,7 @@ The route system is an enhanced "if" statement. It is based on the [WordPress te
 A basic route is using a conditional tag and a closure callback.
 
 2. Conditional tags
-===================
+-------------------
 
 Here is the current list of available route conditional tags in alphabetical order (**bold** = extra conditional tags):
 
@@ -164,6 +165,24 @@ Route::get('single', array('my-post', 'https', function(){
 
 > If you save asset URL in custom fields and using them by calling the `Meta` class, they will be auto-converted to their `https` equivalent.
 
+4. The Globals
+--------------
+
+By default, anonymous functions and controller methods have as parameters the globals `post` and `wp_query`. 
+
+If you need them, you can grab them like so:
+
+```php
+Route::any('page', function($post, $query){
+
+    return View::make('pages', array(
+	
+		'page'		=> $post	
+
+	));
+
+});
+```
 
 Next
 ----

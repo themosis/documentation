@@ -4,8 +4,6 @@ Views
 1. Views
 2. Scout templates
 
-
-
 1. Views
 --------
 
@@ -229,21 +227,56 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 @endforeach
 ```
 
-#### WordPress Loop
+#### The WordPress Loop
+
+The Scout engine gives you a shortcut to use the WordPress loop.
+
+In place of typing these statements:
+```php
+<?php
+if (have_posts())
+{
+	while(have_posts())
+	{
+		the_post();
+?>
+		<h1><?php the_title(); ?></h1>
+		<div>
+			<?php the_content(); ?>
+		</div>
+<?php
+	}
+}
+```
+Simply write this code in your view:
+
 ```html
-@loop(array('post_type' => 'post', 'posts_per_page' => -1))
+@loop
+	<h1>{{ Loop::title() }}</h1>
+	<div>
+		{{ Loop::content() }}
+	</div>
+@endloop
+```
+
+#### Custom WordPress Query
+
+The Scout engine also provides a helper to make custom loops:
+
+```html
+@query(array('post_type' => 'post', 'posts_per_page' => 3))
 	
 	<h1>{{ Loop::title() }}</h1>
 	<div>
 		{{ Loop::content() }}
 	</div>
 
-@endloop
+@endquery
 ```
 
-The array you pass inside the `@loop` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query.
+The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query.
 
-> The `Loop`class used in the example is a core class to be used only inside the WordPress Loop. More details on the `Loop` class [here](https://github.com/themosis/documentation/blob/master/loop.md).
+> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More details on the `Loop` class [here](https://github.com/themosis/documentation/blob/master/loop.md).
 
 #### Displaying raw text with curly braces
 
