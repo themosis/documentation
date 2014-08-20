@@ -42,15 +42,15 @@ class PostModel
 
 ?>
 ```
-In order to use your model class, you must add it to the `models.config.php` file located in the `app/config` directory of the `themosis-plugin` plugin. The config file is used to auto-load the model classes using a class mapping. Add your model like so:
+In order to use your model class, you must add it to the `models.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the model classes using a class mapping. Add your model like so:
 
 ```php
 
 // Key is the class name and the value is the path to the class file.
-'PostModel'		=> themosis_path('plugin').'models'.DS.'PostModel.php'
+'PostModel'		=> themosis_path('app').'models'.DS.'PostModel.php'
 ```
 
-The function `themosis_path('plugin')` return the plugin `app` folder path. More information about the `themosis_path` function in the [Helpers guide]().
+The function `themosis_path('app')` returns the `app` folder path. More information about the `themosis_path` function in the [Helpers guide](https://github.com/themosis/documentation/blob/master/helpers.md).
 
 Then we can retrieve all the `posts` for our view like so:
 
@@ -72,14 +72,19 @@ Next
 ----
 This article closes the "Getting started" guide.
 
-Discover the other features/API of the framework below:
+There are APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
 
 * [Ajax](https://github.com/themosis/documentation/blob/master/ajax.md)
 * [Asset](https://github.com/themosis/documentation/blob/master/asset.md)
+* [Configuration](https://github.com/themosis/documentation/blob/master/configuration.md)
 * [PostType](https://github.com/themosis/documentation/blob/master/posttype.md)
 * [Field](https://github.com/themosis/documentation/blob/master/field.md)
-* [Metabox](https://github.com/themosis/documentation/blob/master/metabox.md)
+* [Form](https://github.com/themosis/documentation/blob/master/form.md)
+* [Metabox and Meta](https://github.com/themosis/documentation/blob/master/metabox.md)
 * [Taxonomy](https://github.com/themosis/documentation/blob/master/taxonomy.md)
 * [Page](https://github.com/themosis/documentation/blob/master/page.md)
-* [Option](https://github.com/themosis/documentation/blob/master/option.md)
+* [Settings and Option](https://github.com/themosis/documentation/blob/master/option.md)
+* [User](https://github.com/themosis/documentation/blob/master/users.md)
+* [Validation](https://github.com/themosis/documentation/blob/master/validation.md)
+* [Widgets](https://github.com/themosis/documentation/blob/master/widgets.md)
 * [Helpers](https://github.com/themosis/documentation/blob/master/helpers.md)

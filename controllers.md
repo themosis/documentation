@@ -37,7 +37,7 @@ In order to use your controller class, you must add it to the `controllers.confi
 'HomeController'	=> themosis_path('app').'controllers'.DS.'HomeController.php'
 ```
 
-The function `themosis_path('app')` return the theme `app` folder path. More information about the `themosis_path` function in the [Helpers guide](https://github.com/themosis/documentation/blob/master/helpers.md).
+The function `themosis_path('app')` returns the theme `app` folder path. More information about the `themosis_path` function in the [Helpers guide](https://github.com/themosis/documentation/blob/master/helpers.md).
 
 Now we can set a route with this controller and its method/action like so:
 
