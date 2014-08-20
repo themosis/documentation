@@ -108,7 +108,7 @@ Route::get('page', array(array('about', 'contact', 24, 'Our Team'), function(){
 }));
 ```
 
-**Note**: Just pass an array equivalent to the one you pass when using the WordPress conditional tags.
+**Note**: Just pass an array equivalent to the one you pass when using the WordPress conditional functions.
 
 #### Route to a single post
 ```php

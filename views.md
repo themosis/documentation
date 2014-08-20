@@ -141,10 +141,12 @@ In the previous example, we used the `@extends` syntax. This function allows you
 
 #### Pass data to included views
 ```html
-@include('header', array('title' => 'Documentation')
+@include('header', array('title' => 'Documentation'))
 ```
 
 #### Overwrite sections
+
+Add the `@overwrite` statement when closing your section. This will overwrite the content of the parent section.
 ```html
 @extends('layouts.main')
 
