@@ -33,14 +33,13 @@ It is recommended to store your controllers inside the `app/controllers` directo
 In order to use your controller class, you must add it to the `controllers.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the controller classes using a class mapping. Add your controller like so:
 
 ```php
-
 // Key is the class name and the value is the path to the class file.
-'HomeController'	=> themosis_path('theme').'controllers'.DS.'HomeController.php'
+'HomeController'	=> themosis_path('app').'controllers'.DS.'HomeController.php'
 ```
 
-The function `themosis_path('theme')` return the theme `app` folder path. More information about the `themosis_path` function in the [Helpers guide]().
+The function `themosis_path('app')` return the theme `app` folder path. More information about the `themosis_path` function in the [Helpers guide](https://github.com/themosis/documentation/blob/master/helpers.md).
 
-Now we can route to this controller and its method/action like so:
+Now we can set a route with this controller and its method/action like so:
 
 ```php
 Route::get('home', 'HomeController@index');
