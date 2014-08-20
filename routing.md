@@ -58,6 +58,9 @@ There are 3 methods for the Route class:
 ***
 
 ### Basic routing
+
+Set a route for the `WordPress Home` page.
+
 ```php
 Route::get('home', function(){
 	
@@ -94,7 +97,7 @@ Route::get('page', array('contact', function(){
 }));
 ```
 
-**Note**: Just pass a string, a page ID or an array.
+**Note**: Just pass a string, a page ID or an array as the **first** parameter in the array.
 
 #### One route for multiple specific pages
 ```php
@@ -125,7 +128,7 @@ Route::get('template', array('my-custom-template', function(){
 }));
 ```
 
-**Note**: This is specific to page templates. The string parameter is the slug of your registered template from the `app/config/templates.config.php` file stored in your `themosis-theme`.
+**Note**: This is specific to the framework page templates. The string parameter is the slug of your registered template from the `app/config/templates.config.php` file stored in your `themosis-theme`.
 
 #### Route to custom post type archive
 ```php
@@ -154,7 +157,22 @@ Route::post('single', array('my-post', function(){
 }));
 ```
 
-#### Force to listen to HTTPS requests
+#### Listen to ANY requests
+
+The route API gives you a method to listen on both `GET` and `POST` request:
+
+```php
+Route::any('page', function(){
+
+	return 'Hello World!';
+
+});
+```
+
+#### Listen to HTTPS requests only.
+
+Simply add as a second parameter the `https` value:
+
 ```php
 Route::get('single', array('my-post', 'https', function(){
 
@@ -163,12 +181,14 @@ Route::get('single', array('my-post', 'https', function(){
 }));
 ```
 
+This route doesn't redirect the user to a HTTPS page. This route is only triggered if the current request is secure and using the HTTPS protocol.
+
 > If you save asset URL in custom fields and using them by calling the `Meta` class, they will be auto-converted to their `https` equivalent.
 
 4. The Globals
 --------------
 
-By default, anonymous functions and controller methods have as parameters the globals `post` and `wp_query`. 
+By default, anonymous functions and controller methods have as arguments the globals `post` and `wp_query`. 
 
 If you need them, you can grab them like so:
 
