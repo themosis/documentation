@@ -16,10 +16,11 @@ Sometimes you may want to access configuration values at run-time. But you're co
 ```php
 $textdomain = Application::get('textdomain');
 ```
+> `textdomain` is one of the key name stored in the `application.config.php` file.
 
 **Note:** You can't set/modify configuration values at run-time. Configuration values are read only.
 
-Here are complete lists of the configuration files.
+Here is a complete list of the configuration files.
 
 2.List of the configuration files
 ---------------------------------
@@ -28,15 +29,13 @@ Here are complete lists of the configuration files.
 
 * **constants**: Allow you to define constant variables.
 
-* **errors**: Control display of PHP errors. By default, set for production environment.
-
 * **images**: Allow you to register image sizes.
 
 * **models**: Define the model classes you want to autoload.
 
 * **controllers**: Define the controller classes you want to autoload.
 
-* **menus**: Allow you to define custom navigation menus. More information in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
+* **menus**: Allow you to define custom navigation menu locations. More information in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
 
 * **sidebars**: Help you register your sidebars for your website/application. Uses the same arguments found in the [WordPress codex: register_sidebar()](http://codex.wordpress.org/Function_Reference/register_sidebar).
 
@@ -44,5 +43,4 @@ Here are complete lists of the configuration files.
 
 * **templates**: Handles the custom page template system of the framework. Define your templates inside this file by providing a `key` name only.
 
-Next
-----
+> Details on how to modify those configurations are explained inside the file.
