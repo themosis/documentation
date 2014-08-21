@@ -9,7 +9,7 @@ Ajax
 
 The `Ajax` class handles the WordPress mechanism for easily handling ajax requests.
 
-**Note**: All the code in order to customize WordPress should be stored inside the `app/admin` directory of the `themosis` plugin.
+**Note**: All the code in order to customize WordPress should be stored inside the `app/admin` directory.
 
 In order to listen to a WordPress ajax action, use the method below:
 
@@ -68,7 +68,7 @@ Now that the user has clicked the button and ran the ajax request. Let's handle 
 ```php
 <?php
 	// This file is stored in app/admin/ajax.php
-	
+	// This code listens for logged in and logged out users
 	Ajax::run('my-custom-action', 'both', function(){
 		
 		// Check nonce value
@@ -86,6 +86,12 @@ Now that the user has clicked the button and ran the ajax request. Let's handle 
 	});
 ?>
 ```
+> The code above is using the `Session::nonceName` for the `check_ajax_referer` action name parameter. The session class only provides 2 constants you can use for WordPress nonce functions:
+> 
+> - **Session::nonceName**
+> - **Session::nonceAction**
+> 
+> WordPress does not use PHP session so there is no real session API provided by the framework yet.
 
 2. Themosis Global Object
 -------------------------
@@ -98,7 +104,7 @@ In the previous javascript example, we get access to some values using the follo
 }
 ```
 
-This `themosis` global json object is situated at the end of the closing `</head>` tag of any pages. By default, it contains the key/value pair `ajaxurl` but you can easily add more key/value pairs to this global object and access them in your code. 
+This `themosis` global json object is located at the end of the closing `</head>` tag of any pages. By default, it contains the key/value pair `ajaxurl` but you can easily add more key/value pairs to this global object and access them in your code. 
 
 To add more values, you need to use a framework filter call `themosisGlobalObject`. Here's an example:
 
@@ -126,7 +132,7 @@ var themosis = {
 
 ### Change the Themosis global object name
 
-You can easily change the variable name of this global object. In order to do so, open the `app/config/application.config.php` file stored in your `themosis` plugin and change the `namespace` value:
+You can easily change the variable name of this global object. In order to do so, open the `app/config/application.config.php` file and change the `namespace` value:
 
 ```php
 array(
