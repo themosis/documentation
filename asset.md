@@ -1,28 +1,18 @@
 Asset
 =====
 
+1. Introduction
+2. Load assets
+
+1.Introduction
+--------------
+
 The `Asset` class is responsible to easily load your stylesheet and/or javascript files.
 
-By default the class loads the assets in the **front-end**.
+The `Asset` class contains one main method: `add`. The method handles both stylesheet and javascript files and the parameters are the same as in the WordPress functions:
 
-```php
-
-// Load a CSS file
-Asset::add('my-handle', 'css/screen.css', false, '1.0', 'all');
-
-// Load a JS file stored in app/assets/js/main.js
-Asset::add('my-other-handle', 'js/main.js', array('jquery'), '1.0', true);
-
-```
-
-This example loads a `screen.css` file in the front-end of your website/application. The file is stored in the `app/assets/css/` directory of your `themosis-theme` theme.
-
-> The `Asset::add()` method handles both stylesheet and javascript files.
-
-The parameters you insert in the `Asset::add()` method are the same from the WordPress methods:
-
-* [wp\_enqueue\_script function](http://codex.wordpress.org/Function_Reference/wp_enqueue_script)
-* [wp\_enqueue\_style function](https://codex.wordpress.org/Function_Reference/wp_enqueue_style)
+* [wp\_enqueue\_script](http://codex.wordpress.org/Function_Reference/wp_enqueue_script)
+* [wp\_enqueue\_style](https://codex.wordpress.org/Function_Reference/wp_enqueue_style)
 
 Here are the method details:
 ```php
@@ -30,10 +20,27 @@ Asset::add($handle, $path, $deps, $version, $mixed);
 ```
 
 * `$handle`: _string_. Your custom asset handle name.
-* `$path`: _string_. The relative path of your asset from the `app/assets` directory of your `themosis-theme` theme.
+* `$path`: _string_. The relative path of your asset from the `app/assets` directory. You can also provide external URL.
 * `$deps`: _array or boolean_. An array of asset dependencies. _false_ if nothing.
 * `$version`: _string or boolean_. A string specifying the asset version number.
-* `$mixed`: _string or boolean_. For stylesheets a _string_ that specify the media type. For javascript files, a _boolean_ that indicate if the asset is loaded before the closing `</head>` tag or in the footer (the theme must insert the `wp_footer()` function).
+* `$mixed`: _string or boolean_. For stylesheets a _string_ that specify the media type. For javascript files, a _boolean_ that indicate if the asset is loaded before the closing `</head>` tag or in the footer (the theme must insert the `wp_head()` and `wp_footer()` functions).
+
+2.Load assets
+-------------
+
+By default the `add` method loads the assets in the **front-end**.
+
+```php
+
+// Load a CSS file stored in app/assets/css/screen.css
+Asset::add('my-handle', 'css/screen.css', false, '1.0', 'all');
+
+// Load a JS file stored in app/assets/js/main.js
+Asset::add('my-other-handle', 'js/main.js', array('jquery'), '1.0', true);
+
+```
+
+This example loads, in the front-end of your website/application, a `screen.css` file in the head for `all` media type and a `main.js` file in the footer.
 
 ### Load an asset to the admin area
 
