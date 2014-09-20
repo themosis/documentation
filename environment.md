@@ -162,4 +162,4 @@ Visit your project home page and you should be granted with a welcome message. C
 
 Next
 ----
-Read the [framework guide](https://github.com/themosis/documentation/blob/master/framework.md)
+Read the [framework guide](http://framework.themosis.com/docs/framework/)

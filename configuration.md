@@ -43,4 +43,4 @@ Here is a complete list of the configuration files.
 
 * **templates**: Handles the custom page template system of the framework. Define your templates inside this file by providing a `key` name only.
 
-> Details on how to modify those configurations are explained inside the file.
+> Details on how to modify those configurations are explained inside each file.

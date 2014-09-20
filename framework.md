@@ -64,4 +64,4 @@ Let's start by looking at the route API.
 
 Next
 ----
-Read the [routing guide](https://github.com/themosis/documentation/blob/master/routing.md)
+Read the [routing guide](http://framework.themosis.com/docs/routing/)

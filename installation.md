@@ -15,7 +15,7 @@ The framework has a few system requirements before getting started:
 
 Otherwise the server requirements are the same as WordPress. [Check here](http://wordpress.org/about/requirements/) for default WordPress server requirements.
 
-> Please note this framework has only been tested on **Apache** server only.
+> Please note this framework has only been tested on **Apache** server.
 
 2. Install Composer
 -------------------
@@ -75,4 +75,4 @@ With the Themosis framework, those configurations are extracted from the web roo
 
 Next
 ----
-Read the [environment setup guide](https://github.com/themosis/documentation/blob/master/environment.md)
+Read the [environment setup guide](http://framework.themosis.com/docs/environment/)

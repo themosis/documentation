@@ -45,7 +45,6 @@ class PostModel
 In order to use your model class, you must add it to the `models.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the model classes using a class mapping. Add your model like so:
 
 ```php
-
 // Key is the class name and the value is the path to the class file.
 'PostModel'		=> themosis_path('app').'models'.DS.'PostModel.php'
 ```
@@ -74,17 +73,17 @@ This article closes the "Getting started" guide.
 
 There are APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
 
-* [Ajax](https://github.com/themosis/documentation/blob/master/ajax.md)
-* [Asset](https://github.com/themosis/documentation/blob/master/asset.md)
-* [Configuration](https://github.com/themosis/documentation/blob/master/configuration.md)
-* [PostType](https://github.com/themosis/documentation/blob/master/posttype.md)
-* [Field](https://github.com/themosis/documentation/blob/master/field.md)
-* [Form](https://github.com/themosis/documentation/blob/master/form.md)
-* [Metabox and Meta](https://github.com/themosis/documentation/blob/master/metabox.md)
-* [Taxonomy](https://github.com/themosis/documentation/blob/master/taxonomy.md)
-* [Page](https://github.com/themosis/documentation/blob/master/page.md)
-* [Settings and Option](https://github.com/themosis/documentation/blob/master/option.md)
-* [User](https://github.com/themosis/documentation/blob/master/users.md)
-* [Validation](https://github.com/themosis/documentation/blob/master/validation.md)
-* [Widgets](https://github.com/themosis/documentation/blob/master/widgets.md)
-* [Helpers](https://github.com/themosis/documentation/blob/master/helpers.md)
+* [Ajax](http://framework.themosis.com/docs/ajax/)
+* [Asset](http://framework.themosis.com/docs/asset/)
+* [Configuration](http://framework.themosis.com/docs/configuration/)
+* [PostType](http://framework.themosis.com/docs/posttype/)
+* [Form](http://framework.themosis.com/docs/form/)
+* [Field](http://framework.themosis.com/docs/field/)
+* [Metabox and Meta](http://framework.themosis.com/docs/metabox/)
+* [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
+* [Page](http://framework.themosis.com/docs/page/)
+* [Settings and Option](http://framework.themosis.com/docs/settings/)
+* [User](http://framework.themosis.com/docs/user/)
+* [Validation](http://framework.themosis.com/docs/validation/)
+* [Widgets](http://framework.themosis.com/docs/widgets/)
+* [Helpers](http://framework.themosis.com/docs/helpers/)

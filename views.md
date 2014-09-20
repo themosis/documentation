@@ -294,4 +294,4 @@ If you need to display a string that is wrapped in curly braces, you may escape 
 
 Next
 ----
-Read the [controllers guide](https://github.com/themosis/documentation/blob/master/controllers.md)
+Read the [controllers guide](http://framework.themosis.com/docs/controllers/)

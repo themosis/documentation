@@ -15,4 +15,4 @@ Thanks for developing with WordPress and the Themosis framework.
 
 Next
 ----
-Read the [introduction guide](https://github.com/themosis/documentation/blob/master/introduction.md)
+Read the [introduction guide](http://framework.themosis.com/docs/)

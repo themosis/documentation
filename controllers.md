@@ -88,6 +88,6 @@ class HomeController extends BaseController
 
 Next
 ----
-Read the [models guide](https://github.com/themosis/documentation/blob/master/models.md)
+Read the [models guide](http://framework.themosis.com/docs/models/)
 
 

@@ -109,7 +109,6 @@ This `themosis` global json object is located at the end of the closing `</head>
 To add more values, you need to use a framework filter call `themosisGlobalObject`. Here's an example:
 
 ```php
-
 add_filter('themosisGlobalObject', function($datas){
 
 	$datas['myData'] = 'Some value';

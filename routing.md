@@ -206,4 +206,4 @@ Route::any('page', function($post, $query){
 
 Next
 ----
-Read the [views guide](https://github.com/themosis/documentation/blob/master/views.md)
+Read the [views guide](http://framework.themosis.com/docs/views/)

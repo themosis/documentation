@@ -31,7 +31,6 @@ Asset::add($handle, $path, $deps, $version, $mixed);
 By default the `add` method loads the assets in the **front-end**.
 
 ```php
-
 // Load a CSS file stored in app/assets/css/screen.css
 Asset::add('my-handle', 'css/screen.css', false, '1.0', 'all');
 
@@ -47,7 +46,6 @@ This example loads, in the front-end of your website/application, a `screen.css`
 You can point your asset to the WordPress admin if you need to.
 
 ```php
-
 // This js file is loaded in WordPress admin only
 // and is stored in app/assets/js/custom.js
 Asset::add('my-handle', 'js/custom.js', array('backbone'), '1.0', true)->to('admin');
@@ -58,7 +56,6 @@ Chain the `to()` method after you added your asset.
 ### Load an asset to the login area
 
 ```php
-
 Asset::add('my-handle', 'js/custom.js', array('jquery'), '1.0', false)->to('login');
 
 ```
@@ -77,7 +74,6 @@ Inside your Route callback function, you can call the `Asset::add()` method in o
 Simply add your code before returning a view:
 
 ```php
-
 Route::is('home', function(){
 
 	Asset::add('my-handle', 'js/file.js', array('jquery'), '1.0', true);
@@ -93,7 +89,6 @@ Route::is('home', function(){
 First specify a controller inside your routes.php file.
 
 ```php
-
 Route::is('home', 'home@index');
 
 ```

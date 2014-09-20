@@ -20,4 +20,4 @@ More details about contributing to the framework will be posted once the stable 
 
 Next
 ----
-Read the [installation guide](https://github.com/themosis/documentation/blob/master/installation.md)
+Read the [installation guide](http://framework.themosis.com/docs/installation/)
