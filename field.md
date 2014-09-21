@@ -196,7 +196,23 @@ Field::media($name, $extras);
 ```
 
 * **$name**: _string_. The field name.
-* **$extras**: _array_. The extra properties. Check the Text field.
+* **$extras**: _array_. The extra properties.
+
+By default, the media field allows you to attach images only.
+
+```php
+Field::media('profile');
+```
+
+In order to allow the media field to attach other files except images, you need to specify the `type` property like so:
+
+```php
+Field::media('report', array(
+	'title'		=> 'Attach report',
+	'type'		=> 'application'
+))
+```
+> The `type` property only accepts 4 values: `image`, `application`, `video` and `audio`
 
 ### Infinite field
 
@@ -208,7 +224,7 @@ Field::infinite($name, $fields, $extras);
 
 * **$name**: _string_. The field name.
 * **$fields**: _array_. An array of fields to repeat. Use any methods of the `Field` class excepts the `editor` field.
-* **$extras**: _array_. The extra properties. Check the Text field.
+* **$extras**: _array_. The extra properties.
 
 Example of an infinite field:
 
@@ -221,6 +237,20 @@ Field::infinite('books', array(
 
 ));
 ```
+
+You can limit the number of repeatable rows by setting the `limit` property like so:
+
+```php
+Field::infinite('books', array(
+	Field::text('title'),
+	Field::media('image')
+), array(
+	'title'		=> 'List of books',
+	'limit'		=> 10
+))
+```
+
+The above code has a limit set to 10 rows of books.
 
 Next
 ----
