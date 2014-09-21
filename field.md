@@ -230,11 +230,9 @@ Example of an infinite field:
 
 ```php
 Field::infinite('books', array(
-
 	Field::text('title'),
 	Field::textarea('excerpt'),
 	Field::media('cover-image')
-
 ));
 ```
 
