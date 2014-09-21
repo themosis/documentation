@@ -6,7 +6,7 @@ Form
 3. Text, Email, Textarea, Hidden inputs
 4. Checkbox and radio inputs
 5. Select field
-6. Buttons and submit input
+6. Buttons
 7. Miscellaneous inputs
 
 1.Opening a form
@@ -321,13 +321,73 @@ Like other form fields, pass an array as the fourth parameter for custom attribu
 )) }}
 ```
 
+6.Buttons
+---------
 
+Generate a button tag:
 
+```php
+{{ Form::button('toggle', 'Click me!') }}
+```
 
+This will output the following html:
 
+```html
+<button type="button" name="toggle">Click me!</button>
+```
 
+Generate a submit button:
 
+```php
+{{ Form::submit('register', 'Sign up') }}
+```
 
+This will output the following html:
 
+```html
+<button type="submit">Sign up</button>
+```
 
+Add custom attributes by passing an array as a third parameter:
 
+```php
+{{ Form::button('toggle', 'Click me!', array('class' => 'super')) }}
+{{ Form::submit('register', 'Sign up', array('id' => 'awesome')) }}
+```
+
+7.Miscellaneous inputs
+----------------------
+
+The `Form` class provides an `input()` method in order to create any type of input tags.
+
+**Form::input($type, $name, $value = null, array $attributes = array())**
+
+- **$type**: _string_ The input type
+- **$name**: _string_ The input name attribute
+- **$value**: _mixed_ A default or registered value
+- **$attributes**: _array_ Extra attributes
+
+Generate a text input:
+
+```php
+{{ Form::input('text', 'your-name') }}
+```
+
+Generate a password input:
+
+```php
+{{ Form::input('password', 'your-password') }}
+```
+
+Generate a color input:
+
+```php
+{{ Form::input('color', 'my-color') }}
+```
+
+Other ressources:
+-----------------
+
+Check the validation and input guide for documentation on how to retrieve and validate submitted data.
+
+* [Validation and input](http://framework.themosis.com/docs/validation/)

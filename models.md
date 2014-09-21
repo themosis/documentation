@@ -83,6 +83,6 @@ There are APIs that will help you shape your WordPress administration. Discover 
 * [Page](http://framework.themosis.com/docs/page/)
 * [Settings and Option](http://framework.themosis.com/docs/settings/)
 * [User](http://framework.themosis.com/docs/user/)
-* [Validation](http://framework.themosis.com/docs/validation/)
+* [Validation and input](http://framework.themosis.com/docs/validation/)
 * [Widgets](http://framework.themosis.com/docs/widgets/)
 * [Helpers](http://framework.themosis.com/docs/helpers/)
