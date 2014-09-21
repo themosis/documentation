@@ -360,8 +360,9 @@ Add custom attributes by passing an array as a third parameter:
 
 The `Form` class provides an `input()` method in order to create any type of input tags.
 
-**Form::input($type, $name, $value = null, array $attributes = array())**
-
+```php
+Form::input($type, $name, $value = null, array $attributes = array())
+```
 - **$type**: _string_ The input type
 - **$name**: _string_ The input name attribute
 - **$value**: _mixed_ A default or registered value

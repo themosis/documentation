@@ -3,7 +3,7 @@ Metabox
 
 As the name suggests, the `Metabox` class helps you build custom WordPress metabox.
 
-Before digging into the `Metabox` documentation, make sure to read the [Field class guide](https://github.com/themosis/documentation/blob/master/field.md).
+Before digging into the `Metabox` documentation, make sure to read the [Field class guide](http://framework.themosis.com/docs/field/).
 
 1. Build a metabox
 2. Retrieve datas
@@ -39,11 +39,11 @@ Like for the `PostType` class, a metabox is not registered until you call its `s
 Metabox::make($title, $postType, $options)->set($fields);
 ```
 
-* `$fields`: _array_. An array of custom fields. Check the [Field guide](https://github.com/themosis/documentation/blob/master/field.md).
+* `$fields`: _array_. An array of custom fields. Check the [Field guide](http://framework.themosis.com/docs/field/).
 
 ### Custom post type metabox
 
-Example of a metabox link to a custom post type with a slug of `custom-books`:
+Example of a metabox linked to a custom post type with a slug of `custom-books`:
 
 ```php
 // Define fields
@@ -65,7 +65,7 @@ Metabox::make('Book details', 'custom-books')->set($fields);
 
 ### Page metabox
 
-Example of a metabox link to a page.
+Example of a metabox linked to a page.
 
 ```php
 // You can define directly your fields inside the set() method.
@@ -80,11 +80,11 @@ Metabox::make('Informations', 'page')->set(array(
 
 ## 2. Retrieve datas
 
-In order to retrieve the custom fields datas, please refer to the [Meta guide](https://github.com/themosis/documentation/blob/master/meta.md).
+In order to retrieve the custom fields datas, please refer to the [Meta guide](http://framework.themosis.com/docs/meta/).
 
 Next
 ----
 
-* [Meta guide](https://github.com/themosis/documentation/blob/master/meta.md)
-* [Taxonomy guide](https://github.com/themosis/documentation/blob/master/taxonomy.md)
-* [Page guide](https://github.com/themosis/documentation/blob/master/page.md)
+* [Meta guide](http://framework.themosis.com/docs/meta/)
+* [Taxonomy guide](http://framework.themosis.com/docs/taxonomy/)
+* [Page guide](http://framework.themosis.com/docs/page/)
