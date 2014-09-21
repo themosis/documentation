@@ -293,10 +293,20 @@ Same select tag but with custom options values:
 You can pass a default value by filling in the third parameter of the `select()` method:
 
 ```php
-
+{{ Form::select('country', array(
+	array(
+		'belgium',
+		'france',
+		'usa'
+	)
+), 0) }}
 ```
+> This set the default value to indexed value `0` (belgium). For custom options, simply pass the custom value.
+> When using multiple selection, pass in an array as default values.
 
-For whatever select tag you output, simply set the third parameter of the `select()` method to `true`.
+### Add custom attributes
+
+Like other form fields, pass an array as the fourth parameter for custom attributes.
 
 ```php
 {{ Form::select('countries', array(
@@ -305,10 +315,13 @@ For whatever select tag you output, simply set the third parameter of the `selec
 		'france',
 		'usa'
 	)
-), true) }}
+), null, array(
+	'class'		=> 'super',
+	'multiple'	=> 'multiple'
+)) }}
 ```
 
-### Add custom attributes
+
 
 
 
