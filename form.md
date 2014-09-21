@@ -199,6 +199,122 @@ Output a radio input:
 	'man'
 )) }}
 ```
+5.Select field
+--------------
+
+Generate a select tag with indexed options values:
+
+```php
+{{ Form::select('country', array(
+	array(
+		'belgium',
+		'france',
+		'usa'
+	)
+)) }}
+```
+
+This will output the following `<select>` tag:
+
+```html
+<select name="country">
+	<option value="0">Belgium</option>
+	<option value="1">France</option>
+	<option value="2">Usa</option>
+</select>
+```
+
+Generate a select tag with custom options values:
+
+```php
+{{ Form::select('country', array(
+	array(
+		'be'	=> 'belgium',
+		'fr'	=> 'france',
+		'us'	=> 'usa'
+	)
+)) }}
+```
+
+This will output the following `<select>` tag:
+
+```html
+<select name="country">
+	<option value="be">Belgium</option>
+	<option value="fr">France</option>
+	<option value="us">Usa</option>
+</select>
+```
+
+Generate a select tag with grouped options values:
+
+```php
+{{ Form::select('country', array(
+	'Europe'	=> array(
+		'belgium',
+		'france'
+	),
+	'America'	=> array(
+		'usa'
+	)
+)) }}
+```
+
+The code above will output `<optgroup>` tags with indexed options values:
+
+```html
+<select name="country">
+	<optgroup label="Europe">
+		<option value="0">Belgium</option>
+		<option value="1">France</option>
+	</optgroup>
+	<optgroup label="America">
+		<option value="2">Usa</option>
+	</optgroup>
+</select>
+```
+
+Same select tag but with custom options values:
+
+```php
+{{ Form::select('country', array(
+	'Europe'	=> array(
+		'be'	=> 'belgium',
+		'fr'	=> 'france'
+	),
+	'America'	=> array(
+		'us'	=> 'usa'
+	)
+)) }}
+```
+
+### Pass default value(s)
+
+You can pass a default value by filling in the third parameter of the `select()` method:
+
+```php
+
+```
+
+For whatever select tag you output, simply set the third parameter of the `select()` method to `true`.
+
+```php
+{{ Form::select('countries', array(
+	array(
+		'belgium',
+		'france',
+		'usa'
+	)
+), true) }}
+```
+
+### Add custom attributes
+
+
+
+
+
+
 
 
 
