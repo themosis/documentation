@@ -86,7 +86,118 @@ You can pass as a fourth parameter an array of key => value in order to add cust
 Output a label tag:
 
 ```php
+// This will output <label for="my-input">Display text</label>
+{{ Form::label('my-input', 'Display text') }}
+```
 
+Add extra attributes to a label:
+```php
+{{ Form::label('my-input', 'Display text', array(
+	'class'		=> 'super'
+)) }}
+```
+
+3.Text, Email, Textarea, Hidden inputs
+--------------------------------------
+
+Output a text input:
+
+```php
+// This will output <input type="text" name="name">
+{{ Form::text('name') }}
+```
+
+Specify a default value:
+
+```php
+{{ Form::text('name', 'The default name value') }}
+```
+
+Add custom attributes:
+
+```php
+{{ Form::text('name', 'Default value', array(
+	'class'			=> 'super',
+	'placeholder'	=> 'Insert your name here'
+)) }}
+```
+
+> The `Form::email()`, `Form::hidden()` and `Form::textarea()` methods use the same signature.
+
+4.Checkbox and radio inputs
+---------------------------
+
+Output one checkbox:
+
+```php
+// This will output <input type="checkbox" name="toggle">
+{{ Form::checkbox('toggle') }}
+```
+
+> When checking for submitted data, you only have to check by default if a value is equal to `on` or `off`. If you submit a value different than `on` or `off`, you have to look for the `checked` attribute by passing it as an extra attribute.
+
+One checkbox default value:
+
+```php
+{{ Form::checkbox('toggle', 'on') }}
+```
+
+Add custom attributes:
+
+```php
+{{ Form::checkbox('toggle', 'enabled', array(
+	'checked'	=> 'checked',
+	'class'		=> 'super'
+)) }}
+```
+
+### Multiple checkboxes and radio
+
+In order to specify multiple checkboxes, you will use the `Form::checkboxes` method like so:
+
+```php
+{{ Form::checkboxes('colors', array(
+	'red',
+	'green',
+	'blue'
+)) }}
+```
+
+> The first parameter is the common name of your checkboxes. The second parameter is an array of values/choices.
+
+Pass default "checked" values:
+
+```php
+{{ Form::checkboxes('colors', array(
+	'red',
+	'green',
+	'blue'
+), array(
+	'green'
+)) }}
+```
+
+Add extra attributes:
+
+```php
+{{ Form::checkboxes('colors', array(
+	'red', 
+	'green',
+	'blue'
+), array(), array(
+	'class'		=> 'super'
+)) }}
+```
+
+> The `Form::radio()` method uses the same signature as `Form::checkboxes()`
+
+Output a radio input:
+
+```php
+{{ Form::radio('gender', array(
+	'woman',
+	'man'
+)) }}
 ```
 
 
