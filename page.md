@@ -139,11 +139,21 @@ If you look in the admin, you should have an option page with one tab containing
 
 ### Validate your settings
 
+You can define validation rules for your page settings. Simply call the `validate()` method of your page like so.
 
+```php
+$page->validate(array(
+	'street-address'	=> array('textfield'),
+	'phone'				=> array('num', 'min:7'),
+	'theme-logo'		=> array('file:jpeg, jpg, png, gif')
+));
+```
+
+> Please refer to the [validation guide](http://framework.themosis.com/docs/validation/) for available rules.
 
 ## Retrieve datas
 
-In order to read the values stored in your custom page options, check the [option guide](https://github.com/themosis/documentation/blob/master/option.md).
+In order to read the values stored in your custom page options, check the [option guide](http://framework.themosis.com/docs/option/).
 
 
 Next
@@ -151,13 +161,13 @@ Next
 
 Discover the other features of the framework:
 
-* [Ajax](https://github.com/themosis/documentation/blob/master/ajax.md)
-* [Asset](https://github.com/themosis/documentation/blob/master/asset.md)
-* [PostType](https://github.com/themosis/documentation/blob/master/posttype.md)
-* [Field](https://github.com/themosis/documentation/blob/master/field.md)
-* [Metabox](https://github.com/themosis/documentation/blob/master/metabox.md)
-* [Taxonomy](https://github.com/themosis/documentation/blob/master/taxonomy.md)
-* [Option](https://github.com/themosis/documentation/blob/master/option.md)
-* [Helpers](https://github.com/themosis/documentation/blob/master/helpers.md)
+* [Ajax](http://framework.themosis.com/docs/ajax/)
+* [Asset](http://framework.themosis.com/docs/asset/)
+* [PostType](http://framework.themosis.com/docs/posttype/)
+* [Field](http://framework.themosis.com/docs/field/)
+* [Metabox](http://framework.themosis.com/docs/metabox/)
+* [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
+* [Option](http://framework.themosis.com/docs/option/)
+* [Helpers](http://framework.themosis.com/docs/helpers/)
 
 
