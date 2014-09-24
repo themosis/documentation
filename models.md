@@ -83,7 +83,7 @@ There are APIs that will help you shape your WordPress administration. Discover 
 * [Metabox](http://framework.themosis.com/docs/metabox/)
 * [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
 * [Page](http://framework.themosis.com/docs/page/)
-* [Settings and Option](http://framework.themosis.com/docs/settings/)
+* [Option](http://framework.themosis.com/docs/option/)
 * [User](http://framework.themosis.com/docs/user/)
 * [Validation and input](http://framework.themosis.com/docs/validation/)
 * [Widgets](http://framework.themosis.com/docs/widgets/)

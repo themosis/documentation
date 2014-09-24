@@ -38,10 +38,10 @@ $custom = Page::make('my-page', 'Theme options')->set(array(
 	'tabs'			=> true // Make sections as tabs or not
 ));
 ```
-- **capability**: Use this parameter to change the capability a user need in order to view the page.
-- **icon**: Allows you to define a URL to an icon for the page menu.
-- **position**: By default the page is displayed at the bottom. Specify a number/position to move your page menu up or down in the WordPress administration.
-- **tabs**: Boolean value only. By default is set to `true`. This parameter is useful when you're using the WordPress Settings API. This parameter will tell to defined sections to behave like tabs or not.
+- **capability**: _string_ Use this parameter to change the capability a user need in order to view the page.
+- **icon**: _string_ Allows you to define a URL to an icon for the page menu.
+- **position**: _int_ By default the page is displayed at the bottom. Specify a number/position to move your page menu up or down in the WordPress administration.
+- **tabs**: _boolean_ Boolean value only. By default is set to `true`. This parameter is useful when you're using the WordPress Settings API. This parameter will tell to defined sections to behave like tabs or not.
 
 ### Create a custom page
 
@@ -81,86 +81,65 @@ Page::make('my-custom-page', 'A Custom Page', $page_view)->set();
 3.WordPress Settings API
 ------------------------
 
+Beside building custom admin pages, the Themosis framework comes with an API to easily create settings pages.
+
+In order to create a setting page, you have to define sections and custom settings per section.
+
 ### Define sections
 
-The Themosis framework page system uses sections in order to organize your page. The framework throws an exception if you try to register it without any sections or settings.
-
-In order to define a section, simply use the `Field` class `section` method.
+By default, sections are organized by tab. But you can easily alter this behavior by setting the page parameter `tabs` to false like so:
 
 ```php
-// We need to pass an array of section(s) to the Page::make() method.
-$sections[] = Field::section($name, $extras);
+Page::make('my-custom-page', 'A custom page')->set(array(
+	'tabs'	=> false
+));
+```
+> This parameter is important because if you let sections as tabs, your settings are saved with the **section slug**. If you decide to not use the tabs, your settings are saved with the **page slug**.
+
+In order to define a section, simply use the `Section` class like so:
+
+```php
+// Add a section to an array
+$sections[] = Section::make('section-slug-name', 'Section Title');
 ```
 
-* `$name`: _string_. The section slug/name.
-* `$extras`: _array_. The extras properties. Check the [Field::text](https://github.com/themosis/documentation/blob/master/field.md) method.
+You can add as many sections as you want. Simply define a section slug and its name using the `Section::make()` method.
+
+Now add the created sections to your page:
+
+```php
+$page = Page::make('page-slug', 'Page Title)->set();
+
+// Add the previously created section(s)
+$page->addSections($sections);
+```
+Now that we have sections, let's add settings.
 
 ### Define settings
 
-To define settings/options for your page, use the `Field` class methods.
-
-> At this moment, some fields still need implementation.
+To define settings for your page, simply use the `Field` class. In an associative array, set the `key` as the section slug name and assign an array value with associated fields/settings.
 
 ```php
-// We need to pass an array of setting(s) to the Page::make() method.
-$settings[] = Field::text('my-option', array('section' => 'my-section'));
-```
-> Take care of the extra parameter **section** added in the `$extras` parameter of the field method. This **section** argument links your field to a predefined section.
-
-If you forget that **section** argument, your field/option won't be available.
-
-### Example
-
-Before create a page, let's define a section.
-
-```php
-// This create one section with a slug of 'payment'.
-$sections = array(
-	
-	Field::section('payment', array('title' => 'Payment options'))
-
+// Add settings to an associative array.
+$settings['section-slug-name'] = array(
+	Field::text('street-address'),
+	Field::text('phone'),
+	Field::media('theme-logo')
 );
 ```
+The code above will add 3 settings to the section `section-slug-name`.
 
-Now let's add options to this section.
-
-```php
-// It creates 3 settings attached to the 'payment' section.
-$settings = array(
-
-	Field::checkbox('enable', array('section' => 'payment')),
-	Field::select('gateway', array('PayPal', 'Stripe', 'PayMill'), false, array('section' => 'payment')),
-	Field::text('username', array('section' => 'payment'))
-
-);
-```
-Finally, let's register the page.
+Now add the settings to your page like so:
 
 ```php
-Page::make('Shop', 'shop-slug', $sections, $settings)->set();
+$page->addSettings($settings);
 ```
 
-### Other methods
+If you look in the admin, you should have an option page with one tab containing your 3 settings.
 
-#### setCap($cap):
+### Validate your settings
 
-```php
-$page = Page::make($title, $slug, $sections, $settings);
 
-$page->setCap($cap);
-```
-
-* `$cap`: _string_. By default, it uses the `manage_options` capability. But you can define another to restrict the access to the page.
-
-#### setMenuIcon($url):
-
-```php
-$page = Page::make($title, $slug, $sections, $settings);
-
-$page->setMenuIcon($url);
-```
-
-* `$url`: _string_. You can change the default menu icon. Simply pass the **absolute** url of your icon.
 
 ## Retrieve datas
 
