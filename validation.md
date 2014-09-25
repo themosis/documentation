@@ -27,7 +27,7 @@ $data = Input::get('name');
 ```
 The code above returns the saved value for the `name` key.
 
-### Return a default value of no data found
+### Return a default value if no data found
 
 ```php
 $data = Input::get('name', 'Foo');
@@ -48,7 +48,7 @@ Pass an array of validation rules as a second parameter.
 ### Validate multiple data
 
 ```php
-$data = Validator::multiple(Inputt::all(), array(
+$data = Validator::multiple(Input::all(), array(
 	'field-name'	=> array('alnum', 'min:5'),
 	'email'			=> array('email'),
 	'age'			=> array('num')
