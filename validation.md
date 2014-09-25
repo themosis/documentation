@@ -3,9 +3,9 @@ Validation
 
 The framework comes with a Validation class to help you sanitize your inputs.
 
-1.Get input data
-2.Validate
-3.Validation rules
+1. Get input data
+2. Validate
+3. Validation rules
 
 1.Get input data
 ----------------
