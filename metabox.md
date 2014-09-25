@@ -101,7 +101,7 @@ $metabox->validate(array(
 ```
 Note how the `infinite` field is validate.
 
-> If validation passes, the value entered is registered. In case the validate fails, it returns an empty string value.
+> If validation passes, the value entered is registered. In case the validation fails, it returns an empty string value.
 
 Check the [validation guide](http://framework.themosis.com/docs/validation/) for more information about the validation rules.
 

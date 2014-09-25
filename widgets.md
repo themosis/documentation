@@ -3,7 +3,7 @@ Widgets
 
 The Themosis framework provides a folder where you can store your WordPress widgets classes.
 
-You can create as many widgets as you want and save them inside the `app/widgets` directory of your `themosis` plugin.
+You can create as many widgets as you want and save them inside the `app/widgets` directory of your `themosis-theme` theme.
 
 Here is an example of a custom widget:
 
@@ -38,18 +38,3 @@ The class name must be followed by `_Widget` in order to work and your file name
 > It is preferred to use camel case syntax for your class names.
 
 Now you should have your custom widget available inside your WordPress administration.
-
-Next
-----
-
-Discover the other features/API of the framework below:
-
-* [Ajax](https://github.com/themosis/documentation/blob/master/ajax.md)
-* [Asset](https://github.com/themosis/documentation/blob/master/asset.md)
-* [PostType](https://github.com/themosis/documentation/blob/master/posttype.md)
-* [Field](https://github.com/themosis/documentation/blob/master/field.md)
-* [Metabox](https://github.com/themosis/documentation/blob/master/metabox.md)
-* [Taxonomy](https://github.com/themosis/documentation/blob/master/taxonomy.md)
-* [Page](https://github.com/themosis/documentation/blob/master/page.md)
-* [Option](https://github.com/themosis/documentation/blob/master/option.md)
-* [Helpers](https://github.com/themosis/documentation/blob/master/helpers.md)
