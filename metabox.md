@@ -71,7 +71,42 @@ Metabox::make('Informations', 'page')->set(array(
 ));
 ```
 
-## 2. Retrieve datas
+### Validate the custom fields
+
+The class gives you a method to validate your custom fields. Use the `validate()` method like so:
+
+```php
+$metabox = Metabox::make('A title', 'page')->set(array(
+	Field::text('email'),
+	Field::text('name'),
+	Field::text('phone'),
+	Field::textarea('address'),
+	Field::infinite('team', array(
+		Field::text('name'),
+		Field::text('age')
+	))
+));
+
+// Let's validate our custom fields
+$metabox->validate(array(
+	'email'		=> array('email'),
+	'name'		=> array('textfield', 'min:3', 'alpha'),
+	'phone'		=> array('num', 'max:25'),
+	'address'	=> array('textarea'),
+	'team'		=> array(
+		'name'		=> array('textfield', 'alpha', 'min:3', 'max:50'),
+		'age'		=> array('num')
+	)
+));
+```
+Note how the `infinite` field is validate.
+
+> If validation passes, the value entered is registered. In case the validate fails, it returns an empty string value.
+
+Check the [validation guide](http://framework.themosis.com/docs/validation/) for more information about the validation rules.
+
+2.Retrieve datas
+----------------
 
 In order to retrieve the custom fields data, you can use the core function `get_post_meta()` or use the `Meta` class. Please refer to the [Meta guide](http://framework.themosis.com/docs/meta/).
 
