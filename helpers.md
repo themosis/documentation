@@ -5,7 +5,7 @@ Helpers are framework utility functions you can use anywhere. They are functions
 
 ## td($value)
 
-This function prints a `$value` and terminate the PHP process immediately by calling the `die()` function. Useful for debugging.
+This function prints a `$value` and terminate the PHP process immediately by calling the `wp_die()` function. Useful for debugging.
 
 ```php
 $value = 'A string value';
@@ -23,36 +23,36 @@ $value = 42;
 tp($value);
 ```
 
-## themosisAssets()
+## themosis_assets()
 
-* **@return** _string_
-
-This function returns the URL path of the `themosis-theme` assets directory. Useful if you want to point an asset without using the `Asset` class.
+This function returns the URL path of the `themosis-theme` assets directory. Useful if you want to point to an asset without using the `Asset` class.
 
 ```php
-// Returns a string: http://www.domain.com/wp-content/themes/themosis-theme/app/assets/images/favicon.ico
-$iconUrl = themosisAssets().'/images/favicon.ico';
+// Returns: http://www.domain.com/wp-content/themes/themosis-theme/app/assets/images/favicon.ico
+$iconUrl = themosis_assets().'/images/favicon.ico';
 ```
 
-> This function also returns the right path if you decide to "hide" real WordPress paths. Check your `application.config.php` file.
+## themosis_is_post($id)
 
-## themosisIsPost($id)
+* **param** _int_
+* **return** _boolean_
 
-* **@param** _int_
-* **@return** _boolean_
-
-A function that checks you're on a specified admin page, post or custom post type(edit screen) in order to display a certain content.
+A function that checks you're on a specified admin page, post or custom post type(edit screen) in order to display a specific content.
 
 ```php
 $page = get_page_by_title('Home');
 
-$isPage = themosisIsPost($page->ID);
+if (themosis_is_post($page->ID))
+{
+	// You're on Home page.
+	// Do something for the Home page only.
+}
 ```
 
-## themosisAttachmentIdFromUrl($url)
+## themosis_attachment_id_from_url($url)
 
-* **@param** _string_
-* **@return** _int|boolean_
+* **param** _string_
+* **return** _int|boolean_
 
 This function returns an attachment `ID` based on the URL/path given. If no attachment is found, it returns `false`.
 
@@ -60,20 +60,22 @@ This function returns an attachment `ID` based on the URL/path given. If no atta
 $url = 'http://www.domain.com/wp-content/uploads/2014/02/Image150x150.jpg';
 
 // Return the media attachment ID
-$id = themosisAttachmentIdFromUrl($url);
+$id = themosis_attachment_id_from_url($url);
 ```
 
 ## themosis_path($name)
 
-* **@param** _string_
-* **@return** _string_
+* **param** _string_
+* **return** _string_
 
 This function returns the real path of each part of the framework you ask for by providing the `$name` parameter.
 
-You can choose 3 values to pass:
+Here is the list of available values you can pass:
 
-* `sys`: Return the `themosis-core` root path.
-* `datas`: Return the `themosis-datas``root path.
-* `app`: Return the `themosis-theme>app` folder path.
+* **sys**: Returns the Themosis framework plugin `src\Themosis` path.
+* **base**: Returns the `themosis-theme` root path.
+* **app**: Returns the `themosis-theme/app` folder path.
+* **admin**: Returns the `themosis-theme/app/admin` folder path.
+* **storage**: Returns the `themosis-theme/app/storage` folder path.
 
 
