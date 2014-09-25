@@ -32,9 +32,11 @@ Metabox::make('Details', 'post')->set(array(
 Then we want to retrieve the registered datas:
 
 ```php
-$name = Meta::get($post_id, 'name'); // Should return a string
+// Should return a string
+$name = Meta::get($post_id, 'name');
 
-$channels = Meta::get($post_id, 'channels'); // Should return an array of one or more values
+// Should return an array of one or more values
+$channels = Meta::get($post_id, 'channels');
 ```
 
 As you can see in this example, some custom fields return an array as a value. The fields that return an array value are:

@@ -28,7 +28,7 @@ tp($value);
 This function returns the URL path of the `themosis-theme` assets directory. Useful if you want to point to an asset without using the `Asset` class.
 
 ```php
-// Returns: http://www.domain.com/wp-content/themes/themosis-theme/app/assets/images/favicon.ico
+// http://.../wp-content/themes/themosis-theme/app/assets/images/favicon.ico
 $iconUrl = themosis_assets().'/images/favicon.ico';
 ```
 
@@ -72,7 +72,7 @@ This function returns the real path of each part of the framework you ask for by
 
 Here is the list of available values you can pass:
 
-* **sys**: Returns the Themosis framework plugin `src\Themosis` path.
+* **sys**: Returns the Themosis framework plugin `src/Themosis` path.
 * **base**: Returns the `themosis-theme` root path.
 * **app**: Returns the `themosis-theme/app` folder path.
 * **admin**: Returns the `themosis-theme/app/admin` folder path.

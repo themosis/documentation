@@ -64,7 +64,7 @@ By setting the third parameter of the `open()` method to `true`, the action attr
 {{ Form::close() }}
 ```
 
-### Add custom attributes to the opening <form> tag
+### Add custom attributes to the opening form tag
 
 You can pass as a fourth parameter an array of key => value in order to add custom attribute. The `key` is your attribute name and the `value` is the attribute value.
 

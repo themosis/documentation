@@ -47,7 +47,8 @@ Example of a metabox linked to a custom post type with a slug of `custom-books`:
 $fields = array(
 	Field::checkbox('available'),
 	Field::text('author'),
-	Field::select('category', array('fantasy', 'romance', 'horror'), false, array('title' => 'Book category:')),
+	Field::select('category', array('fantasy', 'romance', 'horror'), false, array(
+		'title' => 'Book category:')),
 	Field::infinite('chapters', array(
 		Field::text('title'),
 		Field::textarea('content')
