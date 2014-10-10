@@ -19,6 +19,7 @@ Here is the list of custom fields available:
 
 * Text
 * Textarea
+* Password
 * Checkbox
 * Checkboxes
 * Radio
@@ -58,6 +59,17 @@ Field::textarea($name, $extras = array());
 
 * **$name**: _string_. The field name.
 * **$extras**: _array_. The extras properties. Check the Text field.
+
+### Password field
+
+Build a simple password field: `<input type="password"/>`
+
+```php
+Field::password($name, $extras = array());
+```
+
+* **$name**: _string_. The field/meta name/key.
+* **$extras**: _array_. Extra parameters to add to the field.
 
 ### Checkbox field
 
