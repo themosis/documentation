@@ -24,7 +24,7 @@ By default, the form sets the method attribute to `POST` and its action attribut
 
 The `open()` method return the opening form HTML tag and the `close()` method return the closing form tag.
 
-> When using the `Form::open()` method, it automatically adds WordPress nonce and http referer hidden fields into your form. The nonce field uses the `Session::nonceName` and `Session::nonceAction` constants to populate its value.
+> When using the `Form::open()` method, it automatically adds WordPress nonce and http referer hidden fields into your form. The nonce field uses the `Session::nonceName` and `Session::nonceAction` constants to populate its value. Check below on how to check for nonce values when form is submitted.
 
 ### Set a custom action attribute
 
@@ -79,6 +79,29 @@ You can pass as a fourth parameter an array of key => value in order to add cust
 
 {{ Form::close() }}
 ```
+### Check nonce values when a form is submitted
+
+When you use the `Form::open()` method, it automatically output an opening form tag populated with WordPress nonce values. It is considered "best-practice" to check for those nonce values when your form is submitted before proceeding to some other actions.
+
+If you check your page source code, you'll find two hidden fields:
+
+- The first one is a NONCE value
+- The second one is the HTTP REFERER value
+
+As explained in the `open()` method, it uses two class's constants: `Session::nonceName` and `Session::nonceAction`.
+
+Let's verify the nonce value regarding those two constants:
+
+```php
+// A form is submitted using the POST method.
+if (1 === wp_verify_nonce($_POST[Session::nonceName], Session::nonceAction))
+{
+	// Proceed with data
+}
+```
+> The `nonceName` value is the nonce field name attribute. The `nonceAction` value is the nonce action string.
+
+The example above is working in a front-end example. If you have a custom form on a custom page in the admin, check also the `check_admin_referer` function in the [codex](http://codex.wordpress.org/Function_Reference/check_admin_referer)
 
 2.Labels
 --------
