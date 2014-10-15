@@ -99,7 +99,7 @@ if (1 === wp_verify_nonce($_POST[Session::nonceName], Session::nonceAction))
 	// Proceed with data
 }
 ```
-> The `nonceName` value is the nonce field name attribute. The `nonceAction` value is the nonce action string.
+> The `nonceName` value is the nonce field name attribute. The `nonceAction` value is the nonce action string. Check `wp_verify_nonce()` function in the [codex](http://codex.wordpress.org/Function_Reference/wp_verify_nonce).
 
 The example above is working in a front-end example. If you have a custom form on a custom page in the admin, check also the `check_admin_referer` function in the [codex](http://codex.wordpress.org/Function_Reference/check_admin_referer)
 
