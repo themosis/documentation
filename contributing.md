@@ -31,7 +31,7 @@ We also need help on the documentation. If you see grammar typos or think the do
 
 Regarding `code` issues, please **add your code to the request** and give detailed explanations about what you're trying to achieve.
 
-If you're code is in multiple files or is more complex, **setup your own repository** so people can look at it.
+If your code is in multiple files or is more complex, **setup your own repository** so people can look at it.
 
 We highly encourage you to send pull requests with the bug fix. Make sure to work on the latest stable release and **not** the `master` branch.
 
