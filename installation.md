@@ -15,8 +15,6 @@ The framework has a few system requirements before getting started:
 
 Otherwise the server requirements are the same as WordPress. [Check here](http://wordpress.org/about/requirements/) for default WordPress server requirements.
 
-> Please note this framework has only been tested on **Apache** server.
-
 2. Install Composer
 -------------------
 
