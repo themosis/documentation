@@ -185,6 +185,68 @@ This route doesn't redirect the user to a HTTPS page. This route is only trigger
 
 > If you save asset URL in custom fields and using them by calling the `Meta` class, they will be auto-converted to their `https` equivalent.
 
+#### Register custom route conditions
+
+By default, the route class handles most of the WordPress core conditional tags functions.
+
+But for some cases, you'll need more control and be able to listen to additional conditions. Conditions from a plugin like `woocommerce` and their conditional tags like `is_shop`, `is_product` or conditions you'll want to create for a specific route.
+
+In order to define a custom route, you'll need to use the `themosisRouteConditions` filter like so:
+
+```php
+// A custom condition function.
+function is_test()
+{
+	// Some logic that returns true or false.
+	return true;
+}
+
+// Then add the conditional function to the Route class.
+add_filter('themosisRouteConditions', function($conds)
+{
+    $conds['test'] = 'is_test';
+	return $conds; // Always return an associative array.
+});
+
+```
+
+The code snippet above is adding the `test` route which will listen to the `is_test()` conditional function.
+
+You can now use this `test` route like so:
+
+```php
+// In routes.php
+Route::get('test', function()
+{
+	return "Hello from the test route.";
+});
+```
+> When using the `themosisRouteConditions` filter, make sure to return an associative array where the key is the route name and its value is the conditional function signature.
+
+#### Example of a woocommerce route
+
+Define a route that checks for a single product page.
+
+```php
+// File store in /admin/routing.php
+// Keeps all my route definitions in one place.
+// Add the product route.
+add_filter('themosisRouteConditions', function()
+{
+	$conds['product'] = 'is_product';
+	return $conds;
+});
+```
+
+Then you'll write in your `routes.php` file:
+
+```php
+Route::get('product', function()
+{
+	return View::make('shop.product');
+});
+```
+
 4. The Globals
 --------------
 
