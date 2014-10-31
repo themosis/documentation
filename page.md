@@ -108,7 +108,7 @@ You can add as many sections as you want. Simply define a section slug and its n
 Now add the created sections to your page:
 
 ```php
-$page = Page::make('page-slug', 'Page Title)->set();
+$page = Page::make('page-slug', 'Page Title')->set();
 
 // Add the previously created section(s)
 $page->addSections($sections);
