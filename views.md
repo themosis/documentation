@@ -35,7 +35,7 @@ The second argument is an array of data available to the view.
 
 #### Passing datas to the view
 ```php
-$view = View::make('welcome')->with('name', 'Julien'));
+$view = View::make('welcome')->with('name', 'Julien');
 ```
 
 Or you can pass a `$data` array as a second parameter in the `make` method like so:
