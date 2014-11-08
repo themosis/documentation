@@ -21,7 +21,7 @@ Asset::add($handle, $path, $deps, $version, $mixed);
 
 * `$handle`: _string_. Your custom asset handle name.
 * `$path`: _string_. The relative path of your asset from the `app/assets` directory. You can also provide external URL.
-* `$deps`: _array or boolean_. An array of asset dependencies. _false_ if nothing.
+* `$deps`: _array_. An array of asset dependencies. `array()` if nothing.
 * `$version`: _string or boolean_. A string specifying the asset version number.
 * `$mixed`: _string or boolean_. For stylesheets a _string_ that specify the media type. For javascript files, a _boolean_ that indicate if the asset is loaded before the closing `</head>` tag or in the footer (the theme must insert the `wp_head()` and `wp_footer()` functions).
 
