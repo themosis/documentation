@@ -32,7 +32,7 @@ Taxonomy::make($slug)->set($params = array());
 Taxonomy::make('services', 'projects', 'Services', 'Service')->set();
 ```
 
-This builds a `Services` taxonomy for the `projects` custom post type.
+This builds a `services` taxonomy for the `projects` custom post type.
 
 ### Custom taxonomy with parameters
 
@@ -45,7 +45,7 @@ Taxonomy::make('brands', 'clothes', 'Brands', 'Brand')->set(array(
 ));
 ```
 
-This builds a `Brands` taxonomy for the `clothes` custom post type.
+This builds a `brands` taxonomy for the `clothes` custom post type.
 
 ### Associate a taxonomy to multiple post types
 
@@ -53,14 +53,14 @@ This builds a `Brands` taxonomy for the `clothes` custom post type.
 Taxonomy::make('authors', array('post', 'books'), 'Authors', 'Author')->set();
 ```
 
-This creates a taxonomy for `post` and `books` post types.
+This creates an `authors` taxonomy for `post` and `books` post types.
 
 2.Bind a taxonomy
 -----------------
 
 Attach the post type to the taxonomy inside filter callback that run during `parse_request` or `pre_get_posts`.
 
-You can use the `bind()` method which is a shortcut to the [register\\_taxonomy\\_for\_object\\_type](http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type).
+You can use the `bind()` method which is a shortcut to the [register\_taxonomy\_for\_object\_type](http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type).
 
 Call the method on your taxonomy instance like so:
 
@@ -71,4 +71,4 @@ $tax = Taxonomy::make('authors', array('post', 'books'), 'Authors', 'Author')->s
 $tax->bind();
 ```
 
-> You can also bind your taxonomy when registering your custom post type by adding the `taxonomies` argument.
+> You can also bind your taxonomy when registering your custom post type by adding the `taxonomies` argument. Check the [register\_post\_type](http://codex.wordpress.org/Function_Reference/register_post_type).
