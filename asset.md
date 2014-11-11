@@ -36,7 +36,6 @@ Asset::add('my-handle', 'css/screen.css', false, '1.0', 'all');
 
 // Load a JS file stored in app/assets/js/main.js
 Asset::add('my-other-handle', 'js/main.js', array('jquery'), '1.0', true);
-
 ```
 
 This example loads, in the front-end of your website/application, a `screen.css` file in the head for `all` media type and a `main.js` file in the footer.
@@ -57,7 +56,6 @@ Chain the `to()` method after you added your asset.
 
 ```php
 Asset::add('my-handle', 'js/custom.js', array('jquery'), '1.0', false)->to('login');
-
 ```
 
 The `to()` method only accepts two values:
@@ -90,7 +88,6 @@ Route::is('home', function(){
 	return View::make('home');
 
 });
-
 ```
 
 #### By using a controller
@@ -99,7 +96,6 @@ First specify a controller inside your routes.php file.
 
 ```php
 Route::is('home', 'home@index');
-
 ```
 
 Then use the constructor method of your controller to load your asset for this specific URI/page request.
@@ -125,5 +121,4 @@ class Home_Controller
 	}
 
 }
-
 ```
