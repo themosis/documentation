@@ -65,6 +65,15 @@ The `to()` method only accepts two values:
 * **admin** : Loads the asset in the WordPress admin area.
 * **login** : Loads the asset in the WordPress login area.
 
+### Load external assets
+
+The Asset class allows you to load external assets from CDN and others, ... Simply specify the absolute URL of your asset as a second argument to the `add()` method:
+
+```php
+Asset::add('gg-jquery', '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js', false, '2.1.1', true);
+```
+> The class is looking for the asset extension in order to define if it is a stylesheet or a javascript file. Some externals assets do not show the file extension. In those cases, the Asset class returns a `WP_Error` object. Other alternatives to load those assets is to add them in your header file or use the `wp_head` or `wp_footer` action hooks.
+
 ### Load an asset on a specific URI
 
 #### By using the routes.php

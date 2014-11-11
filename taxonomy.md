@@ -60,7 +60,7 @@ This creates an `authors` taxonomy for `post` and `books` post types.
 
 Attach the post type to the taxonomy inside filter callback that run during `parse_request` or `pre_get_posts`.
 
-You can use the `bind()` method which is a shortcut to the [register\_taxonomy\_for\_object\_type](http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type).
+You can use the `bind()` method which is a shortcut to the [register\_taxonomy\_for\_object\_type](http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type) function.
 
 Call the method on your taxonomy instance like so:
 
