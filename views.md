@@ -278,7 +278,7 @@ The Scout engine also provides a helper to make custom loops:
 
 The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query.
 
-> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More details on the `Loop` class [here](https://github.com/themosis/documentation/blob/master/loop.md).
+> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop.
 
 #### Displaying raw text with curly braces
 
