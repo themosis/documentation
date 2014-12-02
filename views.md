@@ -3,6 +3,7 @@ Views
 
 1. Views
 2. Scout templates
+3. Loop class helper
 
 1. Views
 --------
@@ -278,7 +279,7 @@ The Scout engine also provides a helper to make custom loops:
 
 The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query.
 
-> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop.
+> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More informations below.
 
 #### Displaying raw text with curly braces
 
@@ -290,6 +291,126 @@ If you need to display a string that is wrapped in curly braces, you may escape 
 #### Comments
 ```html
 {{-- This comment will not be rendered in HTML --}}
+```
+
+3. Loop
+-------
+
+The `Loop` helper class provides methods with a simple syntax in order to call WordPress loop functions.
+
+Here is a list of the available methods.
+
+> Currently this class only works inside WordPress loop statements. The `Loop` methods always return a result, so use echo statements to output their content.
+
+#### Get the ID of current post
+
+```php
+@loop
+
+    $id = Loop::id();
+
+@endloop
+```
+
+#### Get the title of current post
+
+```php
+@loop
+
+	<h1>{{ Loop::title() }}</h1>
+
+@endloop
+```
+
+#### Get the content of current post
+
+```php
+@loop
+
+	<article>{{ Loop::content() }}</article>
+
+@endloop
+```
+
+#### Get the excerpt of current post
+
+```php
+@loop
+
+	<aside>{{ Loop::excerpt() }}</aside>
+
+@endloop
+```
+
+#### Get the thumbnail of current post
+
+This methods accepts two arguments:
+
+- **$size**: _string|array_ The size of the thumbnail.
+- **$attr**: _string|array_ The img tag attributes.
+
+```php
+@loop
+
+	{{ Loop::thumbnail() }}
+
+@endloop
+```
+
+#### Get the permalink of current post
+
+```php
+@loop
+
+	<a href="{{ Loop::link() }}">Read more</a>
+
+@endloop
+```
+
+#### Get the categories of current post
+
+```php
+@loop
+
+    <ul>
+        @foreach(Loop::category() as $cat)
+            <li>{{ $cat->name }}</li>
+        @endforeach
+    </ul>
+
+@endloop
+```
+
+#### Get the tags of current post
+
+```php
+@loop
+
+    <ul>
+        @foreach(Loop::tags() as $tag)
+            <li>{{ $tag->name }}</li>
+        @endforeach
+    </ul>
+
+@endloop
+```
+
+#### Get the custom taxonomy terms of current post
+
+Pass the custom taxonomy slug as first argument.
+
+- **$taxonomy**: _string_ The taxonomy slug.
+
+```php
+@loop
+
+    <ul>
+        @foreach(Loop::terms('custom-slug') as $term)
+            <li>{{ $term->name }}</li>
+        @endforeach
+    </ul>
+
+@endloop
 ```
 
 Next
