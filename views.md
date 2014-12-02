@@ -344,15 +344,15 @@ Here is a list of the available methods.
 
 #### Get the thumbnail of current post
 
-This methods accepts two arguments:
+This method accepts two arguments:
 
-- **$size**: _string|array_ The size of the thumbnail.
-- **$attr**: _string|array_ The img tag attributes.
+- **$size**: _string|array_ The size of the thumbnail
+- **$attr**: _string|array_ The img tag attributes
 
 ```php
 @loop
 
-	{{ Loop::thumbnail() }}
+	{{ Loop::thumbnail('thumbnail') }}
 
 @endloop
 ```
