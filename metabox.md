@@ -132,7 +132,7 @@ Inside your view file for your metabox you have access to "special" data by defa
 
 - **$__fields**: This variable gives you an array of registered fields with your metabox.
 - **$__metabox**: This variable gives you access to your metabox instance.
-- **$___post**: This variable gives you access to the current post instance object (WP_Post).
+- **$__post**: This variable gives you access to the current post instance object (WP_Post).
 
 This allows you to customize as you want the look of your metabox. By also using `View::composer()` method, you might also perform specific actions when the metabox is rendered.
 
