@@ -19,12 +19,33 @@ Form
 
 {{ Form::close() }}
 ```
+** Form::open($action = null, $method = 'POST', $ssl = false, $attributes = array()): **
+- **$action**: _string_ The action attribute for the opening form tag.
+- **$method**: _string_ The method attribute. Default to 'post'.
+- **$ssl**: _boolean_ Tell the form to change the method protocol to `https` if using ssl. Default to false.
+- **$attributes**: _array_ Extra attributes and properties for the form. 
 
 By default, the form sets the method attribute to `POST` and its action attribute to the current URL.
 
 The `open()` method return the opening form HTML tag and the `close()` method return the closing form tag.
 
 > When using the `Form::open()` method, it automatically adds WordPress nonce and http referer hidden fields into your form. The nonce field uses the `Session::nonceName` and `Session::nonceAction` constants to populate its value. Check below on how to check for nonce values when form is submitted.
+
+#### Define custom nonce values.
+
+You can overwrite the default custom nonce fields used inside the `Form::open()` method.
+
+In order to add your custom nonce, simply add them to the `$attributes` argument of the `Form::open()` method like so:
+
+```php
+{{ Form::open('', 'post', false, array(
+	'nonce'			=> 'action',
+	'nonce_action'	=> 'edit-something'
+)) }}
+	// Inputs
+{{ Form::close() }}
+```
+> Make sure to use the `nonce` key for the nonce field _name_ and the `nonce_action` key for its _value_.
 
 ### Set a custom action attribute
 
