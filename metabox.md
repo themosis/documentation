@@ -128,11 +128,11 @@ $view = View::make('metabox.custom');
 Metabox::make('Properties', 'post', array('priority' => high), $view);
 ```
 
-Inside your view file for your metabox you have access to "special" data by default:
+Inside the view file of your metabox you have access to "special" variables by default:
 
-- **$__fields**: This variable gives you an array of registered fields with your metabox.
-- **$__metabox**: This variable gives you access to your metabox instance.
-- **$__post**: This variable gives you access to the current post instance object (WP_Post).
+- **$__fields**: Gives you an array of registered fields with your metabox.
+- **$__metabox**: Gives you access to your metabox instance.
+- **$__post**: Gives you access to the current post instance object (WP_Post).
 
 This allows you to customize as you want the look of your metabox. By also using `View::composer()` method, you might also perform specific actions when the metabox is rendered.
 
