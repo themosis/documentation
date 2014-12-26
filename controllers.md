@@ -14,13 +14,10 @@ Here is an example of a basic controller class:
 
 class HomeController extends BaseController
 {
-
-	public function index(){
-	
+	public function index()
+	{
 		return View::make('pages.home');
-
 	}
-
 }
 
 ?>
@@ -30,14 +27,14 @@ It is recommended to store your controllers inside the `app/controllers` directo
 
 > All your controller classes must extend the `BaseController` class in order to work.
 
-In order to use your controller class, you must add it to the `controllers.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the controller classes using a class mapping. Add your controller like so:
+In order to use your controller class, you must add it to the `loading.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the controller classes using a class mapping. Add your controller like so:
 
 ```php
 // Key is the class name and the value is the path to the class file.
 'HomeController'	=> themosis_path('app').'controllers'.DS.'HomeController.php'
 ```
 
-The function `themosis_path('app')` returns the theme `app` folder path. More information about the `themosis_path` function in the [Helpers guide](https://github.com/themosis/documentation/blob/master/helpers.md).
+The function `themosis_path('app')` returns the theme `app` folder path. More information about the `themosis_path` function in the [Helpers guide](http://framework.themosis.com/docs/helpers/).
 
 Now we can set a route with this controller and its method/action like so:
 
@@ -68,17 +65,15 @@ class HomeController extends BaseController
 
 	private $property;
 
-	public function __construct(){
-
+	public function __construct()
+	{
 		// Do something
 		$this->property = 'A value';
-
 	}
 
-	public function index(){
-	
+	public function index()
+	{	
 		return View::make('pages.home', array('data' => $this->property));
-
 	}
 
 }
