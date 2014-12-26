@@ -68,6 +68,25 @@ Route::get('home', function(){
 ```
 > There is no limitation to the number of sub-folders you want to use to organize your views.
 
+#### Share data across all views
+
+The `View::share($key, $value)` method allows you to share data across all used views of your WordPress application.
+
+* **$key**: _string|array_. An array of key => value or simply the key name of your data. The key will be available as a variable inside your views. Take care to not overwrite existing ones.
+* **$value**: _mixed_. The value associated to your key.
+
+```php
+// Single data shared across views.
+// The $user variable with a value of 'FooBar' is available in all views.
+View::share('user', 'FooBar');
+
+// Multiple data shared across views.
+View::share(array(
+	'user'		=> 'FooBar',
+	'blog'		=> 'WordPress'
+));
+```
+
 2. Scout templates
 ------------------
 
