@@ -39,9 +39,9 @@ _public static method_
 PostType::make($slug, $plural-name, $singular-name);
 ```
 
-* **$slug**: _string_. The custom post type slug (we take the habit to give a plural noun as it represents a "collection").
-* **$plural-name**: _string_. The plural name of your custom post type.
-* **$singular-name**: _string_. The singular name of your custom post type.
+* **$slug**: _string_ The custom post type slug (we take the habit to give a plural noun as it represents a "collection").
+* **$plural-name**: _string_ The plural name of your custom post type.
+* **$singular-name**: _string_ The singular name of your custom post type.
 
 #### PostType->set()
 
@@ -51,7 +51,7 @@ $postType = PostType::make('slug-books', 'Books', 'Book');
 $postType->set($args);
 ```
 
-* **$args**: _array_. Array of arguments in order to customize the behavior of your custom post type. Check the [WordPress Codex](http://codex.wordpress.org/Function_Reference/register_post_type) for the list of arguments you can pass to the set method.
+* **$args**: _array_ Array of arguments in order to customize the behavior of your custom post type. Check the [WordPress Codex](http://codex.wordpress.org/Function_Reference/register_post_type) for the list of arguments you can pass to the set method.
  
 **Note**: The custom post type is not registered until you call the **set()** method.
 

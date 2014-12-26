@@ -34,7 +34,7 @@ Route::get('home', function(){
 
 The second argument is an array of data available to the view.
 
-#### Passing datas to the view
+#### Passing data to the view
 
 The `with($key, $value)` method allows you to pass data to your view:
 
