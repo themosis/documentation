@@ -55,8 +55,6 @@ There are 3 methods for the Route class:
 
 * **Route::any()** - Currently listening to `GET`, `HEAD`, `POST` requests.
 
-***
-
 ### Basic routing
 
 Set a route for the `WordPress Home` page.
