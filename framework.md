@@ -23,6 +23,8 @@ The plugin only contains the APIs to help you build and develop your WordPress w
 
 Once the plugin is activated, you won't find any UI elements displayed in your WordPress administration.
 
+> Note as version `1.1.0`, the `themosis-framework` package is installed inside the `mu-plugins` folder. So there is no need to activate it once WordPress is installed.
+
 The plugin gives you classes to easily create or handle: custom post types, metaboxes, custom fields, custom pages, settings, taxonomies, assets, ajax, controllers, views, models, routes and more.
 
 ### Theme: themosis-theme
@@ -37,7 +39,7 @@ Let's take a look inside this `app` folder:
 
 - **assets/**: Insert all your stylesheets, javascripts, images and other public assets inside this folder.
 
-- **config/**: Contains the website/application configuration files:  `application`, `constants`, `controllers`, `images`, `menus`, `models`, `sidebars`, `supports`, `templates`. Read the configuration guide for more information.
+- **config/**: Contains the website/application configuration files:  `application`, `constants`, `images`, `loading`, `menus`, `sidebars`, `supports`, `templates`. Read the configuration guide for more information.
 
 - **controllers/**: This folder stores all your controller classes.
 
