@@ -19,7 +19,9 @@ Form
 
 {{ Form::close() }}
 ```
-** Form::open($action = null, $method = 'POST', $ssl = false, $attributes = array()): **
+
+**Form::open($action = null, $method = 'POST', $ssl = false, $attributes = array()):**
+
 - **$action**: _string_ The action attribute for the opening form tag.
 - **$method**: _string_ The method attribute. Default to 'post'.
 - **$ssl**: _boolean_ Tell the form to change the method protocol to `https` if using ssl. Default to false.
