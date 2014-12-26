@@ -28,8 +28,8 @@ class PostModel
 	 * 
 	 * @return array
 	*/
-	public static function all(){
-
+	public static function all()
+	{
 		$query = new WP_Query(array(
             'post_type'         => 'post',
             'posts_per_page'    => -1,
@@ -42,14 +42,14 @@ class PostModel
 
 ?>
 ```
-In order to use your model class, you must add it to the `models.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the model classes using a class mapping. Add your model like so:
+In order to use your model class, you must add it to the `loading.config.php` file located in the `app/config` directory of the `themosis-theme` theme. The config file is used to auto-load the model classes using a class mapping. Add your model like so:
 
 ```php
 // Key is the class name and the value is the path to the class file.
 'PostModel'		=> themosis_path('app').'models'.DS.'PostModel.php'
 ```
 
-The function `themosis_path('app')` returns the `app` folder path. More information about the `themosis_path` function in the [Helpers guide](https://github.com/themosis/documentation/blob/master/helpers.md).
+The function `themosis_path('app')` returns the `app` folder path. More information about the `themosis_path` function in the [Helpers guide](http://framework.themosis.com/docs/helpers/).
 
 Then we can retrieve all the `posts` for our view like so:
 
