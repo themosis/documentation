@@ -247,7 +247,7 @@ Field::collection('papers', array('type' => 'application'));
 // Limit the number of media to add to a collection.
 Field::collection('pics', array('limit' => 5));
 ```
-> Allowed `type` values: `images`, `application`, `video`, `audio`.
+> Allowed `type` values: `image`, `application`, `video`, `audio`.
 
 The collection field provides a UI in order to allow a end-user to easily add files, re-arrange their order, delete or bulk delete files.
 
