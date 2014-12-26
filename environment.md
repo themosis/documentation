@@ -13,10 +13,10 @@ The Themosis framework has its own way for defining WordPress configurations. It
 
 You'll start by registering your database credentials and application URLs into a `.env.{environment}.php` file located in the root directory of your project. Then you'll be able to define your environment configurations by modifying files located in the `config` directory.
 
-> Opening your project in a text editor or IDE should show you two default `.env` files: `.env.local.php`, `.env.production.php`.
+> Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local.php`.
 
 2.Register your environment
---------------------------
+---------------------------
 
 Let's start by installing your WordPress application on a local environment.
 
@@ -137,9 +137,6 @@ In order to finish our local configuration, open the `shared.php` file and fill 
 /*----------------------------------------------------*/
 // Authentication unique keys and salts
 /*----------------------------------------------------*/
-/**
- * @link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service 
- */
 define('AUTH_KEY',         'put your unique phrase here');
 define('SECURE_AUTH_KEY',  'put your unique phrase here');
 define('LOGGED_IN_KEY',    'put your unique phrase here');

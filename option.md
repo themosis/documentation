@@ -37,4 +37,3 @@ Discover the other features of the framework:
 * [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
 * [Page](http://framework.themosis.com/docs/page/)
 * [Helpers](http://framework.themosis.com/docs/helpers/)
-

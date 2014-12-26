@@ -77,5 +77,3 @@ Here is the list of available values you can pass:
 * **app**: Returns the `themosis-theme/app` folder path.
 * **admin**: Returns the `themosis-theme/app/admin` folder path.
 * **storage**: Returns the `themosis-theme/app/storage` folder path.
-
-

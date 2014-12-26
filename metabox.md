@@ -11,7 +11,7 @@ Before digging into the `Metabox` documentation, make sure to read the [Field cl
 ## 1. Build a metabox
 
 ```php
-Metabox::make($title, $postType, array $options = array(), IRenderable $view = null)->set($fields);
+Metabox::make($title, $postType, $options = array(), $view = null)->set($fields);
 ```
 
 * **$title**: _string_. The display title of the metabox.
@@ -48,7 +48,7 @@ $fields = array(
 	Field::checkbox('available'),
 	Field::text('author'),
 	Field::select('category', array('fantasy', 'romance', 'horror'), false, array(
-		'title' => 'Book category:')),
+            'title' => 'Book category:')),
 	Field::infinite('chapters', array(
 		Field::text('title'),
 		Field::textarea('content')
@@ -100,7 +100,7 @@ $metabox->validate(array(
 	)
 ));
 ```
-Note how the `infinite` field is validate.
+Note how the `infinite` field is validated.
 
 > If validation passes, the value entered is registered. In case the validation fails, it returns an empty string value.
 

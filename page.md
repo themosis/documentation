@@ -74,7 +74,7 @@ Now pass this view into your `Page::make()` method like so:
 ```php
 $page_view = View::make('options.my-page');
 
-Page::make('my-custom-page', 'A Custom Page', $page_view)->set();
+Page::make('my-custom-page', 'A Custom Page', null, $page_view)->set();
 ```
 > Notice the `$__page` variable into the view. This variable is the instance of your Page. In the example above, we grabbed the title property registered with the `Page::make()` method.
 
@@ -108,9 +108,9 @@ You can add as many sections as you want. Simply define a section slug and its n
 Now add the created sections to your page:
 
 ```php
-$page = Page::make('page-slug', 'Page Title)->set();
+$page = Page::make('page-slug', 'Page Title')->set();
 
-// Add the previously created section(s)
+// Add the previously created section(s).
 $page->addSections($sections);
 ```
 Now that we have sections, let's add settings.
@@ -158,7 +158,6 @@ In order to read the values stored in your custom page options, check the [optio
 
 Next
 ----
-
 Discover the other features of the framework:
 
 * [Ajax](http://framework.themosis.com/docs/ajax/)
@@ -169,5 +168,3 @@ Discover the other features of the framework:
 * [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
 * [Option](http://framework.themosis.com/docs/option/)
 * [Helpers](http://framework.themosis.com/docs/helpers/)
-
-

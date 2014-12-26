@@ -11,7 +11,7 @@ Installation
 
 The framework has a few system requirements before getting started:
 
-- PHP >= 5.3.3
+- PHP >= 5.4
 
 Otherwise the server requirements are the same as WordPress. [Check here](http://wordpress.org/about/requirements/) for default WordPress server requirements.
 

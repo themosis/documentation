@@ -88,4 +88,3 @@ Check the available rules below.
 - **hex**: Validate a hexadecimal value.
 - **color**: Validate a color hexadecimal value like `#2abb6f` or `#ddd`.
 - **file**: Validate a file extension value. You have to pass arguments to the rule like so: `array('file:jpg, gif, png')`.
-
