@@ -35,16 +35,31 @@ Route::get('home', function(){
 The second argument is an array of data available to the view.
 
 #### Passing datas to the view
+
+The `with($key, $value)` method allows you to pass data to your view:
+
+- **$key**: _string|array_ A key name or an array of key => value pair.
+- **$value**: _mixed_ The value of your key variable.
+
 ```php
+// The 'welcome' view has the $name variable with the value of 'Julien'.
 $view = View::make('welcome')->with('name', 'Julien');
+
+// Same method but by passing an array inside the with method.
+$view = View::make('welcome')->with(array(
+	'name'		=> 'Julien',
+	'foo'		=> 'Bar'
+));
 ```
 
 Or you can pass a `$data` array as a second parameter in the `make` method like so:
+
 ```php
 $view = View::make('welcome', array('name' => 'Julien'));
 ```
 
 #### Organizing your views
+
 You can organize your views into sub-folders and access them using a dot syntax.
 
 ```html
@@ -58,7 +73,9 @@ You can organize your views into sub-folders and access them using a dot syntax.
 	</body>
 </html>
 ```
+
 This view may be returned to the browser like so:
+
 ```php
 Route::get('home', function(){
 
@@ -150,7 +167,7 @@ class MyComposerClass
 View::composer('pages.home', 'MyComposerClass@add');
 ```
 
-You can omit the method name when using a class instance as your composer. By default, the API is looking after a `compose` then a `create` method if the first do not exists.
+You can omit the method name when using a class instance as your composer. By default, the API is looking after a `compose` then a `create` method if the first one do not exists.
 
 ```php
 // Omit the method name.
@@ -162,7 +179,7 @@ You can also define multiple composers using the `View::composers` method like s
 ```php
 View::composers(array(
 	'MyComposerClass'		=> 'pages.home',
-	'MyComposerClass@add	=> 'pages.add',
+	'MyComposerClass@add'	=> 'pages.add',
 	'OtherComposerClass'	=> array('pages.home', 'pages.product')
 ));
 ```
