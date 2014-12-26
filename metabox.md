@@ -7,8 +7,10 @@ Before digging into the `Metabox` documentation, make sure to read the [Field cl
 
 1. Build a metabox
 2. Retrieve datas
+3. Customize a metabox
 
-## 1. Build a metabox
+1.Build a metabox
+-----------------
 
 ```php
 Metabox::make($title, $postType, $options = array(), $view = null)->set($fields);
@@ -110,6 +112,40 @@ Check the [validation guide](http://framework.themosis.com/docs/validation/) for
 ----------------
 
 In order to retrieve the custom fields data, you can use the core function `get_post_meta()` or use the `Meta` class. Please refer to the [Meta guide](http://framework.themosis.com/docs/meta/).
+
+3.Customize the metabox
+-----------------------
+
+You can customize the look and feel and the behaviour of your metabox by defining a custom view (and why not view composers...).
+
+You can pass a custom view for your metabox using the 4th argument of the `Metabox::make()` method like so:
+
+```php
+// Code below written inside the 'admin/metabox.php' file.
+// File stored inside the 'views/metabox/custom.scout.php'.
+$view = View::make('metabox.custom');
+
+Metabox::make('Properties', 'post', array('priority' => high), $view);
+```
+
+Inside your view file for your metabox you have access to "special" data by default:
+
+- **$__fields**: This variable gives you an array of registered fields with your metabox.
+- **$__metabox**: This variable gives you access to your metabox instance.
+- **$___post**: This variable gives you access to the current post instance object (WP_Post).
+
+This allows you to customize as you want the look of your metabox. By also using `View::composer()` method, you might also perform specific actions when the metabox is rendered.
+
+In case you needed to customize the metabox output but still need to output the core custom fields, simply add this code snippet inside your metabox view:
+
+```php
+<!-- Default Themosis metabox view -->
+<table class="form-table themosis-metabox">
+    <tbody>
+        @each('_themosisMetaboxRow', $__fields, 'field')
+    </tbody>
+</table>
+```
 
 Next
 ----
