@@ -26,6 +26,7 @@ Here is the list of custom fields available:
 * Select
 * Editor
 * Media
+* Collection
 * Infinite
 
 ### Text field
@@ -36,8 +37,8 @@ Build a simple text field: `<input type="text"/>`
 Field::text($name, $extras = array());
 ```
 
-* **$name**: _string_. The field/meta name/key.
-* **$extras**: _array_. Extra parameters to add to the field.
+* **$name**: _string_ The field/meta name/key.
+* **$extras**: _array_ Extra parameters to add to the field.
 
 Possible values for the `$extras` parameter:
 
@@ -57,8 +58,8 @@ Build a textarea field: `<textarea></textarea>`
 Field::textarea($name, $extras = array());
 ```
 
-* **$name**: _string_. The field name.
-* **$extras**: _array_. The extras properties. Check the Text field.
+* **$name**: _string_ The field name.
+* **$extras**: _array_ The extras properties. Check the Text field.
 
 ### Password field
 
@@ -68,8 +69,8 @@ Build a simple password field: `<input type="password"/>`
 Field::password($name, $extras = array());
 ```
 
-* **$name**: _string_. The field/meta name/key.
-* **$extras**: _array_. Extra parameters to add to the field.
+* **$name**: _string_ The field/meta name/key.
+* **$extras**: _array_ Extra parameters to add to the field.
 
 ### Checkbox field
 
@@ -79,8 +80,8 @@ Build a **single** checkbox field: `<input type="checkbox"/>`
 Field::checkbox($name, $extras = array());
 ```
 
-* **$name**: _string_. The field name.
-* **$extras**: _array_. The extra properties. Check the Text field.
+* **$name**: _string_ The field name.
+* **$extras**: _array_ The extra properties. Check the Text field.
 
 ### Checkboxes field
 
@@ -90,9 +91,9 @@ Build a **group** of checkbox fields.
 Field::checkboxes($name, $options, $extras = array());
 ```
 
-* **$name**: _string_. The field name.
-* **$options**: _array_. An array of values. It doesn't work with associative array. The value is used as a label.
-* **$extras**: _array_. The extra properties. Check the Text field.
+* **$name**: _string_ The field name.
+* **$options**: _array_ An array of values. It doesn't work with associative array. The value is used as a label.
+* **$extras**: _array_ The extra properties. Check the Text field.
 
 ### Radio field
 
@@ -102,9 +103,9 @@ Build radio fields: `<input type="radio" />`
 Field::radio($name, $options, $extras = array());
 ```
 
-* **$name**: _string_. The field name.
-* **$options**: _array_. An array of values. It doesn't work with associative array. The value is used as a label.
-* **$extras**: _array_. The extra properties. Check the Text field.
+* **$name**: _string_ The field name.
+* **$options**: _array_ An array of values. It doesn't work with associative array. The value is used as a label.
+* **$extras**: _array_ The extra properties. Check the Text field.
 
 ### Select field
 
@@ -118,9 +119,9 @@ You can also define the value of your option tag to be numeric or custom: `<opti
 Field::select($name, $options, $multiple = false, $extras = array());
 ```
 
-* **$name**: _string_. The field name.
-* **$options**: _array_. The select options values.
-* **$multiple**: _boolean_. If select tag use single or multiple value. Default to `false`.
+* **$name**: _string_ The field name.
+* **$options**: _array_ The select options values.
+* **$multiple**: _boolean_ If select tag use single or multiple value. Default to `false`.
 * **$extras**: _array_. The extra properties. Check the Text field.
 
 #### Basic select field
@@ -195,9 +196,9 @@ Build a WordPress Editor TinyMCE field.
 Field::editor($name, $settings, $extras);
 ```
 
-* **$name**: _string_. The field name.
-* **$settings**: _array_. An array of parameters of the WordPress editor. Use this [codex guide](https://codex.wordpress.org/Function_Reference/wp_editor) to define your editor **settings**.
-* **$extras**: _array_. The extra properties. Check the Text field.
+* **$name**: _string_ The field name.
+* **$settings**: _array_ An array of parameters of the WordPress editor. Use this [codex guide](https://codex.wordpress.org/Function_Reference/wp_editor) to define your editor **settings**.
+* **$extras**: _array_ The extra properties. Check the Text field.
 
 ### Media field
 
@@ -207,8 +208,8 @@ Build a media field. This field allows you to upload or attach any file by using
 Field::media($name, $extras);
 ```
 
-* **$name**: _string_. The field name.
-* **$extras**: _array_. The extra properties.
+* **$name**: _string_ The field name.
+* **$extras**: _array_ The extra properties.
 
 By default, the media field allows you to attach images only.
 
@@ -226,6 +227,30 @@ Field::media('report', array(
 ```
 > The `type` property only accepts 4 values: `image`, `application`, `video` and `audio`
 
+### Collection field
+
+Allow a user to add/edit/delete a collection of media files. Useful for galleries or specifying a list of files to download, ...
+
+```php
+Field::collection($name, $extras);
+```
+- **$name**: _string_ The field name.
+- **$extras**: _array_ An array of extra parameters for the collection field.
+
+```php
+// The default collection field allows you to manage images.
+Field::collection('gallery');
+
+// Same but only for files.
+Field::collection('papers', array('type' => 'application'));
+
+// Limit the number of media to add to a collection.
+Field::collection('pics', array('limit' => 5));
+```
+> Allowed `type` values: `images`, `application`, `video`, `audio`.
+
+The collection field provides a UI in order to allow a end-user to easily add files, re-arrange their order, delete or bulk delete files.
+
 ### Infinite field
 
 Build a repeatable field. This allows you to define a single field or a group of fields to be repeated.
@@ -234,9 +259,11 @@ Build a repeatable field. This allows you to define a single field or a group of
 Field::infinite($name, $fields, $extras);
 ```
 
-* **$name**: _string_. The field name.
-* **$fields**: _array_. An array of fields to repeat. Use any methods of the `Field` class excepts the `editor` field.
-* **$extras**: _array_. The extra properties.
+* **$name**: _string_ The field name.
+* **$fields**: _array_ An array of fields to repeat. Use any methods of the `Field` class excepts the `editor` field.
+* **$extras**: _array_ The extra properties.
+
+> Please note that Infinite fields can't be nested.
 
 Example of an infinite field:
 
