@@ -186,6 +186,25 @@ Field::select('my-field', array(
 
 Simply set the third parameter `$multiple` to `true`.
 
+### Set a custom class attribute for "input" fields.
+
+You can overwrite the default `'class'` attribute for all above custom fields:
+
+* Text
+* Textarea
+* Password
+* Checkbox
+* Checkboxes
+* Radio
+* Select
+
+In order to do so, simply define a class property inside the `$extras` argument like so:
+
+```php
+// Override default class for text custom field.
+Field::text('foo', array('class' => 'custom-class'));
+```
+
 ### Editor field
 
 Build a WordPress Editor TinyMCE field.
