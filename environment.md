@@ -119,7 +119,7 @@ Now inside your `environment.php` file, in place of an array, you'll replace you
 return function()
 {
 	// Check for the environment variable
-	if (isset(getenv('varName')) && 'varValue' === getenv('varName'))
+	if ('varValue' === getenv('varName'))
 	{
 		// Return the environment file slug name: .env.{$slug}.php
 		return 'local';
@@ -154,7 +154,7 @@ server {
 }
 ```
 
-Now just like for Apache, your Nginx environment variable is accessible using the `getenv()` PHP function. So inside your `environment.php` file, you'll write:
+For Nginx, your environment variable is accessible by using `$_SERVER[]`. So inside your `environment.php` file, you'll write:
 
 ```php
 <?php
@@ -162,7 +162,7 @@ Now just like for Apache, your Nginx environment variable is accessible using th
 return function()
 {
 	// Check for the environment variable
-	if (isset(getenv('varName')) && 'varValue' === getenv('varName'))
+	if ('varValue' === $_SERVER['varName'])
 	{
 		// Return the environment file slug name: .env.{$slug}.php
 		return 'local';
