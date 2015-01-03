@@ -210,7 +210,7 @@ This is the pre-configured local configuration file. You can add as many as you 
 3.Shared environment configuration
 ----------------------------------
 
-Some WordPress configurations are the same whatever environment you're using: WP_LANG, Authentication salts,...
+Some WordPress configurations are the same whatever environment you're using, like the authentication salts,...
 
 Common configuration can be found into the `shared.php` file stored in the `config` directory.
 
