@@ -188,7 +188,6 @@ Add custom attributes:
 
 ```php
 {{ Form::checkbox('toggle', 'enabled', array(), array(
-	'checked'	=> 'checked',
 	'class'		=> 'super'
 )) }}
 ```
