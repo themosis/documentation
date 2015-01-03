@@ -173,25 +173,21 @@ Add custom attributes:
 4.Checkbox and radio inputs
 ---------------------------
 
+> The Form::checkboxes() method is deprecated. Use the Form::checkbox() method for single or multiple checkboxes.
+
 Output one checkbox:
 
 ```php
-// This will output <input type="checkbox" name="toggle">
-{{ Form::checkbox('toggle') }}
+// This will output <input type="checkbox" name="toggle[]" value="toggle">
+{{ Form::checkbox('toggle', 'toggle') }}
 ```
 
-> When checking for submitted data, you only have to check by default if a value is equal to `on` or `off`. If you submit a value different than `on` or `off`, you have to look for the `checked` attribute by passing it as an extra attribute.
-
-One checkbox default value:
-
-```php
-{{ Form::checkbox('toggle', 'on') }}
-```
+> When checking for submitted data, the checkbox method registered an array of values even for one checkbox.
 
 Add custom attributes:
 
 ```php
-{{ Form::checkbox('toggle', 'enabled', array(
+{{ Form::checkbox('toggle', 'enabled', array(), array(
 	'checked'	=> 'checked',
 	'class'		=> 'super'
 )) }}
@@ -199,22 +195,22 @@ Add custom attributes:
 
 ### Multiple checkboxes and radio
 
-In order to specify multiple checkboxes, you will use the `Form::checkboxes` method like so:
+In order to specify multiple checkboxes, simply pass an array of choices like so:
 
 ```php
-{{ Form::checkboxes('colors', array(
+{{ Form::checkbox('colors', array(
 	'red',
 	'green',
 	'blue'
 )) }}
 ```
 
-> The first parameter is the common name of your checkboxes. The second parameter is an array of values/choices.
+> The first parameter is the common name of your checkboxes. The second parameter is an array of choices.
 
-Pass default "checked" values:
+Pass default values:
 
 ```php
-{{ Form::checkboxes('colors', array(
+{{ Form::checkbox('colors', array(
 	'red',
 	'green',
 	'blue'
@@ -235,7 +231,7 @@ Add extra attributes:
 )) }}
 ```
 
-> The `Form::radio()` method uses the same signature as `Form::checkboxes()`
+> The `Form::radio()` method uses the same signature as `Form::checkbox()`
 
 Output a radio input:
 
@@ -245,6 +241,7 @@ Output a radio input:
 	'man'
 )) }}
 ```
+
 5.Select field
 --------------
 

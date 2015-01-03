@@ -21,7 +21,6 @@ Here is the list of custom fields available:
 * Textarea
 * Password
 * Checkbox
-* Checkboxes
 * Radio
 * Select
 * Editor
@@ -74,25 +73,14 @@ Field::password($name, $extras = array());
 
 ### Checkbox field
 
-Build a **single** checkbox field: `<input type="checkbox"/>`
+Build a **single** or **multiple** checkbox field: `<input type="checkbox"/>`
 
 ```php
-Field::checkbox($name, $extras = array());
+Field::checkbox($name, $options, $extras = array());
 ```
 
 * **$name**: _string_ The field name.
-* **$extras**: _array_ The extra properties. Check the Text field.
-
-### Checkboxes field
-
-Build a **group** of checkbox fields.
-
-```php
-Field::checkboxes($name, $options, $extras = array());
-```
-
-* **$name**: _string_ The field name.
-* **$options**: _array_ An array of values. It doesn't work with associative array. The value is used as a label.
+* **$options**: _string|array_ One or more options to check.
 * **$extras**: _array_ The extra properties. Check the Text field.
 
 ### Radio field
