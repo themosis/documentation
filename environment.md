@@ -2,7 +2,7 @@ Environment Setup
 =================
 
 1. Introduction
-2. Register your environment
+2. Load your environment
 3. Shared environment configuration
 4. Install WordPress
 
@@ -15,7 +15,7 @@ You'll start by registering your database credentials and application URLs into 
 
 > Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local.php`.
 
-2.Register your environment
+2.Load your environment
 ---------------------------
 
 Let's start by installing your WordPress application on a local environment.
@@ -52,16 +52,25 @@ Once your credentials are registered, we need to identify the local environment.
 
 #### 2 - Identify your local environment
 
+Since version 1.1.0, 2 methods are available in order to identify your environment:
+
+- By looking at your machine/computer `hostname`
+- By looking after a server environment variable
+
+##### Identify environment using the hostname
+
+> Default method used by the framework
+
 In order for the framework to identify your `local` environment, you have to register your machine/computer `hostname` in the `environment.php` file located inside the `config` directory.
 
-##### Find hostname on *NIX
+###### Find hostname on *NIX
 
 Open your Terminal and simply run the following command:
 ```bash
 hostname
 ```
 
-##### Find hostname on Windows
+###### Find hostname on Windows
 
 Open your Console and run the following command:
 ```bash
@@ -88,7 +97,85 @@ return array(
 
 > The key defined in the `environment.php` file is used to load the `.env.{$environment}.php` file and also the `{$environment}.php` file located in the `config/environments` directory.
 
-##### Add configurations
+##### Identify environment using a server environment variable
+
+If you have total control of your web server and are able to set environment variable, you can use a closure in order to load the application environment configuration.
+
+###### Apache
+
+Normally you put a `SetEnv` statement inside your `<VirtualHost>` directive or if you don't have access to this configuration, you can add it inside your `.htaccess` file if allowed.
+
+Specify a local environment variable for Apache:
+
+```
+SetEnv varName varValue
+```
+
+Now inside your `environment.php` file, in place of an array, you'll replace your code by a Closure like so:
+
+```php
+<?php
+
+return function()
+{
+	// Check for the environment variable
+	if (isset(getenv('varName')) && 'varValue' === getenv('varName'))
+	{
+		// Return the environment file slug name: .env.{$slug}.php
+		return 'local';
+	}
+
+	// Else if no environment variable found... it might be a production environment...
+	return 'production';
+}
+```
+
+In the example above, if the `getenv('varName')` exists, this will load the the `local` environment file: `.env.local.php` located at the root of your application.
+
+###### Nginx
+
+Nginx has a `ENV` function but this apparently only work in the main context of your web server. In order to specify an environment variable per `server` context, you will use the `fastcgi_param` statement.
+
+```
+server {
+
+    location ~ \.php$ {
+    	include        fastcgi_params;
+        fastcgi_pass   themosis.dev:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name";
+
+		###############################
+		# Your environment variable   #
+		###############################
+        fastcgi_param varName varValue;
+    }
+
+}
+```
+
+Now just like for Apache, your Nginx environment variable is accessible using the `getenv()` PHP function. So inside your `environment.php` file, you'll write:
+
+```php
+<?php
+
+return function()
+{
+	// Check for the environment variable
+	if (isset(getenv('varName')) && 'varValue' === getenv('varName'))
+	{
+		// Return the environment file slug name: .env.{$slug}.php
+		return 'local';
+	}
+
+	// Else if no environment variable found... it might be a production environment...
+	return 'production';
+}
+```
+
+Now that your environment file is identified, you can configure it to your needs.
+
+#### 3 - Add configurations
 
 By default, the Themosis framework defines a `local` environment and loads the default `local.php` file stored in the `config/environments` folder:
 
