@@ -61,7 +61,7 @@ Set a route for the `WordPress Home` page.
 
 ```php
 Route::get('home', function(){
-	
+
 	return 'Hello World!';
 
 });
@@ -71,7 +71,7 @@ If you define a front page in the WordPress administration, use the `front` cond
 
 ```php
 Route::get('front', function(){
-	
+
 	return 'Hello World!';
 
 });
@@ -248,7 +248,7 @@ Route::get('product', function()
 4. The Globals
 --------------
 
-By default, anonymous functions and controller methods have as arguments the globals `post` and `wp_query`. 
+By default, anonymous functions and controller methods have as arguments the globals `post` and `wp_query`.
 
 If you need them, you can grab them like so:
 
@@ -256,8 +256,8 @@ If you need them, you can grab them like so:
 Route::any('page', function($post, $query){
 
     return View::make('pages', array(
-	
-		'page'		=> $post	
+
+		'page'		=> (array)$post
 
 	));
 
