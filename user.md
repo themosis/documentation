@@ -82,7 +82,7 @@ You can update user data by providing an array. Note that the ID property is aut
 $user = User::current();
 
 $user->update(array(
-	'url'		=> 'http://www.somewebsite.com',
-	'email'		=> 'foo@bar.com'
+	'user_url'		=> 'http://www.somewebsite.com',
+	'user_email'		=> 'foo@bar.com'
 ));
 ```
