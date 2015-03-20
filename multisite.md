@@ -49,7 +49,7 @@ return array(
 ```
 Then open the `environment.php` file and specify your local environment server hostname or define an anonymous function (Closure) to let the framework know which environment file to load. Check the environment guide for more detailed explanations: [http://framework.themosis.com/docs/environment/](http://framework.themosis.com/docs/environment/)
 
-### B. Allow your instance to run the multisite installation
+### C. Allow your instance to run the multisite installation
 
 Now that your environment is setup, look after the `shared.php` file located in the `config` directory and open it.
 
@@ -61,7 +61,7 @@ Then simply add the following constant to your `shared.php` file:
 define('WP_ALLOW_MULTISITE', true);
 ```
 
-### C. Install WordPress
+### D. Install WordPress
 
 Visit in your browser the URL defined for your WordPress project to start the default WordPress installation. In this example, the website is located at the following address: **http://wpmu.dev**
 
@@ -77,7 +77,7 @@ For this example, we'll choose **Sub-domains** installation type. You can also m
 
 Click the **Install** button.
 
-### D. Update your instance configuration
+### E. Update your instance configuration
 
 > On some installation you might get a warning message with a `timeout` issue when WordPress tried to access a random sub-domain address. Don't worry, this is because you haven't a wilcard defined for sub-domains.
 
@@ -85,7 +85,7 @@ WordPress is now telling you to modify your configuration by adding some new con
 
 > We'll update the documentation regarding an Nginx installation.
 
-Open your `shared.php` file and add the mentioned constants. In our example, you'll add those lines:
+Open your `shared.php` (and not the wp-config.php file) file and add the mentioned constants. In our example, you'll add those lines:
 
 ```php
 define('MULTISITE', true);
@@ -95,3 +95,13 @@ define('PATH_CURRENT_SITE', '/');
 define('SITE_ID_CURRENT_SITE', 1);
 define('BLOG_ID_CURRENT_SITE', 1);
 ```
+
+Then open the `.htaccess` file and copy/paste the code shown in your WordPress screen.
+
+Finally click the small **Log in** link at the bottom of your WordPress network installation screen to re-connect and log in back to the administration.
+
+### F. Activate your themosis-theme
+
+By default the `themosis-theme` won't be available inside the `Appearance->Themes` panel. If you visit that screen you should an admin message looking after the twenty-something theme.
+
+In order to get our `themosis-theme` available, we have to **"network activate it"**.
