@@ -69,6 +69,7 @@ Visit in your browser the URL defined for your WordPress project to start the de
 Follow on screen steps and once the process is finished, log in the WordPress administration.
 
 Next, using the left menus in the administration, go to `Tools>Network Setup`. Choose which type of addresses for your websites you would like:
+
 - Sub-domains
 - Sub-directories
 
@@ -103,7 +104,7 @@ Finally click the small **Log in** link at the bottom of your WordPress network 
 
 ### F. Activate your themosis-theme
 
-By default the `themosis-theme` won't be available inside the `Appearance->Themes` panel. If you visit that screen you should an admin message looking after the twenty-something theme.
+By default the `themosis-theme` won't be available inside the `Appearance->Themes` panel. If you visit that screen you should see an admin message telling that WordPress is looking after the twenty-something theme.
 
 In order to get our `themosis-theme` available, we have to **"network activate it"**.
 
@@ -137,4 +138,3 @@ Visit the front-end and everything should work as expected.
 **Congratulations, you can now develop your multisite project using all the WordPress and framework APIs.**
 
 **If you encounter an issue, don't hesitate to post it on Github: [https://github.com/themosis/framework/issues](https://github.com/themosis/framework/issues)**
-
