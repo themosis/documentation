@@ -3,7 +3,6 @@ Multisite
 
 1. Installation
 2. Cleanup default URL
-3. Use domain mapping
 
 1. Installation
 ---------------
@@ -63,6 +62,8 @@ define('WP_ALLOW_MULTISITE', true);
 
 ### D. Install WordPress
 
+> Before installing WordPress, we suggest you to always rename the `themosis-theme` folder with a name that corresponds to your project. For this documentation, we keep the default name in order to keep it simple.
+
 Visit in your browser the URL defined for your WordPress project to start the default WordPress installation. In this example, the website is located at the following address: **http://wpmu.dev**
 
 Follow on screen steps and once the process is finished, log in the WordPress administration.
@@ -105,3 +106,35 @@ Finally click the small **Log in** link at the bottom of your WordPress network 
 By default the `themosis-theme` won't be available inside the `Appearance->Themes` panel. If you visit that screen you should an admin message looking after the twenty-something theme.
 
 In order to get our `themosis-theme` available, we have to **"network activate it"**.
+
+On the top left of your screen, go to **My Sites** > **Network Admin** > **Themes**
+
+The `themosis-theme` is listed. Click on the **Network Enable** link in order to make your theme available on your network.
+
+Then by using the **My Sites** navigation, go to your main website and now under **Appearance** > **Themes**, you can activate your `themosis-theme`.
+
+Now if you visit the front-end of your website, everything seems to work correctly...except that if you look at the URL in your browser, all requests have the `cms/` URI fragment... If you remove the `cms/` URI, note that all requests work.
+
+> The issue is not a framework one but a WordPress core one. This might be fixed on a future update.
+
+2. Cleanup default URL
+---------------------
+
+In order to fix the `cms/` URI issue, we need to change the `home` value stored in the `wp_options` table of your database. Connect to your database using your favorite tool and look after the `home` _option\_name_ key inside the `wp_options` table.
+
+> Your table name might be different if you specified another table prefix in your configuration files.
+
+The `home` value is the default URL of your website, which by mistake is setup as the same as the WordPress URL. Edit the value by simply removing the `cms` URI and keep the last trailing slash.
+
+In our example, the value should look like this one:
+
+```mysql
+http://wpmu.dev/
+```
+
+Visit the front-end and everything should work as expected.
+
+**Congratulations, you can now develop your multisite project using all the WordPress and framework APIs.**
+
+**If you encounter an issue, don't hesitate to post it on Github: [https://github.com/themosis/framework/issues](https://github.com/themosis/framework/issues)**
+
