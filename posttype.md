@@ -99,6 +99,21 @@ $rewriteParameters = $postType->get('rewrite');
 $slug = $rewriteParameters['slug']; // return the 'books' value.
 ```
 
+2.Register custom status
+------------------------
+
+The PostType API provides a method to register one or multiple custom statuses for your custom post type.
+
+> Note: This do not work for core post types (post, page, attachment,...).
+
+When you add custom statuses, the default statuses are removed except the `draft` one. There is no need to define a `draft` status in your list of custom statuses. This is handled automatically.
+
+When you add custom statuses, they appear in the order you defined them. And the first defined status is the one used in order to "publish/register/post" your custom post type. So basically, the first defined status is acting like the core "Publish" button or simply the first status saved for your custom post type except if you choose to draft it.
+
+### Add custom status
+
+In this example, keeping the books custom post type, we want to build a system to rent and sell books. So we need to register a status to say a book is available for rent, is currently rented or for sell.
+
 Next
 ----
 You can read the following documentation:
