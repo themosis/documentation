@@ -108,15 +108,15 @@ The PostType API provides a method to register one or multiple custom statuses f
 
 When you add custom statuses, the default statuses are removed except the `draft` one. There is no need to define a `draft` status in your list of custom statuses. This is handled automatically.
 
-When you add custom statuses, they appear in the order you defined them. And the first defined status is the one used in order to "publish/register/post" your custom post type. So basically, the first defined status is acting like the core "Publish" button or simply the first status saved for your custom post type except if you choose to draft it.
+When you add custom statuses, they appear in the order you defined them. And the first defined status is the one used in order to "publish/register/post" your custom post type. So basically, the first defined status is acting like the core "Publish" button or simply is the first status to be saved for your custom post type except if you choose to draft it.
 
 ### Add custom status
 
-In this example, keeping the books custom post type, we want to build a system to rent and sell books. So we need to register a status to say a book is available for rent, is currently rented or for sell. Plus get advantage of the default draft status so you can save your work for later.
+In this example, keeping the books custom post type, we want to build a system to rent and sell books. So we need to register a status to say that a book is available for rent, is currently rented or for sell. Plus by getting advantage of the default draft status, you can save your work for later.
 
 #### Add one status
 
-The `status()` method uses the same arguments than the WordPress [register\\_post\\_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function. But you can also pass an array of statuses.
+The `status()` method uses the same arguments than the WordPress [register\_post\_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function. But you can also pass an array of statuses.
 
 First, let's add one custom status `rent`:
 
@@ -128,14 +128,14 @@ $books = PostType::make('slug-books', 'Books', 'Book')->set();
 $books->status('rent');
 ```
 
-In the example above, one status `rent` is registered. The method assign default properties to the status, the same properties used in the [register\\_post\\_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function:
+In the example above, one status `rent` is registered. The method assign default properties to the status, the same properties used in the [register\_post\_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function:
 
-- **label**: Its default value is the status `name` with first character capitalize
+- **label**: Its default value is the status `name` with first character set to uppercase
 - **public**: Default to `true`
 - **exclude\_from\_search**: Default to `false`
 - **show\_in\_admin\_all\_list**: Default to `true`
 - **show\_in\_admin\_status\_list**: Default to `true`
-- **label\_count**: Default to `\n\_noop()` function with status label
+- **label\_count**: Default to `_n_noop()` function with status label
 - **publish\_text**: Property available to the framework only. Default value to `__('Apply Changes')`. This property allows you to define a custom text for the **publish button** and per status.
 
 In the following example, we add a custom publish button text to our `rent` status:
@@ -166,6 +166,28 @@ $books->status([
 ```
 
 These statuses are registered with default properties and replace the default ones. If you create a new book in the wp-admin, you should see this list of statuses inside the publish metabox: Draft, Rent, Rented, Sell and Sold.
+
+You can also define their properties like so:
+
+```php
+$books->status[
+	'rent'		=> [
+		'publish_text'	=> 'Save and rent the book'
+	],
+	'rented'	=> [
+		'publish_text'	=> 'Set the book as rented'
+	],
+	'sell'		=> [
+		'publish_text'	=> 'Sell the book'
+	],
+	'sold'		=> [
+		'publish_text'	=> 'Set the book as sold'
+	]
+];
+```
+The array key is the custom status name and each value is an array of status properties.
+
+> Note: Currently the UI for custom statuses is a work-in-progress. When viewing the list of your custom post type, if you click on `Quick Edit`, it still displays core statuses.
 
 Next
 ----
