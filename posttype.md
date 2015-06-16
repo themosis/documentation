@@ -112,7 +112,60 @@ When you add custom statuses, they appear in the order you defined them. And the
 
 ### Add custom status
 
-In this example, keeping the books custom post type, we want to build a system to rent and sell books. So we need to register a status to say a book is available for rent, is currently rented or for sell.
+In this example, keeping the books custom post type, we want to build a system to rent and sell books. So we need to register a status to say a book is available for rent, is currently rented or for sell. Plus get advantage of the default draft status so you can save your work for later.
+
+#### Add one status
+
+The `status()` method uses the same arguments than the WordPress [register\\_post\\_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function. But you can also pass an array of statuses.
+
+First, let's add one custom status `rent`:
+
+```php
+// Register the custom post type first.
+$books = PostType::make('slug-books', 'Books', 'Book')->set();
+
+// Register the "rent" custom status.
+$books->status('rent');
+```
+
+In the example above, one status `rent` is registered. The method assign default properties to the status, the same properties used in the [register\\_post\\_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function:
+
+- **label**: Its default value is the status `name` with first character capitalize
+- **public**: Default to `true`
+- **exclude\_from\_search**: Default to `false`
+- **show\_in\_admin\_all\_list**: Default to `true`
+- **show\_in\_admin\_status\_list**: Default to `true`
+- **label\_count**: Default to `\n\_noop()` function with status label
+- **publish\_text**: Property available to the framework only. Default value to `__('Apply Changes')`. This property allows you to define a custom text for the **publish button** and per status.
+
+In the following example, we add a custom publish button text to our `rent` status:
+
+```php
+$books->status('rent', [
+	'publish_text'	=> __('Rent the book')
+]);
+```
+
+The code above will change the default button text of **Publish** to **Rent the book** when a user is registering its book from the wp-admin.
+
+#### Add multiple statuses
+
+Using the same `status()` method on your custom post type, you can add more than one status. Just pass an array of custom statuses like so:
+
+```php
+// Register the custom post type first.
+$books = PostType::make('slug-books', 'Books', 'Book')->set();
+
+// Add our custom statuses: rent, rented, sell, sold
+$books->status([
+	'rent',
+	'rented',
+	'sell',
+	'sold'
+]);
+```
+
+These statuses are registered with default properties and replace the default ones. If you create a new book in the wp-admin, you should see this list of statuses inside the publish metabox: Draft, Rent, Rented, Sell and Sold.
 
 Next
 ----
