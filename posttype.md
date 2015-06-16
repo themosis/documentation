@@ -165,7 +165,7 @@ $books->status([
 ]);
 ```
 
-These statuses are registered with default properties and replace the default ones. If you create a new book in the wp-admin, you should see this list of statuses inside the publish metabox: Draft, Rent, Rented, Sell and Sold.
+These statuses are registered with default properties and replace the default ones. If you create a new book in the wp-admin, you should see this list of statuses inside the publish metabox: _Draft_, _Rent_, _Rented_, _Sell_ and _Sold_.
 
 You can also define their properties like so:
 
