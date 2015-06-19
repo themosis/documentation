@@ -70,4 +70,10 @@ chmod -R 777 storage
 
 Install the WordPress. Active themosis plugin and theme.
 
+
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=7wqpr6S8b5I
+" target="_blank"><img src="http://img.youtube.com/vi/7wqpr6S8b5I/0.jpg" 
+alt="Installation without change WordPress structure" width="240" height="180" border="10" /></a>
+
 THE END.
