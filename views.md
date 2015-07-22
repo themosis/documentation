@@ -318,16 +318,16 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 
 Sometimes it is more readable to use `@unless` syntax instead of `@if`.
 ```html
-@unless(has_post_thumbnail($post->ID))
-	{{ get_the_post_thumbnail($post->ID, 'thumbnail') }}
+@unless(User::current()->can('edit_posts'))
+	<p>No editing permission.</p>
 @endunless
 ```
 
 The above is same as:
 ```html
-@if( ! has_post_thumbnail($post->ID))
-	{{ get_the_post_thumbnail($post->ID, 'thumbnail') }}
-@endif
+@if( ! User::current()->can('edit_posts'))
+	<p>No editing permission.</p>
+@endunless
 ```
 
 #### Loop statements
