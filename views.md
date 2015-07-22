@@ -547,7 +547,7 @@ Pass the custom taxonomy slug as first argument.
 
 #### Display the class attribute of the current post
 
-The `Loop::postClass()` method return the class attribute with WordPress generated class terms. You also have the opportunity to add one or more custom classes to the current post or a defined post.
+The `Loop::postClass()` method return the css class attribute with WordPress generated class terms. You also have the opportunity to add one or more custom classes to the current post or a defined post.
 
 **Loop::postClass($class = '', $post_id = null)**:
 
@@ -562,6 +562,14 @@ Output the post classes:
         // Post code...
     </article>
 @endloop
+```
+
+An example of the rendered html code with the css class attribute:
+
+```html
+<article class="post-4 page type-page status-publish hentry">
+    // Post code...
+</article>
 ```
 
 Next

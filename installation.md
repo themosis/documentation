@@ -55,13 +55,25 @@ Open your `my-project-name` folder. You should find the following files and dire
 - .env.local.php
 - .env.production.php
 - composer.json
-- wp-cli.yml
+- wp-cli.yml 
+
+The `bootstrap` directory is where the framework paths, Composer autoloading, framework environment, constant declarations, and shared configurations are setup.
+
+The `config` directory is where environments such as `local` and `production` are defined and configured.
+
+The `environments` directory is where your `local` and `production` configuration files belong.
 
 The `htdocs` folder is the web root directory. Because WordPress is defined as a dependency, the framework installs the latest WordPress version inside the `cms` folder.
 
 The framework also modify the default `wp-content` location. Your WordPress plugins and themes should all be installed inside the `content` directory.
 
 > Your project will have the following `vendor` directory installed. This `vendor` directory is created by default by Composer. It stores package dependencies used by the Themosis framework.
+
+The `library` directory contains a custom class that handles the loading of the environment. It's another framework dependency and may later contain other classes to help bootstrap the framework.
+
+> Note: It could also have been written in a separate package and loaded inside the `vendor` directory.
+
+The `vendor` directory is created by Composer and is where package dependencies for the framework is stored.
 
 #### Installation
 
