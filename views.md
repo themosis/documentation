@@ -314,6 +314,22 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 @endif
 ```
 
+##### Unless
+
+Sometimes it is more readable to use `@unless` syntax instead of `@if`.
+```html
+@unless(User::current()->can('edit_posts'))
+	<p>No editing permission.</p>
+@endunless
+```
+
+The above is same as:
+```html
+@if( ! User::current()->can('edit_posts'))
+	<p>No editing permission.</p>
+@endunless
+```
+
 #### Loop statements
 ##### For
 ```html
