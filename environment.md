@@ -32,7 +32,7 @@ Open the default `.env.local.php` file located in the root of your project. Fill
 /*----------------------------------------------------*/
 // Local environment vars
 /*----------------------------------------------------*/
-return array(
+return [
 
     'DB_NAME'		=> 'your_database_name',
     'DB_USER'		=> 'database_username',
@@ -41,7 +41,7 @@ return array(
     'WP_HOME'		=> 'http://my-website.dev',
     'WP_SITEURL'	=> 'http://my-website.dev/cms'
 
-);
+];
 ```
 
 > WordPress is defined as a dependency and is loaded by the framework inside the `cms` directory located in the web root folder `htdocs`. Make sure to always define the `WP_SITEURL` value with `/cms` appended at the end.
@@ -52,7 +52,7 @@ Once your credentials are registered, we need to identify the local environment.
 
 #### 2 - Identify your local environment
 
-Since version 1.1.0, 2 methods are available in order to identify your environment:
+2 methods are available in order to identify your environment:
 
 - By looking at your machine/computer `hostname`
 - By looking after a server environment variable
@@ -87,15 +87,33 @@ Once you get your hostname, open the `environment.php` file and replace the valu
 /*----------------------------------------------------*/
 // Define your environments
 /*----------------------------------------------------*/
-return array(
+return [
 
     'local'             => 'WRITE YOUR HOSTNAME HERE',
     'production'        => 'remote machine hostname'
 
-);
+];
 ```
 
 > The key defined in the `environment.php` file is used to load the `.env.{$environment}.php` file and also the `{$environment}.php` file located in the `config/environments` directory.
+
+###### Multiple hostnames
+
+In some scenarios, you'll probably need to define several hostnames per environment. In order to do so, you can pass an array of hostnames to each environment key like so:
+
+```php
+<?php
+
+/*----------------------------------------------------*/
+// Define your environments
+/*----------------------------------------------------*/
+return [
+
+    'local'             => ['computer1', 'computer2', 'computer3'],
+    'production'        => 'remote machine hostname'
+
+];
+```
 
 ##### Identify environment using a server environment variable
 
@@ -173,7 +191,7 @@ return function()
 }
 ```
 
-Now that your environment file is identified, you can configure it to your needs.
+Now that your environment is defined, you can configure it to your needs.
 
 #### 3 - Add configurations
 
@@ -238,11 +256,11 @@ define('NONCE_SALT',       'put your unique phrase here');
 4.Install WordPress
 -------------------
 
-Once your environment is setup, open your browser and start the default WordPress installation process. Log in your WordPress administration, activate the Themosis framework plugin and the Themosis framework theme.
+Once your environment is setup, open your browser and start the default WordPress installation process.
+
+> Note: After installation, be sure to **first log in your WordPress administration and activate the theme** in order to avoid the white screen of death.
 
 Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework.
-
-> Make sure to set write permissions on the `storage` folder located inside the `app` directory of the Themosis framework theme.
 
 Next
 ----
