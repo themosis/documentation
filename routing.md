@@ -4,12 +4,12 @@ Routing
 1. Introduction
 2. Conditional tags
 3. Routes
-4. The Globals
+4. The $post & $query globals
 
 1. Introduction
 ---------------
 
-Most of the routes of your website/application will be defined in the `app/routes.php` file of your `themosis-theme` theme.
+Most of the routes of your website/application will be defined in the `resources/routes.php` file of your `themosis-theme` theme.
 
 The route system is an enhanced "if" statement. It is based on the [WordPress template conditional tags](https://codex.wordpress.org/Conditional_Tags).
 
@@ -47,14 +47,6 @@ Here is the current list of available route conditional tags in alphabetical ord
 3. Routes
 ---------
 
-There are 3 methods for the Route class:
-
-* **Route::get()** - Listen to `GET` and `HEAD` HTTP requests.
-
-* **Route::post()** - Listen to `POST` HTTP requests.
-
-* **Route::any()** - Currently listening to `GET`, `HEAD`, `POST` requests.
-
 ### Basic routing
 
 Set a route for the `WordPress Home` page.
@@ -66,6 +58,41 @@ Route::get('home', function(){
 
 });
 ```
+The code above listens to `GET` and `HEAD` requests on the home page. But you can listen to other HTTP verbs. Currently the route API handles `HEAD`, `GET` and `POST` HTTP verbs.
+
+Here is an example of a `POST` route:
+
+```php
+Route::post('home', function()
+{
+	return 'Hello World!';
+});
+```
+
+### Listen to multiple verbs
+
+In some scenarios, you may need to listen to several HTTP verbs. You can do so by using the `match` method:
+
+```php
+Route::match(['get', 'post'], 'home', function()
+{
+	return 'Hello World!';
+});
+```
+The above code will only listen on `GET` and `POST` requests to the home page.
+
+You can also use the `any` method which listen to all HTTP verbs.
+
+```php
+Route::any('home', function()
+{
+	return 'Hello World!';
+});
+```
+
+### WordPress routes
+
+#### Route to front page
 
 If you define a front page in the WordPress administration, use the `front` conditional tag.
 
@@ -78,6 +105,7 @@ Route::get('front', function(){
 ```
 
 #### Route to any page
+
 ```php
 Route::get('page', function(){
 
@@ -87,103 +115,85 @@ Route::get('page', function(){
 ```
 
 #### Route to one specific page
+
 ```php
-Route::get('page', array('contact', function(){
+Route::get('page', ['contact', function(){
 
 	return 'Hello World!';
 
-}));
+}]);
 ```
 
 **Note**: Just pass a string, a page ID or an array as the **first** parameter in the array.
 
 #### One route for multiple specific pages
 ```php
-Route::get('page', array(array('about', 'contact', 24, 'Our Team'), function(){
+Route::get('page', [['about', 'contact', 24, 'Our Team'], function(){
 
 	return 'Hello World!';
 
-}));
+}]);
 ```
 
 **Note**: Just pass an array equivalent to the one you pass when using the WordPress conditional functions.
 
 #### Route to a single post
+
 ```php
-Route::get('single', array('welcome-post', function(){
+Route::get('single', ['welcome-post', function(){
 
 	return 'Hello World!';
 
-}));
+}]);
 ```
 
 #### Route to a Themosis page template
+
 ```php
-Route::get('template', array('my-custom-template', function(){
+Route::get('template', ['my-custom-template', function(){
 
 	return 'Hello World!';
 
-}));
+}]);
 ```
 
-**Note**: This is specific to the framework page templates. The string parameter is the slug of your registered template from the `app/config/templates.config.php` file stored in your `themosis-theme`.
+**Note**: This is specific to the framework page templates. The string parameter is the slug of your registered template from the `resources/config/templates.config.php` file stored in your `themosis-theme`.
 
 #### Route to custom post type archive
+
 ```php
-Route::get('postTypeArchive', array('my-custom-post-type', function(){
+Route::get('postTypeArchive', ['my-custom-post-type', function(){
 
 	return 'Hello World!';
 
-}));
+}]);
 ```
 
 #### Route to a single custom post type
+
 ```php
-Route::get('singular', array('my-custom-post-type', function(){
+Route::get('singular', ['my-custom-post-type', function(){
 
 	return 'Hello World!';
 
-}));
+}]);
 ```
 
-#### Listen to POST requests
-```php
-Route::post('single', array('my-post', function(){
-
-	return 'Hello World!';
-
-}));
-```
-
-#### Listen to ANY requests
-
-The route API gives you a method to listen on both `GET` and `POST` request:
-
-```php
-Route::any('page', function(){
-
-	return 'Hello World!';
-
-});
-```
-
-#### Listen to HTTPS requests only.
+### Listen to HTTPS requests only.
 
 Simply add as a second parameter the `https` value:
 
 ```php
-Route::get('single', array('my-post', 'https', function(){
+Route::get('single', ['my-post', 'https', function(){
 
 	return 'Hello World!';
 
-}));
+}]);
 ```
 
 This route doesn't redirect the user to a HTTPS page. This route is only triggered if the current request is secure and using the HTTPS protocol.
 
-> If you save asset URL in custom fields and using them by calling the `Meta` class, they will be auto-converted to their `https` equivalent.
-
-#### Register custom route conditions
+### Register custom route conditions
 
 By default, the route class handles most of the WordPress core conditional tags functions.
 
@@ -205,7 +215,6 @@ add_filter('themosisRouteConditions', function($conds)
     $conds['test'] = 'is_test';
 	return $conds; // Always return an associative array.
 });
-
 ```
 
 The code snippet above is adding the `test` route which will listen to the `is_test()` conditional function.
@@ -245,21 +254,19 @@ Route::get('product', function()
 });
 ```
 
-4. The Globals
---------------
+4. The $post & $query globals
+-----------------------------
 
-By default, anonymous functions and controller methods have as arguments the globals `post` and `wp_query`. 
+By default, anonymous functions and controller methods have as arguments the globals `$post` and `$query`. 
 
 If you need them, you can grab them like so:
 
 ```php
 Route::any('page', function($post, $query){
 
-    return View::make('pages', array(
-	
+    return View::make('pages', [
 		'page'		=> $post	
-
-	));
+	]);
 
 });
 ```
