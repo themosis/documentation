@@ -53,9 +53,7 @@ Set a route for the `WordPress Home` page.
 
 ```php
 Route::get('home', function(){
-	
 	return 'Hello World!';
-
 });
 ```
 The code above listens to `GET` and `HEAD` requests on the home page. But you can listen to other HTTP verbs. Currently the route API handles `HEAD`, `GET` and `POST` HTTP verbs.
@@ -97,41 +95,38 @@ Route::any('home', function()
 If you define a front page in the WordPress administration, use the `front` conditional tag.
 
 ```php
-Route::get('front', function(){
-	
+Route::get('front', function()
+{	
 	return 'Hello World!';
-
 });
 ```
 
 #### Route to any page
 
 ```php
-Route::get('page', function(){
-
+Route::get('page', function()
+{
 	return 'Hello World!';
-
 });
 ```
 
 #### Route to one specific page
 
 ```php
-Route::get('page', ['contact', function(){
-
+Route::get('page', ['contact', function()
+{
 	return 'Hello World!';
-
 }]);
 ```
 
 **Note**: Just pass a string, a page ID or an array as the **first** parameter in the array.
 
 #### One route for multiple specific pages
+
 ```php
-Route::get('page', [['about', 'contact', 24, 'Our Team'], function(){
-
+Route::get('page', [['about', 'contact', 24, 'Our Team'], function()
+{
 	return 'Hello World!';
-
 }]);
 ```
 
@@ -140,20 +135,18 @@ Route::get('page', [['about', 'contact', 24, 'Our Team'], function(){
 #### Route to a single post
 
 ```php
-Route::get('single', ['welcome-post', function(){
-
+Route::get('single', ['welcome-post', function()
+{
 	return 'Hello World!';
-
 }]);
 ```
 
 #### Route to a Themosis page template
 
 ```php
-Route::get('template', ['my-custom-template', function(){
-
+Route::get('template', ['my-custom-template', function()
+{
 	return 'Hello World!';
-
 }]);
 ```
 
@@ -162,20 +155,18 @@ Route::get('template', ['my-custom-template', function(){
 #### Route to custom post type archive
 
 ```php
-Route::get('postTypeArchive', ['my-custom-post-type', function(){
-
+Route::get('postTypeArchive', ['my-custom-post-type', function()
+{
 	return 'Hello World!';
-
 }]);
 ```
 
 #### Route to a single custom post type
 
 ```php
-Route::get('singular', ['my-custom-post-type', function(){
-
+Route::get('singular', ['my-custom-post-type', function()
+{
 	return 'Hello World!';
-
 }]);
 ```
 
@@ -184,10 +175,9 @@ Route::get('singular', ['my-custom-post-type', function(){
 Simply add as a second parameter the `https` value:
 
 ```php
-Route::get('single', ['my-post', 'https', function(){
-
+Route::get('single', ['my-post', 'https', function()
+{
 	return 'Hello World!';
-
 }]);
 ```
 
@@ -262,12 +252,11 @@ By default, anonymous functions and controller methods have as arguments the glo
 If you need them, you can grab them like so:
 
 ```php
-Route::any('page', function($post, $query){
-
+Route::any('page', function($post, $query)
+{
     return View::make('pages', [
 		'page'		=> $post	
 	]);
-
 });
 ```
 
