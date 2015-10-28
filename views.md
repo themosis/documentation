@@ -46,6 +46,8 @@ You can organize your views into sub-directories of the `resources/views` direct
 return View::make('pages.home');
 ```
 
+> There is no limitation to the number of sub-folders you want to use to organize your views.
+
 ### Passing data to views
 
 The `with($key, $value)` method allows you to pass data to your view:
@@ -69,33 +71,6 @@ Or you can pass a `$data` array as a second parameter in the `make` method like 
 ```php
 $view = View::make('welcome', array('name' => 'Julien'));
 ```
-
-### Organizing your views
-
-You can organize your views into sub-folders and access them using a dot syntax.
-
-```html
-<!-- This view is stored in app/views/pages/home.scout.php -->
-<html>
-	<head>
-		<title>Welcome</title>
-	</head>
-	<body>
-		<p>This is the home page</p>
-	</body>
-</html>
-```
-
-This view may be returned to the browser like so:
-
-```php
-Route::get('home', function(){
-
-	return View::make('pages.home');
-
-});
-```
-> There is no limitation to the number of sub-folders you want to use to organize your views.
 
 #### Share data across all views
 
