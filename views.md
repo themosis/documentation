@@ -50,91 +50,81 @@ return View::make('pages.home');
 
 ### Passing data to views
 
-The `with($key, $value)` method allows you to pass data to your view:
-
-- **$key**: _string|array_ A key name or an array of key => value pair.
-- **$value**: _mixed_ The value of your key variable.
+As you saw in previous code examples, you can send data to a view by passing an array as a second argument to the `View::make()` method:
 
 ```php
-// The 'welcome' view has the $name variable with the value of 'Julien'.
-$view = View::make('welcome')->with('name', 'Julien');
-
-// Same method but by passing an array inside the with method.
-$view = View::make('welcome')->with(array(
-	'name'		=> 'Julien',
-	'foo'		=> 'Bar'
-));
+return View::make('home', ['name' => 'Joe']);
 ```
 
-Or you can pass a `$data` array as a second parameter in the `make` method like so:
+When using this method, the array should be with key/value pairs. Then, inside your view, you can access each value using its corresponding key like so:
 
 ```php
-$view = View::make('welcome', array('name' => 'Julien'));
+<p><?php echo($name); ?></p>
 ```
 
-#### Share data across all views
-
-The `View::share($key, $value)` method allows you to share data across all used views of your WordPress application.
-
-* **$key**: _string|array_ An array of key => value or simply the key name of your data. The key will be available as a variable inside your views. Take care to not overwrite existing ones.
-* **$value**: _mixed_ The value associated to your key.
+As an alternative, you can also use the `with()` method to pass individual pieces of data to the view:
 
 ```php
-// Single data shared across views.
-// The $user variable with a value of 'FooBar' is available in all views.
-View::share('user', 'FooBar');
+$view = View::make('welcome')->with('name', 'Joe');
+```
 
+> Note: the `with()` method can also accept data as an array with key/value pairs.
+
+
+### Sharing data with all views
+
+The `View::share()` method allows you to share data across all views of your WordPress application. The method accepts an array with key/value pairs or individual piece of data.
+
+```php
 // Multiple data shared across views.
-View::share(array(
-	'user'		=> 'FooBar',
+View::share([
+	'key'		=> 'value',
 	'blog'		=> 'WordPress'
-));
+]);
+
+// Single data shared across views.
+View::share('key', 'value');
 ```
 
-#### View composers
+View composers
+--------------
 
-The `View::composer($views, $callback)` and `View::composers($composers)` methods allows to run a callback or class instance method when a specific view is rendered.
+The `View::composer($views, $callback)` and `View::composers($composers)` methods allows you to run a callback or class instance method when a specific view is rendered. If you have data that you want to be bound to a view each time that view is rendered, a view composer can help you organize that logic into a single location.
 
-**View::composer($views, $callback):**
-- **$views**: _string|array_ One or more views to listen to.
-- **$callback**: _Closure|string The callback or class method to run when the defined views are called.
-
-**View::composers($composers):**
-- **$composers**: _array_ A list of composers to register/run.
-
-Example of one view composer run when the home page view is called:
+Here is an example of a view composer that runs when the `pages.home` view is called:
 
 ```php
-// Look at the home page view used on home page URL
-Route::get('home', function()
-{
-	// The view name is 'pages.home'.
-	return View::make('pages.home');
-});
-
-// Now the following code could be written inside the admin/ folder
+// The following code could be written inside the admin/ folder
 // or inside a controller class.
 View::composer('pages.home', function($view)
 {
 	// Pass data to the view.
 	$view->with('foo', 'bar');
 });
+
+// routes.php
+Route::get('home', function()
+{
+	// Each time this view is rendered,
+	// the registered view composer is called right before.
+	return View::make('pages.home');
+});
 ```
 
 You can register one callback to run on multiple views like so:
 
 ```php
-View::composer(array('pages.home', 'pages.contact'), function($view)
+View::composer(['pages.home', 'pages.contact'], function($view)
 {
 	// Pass the same data to the pages.home and pages.contact views.
 	$view->with('foo', 'bar');
 });
 ```
 
-In place of using a closure, you can also tell the method to look after a class method instance like so:
+In place of using a closure, you can also tell the method to look after a class method like so:
 
 ```php
-// Register a class and load it using the 'loading.config.php` file.
+// Register a class
 class MyComposerClass
 {
 	public function add($view)
@@ -164,11 +154,11 @@ View::composer('pages.home', 'MyComposerClass');
 You can also define multiple composers using the `View::composers` method like so:
 
 ```php
-View::composers(array(
+View::composers([
 	'MyComposerClass'		=> 'pages.home',
 	'MyComposerClass@add'	=> 'pages.add',
-	'OtherComposerClass'	=> array('pages.home', 'pages.product')
-));
+	'OtherComposerClass'	=> ['pages.home', 'pages.product']
+]);
 ```
 
 Next
