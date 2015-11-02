@@ -1,12 +1,12 @@
 Framework
 =========
 
-1. Introduction
-2. Structure
-3. Start building your application
+- Introduction
+- Structure
+- Start building your application
 
-1.Introduction
---------------
+Introduction
+------------
 
 The Themosis framework is a pre-configured stack to develop WordPress website and application. It comes with a plugin `themosis-framework` which contains the APIs and a theme `themosis-theme` where you'll write your application/website code.
 
@@ -14,8 +14,8 @@ The Themosis framework is a pre-configured stack to develop WordPress website an
 
 Let's take a look at the framework plugin and theme structures.
 
-2.Structure
-------------
+Structure
+---------
 
 ### Plugin: themosis-framework
 
@@ -50,8 +50,8 @@ Let's take a look inside this `resource` folder:
 - **routes.php**: This file handles your website routes. The route system behaves like an "if" statement on steroids. Read the [routing guide](http://framework.themosis.com/docs/routing/) for more information.
 
 
-3.Start building your application
----------------------------------
+Start building your application
+-------------------------------
 
 Currently, in order to build your application or website, you write your code inside the `themosis-theme/resources` folder only.
 

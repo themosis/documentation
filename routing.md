@@ -1,13 +1,13 @@
 Routing
 =======
 
-1. Introduction
-2. Conditional tags
-3. Routes
-4. The $post & $query globals
+- Introduction
+- Conditional tags
+- Routes
+- The $post & $query globals
 
-1. Introduction
----------------
+Introduction
+------------
 
 Most of the routes of your website/application will be defined in the `resources/routes.php` file of your `themosis-theme` theme.
 
@@ -15,8 +15,8 @@ The route system is an enhanced "if" statement. It is based on the [WordPress te
 
 A basic route is using a conditional tag and a closure callback.
 
-2. Conditional tags
--------------------
+Conditional tags
+----------------
 
 Here is the current list of available route conditional tags in alphabetical order (**bold** = extra conditional tags):
 
@@ -44,8 +44,8 @@ Here is the current list of available route conditional tags in alphabetical ord
 * time
 * year
 
-3. Routes
----------
+Routes
+------
 
 ### Basic routing
 
@@ -112,6 +112,8 @@ Route::get('page', function()
 
 #### Route to one specific page
 
+First, create a new page inside the administration of WordPress. For this example, a page with a title of "Contact" and automatically with a slug/post name of `contact` has been created. In order to listen to request on this contact page, you will write this code:
+
 ```php
 Route::get('page', ['contact', function()
 {
@@ -119,7 +121,7 @@ Route::get('page', ['contact', function()
 }]);
 ```
 
-**Note**: Just pass a string, a page ID or an array as the **first** parameter in the array.
+**Note**: You can pass a string (page title, post name or slug), a page ID or an array as the **first** parameter of the array.
 
 #### One route for multiple specific pages
 
@@ -244,8 +246,8 @@ Route::get('product', function()
 });
 ```
 
-4. The $post & $query globals
------------------------------
+The $post & $query globals
+--------------------------
 
 By default, anonymous functions and controller methods have as arguments the globals `$post` and `$query`. 
 
@@ -262,4 +264,4 @@ Route::any('page', function($post, $query)
 
 Next
 ----
-Read the [views guide](http://framework.themosis.com/docs/views/)
+Read the [controllers guide](http://framework.themosis.com/docs/controllers/)

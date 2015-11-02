@@ -86,6 +86,19 @@ View::share([
 View::share('key', 'value');
 ```
 
+### Render your views
+
+Views are not reserved to your page templates only. In general, a view is compiled and is returned as a string. For example, you could create a view for an email, sending form data to it, render the view and return the compiled string as the email's message.
+
+To compile your custom views, simply use the `render()` method like so:
+
+```php
+$message = View::make('emails.message', ['data' => $data])->render();
+
+// Use wp_mail function to send your email with your compiled view as the message
+$sent = wp_mail($to, 'Subject', $message);
+```
+
 View composers
 --------------
 
@@ -163,4 +176,4 @@ View::composers([
 
 Next
 ----
-Read the [controllers guide](http://framework.themosis.com/docs/controllers/)
+Read the [Scout template guide](http://framework.themosis.com/docs/scout/)

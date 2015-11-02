@@ -1,13 +1,13 @@
 Environment Setup
 =================
 
-1. Introduction
-2. Load your environment
-3. Shared environment configuration
-4. Install WordPress
+- Introduction
+- Load your environment
+- Shared environment configuration
+- Install WordPress
 
-1.Introduction
---------------
+Introduction
+------------
 
 The Themosis framework has its own way for defining WordPress configurations. It's done on purpose to facilitate collaboration. By default, the Themosis framework comes with a `local` and a `production` environments pre-configured.
 
@@ -15,14 +15,14 @@ You'll start by registering your database credentials and application URLs into 
 
 > Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local.php`.
 
-2.Load your environment
----------------------------
+Load your environment
+---------------------
 
 Let's start by installing your WordPress application on a local environment.
 
 >Follow the same steps for a remote/production environment or any custom ones.
 
-#### 1 - Set your credentials and URLs
+### 1 - Set your credentials and URLs
 
 Open the default `.env.local.php` file located in the root of your project. Fill in the values with your local database credentials and specify your local virtual host URLs.
 
@@ -50,27 +50,27 @@ return [
 
 Once your credentials are registered, we need to identify the local environment.
 
-#### 2 - Identify your local environment
+### 2 - Identify your local environment
 
 2 methods are available in order to identify your environment:
 
 - By looking at your machine/computer `hostname`
 - By looking after a server environment variable
 
-##### Identify environment using the hostname
+#### Identify environment using the hostname
 
 > Default method used by the framework
 
 In order for the framework to identify your `local` environment, you have to register your machine/computer `hostname` in the `environment.php` file located inside the `config` directory.
 
-###### Find hostname on *NIX
+##### Find hostname on *NIX
 
 Open your Terminal and simply run the following command:
 ```bash
 hostname
 ```
 
-###### Find hostname on Windows
+##### Find hostname on Windows
 
 Open your Console and run the following command:
 ```bash
@@ -97,7 +97,7 @@ return [
 
 > The key defined in the `environment.php` file is used to load the `.env.{$environment}.php` file and also the `{$environment}.php` file located in the `config/environments` directory.
 
-###### Multiple hostnames
+##### Multiple hostnames
 
 In some scenarios, you'll probably need to define several hostnames per environment. In order to do so, you can pass an array of hostnames to each environment key like so:
 
@@ -115,11 +115,11 @@ return [
 ];
 ```
 
-##### Identify environment using a server environment variable
+#### Identify environment using a server environment variable
 
 If you have total control of your web server and are able to set environment variable, you can use a closure in order to load the application environment configuration.
 
-###### Apache
+##### Apache
 
 Normally you put a `SetEnv` statement inside your `<VirtualHost>` directive or if you don't have access to this configuration, you can add it inside your `.htaccess` file if allowed.
 
@@ -150,7 +150,7 @@ return function()
 
 In the example above, if the `getenv('varName')` exists, this will load the the `local` environment file: `.env.local.php` located at the root of your application.
 
-###### Nginx
+##### Nginx
 
 Nginx has a `ENV` function but this apparently only work in the main context of your web server. In order to specify an environment variable per `server` context, you will use the `fastcgi_param` statement.
 
@@ -193,7 +193,7 @@ return function()
 
 Now that your environment is defined, you can configure it to your needs.
 
-#### 3 - Add configurations
+### 3 - Add configurations
 
 By default, the Themosis framework defines a `local` environment and loads the default `local.php` file stored in the `config/environments` folder:
 
@@ -225,8 +225,8 @@ define('THEMOSIS_ERROR_REPORT', -1);
 ```
 This is the pre-configured local configuration file. You can add as many as you want configurations to this file. These are only available for your `local` environment.
 
-3.Shared environment configuration
-----------------------------------
+Shared environment configuration
+--------------------------------
 
 Some WordPress configurations are the same whatever environment you're using, like the authentication salts,...
 
@@ -253,8 +253,8 @@ define('NONCE_SALT',       'put your unique phrase here');
 
 ```
 
-4.Install WordPress
--------------------
+Install WordPress
+-----------------
 
 Once your environment is setup, open your browser and start the default WordPress installation process.
 

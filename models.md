@@ -69,22 +69,4 @@ Route::get('home', function(){
 
 Next
 ----
-This article closes the "Getting started" guide.
-
-There are APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
-
-* [Ajax](http://framework.themosis.com/docs/ajax/)
-* [Asset](http://framework.themosis.com/docs/asset/)
-* [Configuration](http://framework.themosis.com/docs/configuration/)
-* [PostType](http://framework.themosis.com/docs/posttype/)
-* [Form](http://framework.themosis.com/docs/form/)
-* [Field](http://framework.themosis.com/docs/field/)
-* [Meta](http://framework.themosis.com/docs/meta/)
-* [Metabox](http://framework.themosis.com/docs/metabox/)
-* [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
-* [Page](http://framework.themosis.com/docs/page/)
-* [Option](http://framework.themosis.com/docs/option/)
-* [User](http://framework.themosis.com/docs/user/)
-* [Validation and input](http://framework.themosis.com/docs/validation/)
-* [Widgets](http://framework.themosis.com/docs/widgets/)
-* [Helpers](http://framework.themosis.com/docs/helpers/)
+Read the [views guide](http://framework.themosis.com/docs/views/)
