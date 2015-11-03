@@ -90,5 +90,15 @@ $parent = themosis_is_subpage(['existing-parent-page']) // WP_Post instance of t
 $parent = themosis_is_subpage(['non-existing-parent-page']) // false
 ```
 
+## themosis_convert_path($path)
 
+* **param** _string_
+* **return** _string_
+
+Replaces all '.' characters to the '/' directory seperator 
+
+```php
+// assets/images/header
+$value = themosis_convert_path('assets.images.header')
+```
 
