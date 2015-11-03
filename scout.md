@@ -1,13 +1,30 @@
 Scout templates
 ===============
 
+- Basic usage
+- Scout control structures
+	- Include views
+	- Pass data to included views
+	- Overwrite sections
+	- Echoing data
+	- Conditional statements
+	- Loop statements
+	- WordPress loop
+	- Displaying raw text
+	- Comments
+- Loop helper
+
+Basic usage
+-----------
+
 Themosis framework is bundled with a templating engine called `Scout`. The engine is a fork of the Laravel Blade engine and provides helpers in order to rapidly build your view.
 
 In order to use the Scout engine, all your template/view files should use the `.scout.php` extension.
 
-#### Basic Scout view
+Here is an example of a basic view stored inside the `resources/views` folder:
+
 ```html
-<!-- View stored in app/views/welcome.scout.php -->
+<!-- View stored in resources/views/welcome.scout.php -->
 @extends('layouts.main')
 
 @section('main')
@@ -30,17 +47,16 @@ In order to use the Scout engine, all your template/view files should use the `.
 And this view may be returned to the browser like so:
 
 ```php
-Route::get('home', function(){
-
-	return View::make('welcome', array('name' => 'Julien'));
-
+Route::get('home', function()
+{
+	return View::make('welcome', ['name' => 'Julien']);
 });
 ```
 
 In the previous example, we used the `@extends` syntax. This function allows you to use layouts:
 
 ```html
-<!-- Layout stored in app/views/layouts/main.scout.php -->
+<!-- Layout stored in resources/views/layouts/main.scout.php -->
 @include('header')
 
 	<div class="container">
@@ -62,22 +78,27 @@ In the previous example, we used the `@extends` syntax. This function allows you
 @include('footer')
 ```
 
-### Scout control structures
+Scout control structures
+------------------------
 
-#### Include views
+### Include views
+
 ```html
 @include('header')
 ```
-> This will include into your view the `header.php` or `header.scout.php` file stored inside the root of your `app/views` directory.
 
-#### Pass data to included views
+This command can include a view file called `header.php` or `header.scout.php` stored inside the root of the `resources/views` directory.
+
+### Pass data to included views
+
 ```html
-@include('header', array('title' => 'Documentation'))
+@include('header', ['title' => 'Documentation'])
 ```
 
-#### Overwrite sections
+### Overwrite sections
 
-Add the `@overwrite` statement when closing your section. This will overwrite the content of the parent section.
+Add the `@overwrite` statement when closing your section. This will overwrite the content of the parent section defined inside the layout view.
+
 ```html
 @extends('layouts.main')
 
@@ -88,20 +109,24 @@ Add the `@overwrite` statement when closing your section. This will overwrite th
 @overwrite
 ```
 
-#### Echo data
+### Echoing data
+
 ```html
 Hello {{ $name }}
 ```
-> The double curly braces echo the data but do not escape it.
+The double curly braces echo the data but do not escape it.
 
 #### Echo and escape data
+
 ```html
 Hello {{{ $name }}}
 ```
+Use three curly braces to escape your data. This command pass your data through the PHP function `htmlentities()`.
 
 #### Echoing data after checking for existence
 
 By default you could write the following statement:
+
 ```html
 {{{ isset($name) ? $name : 'Default' }}}
 ```
@@ -111,7 +136,9 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 {{{ $name or 'Default' }}}
 ```
 
-#### If statements
+### Conditional statements
+#### If
+
 ```html
 @if(isset($value))
 
@@ -128,37 +155,39 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 @endif
 ```
 
-##### Unless
+#### Unless
 
 Sometimes it is more readable to use `@unless` syntax instead of `@if`.
+
 ```html
 @unless(User::current()->can('edit_posts'))
 	<p>No editing permission.</p>
 @endunless
 ```
 
-The above is same as:
+The above is the same as:
+
 ```html
 @if( ! User::current()->can('edit_posts'))
 	<p>No editing permission.</p>
 @endunless
 ```
 
-#### Loop statements
-##### For
+### Loop statements
+#### For
+
 ```html
 <ul>
-
 	@for($i = 0; $i < 10; $i++)
 	
 		<li>Item {{ $i }}</li>
 	
 	@endfor
-
 </ul>
 ```
 
-##### While
+#### While
+
 ```html
 @while(true)
 
@@ -167,7 +196,8 @@ The above is same as:
 @endwhile
 ```
 
-##### Foreach
+#### Foreach
+
 ```html
 @foreach($objects as $key => $value)
 
@@ -176,11 +206,12 @@ The above is same as:
 @endforeach
 ```
 
-#### The WordPress Loop
+### WordPress loop
 
 The Scout engine gives you a shortcut to use the WordPress loop.
 
 In place of typing these statements:
+
 ```php
 <?php
 if (have_posts())
@@ -197,7 +228,8 @@ if (have_posts())
 	}
 }
 ```
-Simply write this code in your view:
+
+Simply write this code inside your view:
 
 ```html
 @loop
@@ -213,7 +245,7 @@ Simply write this code in your view:
 The Scout engine also provides a helper to make custom loops:
 
 ```html
-@query(array('post_type' => 'post', 'posts_per_page' => 3))
+@query(['post_type' => 'post', 'posts_per_page' => 3])
 	
 	<h1>{{ Loop::title() }}</h1>
 	<div>
@@ -223,24 +255,26 @@ The Scout engine also provides a helper to make custom loops:
 @endquery
 ```
 
-The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query.
+The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query. You can also pass the WP_Query instance to the `@query` statement.
 
 > The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More informations below.
 
-#### Displaying raw text with curly braces
+### Displaying raw text
 
-If you need to display a string that is wrapped in curly braces, you may escape the Scout behavior by prefixing your text with an @ symbol:
+If you need to display a string that is wrapped in curly braces, you may escape the Scout behavior by prefixing your text with an `@` symbol:
+
 ```html
 @{{ This is not processed by Scout }}
 ```
 
-#### Comments
+### Comments
+
 ```html
 {{-- This comment will not be rendered in HTML --}}
 ```
 
-3. Loop
--------
+Loop helper
+-----------
 
 The `Loop` helper class provides methods with a simple syntax in order to call WordPress loop functions.
 
@@ -248,7 +282,7 @@ Here is a list of the available methods.
 
 > Currently this class only works inside WordPress loop statements. The `Loop` methods always return a result, so use echo statements to output their content.
 
-#### Get the ID of current post
+### Get the ID of current post
 
 ```php
 @loop
@@ -258,7 +292,7 @@ Here is a list of the available methods.
 @endloop
 ```
 
-#### Get the title of current post
+### Get the title of current post
 
 ```php
 @loop
@@ -268,7 +302,15 @@ Here is a list of the available methods.
 @endloop
 ```
 
-#### Get the content of current post
+### Get the author
+
+```php
+@loop
+	<em>{{ Loop::author() }}</em>
+@endloop
+```
+
+### Get the content of current post
 
 ```php
 @loop
@@ -278,7 +320,7 @@ Here is a list of the available methods.
 @endloop
 ```
 
-#### Get the excerpt of current post
+### Get the excerpt of current post
 
 ```php
 @loop
@@ -288,7 +330,7 @@ Here is a list of the available methods.
 @endloop
 ```
 
-#### Get the thumbnail of current post
+### Get the thumbnail of current post
 
 This method accepts two arguments:
 
@@ -303,7 +345,17 @@ This method accepts two arguments:
 @endloop
 ```
 
-#### Get the permalink of current post
+### Get the thumbnail URL
+
+You can also pass a `$size` value (string or array) and `$icon` boolean value as arguments:
+
+```php
+@loop
+	<img src="{{ Loop::thumbnailUrl('thumbnail') }}">
+@endloop
+``` 
+
+### Get the permalink of current post
 
 ```php
 @loop
@@ -313,7 +365,7 @@ This method accepts two arguments:
 @endloop
 ```
 
-#### Get the categories of current post
+### Get the categories of current post
 
 ```php
 @loop
@@ -327,7 +379,7 @@ This method accepts two arguments:
 @endloop
 ```
 
-#### Get the tags of current post
+### Get the tags of current post
 
 ```php
 @loop
@@ -341,7 +393,7 @@ This method accepts two arguments:
 @endloop
 ```
 
-#### Get the custom taxonomy terms of current post
+### Get the custom taxonomy terms of current post
 
 Pass the custom taxonomy slug as first argument.
 
@@ -359,7 +411,17 @@ Pass the custom taxonomy slug as first argument.
 @endloop
 ```
 
-#### Display the class attribute of the current post
+### Get the date
+
+You can pass a date format string as an argument as well.
+
+```php
+@loop
+	<time>{{ Loop::date() }}</time>
+@endloop
+```
+
+### Display the class attribute of the current post
 
 The `Loop::postClass()` method returns the HTML `class` attribute with WordPress generated class terms. You also have the opportunity to add one or more custom classes to the current post or a defined post.
 
@@ -390,7 +452,7 @@ Next
 ----
 This article closes the "Getting started" guide.
 
-There are APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
+There are many APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
 
 * [Ajax](http://framework.themosis.com/docs/ajax/)
 * [Asset](http://framework.themosis.com/docs/asset/)
