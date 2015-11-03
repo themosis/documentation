@@ -77,3 +77,18 @@ Here is the list of available values you can pass:
 * **app**: Returns the `themosis-theme/app` folder path.
 * **admin**: Returns the `themosis-theme/app/admin` folder path.
 * **storage**: Returns the `themosis-theme/app/storage` folder path.
+
+## themosis_is_subpage($parent)
+
+* **param** _array_
+* **return** _int|bool_
+
+This function returns whether current post is a child page of the current page. By giving a string in the first index of the `$parent` parameter you can give the slug of the post parent to check where the current page is a child from.
+
+```php
+$parent = themosis_is_subpage(['existing-parent-page']) // WP_Post instance of the parent page of the current page
+$parent = themosis_is_subpage(['non-existing-parent-page']) // false
+```
+
+
+
