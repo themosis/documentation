@@ -28,19 +28,15 @@ Here is an example of a basic view stored inside the `resources/views` folder:
 @extends('layouts.main')
 
 @section('main')
-	
 	<h1>Hello, {{ $name }}</h1>
-
 @stop
 
 @section('sidebar')
-
 	<h3>Latest posts</h3>
 	<ul>
 		<li>First post</li>
 		<li>Second post</li>
 	</ul>
-
 @stop
 ```
 
@@ -66,13 +62,9 @@ In the previous example, we used the `@extends` syntax. This function allows you
 	</div>
 
 	<div class="sidebar">
-
 		@section('sidebar')	
-
 			<p>Sidebar section from the "main" layout file.</p>
-
 		@show
-
 	</div>
 
 @include('footer')
@@ -103,9 +95,7 @@ Add the `@overwrite` statement when closing your section. This will overwrite th
 @extends('layouts.main')
 
 @section('sidebar')
-
 	<p>New sidebar content</p>
-
 @overwrite
 ```
 
@@ -141,17 +131,11 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 
 ```html
 @if(isset($value))
-
 	<p>The value is {{ $value }}.</p>
-
 @elseif(is_array($value))
-
 	<p>The value is an array.</p>
-
 @else
-
 	<p>Something is wrong, there is no value.</p>
-
 @endif
 ```
 
@@ -179,9 +163,7 @@ The above is the same as:
 ```html
 <ul>
 	@for($i = 0; $i < 10; $i++)
-	
 		<li>Item {{ $i }}</li>
-	
 	@endfor
 </ul>
 ```
@@ -190,9 +172,7 @@ The above is the same as:
 
 ```html
 @while(true)
-
 	<p>Show it!</p>
-
 @endwhile
 ```
 
@@ -200,9 +180,7 @@ The above is the same as:
 
 ```html
 @foreach($objects as $key => $value)
-
 	<p>This {{ $value }} opens that {{ $key }}.</p>
-
 @endforeach
 ```
 
@@ -246,12 +224,10 @@ The Scout engine also provides a helper to make custom loops:
 
 ```html
 @query(['post_type' => 'post', 'posts_per_page' => 3])
-	
 	<h1>{{ Loop::title() }}</h1>
 	<div>
 		{{ Loop::content() }}
 	</div>
-
 @endquery
 ```
 
@@ -286,9 +262,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-
     $id = Loop::id();
-
 @endloop
 ```
 
@@ -296,9 +270,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-
 	<h1>{{ Loop::title() }}</h1>
-
 @endloop
 ```
 
@@ -314,9 +286,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-
 	<article>{{ Loop::content() }}</article>
-
 @endloop
 ```
 
@@ -324,9 +294,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-
 	<aside>{{ Loop::excerpt() }}</aside>
-
 @endloop
 ```
 
@@ -339,9 +307,7 @@ This method accepts two arguments:
 
 ```php
 @loop
-
 	{{ Loop::thumbnail('thumbnail') }}
-
 @endloop
 ```
 
@@ -359,9 +325,7 @@ You can also pass a `$size` value (string or array) and `$icon` boolean value as
 
 ```php
 @loop
-
 	<a href="{{ Loop::link() }}">Read more</a>
-
 @endloop
 ```
 
@@ -369,13 +333,11 @@ You can also pass a `$size` value (string or array) and `$icon` boolean value as
 
 ```php
 @loop
-
     <ul>
         @foreach(Loop::category() as $cat)
             <li>{{ $cat->name }}</li>
         @endforeach
     </ul>
-
 @endloop
 ```
 
@@ -383,13 +345,11 @@ You can also pass a `$size` value (string or array) and `$icon` boolean value as
 
 ```php
 @loop
-
     <ul>
         @foreach(Loop::tags() as $tag)
             <li>{{ $tag->name }}</li>
         @endforeach
     </ul>
-
 @endloop
 ```
 
@@ -401,13 +361,11 @@ Pass the custom taxonomy slug as first argument.
 
 ```php
 @loop
-
     <ul>
         @foreach(Loop::terms('custom-slug') as $term)
             <li>{{ $term->name }}</li>
         @endforeach
     </ul>
-
 @endloop
 ```
 
