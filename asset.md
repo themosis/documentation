@@ -62,7 +62,7 @@ Chain the `to()` method after you added your asset.
 ### Load asset in login screen
 
 ```php
-Asset::add('my-handle', 'js/custom.js', array('jquery'), '1.0', false)->to('login');
+Asset::add('my-handle', 'js/custom.js', ['jquery'], '1.0', false)->to('login');
 ```
 
 > Note: You can only load JS files to the login screen using the Asset API. CSS files are not supported.
