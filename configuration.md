@@ -1,39 +1,61 @@
 Configuration
 =============
 
-1. Introduction
-2. List of configuration files
+- Basic usage
+	- Retrieve all properties
+	- Retrieve a specific property
+- Theme configuration files
 
-1.Introduction
---------------
+Basic usage
+------------
 
-Most of the configuration files are stored in the `app/config` folder of the `themosis-theme` theme.
+The Config API has received a completely overhauled API. Using the Config API, you can now retrieve at run-time any configuration property.
 
-Sometimes you may want to access configuration values at run-time. But you're constrained to only access the values of the `application.config.php`.
+Currently, only the theme has configuration files.
 
-### Access application configuration values
+The theme configuration files are stored in its `resources/config` folder.
+
+### Retrieve all properties
+
+Use the `get()` method to retrieve all properties of a defined configuration file.
+
+Let's grab all properties of the theme's `application.config.php` file:
 
 ```php
-$textdomain = Application::get('textdomain');
+$all = Config::get('application');
 ```
-> `textdomain` is one of the key name stored in the `application.config.php` file.
 
-**Note:** You can't set/modify configuration values at run-time. Configuration values are read only.
+The above code is fetching all properties from the `application.config.php` file stored in the `resources/config` folder. Simply provide the file name without the `.config.php` extension as a parameter of the `get()` method.
 
-Here is a complete list of the configuration files.
+```php
+// Grab all theme templates
+$templates = Config::get('templates');
+```
 
-2.List of the configuration files
----------------------------------
+### Retrieve one property
 
-* **application**: Main configuration file. The only one you can access at run-time.
+Depending of your application, you might need to retrieve only one specific property from a configuration file.
+
+For this, simply use a dot syntax to specify your property. For example, let's retrieve the `namespace` property from the `application.config.php` file:
+
+```php
+$namespace = Config::get('application.namespace');
+```
+
+> Note: you can't set/modify configuration values at run-time. Configuration values are read only.
+
+Theme configuration files
+-------------------------
+
+Here is a complete list of the configuration files stored inside the theme.
+
+* **application**: Main configuration file. You can specify your own class aliases inside this file.
 
 * **constants**: Allow you to define constant variables.
 
-* **images**: Allow you to register image sizes.
+* **images**: Allow you to register image sizes for your media library.
 
-* **models**: Define the model classes you want to autoload.
-
-* **controllers**: Define the controller classes you want to autoload.
+* **loading**: Allow you to specify directories of classes for autoloading. By default, it is loading your theme's controller and model classes.
 
 * **menus**: Allow you to define custom navigation menu locations. More information in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
 
@@ -41,6 +63,6 @@ Here is a complete list of the configuration files.
 
 * **supports**: Equivalent to the [add\_theme\_support()](http://codex.wordpress.org/Function_Reference/add_theme_support) function.
 
-* **templates**: Handles the custom page template system of the framework. Define your templates inside this file by providing a `key` name only.
+* **templates**: Handles the custom page template system of the framework. Define your templates inside this file by providing a `key` or `key/value` pairs.
 
-> Details on how to modify those configurations are explained inside each file.
+> Details on how to modify and use those configurations are explained inside each file.
