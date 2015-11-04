@@ -228,23 +228,23 @@ The first parameter is the common name of your checkboxes. The second parameter 
 By default, when you define multiple options/choices for your checkbox, the API is using the value as display text beside the checkbox. In order to define a custom display text for your checkbox options, define an array of key/value pairs like so:
 
 ```php
-Form::checkbox('colors', [
+{{ Form::checkbox('colors', [
 	'red'	=> 'Select red color',
 	'green'	=> 'Choose the green',
 	'blue'	=> 'Use the blue color'
-]);
+]) }}
 ```
 
 In order to set values or default values, pass an array as a third parameter to your checkbox method:
 
 ```php
-Form::checkbox('colors', [
+{{ Form::checkbox('colors', [
 	'red',
 	'green',
 	'blue'
 ], [
 	'green'
-]);
+]) }}
 ```
 
 The above example will check the green checkbox by default.
@@ -252,23 +252,23 @@ The above example will check the green checkbox by default.
 Add attributes to your checkbox by passing an array as the fourth parameter:
 
 ```php
-Form::checkbox('colors', [
+{{ Form::checkbox('colors', [
 	'red', 
 	'green',
 	'blue'
 ], [], [
 	'class'		=> 'super'
-]);
+]) }}
 ```
 
 This code adds attributes to the checkbox inputs. When you create a checkbox, the displayed text beside each checkbox is rendered within a label tag. You can define the attributes for these label tags by passing a `label` property to the checkbox attributes like so:
 
 ```php
-Form::checkbox('colors', ['red', 'green', 'blue'], [], [
+{{ Form::checkbox('colors', ['red', 'green', 'blue'], [], [
 	'label'	=> [
 		'class' => 'label-class'
 	]
-]);
+]) }}
 ```
 
 The example above will add the `label-class` class to each labels inside your checkbox input.
@@ -278,10 +278,10 @@ The example above will add the `label-class` class to each labels inside your ch
 Output a radio input:
 
 ```php
-Form::radio('gender', [
+{{ Form::radio('gender', [
 	'woman',
 	'man'
-]);
+]) }}
 ```
 
 Select field
