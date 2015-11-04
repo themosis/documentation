@@ -31,6 +31,7 @@ This function returns the URL path of the `themosis-theme` assets directory. Use
 // http://.../wp-content/themes/themosis-theme/app/assets/images/favicon.ico
 $iconUrl = themosis_assets().'/images/favicon.ico';
 ```
+> Note: In a subfolder multisite installation, this function will check if the `themosis_theme_assets()` function exists. If so, will use it in order to get the proper URL. The `themosis_theme_assets()` function is available since release 1.2.0 inside the `functions.php` file of your theme.
 
 ## themosis_is_post($id)
 
@@ -72,15 +73,34 @@ This function returns the real path of each part of the framework you ask for by
 
 Here is the list of available values you can pass:
 
+* **plugin**: Returns the Themosis framework plugin path.
 * **sys**: Returns the Themosis framework plugin `src/Themosis` path.
-* **base**: Returns the `themosis-theme` root path.
-* **app**: Returns the `themosis-theme/app` folder path.
-* **admin**: Returns the `themosis-theme/app/admin` folder path.
-* **storage**: Returns the `themosis-theme/app/storage` folder path.
+* **storage**: Returns the storage folder path.
+* **base**: Returns the theme path.
+* **theme**: Returns the theme `resources` path.
+* **admin**: Returns the theme `resources/admin` path.
+
+## themosis_set_path(array $paths)
+
+* **param** _array_ A list of paths to register using key/pair values.
+
+The `themosis_set_path` function allows you to register paths to your project. Those paths are registered globally and are accessible by using the `themosis_path` function.
+
+```php
+// Register a new path - A custom folder inside the content directory
+$paths['custom'] = WP_CONTENT_DIR.'/custom/';
+themosis_set_path($paths);
+```
+
+You can then use your path like so:
+
+```php
+$path = themosis_path('custom');
+```
 
 ## themosis_is_subpage($parent)
 
-* **param** _array_
+* **param** _array_ Parent page properties (ID, slug, post name, ...)
 * **return** _int|bool_
 
 This function returns whether current post is a child page of the current page. By giving a string in the first index of the `$parent` parameter you can give the slug of the post parent to check where the current page is a child from.
@@ -118,31 +138,21 @@ Retrieves the absolute URL to the core themosis framework plugin.
 
 * **return** _WP_Query_
 
-Returns the current wordpress query inside the `$wp_query` global
+Returns the current WordPress query inside the `$wp_query` global
 
 ## themosis_use_permalink()
 
 * **return** _bool_
 
-Returns whether the wordpress pretty permalink structure is used. 
+Returns whether the WordPress pretty permalink structure is used. 
 
 ## themosis_add_filters($tags, $function)
 
 * **param** _array_, _function_
 * **return** _bool_
 
-Runs the `add_filter()` function multiple times for every given tag in the `$tags` array parameter using the given function in the `$function` function
+Runs the `add_filter()` function multiple times for every given tag in the `$tags` array parameter using the given function in the `$function` argument.
 
-## themosis_is_post($id)
-
-* **param** _int_
-* **return** _bool_
-
-Checks whether a user is on a specific post, admin page or custom post type. This function could be to show certain content for a certain post, admin page or custom post type.
-
-```php
-//todo
-```
 
 ## themosis_is_template($name = [])
 
@@ -162,7 +172,7 @@ themosis_is_template(['test', 'page-template']) // true
 * **param** _string_
 * **return** _string_
 
-Escapes HTML entities in a string. This function uses underneeth the `htmlentities()` php core function
+Escapes HTML entities in a string. This function uses the `htmlentities()` PHP core function.
 
 ```php
 //todo
