@@ -82,7 +82,7 @@ Here is the list of available values you can pass:
 
 ## themosis_set_path(array $paths)
 
-* **param** _array_ A list of paths to register using key/pair values.
+* **param** _array_ A list of paths to register using key/value pairs.
 
 The `themosis_set_path` function allows you to register paths to your project. Those paths are registered globally and are accessible by using the `themosis_path` function.
 
