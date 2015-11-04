@@ -5,7 +5,7 @@ Scout templates
 - Scout control structures
 	- Include views
 	- Pass data to included views
-	- Overwrite sections
+	- Sections
 	- Echoing data
 	- Conditional statements
 	- Loop statements
@@ -87,7 +87,9 @@ This command can include a view file called `header.php` or `header.scout.php` s
 @include('header', ['title' => 'Documentation'])
 ```
 
-### Overwrite sections
+### Sections
+
+#### Overwrite section
 
 Add the `@overwrite` statement when closing your section. This will overwrite the content of the parent section defined inside the layout view.
 
@@ -97,6 +99,19 @@ Add the `@overwrite` statement when closing your section. This will overwrite th
 @section('sidebar')
 	<p>New sidebar content</p>
 @overwrite
+```
+
+#### Extend parent section
+
+Add the `@parent` statement in order to keep the content of the parent section defined in the layout view.
+
+```html
+@extends('layouts.main')
+
+@section('sidebar')
+    @parent
+    <p>Child sidebar content appended to parent's content</p>
+@stop
 ```
 
 ### Echoing data
