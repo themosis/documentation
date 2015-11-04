@@ -102,3 +102,102 @@ Replaces all '.' characters to the '/' directory seperator
 $value = themosis_convert_path('assets.images.header')
 ```
 
+## themosis_plugin_directory_name()
+
+* **return** _string_
+
+Returns the directory name of the core themosis framework plugin.
+
+## themosis_plugin_url()
+
+* **return** _string_
+
+Retrieves the absolute URL to the core themosis framework plugin.
+
+## themosis_get_the_query()
+
+* **return** _WP_Query_
+
+Returns the current wordpress query inside the `$wp_query` global
+
+## themosis_use_permalink()
+
+* **return** _bool_
+
+Returns whether the wordpress pretty permalink structure is used. 
+
+## themosis_add_filters($tags, $function)
+
+* **param** _array_, _function_
+* **return** _bool_
+
+Runs the `add_filter()` function multiple times for every given tag in the `$tags` array parameter using the given function in the `$function` function
+
+## themosis_is_post($id)
+
+* **param** _int_
+* **return** _bool_
+
+Checks whether a user is on a specific post, admin page or custom post type. This function could be to show certain content for a certain post, admin page or custom post type.
+
+```php
+//todo
+```
+
+## themosis_is_template($name = [])
+
+* **param** _array_
+* **return** _bool_
+
+Checks whether the themosis template which is currently used is available in the given array of template names.
+
+```php
+// Current page template is 'page-template'
+
+themosis_is_template(['test', 'page-template']) // true
+```
+
+## e($value)
+
+* **param** _string_
+* **return** _string_
+
+Escapes HTML entities in a string. This function uses underneeth the `htmlentities()` php core function
+
+```php
+//todo
+```
+
+## starts_with($haystack, $needles)
+
+* **param** _string_, _string|array_
+* **return** _bool_
+
+Checks whether a given string starts with a given substring.
+
+```php
+starts_with('foo bar', 'foo') // true
+
+starts_with('foo bar', ['non-existing-string', 'foo']) // true
+```
+
+## array_get($array, $key, $default)
+
+* **param** _array_, _string_, _mixed_
+* **return** _mixed_
+
+Get an item of an array using a "." notation
+
+```php
+$array = ['items' => [
+		'first-item' => 'I am the first item', 
+		'second-item' => 'I am the second Item'
+	]
+]
+
+$item = array_get($array, 'items.first-item', 'no key found') // 'I am the first item'
+
+$item = array_get($array, 'items.third-item', 'No item found') // 'No item found'
+```
+
+
