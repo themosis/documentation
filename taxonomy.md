@@ -1,62 +1,78 @@
 Taxonomy
 ========
 
-1. Register a taxonomy
-2. Bind a taxonomy
+- Basic usage
+	- Plural and single display names
+	- Customize your taxonomy
+	- Shared taxonomies
+- Bind your taxonomy
 
-1.Register a taxonomy
----------------------
+Basic usage
+-----------
 
 The `Taxonomy` class, as the name suggests, helps you build custom taxonomies.
 
+In order to register a custom taxonomy, you will call the `make` and `set` methods of the Taxonomy class.
+
+For example, let's register a custom taxonomy in order to handle a list of authors for our books custom post type from previous examples. The custom taxonomy will have a slug of `authors`:
+
 ```php
-Taxonomy::make($slug, $postType, $plural, $singular)->set($params);
+Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
+	'public'	=> true
+]);
 ```
 
-* **$slug**: _string_ The taxonomy slug name.
-* **$postType**: _string_|_array_ The post type slug(s) to associate the taxonomy with. Use an array to associate the taxonomy to multiple post types.
-* **$plural**: _string_ The plural display name.
-* **$singular**: _string_ The singular display name.
-
-Like in other classes, the `Taxonomy` object uses a `set()` method to register.
+This will build a basic custom taxonomy accessible from the books custom post type. You can customize your taxonomy by passing arguments to the `set()` method. In the above code we specified that the custom taxonomy should be public. You can pass all the arguments defined in the WordPress core function [register_taxonomy](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments) like so:
 
 ```php
-Taxonomy::make($slug)->set($params = array());
-```
-
-* **$params**: _array_. An array of parameters. Same as in the WordPress core function `register_taxonomy`. Check the [codex page](http://codex.wordpress.org/Function_Reference/register_taxonomy) in order to customize your taxonomy.
-
-### Simple custom taxonomy
-
-```php
-Taxonomy::make('services', 'projects', 'Services', 'Service')->set();
-```
-
-This builds a `services` taxonomy for the `projects` custom post type.
-
-### Custom taxonomy with parameters
-
-```php
-Taxonomy::make('brands', 'clothes', 'Brands', 'Brand')->set(array(
-    'public'		=> true,
-	'rewrite'		=> false,
+Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
+    'public'        => true,
+    'rewrite'		=> false,
 	'query_var'		=> false,
 	'hierarchical'	=> true
-));
+]);
 ```
 
-This builds a `brands` taxonomy for the `clothes` custom post type.
+> Note: the custom taxonomy is only registered if you call the `set()` method.
 
-### Associate a taxonomy to multiple post types
+### Plural and single display names
+
+The `make()` method needs a plural and singular display names as third and fourth parameter. Those parameters will pre-fill the labels property of your custom taxonomy.
 
 ```php
-Taxonomy::make('authors', array('post', 'books'), 'Authors', 'Author')->set();
+Taxonomy::make('authors', 'books', 'Authors', 'Author')->set();
 ```
 
-This creates an `authors` taxonomy for `post` and `books` post types.
+In the above code sample, the custom taxonomy will have a plural display name of `Authors` and a singular display name of `Author`.
 
-2.Bind a taxonomy
------------------
+> Note: you can override the custom taxonomy `labels` property by adding it to the set method array.
+
+### Customize your taxonomy
+
+In order to define the behavior of your custom taxonomy, use the `set()` method and pass it an array of [arguments](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments) like so:
+
+```php
+Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
+    'public'             => true,
+	'show_in_nav_menus'  => false,
+	'hierarchical'	     => true,
+    'show_tagcloud'      => false,
+    'show_in_quick_edit' => false
+]);
+```
+
+### Shared taxonomies
+
+You can define a taxonomy that can be shared between multiple post types by passing an array of post type names like so:
+
+```php
+Taxonomy::make('authors', ['post', 'books'], 'Authors', 'Author')->set();
+```
+
+The above code register an `authors` taxonomy for both `post` and `books` post types.
+
+Bind your taxonomy
+------------------
 
 Attach the post type to the taxonomy inside filter callback that run during `parse_request` or `pre_get_posts`.
 
@@ -65,7 +81,7 @@ You can use the `bind()` method which is a shortcut to the [register\_taxonomy\_
 Call the method on your taxonomy instance like so:
 
 ```php
-$tax = Taxonomy::make('authors', array('post', 'books'), 'Authors', 'Author')->set();
+$tax = Taxonomy::make('authors', ['post', 'books'], 'Authors', 'Author')->set();
 
 // Bind the taxonomy to the 'post' and 'books' post types.
 $tax->bind();

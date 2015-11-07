@@ -3,8 +3,6 @@ PostType
 
 The `PostType` class helps you to register and manipulate WordPress custom post types.
 
-**Note**: All the code in order to customize WordPress should be stored inside the `resources/admin` directory.
-
 - Basic usage
 	- Plural and single display names
 	- Customize your custom post type
