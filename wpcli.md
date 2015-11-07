@@ -1,11 +1,13 @@
-4. Install WP-CLI
------------------
+WP-CLI
+------
 
-The Themosis framework uses [WP-CLI](http://wp-cli.org/) to install the latest WordPress version. Beside installing WordPress, [WP-CLI](http://wp-cli.org/) will allow you to perform tasks on your WordPress installation using the command-line tool.
+The Themosis framework comes with a [WP-CLI](http://wp-cli.org/) configuration file which points to the folder where WordPress is installed.
 
-> Please first check the [WP-CLI requirements](http://wp-cli.org/#requirements) before installing it.
+WP-CLI is a command line tool for handling your WordPress installation.
 
 ### Install WP-CLI on UNIX like environment.
+
+> Please first check the [WP-CLI requirements](http://wp-cli.org/#requirements) before installing it.
 
 Execute the following statements in your `Terminal`:
 
@@ -15,11 +17,10 @@ curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.pha
 
 ```bash
 chmod +x wp-cli.phar
-
 sudo mv wp-cli.phar /usr/local/bin/wp
 ```
 
-This will allow you to use the `wp` command in your Terminal.
+This will allow you to use the `wp` command inside your Terminal.
 
 ### Install WP-CLI on Windows.
 
@@ -33,4 +34,4 @@ This will download and create a directory `wp-cli` on your system. We recommend 
 
 Then add the `wp-cli\bin` folder to your system variable `PATH`. For example, using the recommended installation location, you'll store the following path to your system variable `PATH`: `c:\developer\tools\wp-cli\bin;`
 
-This will allow you to use the `wp` command in your Console.
+This will allow you to use the `wp` command inside your Console.

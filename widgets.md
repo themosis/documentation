@@ -1,35 +1,27 @@
 Widgets
 =======
 
-The Themosis framework provides a folder where you can store your WordPress widgets classes.
+The Themosis framework theme provides a folder where you can store your WordPress widgets classes.
 
-You can create as many widgets as you want and save them inside the `app/widgets` directory of your `themosis-theme` theme.
+You can create as many widgets as you want and save them inside the `resources/widgets` directory of your `themosis-theme` theme.
 
 Here is an example of a custom widget:
 
 ```php
-// This file is stored in app/widgets/MyCustomWidget.php
-
+// This file is stored in resources/widgets/MyCustomWidget.php
 <?php
-
 class MyCustomWidget_Widget extends WP_Widget
 {
-
-	public function __construct(){
-
-		$params = array(
-
+	public function __construct()
+    {
+		$params = [
 			'description' 	=> 'The widget description',
 			'name'			=> 'My Custom Widget'
-	
-		);
+		];
 
 		parent::__construct('MyCustomWidget_Widget', '', $params);
-
 	}
-
 }
-
 ?>
 ```
 
