@@ -427,6 +427,7 @@ This article closes the "Getting started" guide.
 
 There are many APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
 
+* [Action](http://framework.themosis.com/docs/action/)
 * [Ajax](http://framework.themosis.com/docs/ajax/)
 * [Asset](http://framework.themosis.com/docs/asset/)
 * [Configuration](http://framework.themosis.com/docs/configuration/)
@@ -442,3 +443,4 @@ There are many APIs that will help you shape your WordPress administration. Disc
 * [Validation and input](http://framework.themosis.com/docs/validation/)
 * [Widgets](http://framework.themosis.com/docs/widgets/)
 * [Helpers](http://framework.themosis.com/docs/helpers/)
+* [WP-CLI](http://framework.themosis.com/docs/wp-cli/)
