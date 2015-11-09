@@ -145,3 +145,41 @@ View::composer('home', function()
 ```
 
 Check the [views guide](http://framework.themosis.com/docs/views/) for more information regarding View composers.
+
+Localize
+--------
+
+WordPress allows you to output as a JSON object any data for use in your JS files using the [wp_localize_script()](https://codex.wordpress.org/Function_Reference/wp_localize_script) function.
+
+The asset API directly implements a `localize()` method with same benefits plus saving you some character input. Once defined, WordPress will output your data right before your script tag so it's available for script use.
+
+Here is an example of the `localize` method:
+
+```php
+// Register script asset.
+$asset = Asset::add('js-handle', 'js/myscript.js', ['backbone'], '1.0.0', true);
+
+// Localize data for script use.
+$asset->localize('variableName', ['book' => 'A book title']);
+```
+
+The above code will output this:
+
+```html
+<script type="text/javascript">
+/* <![CDATA[ */
+    var variableName = {
+        "book": "A book title"
+    };
+/* ]]> */
+</script>
+```
+
+Simply provide a JS variable name and your data to the `localize` method. You can pass any data you want as a second parameter: _string_, _boolean_, _object_, _array_.
+
+Then inside your `js/myscript.js` file, you can access the data like so:
+
+```js
+// Retrieve book title.
+var title = variableName.book;
+```
