@@ -169,13 +169,13 @@ themosis_is_template(['test', 'page-template']) // true
 
 ## e($value)
 
-* **param** _string_
-* **return** _string_
+* **param** _string_ Raw data.
+* **return** _string_ Escaped data.
 
 Escapes HTML entities in a string. This function uses the `htmlentities()` PHP core function.
 
 ```php
-//todo
+$escaped = e('<p>Raw input</p>');
 ```
 
 ## starts_with($haystack, $needles)
