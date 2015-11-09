@@ -178,7 +178,7 @@ These statuses are registered with default properties. If you create a new book 
 You can also define their properties like so:
 
 ```php
-$books->status[
+$books->status([
 	'rent'		=> [
 		'publish_text'	=> 'Save and rent the book'
 	],
@@ -191,7 +191,7 @@ $books->status[
 	'sold'		=> [
 		'publish_text'	=> 'Set the book as sold'
 	]
-];
+]);
 ```
 The array key is the custom status name and each value is an array of status properties.
 
