@@ -401,3 +401,4 @@ Check those guide to implement your custom fields:
 
 * [Metabox guide](http://framework.themosis.com/docs/metabox/)
 * [Page guide](http://framework.themosis.com/docs/page/)
+* [User guide](http://framework.themosis.com/docs/user/)
