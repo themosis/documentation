@@ -87,4 +87,4 @@ $tax = Taxonomy::make('authors', ['post', 'books'], 'Authors', 'Author')->set();
 $tax->bind();
 ```
 
-> You can also bind your taxonomy when registering your custom post type by adding the `taxonomies` argument. Check the [register\_post\_type](http://codex.wordpress.org/Function_Reference/register_post_type).
+> You can also bind your taxonomy when registering your custom post type by adding the `taxonomies` argument. Check the [register\_post\_type](http://codex.wordpress.org/Function_Reference/register_post_type) function.
