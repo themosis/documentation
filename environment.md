@@ -188,7 +188,7 @@ return function()
 
 	// Else if no environment variable found... it might be a production environment...
 	return 'production';
-}
+};
 ```
 
 Now that your environment is defined, you can configure it to your needs.
