@@ -73,8 +73,6 @@ function callback()
     // Code...
 }
 
-Action::add('init', 'callback');
-
 // Using a closure
 Action::add('init', function()
 {
