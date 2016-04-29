@@ -139,7 +139,7 @@ You can pass a custom view to your metabox using the 4th argument of the `Metabo
 // File stored inside the 'views/metabox/custom.scout.php'.
 $view = View::make('metabox.custom');
 
-Metabox::make('Properties', 'post', ['priority' => high], $view);
+Metabox::make('Properties', 'post', ['priority' => 'high'], $view);
 ```
 
 Inside the view file of your metabox you have access to "special" variables by default:
