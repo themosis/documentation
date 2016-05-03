@@ -47,7 +47,7 @@ Field::text($name, $features = [], $attributes = []);
 Possible values for the `$features` parameter:
 
 ```php
-$extras = [
+$features = [
 	'title' 	=> 'The field display title. By default it uses the $name.',
 	'info'		=> 'Add a helper text/description to the field.',
 	'default' 	=> 'You can define a default value for the field.'
