@@ -145,7 +145,7 @@ return function()
 
 	// Else if no environment variable found... it might be a production environment...
 	return 'production';
-}
+};
 ```
 
 In the example above, if the `getenv('varName')` exists, this will load the the `local` environment file: `.env.local.php` located at the root of your application.
