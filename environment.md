@@ -1,10 +1,12 @@
 Environment Setup
 =================
 
-- Introduction
-- Load your environment
-- Shared environment configuration
-- Install WordPress
+- [Introduction](#introduction)
+- [Load your environment](#load-environment)
+- [Shared environment configuration](#shared-environment)
+- [Install WordPress](#install-wordpress)
+
+<a name="introduction"></a>
 
 Introduction
 ------------
@@ -14,6 +16,8 @@ The Themosis framework has its own way for defining WordPress configurations. It
 You'll start by registering your database credentials and application URLs into a `.env.{environment}.php` file located in the root directory of your project. Then you'll be able to define your environment configurations by modifying files located in the `config` directory.
 
 > Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local.php`.
+
+<a name="load-environment"></a>
 
 Load your environment
 ---------------------
@@ -225,6 +229,8 @@ define('THEMOSIS_ERROR_REPORT', -1);
 ```
 This is the pre-configured local configuration file. You can add as many as you want configurations to this file. These are only available for your `local` environment.
 
+<a name="shared-environment"></a>
+
 Shared environment configuration
 --------------------------------
 
@@ -253,6 +259,8 @@ define('NONCE_SALT',       'put your unique phrase here');
 
 ```
 
+<a name="install-wordpress"></a>
+
 Install WordPress
 -----------------
 
@@ -264,4 +272,4 @@ Visit your project home page and you should be granted with a welcome message. C
 
 Next
 ----
-Read the [framework guide](http://framework.themosis.com/docs/framework/)
+Read the [framework guide]({{url}}/framework)
