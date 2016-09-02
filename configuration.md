@@ -1,10 +1,12 @@
 Configuration
 =============
 
-- Basic usage
-	- Retrieve all properties
-	- Retrieve a specific property
-- Theme configuration files
+- [Basic usage](#basic-usage)
+	- [Retrieve all properties](#retrieve-all-properties)
+	- [Retrieve a specific property](#retrieve-property)
+- [Theme configuration files](#theme-configuration)
+
+<a name="basic-usage"></a>
 
 Basic usage
 ------------
@@ -14,6 +16,8 @@ The Config API has received a completely overhauled API. Using the Config API, y
 Currently, only the theme has configuration files.
 
 The theme configuration files are stored in its `resources/config` folder.
+
+<a name="retrieve-all-properties"></a>
 
 ### Retrieve all properties
 
@@ -32,6 +36,8 @@ The above code is fetching all properties from the `application.config.php` file
 $templates = Config::get('templates');
 ```
 
+<a name="retrieve-property"></a>
+
 ### Retrieve one property
 
 Depending of your application, you might need to retrieve only one specific property from a configuration file.
@@ -43,6 +49,8 @@ $namespace = Config::get('application.namespace');
 ```
 
 > Note: you can't set/modify configuration values at run-time. Configuration values are read only.
+
+<a name="theme-configuration"></a>
 
 Theme configuration files
 -------------------------

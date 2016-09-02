@@ -1,12 +1,14 @@
 Ajax
 ====
 
-- Basic usage
-	- Example
-- Themosis Global Object
-	- Customize object name
-	- WordPress localize
-	- More resources
+- [Basic usage](#basic-usage)
+	- [Example](#example)
+- [Themosis Global Object](#themosis-global)
+	- [Customize object name](#customize-object-name)
+	- [WordPress localize](#wordpress-localize)
+	- [More resources](#more-resources)
+
+<a name="basic-usage"></a>
 
 Basic usage
 -----------
@@ -39,6 +41,8 @@ Ajax::run($action, $logged, $closure);
 * `$closure`: _callback_. A callback function where you run your custom code.
 
 > Note: Older API was using the `yes` and `no` string parameters. You can still use them as well.
+
+<a name="example"></a>
 
 ### Example:
 
@@ -97,6 +101,8 @@ Now that the user has clicked the button and ran the ajax request. Let's handle 
 > 
 > WordPress does not use PHP session so there is no real session API provided by the framework yet.
 
+<a name="themosis-global"></a>
+
 Themosis Global Object
 ----------------------
 
@@ -131,6 +137,8 @@ var themosis = {
 }
 ```
 
+<a name="customize-object-name"></a>
+
 ### Change the Themosis global object name
 
 You can easily change the variable name of this global object. In order to do so, open the `resources/config/application.config.php` file and change the `namespace` value:
@@ -141,9 +149,13 @@ You can easily change the variable name of this global object. In order to do so
 ]
 ```
 
+<a name="wordpress-localize"></a>
+
 ### WordPress localize
 
 If you need JS properties for use inside your scripts, please check the [asset guide](http://framework.themosis.com/docs/asset/) and the `localize` method.
+
+<a name="more-resources"></a>
 
 ### More resources:
 
