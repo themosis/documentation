@@ -3,13 +3,11 @@ Asset
 
 - [Introduction](#introduction)
 - [Load assets](#load-assets)
-	- [Load asset in the WordPress admin](#load-admin)
-	- [Load asset in login screen](#load-login)
-	- [Load external assets](#load-external)
-	- [Load an asset on a specific request](#load-request)
+	- [Load asset in the WordPress admin](#load-asset-in-the-wordPress-admin)
+	- [Load asset in login screen](#load-asset-in-login-screen)
+	- [Load external assets](#load-external-assets)
+	- [Load an asset on a specific request](#load-an-asset-on-a-specific-request)
 - [Localize](#localize)
-
-<a name="introduction"></a>
 
 Introduction
 ------------
@@ -51,8 +49,6 @@ Asset::add('my-other-handle', 'js/main.js', ['jquery'], '1.0', true);
 
 This example loads, in the front-end of your website/application, a `screen.css` file in the head for `all` media type and a `main.js` file in the footer.
 
-<a name="load-admin"></a>
-
 ### Load asset in the WordPress admin
 
 In order to change the location for your asset, simply use the `to()` method on your asset:
@@ -64,8 +60,6 @@ Asset::add('my-handle', 'js/custom.js', ['backbone'], '1.0', true)->to('admin');
 ```
 
 Chain the `to()` method after you added your asset.
-
-<a name="load-login"></a>
 
 ### Load asset in login screen
 
@@ -79,8 +73,6 @@ The `to()` method only accepts two values:
 
 * **admin** : Loads the asset in the WordPress admin area.
 * **login** : Loads the asset in the WordPress login area.
-
-<a name="load-external"></a>
 
 ### Load external assets
 
@@ -98,8 +90,6 @@ Asset::add('gg-map', 'https://maps.googleapis.com/maps/api/js?key=mysecretkey', 
 This will load the Google Maps API JS file in the footer of your theme.
 
 > In case if the Asset class can't register your asset, the class returns a `WP_Error` object. Other alternatives to load those assets is to add them in your header file or use the `wp_head` or `wp_footer` action hooks.
-
-<a name="load-request"></a>
 
 ### Load an asset on a specific request
 
@@ -157,8 +147,6 @@ View::composer('home', function()
 ```
 
 Check the [views guide](http://framework.themosis.com/docs/views/) for more information regarding View composers.
-
-<a name="localize"></a>
 
 Localize
 --------

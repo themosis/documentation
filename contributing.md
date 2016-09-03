@@ -3,11 +3,9 @@ Contributing
 
 - [Introduction](#introduction)
 - [Reporting issues](#reporting-issues)
-- [New features](#features)
+- [New features](#new-features)
 - [Which branch?](#which-branch)
-- [Security vulnerabilities](#security)
-
-<a name="introduction"></a>
+- [Security vulnerabilities](#security-vulnerabilities)
 
 Introduction
 ------------
@@ -26,8 +24,6 @@ We also need help on the documentation. If you see grammar typos or think the do
 
 - [themosis/documentation](https://github.com/themosis/documentation)
 
-<a name="reporting-issues"></a>
-
 Reporting issues
 ----------------
 
@@ -42,8 +38,6 @@ If you're unsure how to retrieve the latest (tagged) stable release, check these
 - [Stackoverflow](http://stackoverflow.com/questions/5582208/checkout-git-tag?answertab=votes#tab-top)
 - [Git](http://git-scm.com/docs/git-checkout)
 
-<a name="features"></a>
-
 New features
 ------------
 
@@ -57,8 +51,6 @@ If your proposal is a good fit, you can submit a pull request with the new funct
 
 **Major** features should always be sent to the `master` branch which contains the code for the next release.
 
-<a name="which-branch"></a>
-
 Which branch?
 -------------
 
@@ -67,8 +59,6 @@ Which branch?
 **Minor** features that are fully backwards compatible with the current Themosis release may be sent to the latest stable branch.
 
 **Major** new features should always be sent to the `master` branch, which contains the upcoming release.
-
-<a name="security"></a>
 
 Security vulnerabilities
 ------------------------

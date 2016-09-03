@@ -2,11 +2,9 @@ Controllers
 ===========
 
 - [Basic usage](#basic-usage)
-	- [Autoloading classes](#autoloading)
-- [Perform actions at controller instantiation](#controller-instantiation)
-- [The layout property](#layout)
-
-<a name="basic-usage"></a>
+	- [Autoloading classes](#autoloading-classes)
+- [Perform actions at controller instantiation](#perform-actions-at-controller-instantiation)
+- [The layout property](#the-layout-property)
 
 Basic usage
 -----------
@@ -54,8 +52,6 @@ Sometimes routes need more parameters. For example when you define a route for a
 Route::get('page', ['about-us', 'uses' => 'AboutController@index']);
 ```
 
-<a name="autoloading"></a>
-
 ### Autoloading classes
 
 By default, controller (and model) classes are loaded using the PSR-4 standard and are setup without any namespaces.
@@ -79,8 +75,6 @@ return [
 ```
 
 The function `themosis_path('theme')` returns the theme `resources` folder path. More information about the `themosis_path` function in the [Helpers guide](http://framework.themosis.com/docs/helpers/).
-
-<a name="controller-instantiation"></a>
 
 Perform actions at controller instantiation
 -------------------------------------------
@@ -110,8 +104,6 @@ class HomeController extends BaseController
 }
 ?>
 ```
-
-<a name="layout"></a>
 
 The layout property
 -------------------

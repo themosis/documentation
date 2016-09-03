@@ -2,11 +2,9 @@ Action
 ======
 
 - [Basic usage](#basic-usage)
-	- [Priority and accepted arguments](#priority-and-arguments)
-	- [Function and closure](#function-closure)
+	- [Priority and accepted arguments](#priority-and-accepted-arguments)
+	- [Function and closure](#function-and-closure)
 	- [Class](#class)
-
-<a name="basic-usage"></a>
 
 Basic usage
 -----------
@@ -53,8 +51,6 @@ This class is very useful if you use classes to handle your code.
 
 > Note: make sure to always set your method as `public` otherwise WordPress can't use it.
 
-<a name="priority-and-arguments"></a>
-
 ### Priority and accepted arguments
 
 You can specify the priority and the number of arguments your action method/function will receive using the third and fourth parameter respectively. By default, the `priority` is set to `10` and the number of arguments to `3`.
@@ -64,8 +60,6 @@ Here is an example on how to set a priority and a number of accepted arguments:
 ```php
 Action::add('init', 'AwesomeClass', 12, 2);
 ```
-
-<a name="function-closure"></a>
 
 ### Function and closure
 
@@ -85,8 +79,6 @@ Action::add('init', function()
     // Code...
 });
 ```
-
-<a name="class"></a>
 
 ### Class
 
