@@ -1,12 +1,12 @@
 Views
 =====
 
-- Basic usage
-	- Organize your views
-	- Passing data to views
-	- Sharing data with all views
-	- Render your views
-- View composers
+- [Basic usage](#basic-usage)
+	- [Organize your views](#organize-your-views)
+	- [Passing data to views](#passing-data-to-views)
+	- [Sharing data with all views](#sharing-data-with-all-views)
+	- [Render your views](#render-your-views)
+- [View composers](#view-composers)
 
 Basic usage
 -----------
@@ -176,4 +176,4 @@ View::composers([
 
 Next
 ----
-Read the [Scout template guide](http://framework.themosis.com/docs/scout/)
+Read the [Scout template guide]({{url}}/scout)

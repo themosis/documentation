@@ -1,10 +1,10 @@
 Routing
 =======
 
-- Introduction
-- Conditional tags
-- Routes
-- The $post & $query globals
+- [Introduction](#introduction)
+- [Conditional tags](#conditional-tags)
+- [Routes](#routes)
+- [The $post & $query globals](#the-post-query-globals)
 
 Introduction
 ------------
@@ -264,4 +264,4 @@ Route::any('page', function($post, $query)
 
 Next
 ----
-Read the [controllers guide](http://framework.themosis.com/docs/controllers/)
+Read the [controllers guide]({{url}}/controllers)

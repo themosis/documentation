@@ -1,14 +1,14 @@
 Form
 ====
 
-- Opening a form
-- Labels
-- Text, password, email, number, date, hidden inputs
-- Textarea
-- Checkbox and radio inputs
-- Select field
-- Buttons
-- Miscellaneous inputs
+- [Opening a form](#opening-a-form)
+- [Labels](#labels)
+- [Text, password, email, number, date, hidden inputs](#text-password-email-number-date-hidden-input)
+- [Textarea](#textarea)
+- [Checkbox and radio inputs](#checkbox-and-radio-inputs)
+- [Select field](#select-field)
+- [Buttons](#buttons)
+- [Miscellaneous inputs](#miscellaneous-inputs)
 
 Opening a form
 --------------
@@ -476,4 +476,4 @@ Other resources:
 
 Check the validation and input guide for documentation on how to retrieve and sanitize submitted data.
 
-* [Validation and input](http://framework.themosis.com/docs/validation/)
+* [Validation and input]({{url}}/validation)

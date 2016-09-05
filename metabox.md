@@ -5,14 +5,14 @@ As the name suggests, the `Metabox` class helps you build custom WordPress metab
 
 Before digging into the `Metabox` documentation, make sure to read the [Field class guide](http://framework.themosis.com/docs/field/).
 
-- Basic usage
-	- Set a custom id attribute
-	- Custom post type metabox
-	- Page metabox
-- Sanitize metabox fields
-- Retrieve data
-- Customize the metabox
-- Send data to your metabox
+- [Basic usage](#basic-usage)
+	- [Set a custom id attribute](#set-a-custom-id-attribute)
+	- [Custom post type metabox](#custom-post-type-metabox)
+	- [Page metabox](#page-metabox)
+- [Sanitize metabox fields](#sanitize-metabox-fields)
+- [Retrieve data](#retrieve-data)
+- [Customize the metabox](#customize-the-metabox)
+- [Send data to your metabox](#send-data-to-your-metabox)
 
 Basic usage
 -----------
@@ -81,8 +81,8 @@ Metabox::make('Informations', 'page')->set([
 
 > Note: Make sure to always prefix your custom fields name so they don't conflict with the [WordPress reserved terms](https://codex.wordpress.org/Reserved_Terms). We don't prefix names in the documentation (boouuuh...) but you should in your project.
 
-Sanitize/validate metabox fields
---------------------------------
+Sanitize metabox fields
+-----------------------
 
 The Metabox API contains an instance of the Validator class which gives you a method to validate/sanitize the custom fields attach to your metabox.
 
@@ -178,6 +178,6 @@ Of course, this methods is only useful if you specify a custom view for your met
 Next
 ----
 
-* [Meta guide](http://framework.themosis.com/docs/meta/)
-* [Taxonomy guide](http://framework.themosis.com/docs/taxonomy/)
-* [Page guide](http://framework.themosis.com/docs/page/)
+* [Meta guide]({{url}}/meta)
+* [Taxonomy guide]({{url}}/taxonomy)
+* [Page guide]({{url}}/page)

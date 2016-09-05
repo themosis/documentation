@@ -1,15 +1,15 @@
 Page
 ====
 
-- Introduction
-- Custom page
-	- Extra parameters
-	- Create a custom page
-- WordPress Settings API
-	- Define sections
-	- Define settings
-	- Validate your settings
-	- Retrieve data
+- [Introduction](#introduction)
+- [Custom page](#custom-page)
+	- [Extra parameters](#extra-parameters)
+	- [Create a custom page](#create-a-custom-page)
+- [WordPress Settings API](#wordpress-settings-api)
+	- [Define sections](#define-sections)
+	- [Define settings](#define-settings)
+	- [Sanitize your settings](#sanitize-your-settings)
+	- [Retrieve data](#retrieve-data)
 
 Introduction
 ------------
@@ -147,7 +147,7 @@ $page->addSettings($settings);
 
 If you look in the admin, you should have an option page with one tab containing your 3 settings.
 
-### Validate your settings
+### Sanitize your settings
 
 You can define validation/sanitized rules to your settings page. Simply call the `validate()` method on your page like so:
 
@@ -172,11 +172,11 @@ Next
 ----
 Discover the other features of the framework:
 
-* [Ajax](http://framework.themosis.com/docs/ajax/)
-* [Asset](http://framework.themosis.com/docs/asset/)
-* [PostType](http://framework.themosis.com/docs/posttype/)
-* [Field](http://framework.themosis.com/docs/field/)
-* [Metabox](http://framework.themosis.com/docs/metabox/)
-* [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
-* [Option](http://framework.themosis.com/docs/option/)
-* [Helpers](http://framework.themosis.com/docs/helpers/)
+* [Ajax]({{url}}/ajax)
+* [Asset]({{url}}/asset)
+* [PostType]({{url}}/posttype)
+* [Field]({{url}}/field)
+* [Metabox]({{url}}/metabox)
+* [Taxonomy]({{url}}/taxonomy)
+* [Option]({{url}}/option)
+* [Helpers]({{url}}/helpers)

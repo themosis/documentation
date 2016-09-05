@@ -3,7 +3,7 @@ Option
 
 The `Option` class helps you retrieve options/settings data.
 
-- Basic usage
+- [Basic usage](#basic-usage)
 
 Basic usage
 -----------
@@ -26,11 +26,11 @@ Next
 
 Discover the other features of the framework:
 
-* [Ajax](http://framework.themosis.com/docs/ajax/)
-* [Asset](http://framework.themosis.com/docs/asset/)
-* [PostType](http://framework.themosis.com/docs/posttype/)
-* [Field](http://framework.themosis.com/docs/field/)
-* [Metabox](http://framework.themosis.com/docs/metabox/)
-* [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
-* [Page](http://framework.themosis.com/docs/page/)
-* [Helpers](http://framework.themosis.com/docs/helpers/)
+* [Ajax]({{url}}/ajax)
+* [Asset]({{url}}/asset)
+* [PostType]({{url}}/posttype)
+* [Field]({{url}}/field)
+* [Metabox]({{url}}/metabox)
+* [Taxonomy]({{url}}/taxonomy)
+* [Page]({{url}}/page)
+* [Helpers]({{url}}/helpers)

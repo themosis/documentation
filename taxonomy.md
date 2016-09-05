@@ -1,11 +1,11 @@
 Taxonomy
 ========
 
-- Basic usage
-	- Plural and single display names
-	- Customize your taxonomy
-	- Shared taxonomies
-- Bind your taxonomy
+- [Basic usage](#basic-usage)
+	- [Plural and single display names](#plural-and-single-display-names)
+	- [Customize your taxonomy](#customize-your-taxonomy)
+	- [Shared taxonomies](#shared-taxonomies)
+- [Bind your taxonomy](#bind-your-taxonomy)
 
 Basic usage
 -----------

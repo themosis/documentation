@@ -1,9 +1,9 @@
 Models
 ======
 
-- Introduction
-- Register a Model
-- Basic usage
+- [Introduction](#introduction)
+- [Register a Model](#register-a-model)
+- [Basic usage](#basic-usage)
 
 Introduction
 ------------
@@ -83,4 +83,4 @@ Route::get('home', function()
 
 Next
 ----
-Read the [views guide](http://framework.themosis.com/docs/views/)
+Read the [views guide]({{url}}/views)

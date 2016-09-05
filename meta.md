@@ -3,7 +3,7 @@ Meta
 
 The `Meta` class is an helper class to help you retrieve data of custom fields registered as post meta.
 
-- Basic usage
+- [Basic usage](#basic-usage)
 
 Basic usage
 -----------

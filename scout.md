@@ -1,18 +1,18 @@
 Scout templates
 ===============
 
-- Basic usage
-- Scout control structures
-	- Include views
-	- Pass data to included views
-	- Sections
-	- Echoing data
-	- Conditional statements
-	- Loop statements
-	- WordPress loop
-	- Displaying raw text
-	- Comments
-- Loop helper
+- [Basic usage](#basic-usage)
+- [Scout control structures](#scout-control-structures)
+	- [Include views](#include-views)
+	- [Pass data to included views](#pass-data-to-included-views)
+	- [Sections](#sections)
+	- [Echoing data](#echoing-data)
+	- [Conditional statements](#conditional-statements)
+	- [Loop statements](#loop-statements)
+	- [WordPress loop](#wordpress-loop)
+	- [Displaying raw text](#displaying-raw-text)
+	- [Comments](#comments)
+- [Loop helper](#loop-helper)
 
 Basic usage
 -----------
@@ -427,20 +427,20 @@ This article closes the "Getting started" guide.
 
 There are many APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
 
-* [Action](http://framework.themosis.com/docs/action/)
-* [Ajax](http://framework.themosis.com/docs/ajax/)
-* [Asset](http://framework.themosis.com/docs/asset/)
-* [Configuration](http://framework.themosis.com/docs/configuration/)
-* [PostType](http://framework.themosis.com/docs/posttype/)
-* [Form](http://framework.themosis.com/docs/form/)
-* [Field](http://framework.themosis.com/docs/field/)
-* [Meta](http://framework.themosis.com/docs/meta/)
-* [Metabox](http://framework.themosis.com/docs/metabox/)
-* [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
-* [Page](http://framework.themosis.com/docs/page/)
-* [Option](http://framework.themosis.com/docs/option/)
-* [User](http://framework.themosis.com/docs/user/)
-* [Validation and input](http://framework.themosis.com/docs/validation/)
-* [Widgets](http://framework.themosis.com/docs/widgets/)
-* [Helpers](http://framework.themosis.com/docs/helpers/)
-* [WP-CLI](http://framework.themosis.com/docs/wp-cli/)
+* [Action]({{url}}/action)
+* [Ajax]({{url}}/ajax)
+* [Asset]({{url}}/asset)
+* [Configuration]({{url}}/configuration)
+* [PostType]({{url}}/posttype)
+* [Form]({{url}}/form)
+* [Field]({{url}}/field)
+* [Meta]({{url}}/meta)
+* [Metabox]({{url}}/metabox)
+* [Taxonomy]({{url}}/taxonomy)
+* [Page]({{url}}/page)
+* [Option]({{url}}/option)
+* [User]({{url}}/user)
+* [Validation and input]({{url}}/validation)
+* [Widgets]({{url}}/widgets)
+* [Helpers]({{url}}/helpers)
+* [WP-CLI]({{url}}/wp-cli)

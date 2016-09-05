@@ -1,14 +1,14 @@
 Multisite
 =========
 
-- Installation
-	- Create a new project
-	- Configure your environment
-	- Allow your instance to run the multisite installation
-	- Install WordPress
-	- Update your instance configuration
-	- Activate your themosis-theme
-- Cleanup default URL
+- [Installation](#installation)
+	- [Create a new project](#create-a-new-project)
+	- [Configure your environment](#configure-your-environment)
+	- [Allow your instance to run the multisite installation](#allow-your-instance-to-run-the-multisite-installation)
+	- [Install WordPress](#install-wordpress)
+	- [Update your instance configuration](#update-your-instance-configuration)
+	- [Activate your themosis-theme](#activate-your-themosis-theme)
+- [Cleanup default URL](#cleanup-default-url)
 
 Installation
 ------------
