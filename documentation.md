@@ -1,11 +1,11 @@
-Documentation
--------------
+### Documentation
 
 - [Introduction]({{url}}/introduction)
 - [Contribution guide]({{url}}/contributing)
 - [Upgrade guide]({{url}}/upgrade-guide)
+- [Changelog](#)
 
-### Get started:
+#### Get started:
 
 - [Installation]({{url}}/installation)
 - [Environment]({{url}}/environment)
@@ -16,7 +16,7 @@ Documentation
 - [Views]({{url}}/views)
 - [Scout templates]({{url}}/scout)
 
-### Learn more
+#### Learn more
 
 - [Action]({{url}}/action)
 - [Ajax]({{url}}/ajax)
