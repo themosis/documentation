@@ -34,12 +34,12 @@ Open the default `.env.local.php` file located in the root of your project. Fill
 /*----------------------------------------------------*/
 return [
 
-    'DB_NAME'		=> 'your_database_name',
-    'DB_USER'		=> 'database_username',
-    'DB_PASSWORD'	=> 'database_password',
-    'DB_HOST'		=> 'localhost',
-    'WP_HOME'		=> 'http://my-website.dev',
-    'WP_SITEURL'	=> 'http://my-website.dev/cms'
+    'DB_NAME'     => 'your_database_name',
+    'DB_USER'     => 'database_username',
+    'DB_PASSWORD' => 'database_password',
+    'DB_HOST'     => 'localhost',
+    'WP_HOME'     => 'http://my-website.dev',
+    'WP_SITEURL'  => 'http://my-website.dev/cms'
 
 ];
 ```
@@ -89,8 +89,8 @@ Once you get your hostname, open the `environment.php` file and replace the valu
 /*----------------------------------------------------*/
 return [
 
-    'local'             => 'WRITE YOUR HOSTNAME HERE',
-    'production'        => 'remote machine hostname'
+    'local'      => 'WRITE YOUR HOSTNAME HERE',
+    'production' => 'remote machine hostname'
 
 ];
 ```
@@ -109,8 +109,8 @@ In some scenarios, you'll probably need to define several hostnames per environm
 /*----------------------------------------------------*/
 return [
 
-    'local'             => ['computer1', 'computer2', 'computer3'],
-    'production'        => 'remote machine hostname'
+    'local'      => ['computer1', 'computer2', 'computer3'],
+    'production' => 'remote machine hostname'
 
 ];
 ```
@@ -136,15 +136,15 @@ Now inside your `environment.php` file, in place of an array, you'll replace you
 
 return function()
 {
-	// Check for the environment variable
-	if ('varValue' === getenv('varName'))
-	{
-		// Return the environment file slug name: .env.{$slug}.php
-		return 'local';
-	}
+    // Check for the environment variable
+    if ('varValue' === getenv('varName'))
+    {
+        // Return the environment file slug name: .env.{$slug}.php
+        return 'local';
+    }
 
-	// Else if no environment variable found... it might be a production environment...
-	return 'production';
+    // Else if no environment variable found... it might be a production environment...
+    return 'production';
 };
 ```
 
@@ -156,19 +156,17 @@ Nginx has a `ENV` function but this apparently only work in the main context of 
 
 ```
 server {
-
     location ~ \.php$ {
     	include        fastcgi_params;
         fastcgi_pass   themosis.dev:9000;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name";
 
-		###############################
-		# Your environment variable   #
-		###############################
+        ###############################
+        # Your environment variable   #
+        ###############################
         fastcgi_param varName varValue;
     }
-
 }
 ```
 
@@ -179,15 +177,15 @@ For Nginx, your environment variable is accessible by using `$_SERVER[]`. So ins
 
 return function()
 {
-  // Check for the environment variable
-  if ('varValue' === $_SERVER['varName'])
-  {
-    // Return the environment file slug name: .env.{$slug}.php
-    return 'local';
-  }
+    // Check for the environment variable
+    if ('varValue' === $_SERVER['varName'])
+    {
+      // Return the environment file slug name: .env.{$slug}.php
+      return 'local';
+    }
 
-	// Else if no environment variable found... it might be a production environment...
-	return 'production';
+    // Else if no environment variable found... it might be a production environment...
+    return 'production';
 };
 ```
 
