@@ -20,12 +20,10 @@ In order to listen to a WordPress ajax action, use the `run` method:
 ```php
 Ajax::run('my_action', 'both', function()
 {	
-	// Perform security check before anything - nonce
+    // Perform security check before anything - nonce
+    $value = $_POST['key'];
 
-	$value = $_POST['key'];
-
-	// Perform your WordPress actions...
-
+    // Perform your WordPress actions...
 });
 ```
 
@@ -50,7 +48,6 @@ The code below shows a simple AJAX process. It uses a javascript file and a PHP 
 // When the ajax request is done, we simply display it in the console.
 
 $.ajax({
-
     url: themosis.ajaxurl, // Global access to the WordPress ajax handler file
     type: 'POST',
     dataType: 'json',
@@ -59,11 +56,10 @@ $.ajax({
         security: themosis.security, // A nonce value
         number: 2 // The value you want to send
     }
-
 }).done(function(data)
 {	
-	// This should print "4" in the console.
-	console.log(data);
+    // This should print "4" in the console.
+    console.log(data);
 });
 ```
 
@@ -71,23 +67,21 @@ Now that the user has clicked the button and ran the ajax request. Let's handle 
 
 ```php
 <?php
-	// This file is stored in resources/admin/ajax.php
-	// This code listens for logged in and logged out users
-	Ajax::run('my-custom-action', 'both', function(){
+    // This file is stored in resources/admin/ajax.php
+    // This code listens for logged in and logged out users
+    Ajax::run('my-custom-action', 'both', function(){	
+        // Check nonce value
+        check_ajax_referer(Session::nonceName, 'security');
+
+        // Run custom code - Make sure to sanitize and check values before
+        $result = 2 + $_POST['number'];
 		
-		// Check nonce value
-		check_ajax_referer(Session::nonceName, 'security');
+        // "Return" the result
+        echo $result;
 
-		// Run custom code - Make sure to sanitize and check values before
-		$result = 2 + $_POST['number'];
-		
-		// "Return" the result
-		echo $result;
-
-		// Close
-		die();
-
-	});
+        // Close
+        die();
+    });
 ?>
 ```
 > The code above is using the `Session::nonceName` for the `check_ajax_referer` action name parameter. The session class only provides 2 constants you can use for WordPress nonce functions:
@@ -104,7 +98,7 @@ In the previous javascript example, we get access to some values using the follo
 
 ```js
 {
-	url: themosis.ajaxurl
+    url: themosis.ajaxurl
 }
 ```
 
@@ -117,8 +111,8 @@ To add more values, you need to use the `themosisGlobalObject` filter like so:
 ```php
 add_filter('themosisGlobalObject', function($data)
 {
-	$data['myData'] = 'Some value';
-	return $data;
+    $data['myData'] = 'Some value';
+    return $data;
 });
 ```
 
@@ -126,8 +120,8 @@ This will output the following object:
 
 ```js
 var themosis = {
-	ajaxurl = 'http://www.my-domain.com/wp-admin/admin-ajax.php',
-	myData = 'Some value'
+    ajaxurl = 'http://www.my-domain.com/wp-admin/admin-ajax.php',
+    myData = 'Some value'
 }
 ```
 
@@ -137,7 +131,7 @@ You can easily change the variable name of this global object. In order to do so
 
 ```php
 [
-	'namespace' => 'themosis' // Change this value...
+    'namespace' => 'themosis' // Change this value...
 ]
 ```
 

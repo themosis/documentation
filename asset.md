@@ -102,8 +102,8 @@ Simply add your code before returning a view:
 ```php
 Route::is('home', function()
 {
-	Asset::add('my-handle', 'js/file.js', ['jquery'], '1.0', true);
-	return View::make('home');
+    Asset::add('my-handle', 'js/file.js', ['jquery'], '1.0', true);
+    return View::make('home');
 });
 ```
 
@@ -121,17 +121,17 @@ Then use the constructor method of your controller to load your asset for this s
 // File stored in resources/controllers/HomeController.php
 class HomeController
 {
-	public function __construct()
+    public function __construct()
     {		
-		// This asset is only available to the home page
-		Asset::add('my-handle', 'css/tool.css', array('main-style'), '1.0', 'screen');
-	}
+        // This asset is only available to the home page
+        Asset::add('my-handle', 'css/tool.css', array('main-style'), '1.0', 'screen');
+    }
 	
-	// Method responsible to render the home view
-	public function index()
+    // Method responsible to render the home view
+    public function index()
     {	
-		return View::make('home');
-	}
+        return View::make('home');
+    }
 }
 ```
 
