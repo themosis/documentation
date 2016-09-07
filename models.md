@@ -24,21 +24,21 @@ In order to create a model, simply create a new PHP class inside the `resources/
 
 class PostModel
 {
-	/**
-	 * Return a list of all published posts.
-	 * 
-	 * @return array
-	*/
-	public static function all()
-	{
-		$query = new WP_Query([
+    /**
+     * Return a list of all published posts.
+     * 
+     * @return array
+     */
+    public static function all()
+    {
+        $query = new WP_Query([
             'post_type'         => 'post',
             'posts_per_page'    => -1,
             'post_status'       => 'publish'
         ]);
 
         return $query->get_posts();
-	}
+    }
 }
 
 ?>
@@ -51,7 +51,6 @@ If you want to add directories to autoload custom classes or add namespaces to y
 <?php
 
 return [
-
     /*
     * Edit this file in order to configure your theme's
     * classes autoloading. Classes are loaded using PSR-4.
@@ -59,7 +58,6 @@ return [
     * The key is the namespace and key's value contains one or more paths to your classes.
     */
     ''  => [themosis_path('theme').'controllers', themosis_path('theme').'models']
-
 ];
 ```
 
@@ -73,9 +71,9 @@ In order to use your model, simply create a new instance anywhere in your code o
 ```php
 Route::get('home', function()
 {
-	return View::make('pages.home', [
-		'posts' => PostModel::all()
-	]);
+    return View::make('pages.home', [
+        'posts' => PostModel::all()
+    ]);
 });
 ```
 
