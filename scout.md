@@ -101,13 +101,13 @@ Add the `@overwrite` statement when closing your section. This will overwrite th
 
 #### Extend parent section
 
-Add the `@parent` statement in order to keep the content of the parent section defined in the layout view.
+Add the `@@parent` statement in order to keep the content of the parent section defined in the layout view.
 
 ```html
 @extends('layouts.main')
 
 @section('sidebar')
-    @parent
+    @@parent
     <p>Child sidebar content appended to parent's content</p>
 @stop
 ```
