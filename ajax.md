@@ -46,7 +46,6 @@ The code below shows a simple AJAX process. It uses a javascript file and a PHP 
 // This file is stored in resources/assets/js/application.js
 // Let's assume this ajax request is made when a user click a button.
 // When the ajax request is done, we simply display it in the console.
-
 $.ajax({
     url: themosis.ajaxurl, // Global access to the WordPress ajax handler file
     type: 'POST',
