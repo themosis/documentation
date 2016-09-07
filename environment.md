@@ -179,12 +179,12 @@ For Nginx, your environment variable is accessible by using `$_SERVER[]`. So ins
 
 return function()
 {
-	// Check for the environment variable
-	if ('varValue' === $_SERVER['varName'])
-	{
-		// Return the environment file slug name: .env.{$slug}.php
-		return 'local';
-	}
+  // Check for the environment variable
+  if ('varValue' === $_SERVER['varName'])
+  {
+    // Return the environment file slug name: .env.{$slug}.php
+    return 'local';
+  }
 
 	// Else if no environment variable found... it might be a production environment...
 	return 'production';
