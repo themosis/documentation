@@ -48,9 +48,9 @@ Possible values for the `$features` parameter:
 
 ```php
 $features = [
-    'title' 	=> 'The field display title. By default it uses the $name.',
-    'info'		=> 'Add a helper text/description to the field.',
-    'default' 	=> 'You can define a default value for the field.'
+    'title'   => 'The field display title. By default it uses the $name.',
+    'info'    => 'Add a helper text/description to the field.',
+    'default' => 'You can define a default value for the field.'
 ];
 ```
 
