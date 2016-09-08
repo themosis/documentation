@@ -38,10 +38,10 @@ The `set()` method allows you to pass extra parameters for your page. The curren
 
 ```php
 $custom = Page::make('my-page', 'Theme options')->set([
-	'capability'	=> 'manage_options',
-	'icon'			=> 'dashicons-admin-site',
-	'position'		=> 20,
-	'tabs'			=> true
+    'capability' => 'manage_options',
+    'icon'       => 'dashicons-admin-site',
+    'position'   => 20,
+    'tabs'       => true
 ]);
 ```
 - **capability**: _string_ Use this parameter to change the capability a user need in order to **view** the page.
@@ -66,12 +66,12 @@ For example:
 ```php
 // File is stored in /resources/views/options/my-page.scout.php
 <div class="wrap">
-	<h1>{{{ $__page->get('title') }}}</h1>
-	<ul>
-		<li>Option 1</li>
-		<li>Option 2</li>
-	</ul>
-	// Custom HTML content
+    <h1>{{{ $__page->get('title') }}}</h1>
+    <ul>
+        <li>Option 1</li>
+        <li>Option 2</li>
+    </ul>
+    // Custom HTML content
 </div>
 ```
 
@@ -99,7 +99,7 @@ By default, sections are organized by tab. But you can easily alter this behavio
 
 ```php
 Page::make('my-custom-page', 'A custom page')->set([
-	'tabs'	=> false
+    'tabs' => false
 ]);
 ```
 
@@ -131,9 +131,9 @@ To define settings for your page, simply use the `Field` class. In an associativ
 
 ```php
 $settings['section-slug-name'] = [
-	Field::text('street-address'),
-	Field::text('phone'),
-	Field::media('theme-logo')
+    Field::text('street-address'),
+    Field::text('phone'),
+    Field::media('theme-logo')
 ];
 ```
 
@@ -153,9 +153,9 @@ You can define validation/sanitized rules to your settings page. Simply call the
 
 ```php
 $page->validate([
-	'street-address'	=> ['textfield'],
-	'phone'			=> ['num', 'min:7'],
-	'theme-logo'		=> ['file:jpeg, jpg, png, gif']
+    'street-address' => ['textfield'],
+    'phone'          => ['num', 'min:7'],
+    'theme-logo'     => ['file:jpeg, jpg, png, gif']
 ));
 ```
 

@@ -20,7 +20,7 @@ For example, let's register a custom post type in order to handle a list of book
 ```php
 // File stored in resources/admin/books.php
 PostType::make('books', 'Books', 'Book')->set([
-    'public'	=> true
+    'public' => true
 ]);
 ```
 
@@ -56,9 +56,9 @@ In order to define the behavior of your custom post type, use the `set()` method
 
 ```php
 PostType::make('books', 'Books', 'Book')->set([
-    'public'       => false,
-    'supports'     => ['title', 'editor'],
-    'labels'       => [
+    'public'   => false,
+    'supports' => ['title', 'editor'],
+    'labels'   => [
         'add_item' => __('Add', THEMOSIS_TEXTDOMAIN)
     ]
 ]);
@@ -97,9 +97,9 @@ Now let's say we define a custom URI slug for our `books` custom post type like 
 
 ```php
 $postType = PostType::make('books', 'Books', 'Book')->set([
-	'rewrite'	=> [
-		'slug'	=> 'library'
-	]
+    'rewrite' => [
+        'slug' => 'library'
+    ]
 ]);
 
 // We can retrieve the rewrite parameter as it is defined in the set method.
@@ -150,7 +150,7 @@ In the following example, we add a custom publish button text to our `rent` stat
 
 ```php
 $books->status('rent', [
-	'publish_text'	=> __('Rent the book', THEMOSIS_TEXTDOMAIN)
+    'publish_text' => __('Rent the book', THEMOSIS_TEXTDOMAIN)
 ]);
 ```
 
@@ -166,10 +166,10 @@ $books = PostType::make('books', 'Books', 'Book')->set();
 
 // Add our custom statuses: rent, rented, sell, sold
 $books->status([
-	'rent',
-	'rented',
-	'sell',
-	'sold'
+    'rent',
+    'rented',
+    'sell',
+    'sold'
 ]);
 ```
 
@@ -179,18 +179,18 @@ You can also define their properties like so:
 
 ```php
 $books->status([
-	'rent'		=> [
-		'publish_text'	=> 'Save and rent the book'
-	],
-	'rented'	=> [
-		'publish_text'	=> 'Set the book as rented'
-	],
-	'sell'		=> [
-		'publish_text'	=> 'Sell the book'
-	],
-	'sold'		=> [
-		'publish_text'	=> 'Set the book as sold'
-	]
+    'rent' => [
+        'publish_text' => 'Save and rent the book'
+    ],
+    'rented' => [
+        'publish_text' => 'Set the book as rented'
+    ],
+    'sell' => [
+        'publish_text' => 'Sell the book'
+    ],
+    'sold' => [
+        'publish_text' => 'Set the book as sold'
+    ]
 ]);
 ```
 The array key is the custom status name and each value is an array of status properties.

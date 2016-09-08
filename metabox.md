@@ -32,7 +32,7 @@ Here is an example of a basic metabox, containing one text field, that is displa
 
 ```php
 Metabox::make('Infos', 'post')->set([
-	Field::text('author')
+    Field::text('author')
 ]);
 ```
 The code above will render a metabox with a title of _Infos_ and a single custom text field.
@@ -73,9 +73,9 @@ In this example, a metabox is displayed on all pages edit screen with some custo
 
 ```php
 Metabox::make('Informations', 'page')->set([
-	Field::text('name'),
-	Field::text('phone'),
-	Field::textarea('address')
+    Field::text('name'),
+    Field::text('phone'),
+    Field::textarea('address')
 ]);
 ```
 
@@ -90,26 +90,26 @@ In order to validate/sanitize your fields, use the `validate()` method like so:
 
 ```php
 $metabox = Metabox::make('A title', 'page')->set([
-	Field::text('email'),
-	Field::text('name'),
-	Field::text('phone'),
-	Field::textarea('address'),
-	Field::infinite('team', [
-		Field::text('name'),
-		Field::text('age')
-	])
+    Field::text('email'),
+    Field::text('name'),
+    Field::text('phone'),
+    Field::textarea('address'),
+    Field::infinite('team', [
+        Field::text('name'),
+        Field::text('age')
+    ])
 ]);
 
 // Let's validate our custom fields
 $metabox->validate([
-	'email'		=> ['email'],
-	'name'		=> ['textfield', 'min:3', 'alpha'],
-	'phone'		=> ['num', 'max:25'],
-	'address'	=> ['textarea'],
-	'team'		=> [
-		'name'		=> ['textfield', 'alpha', 'min:3', 'max:50'],
-		'age'		=> ['num']
-	]
+    'email'   => ['email'],
+    'name'    => ['textfield', 'min:3', 'alpha'],
+    'phone'   => ['num', 'max:25'],
+    'address' => ['textarea'],
+    'team'    => [
+        'name' => ['textfield', 'alpha', 'min:3', 'max:50'],
+        'age'  => ['num']
+    ]
 ]);
 ```
 > Note how the `infinite` field is validated.

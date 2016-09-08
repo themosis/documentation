@@ -22,8 +22,8 @@ For an example, let's first build a simple metabox with custom fields:
 
 ```php
 Metabox::make('Details', 'post')->set([
-	Field::text('name'),
-	Field::checkbox('channels', ['email', 'mail', 'morse'])
+    Field::text('name'),
+    Field::checkbox('channels', ['email', 'mail', 'morse'])
 ]);
 ```
 
