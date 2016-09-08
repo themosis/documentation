@@ -2,8 +2,8 @@
 
 - [Introduction]({{url}}/introduction)
 - [Contribution guide]({{url}}/contributing)
-- [Upgrade guide]({{url}}/upgrade-guide)
-- [Changelog](#)
+- [Upgrade guide]({{url}}/upgrade)
+- [Changelog]({{url}}/changelog)
 
 #### Get started:
 
