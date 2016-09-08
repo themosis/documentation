@@ -4,13 +4,13 @@ Changelog
 1.2.3
 -----
 
-### New
+#### New
 
 - Metabox make method has an option to define a custom template. Show the metabox only if page template is defined.
 - Page make method has an option to change the menu title.
 - View instance has a getData() method to retrieve all passed data to it.
 
-### Updates
+#### Updates
 
 - Update class alias management. Revert back to theme only. [READ UPGRADE GUIDE]({{url}}/upgrade)
 - Update custom statuses. Custom statuses are shown inside the quick edit panel.
@@ -20,7 +20,7 @@ Changelog
 - Update Taxonomy class for plugin development.
 - Update custom fields to define a save method (currently only used inside metabox containers).
 
-### Fixes
+#### Fixes
 
 - Fix User API to not return an empty instance if user do not exists.
 - Fix missing value for theme support config file.
@@ -44,7 +44,7 @@ Changelog
 1.2.0
 -----
 
-### New
+#### New
 
 - Action class.
 - Asset localize method.
@@ -63,14 +63,14 @@ Changelog
 - Developers can now define custom display names for custom images.
 - Developers can specify multiple hostnames per environment.
 
-### Updates
+#### Updates
 
 - Update the theme structure.
 - Refactor framework and theme bootstrap code which offers better performance and avoid hook conflicts.
 - Improve Option::get() method which can now return a group of settings.
 - Move the storage directory at project root.
 
-### Fixes
+#### Fixes
 
 - Fix themosis_assets() function directory path.
 - Fix infinite field indexes.
@@ -83,14 +83,14 @@ Changelog
 - Fix asset duplicates.
 - Fix page tab URI when used as sub-page.
 
-### Deprecated
+#### Deprecated
 
 - The method PostType::getSlug() is deprecated. Use the PostType::get() method.
 
 1.1.3
 -----
 
-### New
+#### New
 
 - Date input and custom field.
 - Number input and custom field.
@@ -99,7 +99,7 @@ Changelog
 - Themes can now handle all WordPress theme support. The 'title-tag' and 'html5' supports are enabled by default.
 - Developers can now customize the display name of their page templates by using key/value pair.
 
-### Fixes
+#### Fixes
 
 - Fix a menu script issue where accordion items were not working correctly.
 - Fix a GIF display issue on media field.
@@ -117,7 +117,7 @@ Changelog
 1.1.0
 -----
 
-### New
+#### New
 
 - Share data across all views using View::share() method.
 - Add support for view composers. Allows you to run custom code when a specific view is rendered.
@@ -128,7 +128,7 @@ Changelog
 - Themosis-framework plugin is installed by default inside the mu-plugins directory.
 - Loop::postClass() method. Return post class attribute.
 
-### Updates
+#### Updates
 
 - Update Media and Collection field UI with better preview of images and files.
 - Update Form::open() method where a developer can define custom nonce values.
@@ -136,7 +136,7 @@ Changelog
 - Update Form::checkbox() method. Work as the Form::radio() method.
 - Update Field::checkbox() method accordingly.
 
-### Fixes
+#### Fixes
 
 - Fix select custom field issue with numeric index 0.
 - Fix access to view data on a custom admin page.
@@ -146,7 +146,7 @@ Changelog
 - Fix metabox options issue with not found indexes.
 - Fix Infinite custom field issue with numeric name attributes.
 
-### Deprecated
+#### Deprecated
 
 - The method Form::checkboxes is deprecated and is replaced by the Form::checkbox method.
 - The custom field Field::checkboxes method is deprecated and is replaced by the Field::checkbox method.
