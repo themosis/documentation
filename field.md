@@ -220,7 +220,7 @@ Field::select('my-field', [
         'Belgium',
         'France',
         'United States'
-	]
+    ]
 ], ['title' => 'Choose a country:']);
 ```
 
