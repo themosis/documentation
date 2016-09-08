@@ -1,8 +1,6 @@
 Validation
 ==========
 
-The framework comes with a class to help you sanitize your inputs.
-
 - [Get input data](#get-input-data)
 	- [Get all submitted data](#get-all-submitted-data)
 	- [Get a specific data](#get-a-specific-data)
@@ -12,6 +10,8 @@ The framework comes with a class to help you sanitize your inputs.
 	- [Validate multiple data](#validate-multiple-data)
 	- [Rules parameters](#rules-parameters)
 - [Validation rules](#validation-rules)
+
+The framework comes with a class to help you sanitize your inputs.
 
 Get input data
 --------------
@@ -55,7 +55,7 @@ Pass an array of validation rules as a second parameter.
 
 ```php
 $data = Validator::multiple(Input::all(), [
-    'field-name'	 => ['alnum', 'min:5'],
+    'field-name' => ['alnum', 'min:5'],
     'email'      => ['email'],
     'age'        => ['num']
 ]);

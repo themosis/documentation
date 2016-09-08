@@ -18,7 +18,7 @@ For example, let's register a custom taxonomy in order to handle a list of autho
 
 ```php
 Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
-	'public'	=> true
+    'public' => true
 ]);
 ```
 
@@ -26,10 +26,10 @@ This will build a basic custom taxonomy accessible from the books custom post ty
 
 ```php
 Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
-    'public'        => true,
-    'rewrite'		=> false,
-	'query_var'		=> false,
-	'hierarchical'	=> true
+    'public'       => true,
+    'rewrite'      => false,
+    'query_var'    => false,
+    'hierarchical' => true
 ]);
 ```
 
@@ -54,8 +54,8 @@ In order to define the behavior of your custom taxonomy, use the `set()` method 
 ```php
 Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
     'public'             => true,
-	'show_in_nav_menus'  => false,
-	'hierarchical'	     => true,
+    'show_in_nav_menus'  => false,
+    'hierarchical'	     => true,
     'show_tagcloud'      => false,
     'show_in_quick_edit' => false
 ]);

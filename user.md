@@ -60,7 +60,7 @@ $user = User::current();
 
 if ($user->hasRole('editor'))
 {
-	// Do something
+    // Do something
 }
 ```
 
@@ -81,7 +81,7 @@ $user = User::current();
 
 if ($user->can('edit_posts'))
 {
-	// Do something
+    // Do something
 }
 ```
 
@@ -93,8 +93,8 @@ You can update user data by providing an array of properties. Note that the ID p
 $user = User::current();
 
 $user->update([
-	'user_url'    => 'http://www.somewebsite.com',
-	'user_email'  => 'foo@bar.com'
+    'user_url'   => 'http://www.somewebsite.com',
+    'user_email' => 'foo@bar.com'
 ]);
 ```
 
@@ -128,10 +128,10 @@ In the following example, we will add custom fields to our previously defined se
 // Grab our User instance from previous code sample
 // and add fields to each section.
 $user->addFields([
-	'section-slug'  => [
+    'section-slug' => [
         Field::text('street', ['title' => 'Street address'])
     ],
-    'social'        => [
+    'social' => [
         Field::text('facebook', ['info' => 'Your facebook page.']),
         Field::text('twitter', ['info' => 'Twitter account name.'])
     ]

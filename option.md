@@ -1,9 +1,9 @@
 Option
 ======
 
-The `Option` class helps you retrieve options/settings data.
-
 - [Basic usage](#basic-usage)
+
+The `Option` class helps you retrieve options/settings data.
 
 Basic usage
 -----------

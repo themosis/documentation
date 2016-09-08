@@ -1,14 +1,14 @@
 PostType
 ========
 
-The `PostType` class helps you to register and manipulate WordPress custom post types.
-
 - [Basic usage](#basic-usage)
 	- [Plural and single display names](#plural-and-single-display-names)
 	- [Customize your custom post type](#customize-your-custom-post-type)
 	- [Retrieve custom post type parameters value](#retrieve-custom-post-type-parameters-value)
 - [Custom status](#custom-status)
 	- [Add custom status](#add-custom-status)
+
+The `PostType` class helps you to register and manipulate WordPress custom post types.
 
 Basic usage
 -----------

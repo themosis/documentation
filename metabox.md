@@ -1,10 +1,6 @@
 Metabox
 =======
 
-As the name suggests, the `Metabox` class helps you build custom WordPress metabox. A metabox is a UI container for your custom fields (post metadata).
-
-Before digging into the `Metabox` documentation, make sure to read the [Field class guide](http://framework.themosis.com/docs/field/).
-
 - [Basic usage](#basic-usage)
 	- [Set a custom id attribute](#set-a-custom-id-attribute)
 	- [Custom post type metabox](#custom-post-type-metabox)
@@ -13,6 +9,10 @@ Before digging into the `Metabox` documentation, make sure to read the [Field cl
 - [Retrieve data](#retrieve-data)
 - [Customize the metabox](#customize-the-metabox)
 - [Send data to your metabox](#send-data-to-your-metabox)
+
+As the name suggests, the `Metabox` class helps you build custom WordPress metabox. A metabox is a UI container for your custom fields (post metadata).
+
+Before digging into the `Metabox` documentation, make sure to read the [Field class guide]({{url}}/field).
 
 Basic usage
 -----------

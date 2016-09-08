@@ -84,7 +84,7 @@ Page::make('my-custom-page', 'A Custom Page', null, $page_view)->set();
 ```
 > Notice the `$__page` variable into the view. This variable is the instance of your Page. In the example above, we grabbed the title property registered with the `Page::make()` method.
 
-You can also take advantage of the View composer method to execute code only when your custom page view is rendered and pass it extra data. Check the [view guide](http://framework.themosis.com/docs/views/) for more information.
+You can also take advantage of the View composer method to execute code only when your custom page view is rendered and pass it extra data. Check the [view guide]({{url}}/views) for more information.
 
 WordPress Settings API
 ----------------------
@@ -161,11 +161,11 @@ $page->validate([
 
 You only need to specify the `setting name` as the key and the value is a list of sanitization rules.
 
-> Please refer to the [validation guide](http://framework.themosis.com/docs/validation/) for available rules.
+> Please refer to the [validation guide]({{url}}/validation) for available rules.
 
 ### Retrieve data
 
-In order to read the values stored in your custom page options, check the [option guide](http://framework.themosis.com/docs/option/).
+In order to read the values stored in your custom page options, check the [option guide]({{url}}/option).
 
 
 Next
