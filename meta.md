@@ -1,9 +1,9 @@
 Meta
 ====
 
-The `Meta` class is an helper class to help you retrieve data of custom fields registered as post meta.
-
 - [Basic usage](#basic-usage)
+
+The `Meta` class is an helper class to help you retrieve data of custom fields registered as post meta.
 
 Basic usage
 -----------
