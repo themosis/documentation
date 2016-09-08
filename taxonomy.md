@@ -55,7 +55,7 @@ In order to define the behavior of your custom taxonomy, use the `set()` method 
 Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
     'public'             => true,
     'show_in_nav_menus'  => false,
-    'hierarchical'	     => true,
+    'hierarchical'       => true,
     'show_tagcloud'      => false,
     'show_in_quick_edit' => false
 ]);
