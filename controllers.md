@@ -22,7 +22,7 @@ class HomeController extends BaseController
 {
 	public function index()
 	{
-		return View::make('pages.home');
+		return view('pages.home');
 	}
 }
 ?>
@@ -100,7 +100,7 @@ class HomeController extends BaseController
 
 	public function index()
 	{	
-		return View::make('pages.home', ['data' => $this->property]);
+		return view('pages.home', ['data' => $this->property]);
 	}
 }
 ?>
@@ -140,7 +140,7 @@ class PageController extends BaseController
 
     public function all()
     {
-        return View::make('pages.custom');
+        return view('pages.custom');
     }
 }
 ```
