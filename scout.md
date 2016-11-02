@@ -1,18 +1,18 @@
 Scout templates
 ===============
 
-- Basic usage
-- Scout control structures
-	- Include views
-	- Pass data to included views
-	- Sections
-	- Echoing data
-	- Conditional statements
-	- Loop statements
-	- WordPress loop
-	- Displaying raw text
-	- Comments
-- Loop helper
+- [Basic usage](#basic-usage)
+- [Scout control structures](#scout-control-structures)
+	- [Include views](#include-views)
+	- [Pass data to included views](#pass-data-to-included-views)
+	- [Sections](#sections)
+	- [Echoing data](#echoing-data)
+	- [Conditional statements](#conditional-statements)
+	- [Loop statements](#loop-statements)
+	- [WordPress loop](#wordpress-loop)
+	- [Displaying raw text](#displaying-raw-text)
+	- [Comments](#comments)
+- [Loop helper](#loop-helper)
 
 Basic usage
 -----------
@@ -28,15 +28,15 @@ Here is an example of a basic view stored inside the `resources/views` folder:
 @extends('layouts.main')
 
 @section('main')
-	<h1>Hello, {{ $name }}</h1>
+    <h1>Hello, {{ $name }}</h1>
 @stop
 
 @section('sidebar')
-	<h3>Latest posts</h3>
-	<ul>
-		<li>First post</li>
-		<li>Second post</li>
-	</ul>
+    <h3>Latest posts</h3>
+    <ul>
+        <li>First post</li>
+        <li>Second post</li>
+    </ul>
 @stop
 ```
 
@@ -45,7 +45,7 @@ And this view may be returned to the browser like so:
 ```php
 Route::get('home', function()
 {
-	return View::make('welcome', ['name' => 'Julien']);
+    return View::make('welcome', ['name' => 'Julien']);
 });
 ```
 
@@ -55,17 +55,15 @@ In the previous example, we used the `@extends` syntax. This function allows you
 <!-- Layout stored in resources/views/layouts/main.scout.php -->
 @include('header')
 
-	<div class="container">
+    <div class="container">
+        @yield('main')
+    </div>
 
-		@yield('main')
-
-	</div>
-
-	<div class="sidebar">
-		@section('sidebar')	
-			<p>Sidebar section from the "main" layout file.</p>
-		@show
-	</div>
+    <div class="sidebar">
+        @section('sidebar')	
+            <p>Sidebar section from the "main" layout file.</p>
+        @show
+    </div>
 
 @include('footer')
 ```
@@ -97,19 +95,19 @@ Add the `@overwrite` statement when closing your section. This will overwrite th
 @extends('layouts.main')
 
 @section('sidebar')
-	<p>New sidebar content</p>
+    <p>New sidebar content</p>
 @overwrite
 ```
 
 #### Extend parent section
 
-Add the `@parent` statement in order to keep the content of the parent section defined in the layout view.
+Add the `@@parent` statement in order to keep the content of the parent section defined in the layout view.
 
 ```html
 @extends('layouts.main')
 
 @section('sidebar')
-    @parent
+    @@parent
     <p>Child sidebar content appended to parent's content</p>
 @stop
 ```
@@ -146,11 +144,11 @@ Instead of writing a ternary statement, Scout allows you to use the following co
 
 ```html
 @if(isset($value))
-	<p>The value is {{ $value }}.</p>
+    <p>The value is {{ $value }}.</p>
 @elseif(is_array($value))
-	<p>The value is an array.</p>
+    <p>The value is an array.</p>
 @else
-	<p>Something is wrong, there is no value.</p>
+    <p>Something is wrong, there is no value.</p>
 @endif
 ```
 
@@ -160,7 +158,7 @@ Sometimes it is more readable to use `@unless` syntax instead of `@if`.
 
 ```html
 @unless(User::current()->can('edit_posts'))
-	<p>No editing permission.</p>
+    <p>No editing permission.</p>
 @endunless
 ```
 
@@ -168,7 +166,7 @@ The above is the same as:
 
 ```html
 @if( ! User::current()->can('edit_posts'))
-	<p>No editing permission.</p>
+    <p>No editing permission.</p>
 @endunless
 ```
 
@@ -177,9 +175,9 @@ The above is the same as:
 
 ```html
 <ul>
-	@for($i = 0; $i < 10; $i++)
-		<li>Item {{ $i }}</li>
-	@endfor
+    @for($i = 0; $i < 10; $i++)
+        <li>Item {{ $i }}</li>
+    @endfor
 </ul>
 ```
 
@@ -187,7 +185,7 @@ The above is the same as:
 
 ```html
 @while(true)
-	<p>Show it!</p>
+    <p>Show it!</p>
 @endwhile
 ```
 
@@ -195,7 +193,7 @@ The above is the same as:
 
 ```html
 @foreach($objects as $key => $value)
-	<p>This {{ $value }} opens that {{ $key }}.</p>
+    <p>This {{ $value }} opens that {{ $key }}.</p>
 @endforeach
 ```
 
@@ -209,16 +207,16 @@ In place of typing these statements:
 <?php
 if (have_posts())
 {
-	while(have_posts())
-	{
-		the_post();
+    while(have_posts())
+    {
+        the_post();
 ?>
-		<h1><?php the_title(); ?></h1>
-		<div>
-			<?php the_content(); ?>
-		</div>
+        <h1><?php the_title(); ?></h1>
+        <div>
+            <?php the_content(); ?>
+        </div>
 <?php
-	}
+    }
 }
 ```
 
@@ -226,10 +224,10 @@ Simply write this code inside your view:
 
 ```html
 @loop
-	<h1>{{ Loop::title() }}</h1>
-	<div>
-		{{ Loop::content() }}
-	</div>
+    <h1>{{ Loop::title() }}</h1>
+    <div>
+        {{ Loop::content() }}
+    </div>
 @endloop
 ```
 
@@ -239,10 +237,10 @@ The Scout engine also provides a helper to make custom loops:
 
 ```html
 @query(['post_type' => 'post', 'posts_per_page' => 3])
-	<h1>{{ Loop::title() }}</h1>
-	<div>
-		{{ Loop::content() }}
-	</div>
+    <h1>{{ Loop::title() }}</h1>
+    <div>
+        {{ Loop::content() }}
+    </div>
 @endquery
 ```
 
@@ -285,7 +283,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-	<h1>{{ Loop::title() }}</h1>
+    <h1>{{ Loop::title() }}</h1>
 @endloop
 ```
 
@@ -293,7 +291,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-	<em>{{ Loop::author() }}</em>
+    <em>{{ Loop::author() }}</em>
 @endloop
 ```
 
@@ -301,7 +299,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-	<article>{{ Loop::content() }}</article>
+    <article>{{ Loop::content() }}</article>
 @endloop
 ```
 
@@ -309,7 +307,7 @@ Here is a list of the available methods.
 
 ```php
 @loop
-	<aside>{{ Loop::excerpt() }}</aside>
+    <aside>{{ Loop::excerpt() }}</aside>
 @endloop
 ```
 
@@ -322,7 +320,7 @@ This method accepts two arguments:
 
 ```php
 @loop
-	{{ Loop::thumbnail('thumbnail') }}
+    {{ Loop::thumbnail('thumbnail') }}
 @endloop
 ```
 
@@ -332,7 +330,7 @@ You can also pass a `$size` value (string or array) and `$icon` boolean value as
 
 ```php
 @loop
-	<img src="{{ Loop::thumbnailUrl('thumbnail') }}">
+    <img src="{{ Loop::thumbnailUrl('thumbnail') }}">
 @endloop
 ``` 
 
@@ -340,7 +338,7 @@ You can also pass a `$size` value (string or array) and `$icon` boolean value as
 
 ```php
 @loop
-	<a href="{{ Loop::link() }}">Read more</a>
+    <a href="{{ Loop::link() }}">Read more</a>
 @endloop
 ```
 
@@ -390,7 +388,7 @@ You can pass a date format string as an argument as well.
 
 ```php
 @loop
-	<time>{{ Loop::date() }}</time>
+    <time>{{ Loop::date() }}</time>
 @endloop
 ```
 
@@ -417,7 +415,7 @@ Here is an example of the rendered HTML code with the class attribute:
 
 ```html
 <article class="post-4 post type-post status-publish hentry">
-	<h2>Title</h2>
+    <h2>Title</h2>
 </article>
 ```
 
@@ -427,20 +425,20 @@ This article closes the "Getting started" guide.
 
 There are many APIs that will help you shape your WordPress administration. Discover those features/API of the framework below:
 
-* [Action](http://framework.themosis.com/docs/action/)
-* [Ajax](http://framework.themosis.com/docs/ajax/)
-* [Asset](http://framework.themosis.com/docs/asset/)
-* [Configuration](http://framework.themosis.com/docs/configuration/)
-* [PostType](http://framework.themosis.com/docs/posttype/)
-* [Form](http://framework.themosis.com/docs/form/)
-* [Field](http://framework.themosis.com/docs/field/)
-* [Meta](http://framework.themosis.com/docs/meta/)
-* [Metabox](http://framework.themosis.com/docs/metabox/)
-* [Taxonomy](http://framework.themosis.com/docs/taxonomy/)
-* [Page](http://framework.themosis.com/docs/page/)
-* [Option](http://framework.themosis.com/docs/option/)
-* [User](http://framework.themosis.com/docs/user/)
-* [Validation and input](http://framework.themosis.com/docs/validation/)
-* [Widgets](http://framework.themosis.com/docs/widgets/)
-* [Helpers](http://framework.themosis.com/docs/helpers/)
-* [WP-CLI](http://framework.themosis.com/docs/wp-cli/)
+* [Action]({{url}}/action)
+* [Ajax]({{url}}/ajax)
+* [Asset]({{url}}/asset)
+* [Configuration]({{url}}/configuration)
+* [PostType]({{url}}/posttype)
+* [Form]({{url}}/form)
+* [Field]({{url}}/field)
+* [Meta]({{url}}/meta)
+* [Metabox]({{url}}/metabox)
+* [Taxonomy]({{url}}/taxonomy)
+* [Page]({{url}}/page)
+* [Option]({{url}}/option)
+* [User]({{url}}/user)
+* [Validation and input]({{url}}/validation)
+* [Widgets]({{url}}/widgets)
+* [Helpers]({{url}}/helpers)
+* [WP-CLI]({{url}}/wp-cli)

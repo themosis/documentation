@@ -1,17 +1,17 @@
 Validation
 ==========
 
-The framework comes with a class to help you sanitize your inputs.
+- [Get input data](#get-input-data)
+	- [Get all submitted data](#get-all-submitted-data)
+	- [Get a specific data](#get-a-specific-data)
+	- [Return a default value if no data found](#return-a-default-value-if-no-data-found)
+- [Validate](#validate)
+	- [Validate single data](#validate-single-data)
+	- [Validate multiple data](#validate-multiple-data)
+	- [Rules parameters](#rules-parameters)
+- [Validation rules](#validation-rules)
 
-- Get input data
-	- Get all submitted data
-	- Get a specific data
-	- Return a default value if no data found
-- Validate
-	- Validate single data
-	- Validate multiple data
-	- Rules parameters
-- Validation rules
+The framework comes with a class to help you sanitize your inputs.
 
 Get input data
 --------------
@@ -44,7 +44,7 @@ If no `name` value is found, the code returns the `Foo` value.
 Validate
 --------
 
-### Validate one data
+### Validate single data
 
 ```php
 $data = Validator::single($data, ['num', 'min:3']);
@@ -55,7 +55,7 @@ Pass an array of validation rules as a second parameter.
 
 ```php
 $data = Validator::multiple(Input::all(), [
-    'field-name'	 => ['alnum', 'min:5'],
+    'field-name' => ['alnum', 'min:5'],
     'email'      => ['email'],
     'age'        => ['num']
 ]);
@@ -63,7 +63,7 @@ $data = Validator::multiple(Input::all(), [
 
 Pass an array of validation rules as a second parameter where the `key` is the data field name and its value is an array of validation rules.
 
-### Parameters rules
+### Rules parameters
 
 Some rules accept extra parameters in order to validate your data. Simply add a colon after your rule followed by parameters separated by a comma.
 

@@ -1,11 +1,11 @@
 Contributing
 ============
 
-- Introduction
-- Reporting issues
-- New features
-- Which branch?
-- Security vulnerabilities
+- [Introduction](#introduction)
+- [Reporting issues](#reporting-issues)
+- [New features](#new-features)
+- [Which branch?](#which-branch)
+- [Security vulnerabilities](#security-vulnerabilities)
 
 Introduction
 ------------

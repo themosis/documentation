@@ -12,14 +12,14 @@ Here is an example of a custom widget:
 <?php
 class MyCustomWidget_Widget extends WP_Widget
 {
-	public function __construct()
+    public function __construct()
     {
-		$params = [
-			'description' 	=> 'The widget description',
-			'name'			=> 'My Custom Widget'
-		];
+        $params = [
+            'description' => 'The widget description',
+            'name'        => 'My Custom Widget'
+        ];
 
-		parent::__construct('MyCustomWidget_Widget', '', $params);
+        parent::__construct('MyCustomWidget_Widget', '', $params);
 	}
 }
 ?>

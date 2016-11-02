@@ -1,10 +1,10 @@
 Controllers
 ===========
 
-- Basic usage
-	- Autoloading classes
-- Perform actions at controller instantiation
-- The layout property
+- [Basic usage](#basic-usage)
+	- [Autoloading classes](#autoloading-classes)
+- [Perform actions at controller instantiation](#perform-actions-at-controller-instantiation)
+- [The layout property](#the-layout-property)
 
 Basic usage
 -----------
@@ -20,10 +20,10 @@ Here is an example of a basic controller class:
 // This class is stored in resources/controllers/HomeController.php
 class HomeController extends BaseController
 {
-	public function index()
-	{
-		return View::make('pages.home');
-	}
+    public function index()
+    {
+        return View::make('pages.home');
+    }
 }
 ?>
 ```
@@ -62,7 +62,6 @@ If you want to add directories to autoload custom classes or add namespaces to y
 <?php
 
 return [
-
     /*
     * Edit this file in order to configure your theme's
     * classes autoloading. Classes are loaded using PSR-4.
@@ -70,12 +69,10 @@ return [
     * The key is the namespace and key's value contains one or more paths to your classes.
     */
     ''  => [themosis_path('theme').'controllers', themosis_path('theme').'models']
-
 ];
 ```
 
 The function `themosis_path('theme')` returns the theme `resources` folder path. More information about the `themosis_path` function in the [Helpers guide](http://framework.themosis.com/docs/helpers/).
-
 
 Perform actions at controller instantiation
 -------------------------------------------
@@ -90,18 +87,18 @@ Here is an example:
 
 class HomeController extends BaseController
 {
-	protected $property;
+    protected $property;
 
-	public function __construct()
-	{
-		// Do something
-		$this->property = 'A value';
-	}
+    public function __construct()
+    {
+        // Do something
+        $this->property = 'A value';
+    }
 
-	public function index()
-	{	
-		return View::make('pages.home', ['data' => $this->property]);
-	}
+    public function index()
+    {	
+        return View::make('pages.home', ['data' => $this->property]);
+    }
 }
 ?>
 ```
@@ -147,4 +144,4 @@ class PageController extends BaseController
 
 Next
 ----
-Read the [models guide](http://framework.themosis.com/docs/models/)
+Read the [models guide]({{url}}/models)

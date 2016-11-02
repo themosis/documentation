@@ -1,10 +1,10 @@
 Configuration
 =============
 
-- Basic usage
-	- Retrieve all properties
-	- Retrieve a specific property
-- Theme configuration files
+- [Basic usage](#basic-usage)
+	- [Retrieve all properties](#retrieve-all-properties)
+	- [Retrieve a specific property](#retrieve-a-specific-property)
+- [Theme configuration files](#theme-configuration-files)
 
 Basic usage
 ------------
@@ -32,7 +32,7 @@ The above code is fetching all properties from the `application.config.php` file
 $templates = Config::get('templates');
 ```
 
-### Retrieve one property
+### Retrieve a specific property
 
 Depending of your application, you might need to retrieve only one specific property from a configuration file.
 

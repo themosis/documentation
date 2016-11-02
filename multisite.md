@@ -1,14 +1,14 @@
 Multisite
 =========
 
-- Installation
-	- Create a new project
-	- Configure your environment
-	- Allow your instance to run the multisite installation
-	- Install WordPress
-	- Update your instance configuration
-	- Activate your themosis-theme
-- Cleanup default URL
+- [Installation](#installation)
+	- [Create a new project](#create-a-new-project)
+	- [Configure your environment](#configure-your-environment)
+	- [Allow your instance to run the multisite installation](#allow-your-instance-to-run-the-multisite-installation)
+	- [Install WordPress](#install-wordpress)
+	- [Update your instance configuration](#update-your-instance-configuration)
+	- [Activate your themosis-theme](#activate-your-themosis-theme)
+- [Cleanup default URL](#cleanup-default-url)
 
 Installation
 ------------
@@ -37,19 +37,16 @@ For this example, our `.env.local.php` environment file will look like this:
 
 ```php
 <?php
-
 /*----------------------------------------------------*/
 // Local environment vars
 /*----------------------------------------------------*/
 return [
-
-    'DB_NAME'       => 'wpmu',
-    'DB_USER'       => 'root',
-    'DB_PASSWORD'   => '',
-    'DB_HOST'       => 'localhost',
-    'WP_HOME'       => 'http://wpmu.dev',
-    'WP_SITEURL'    => 'http://wpmu.dev/cms'
-
+    'DB_NAME'     => 'wpmu',
+    'DB_USER'     => 'root',
+    'DB_PASSWORD' => '',
+    'DB_HOST'     => 'localhost',
+    'WP_HOME'     => 'http://wpmu.dev',
+    'WP_SITEURL'  => 'http://wpmu.dev/cms'
 ];
 ```
 Then open the `environment.php` file and specify your local environment server hostname or define an anonymous function (Closure) to let the framework know which environment file to load. Check the environment guide for more detailed explanations: [http://framework.themosis.com/docs/environment/](http://framework.themosis.com/docs/environment/)

@@ -1,9 +1,9 @@
 Meta
 ====
 
-The `Meta` class is an helper class to help you retrieve data of custom fields registered as post meta.
+- [Basic usage](#basic-usage)
 
-- Basic usage
+The `Meta` class is an helper class to help you retrieve data of custom fields registered as post meta.
 
 Basic usage
 -----------
@@ -22,8 +22,8 @@ For an example, let's first build a simple metabox with custom fields:
 
 ```php
 Metabox::make('Details', 'post')->set([
-	Field::text('name'),
-	Field::checkbox('channels', ['email', 'mail', 'morse'])
+    Field::text('name'),
+    Field::checkbox('channels', ['email', 'mail', 'morse'])
 ]);
 ```
 

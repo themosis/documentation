@@ -1,18 +1,18 @@
 Metabox
 =======
 
+- [Basic usage](#basic-usage)
+	- [Set a custom id attribute](#set-a-custom-id-attribute)
+	- [Custom post type metabox](#custom-post-type-metabox)
+	- [Page metabox](#page-metabox)
+- [Sanitize metabox fields](#sanitize-metabox-fields)
+- [Retrieve data](#retrieve-data)
+- [Customize the metabox](#customize-the-metabox)
+- [Send data to your metabox](#send-data-to-your-metabox)
+
 As the name suggests, the `Metabox` class helps you build custom WordPress metabox. A metabox is a UI container for your custom fields (post metadata).
 
-Before digging into the `Metabox` documentation, make sure to read the [Field class guide](http://framework.themosis.com/docs/field/).
-
-- Basic usage
-	- Set a custom id attribute
-	- Custom post type metabox
-	- Page metabox
-- Sanitize metabox fields
-- Retrieve data
-- Customize the metabox
-- Send data to your metabox
+Before digging into the `Metabox` documentation, make sure to read the [Field class guide]({{url}}/field).
 
 Basic usage
 -----------
@@ -32,7 +32,7 @@ Here is an example of a basic metabox, containing one text field, that is displa
 
 ```php
 Metabox::make('Infos', 'post')->set([
-	Field::text('author')
+    Field::text('author')
 ]);
 ```
 The code above will render a metabox with a title of _Infos_ and a single custom text field.
@@ -73,16 +73,16 @@ In this example, a metabox is displayed on all pages edit screen with some custo
 
 ```php
 Metabox::make('Informations', 'page')->set([
-	Field::text('name'),
-	Field::text('phone'),
-	Field::textarea('address')
+    Field::text('name'),
+    Field::text('phone'),
+    Field::textarea('address')
 ]);
 ```
 
 > Note: Make sure to always prefix your custom fields name so they don't conflict with the [WordPress reserved terms](https://codex.wordpress.org/Reserved_Terms). We don't prefix names in the documentation (boouuuh...) but you should in your project.
 
-Sanitize/validate metabox fields
---------------------------------
+Sanitize metabox fields
+-----------------------
 
 The Metabox API contains an instance of the Validator class which gives you a method to validate/sanitize the custom fields attach to your metabox.
 
@@ -90,26 +90,26 @@ In order to validate/sanitize your fields, use the `validate()` method like so:
 
 ```php
 $metabox = Metabox::make('A title', 'page')->set([
-	Field::text('email'),
-	Field::text('name'),
-	Field::text('phone'),
-	Field::textarea('address'),
-	Field::infinite('team', [
-		Field::text('name'),
-		Field::text('age')
-	])
+    Field::text('email'),
+    Field::text('name'),
+    Field::text('phone'),
+    Field::textarea('address'),
+    Field::infinite('team', [
+        Field::text('name'),
+        Field::text('age')
+    ])
 ]);
 
 // Let's validate our custom fields
 $metabox->validate([
-	'email'		=> ['email'],
-	'name'		=> ['textfield', 'min:3', 'alpha'],
-	'phone'		=> ['num', 'max:25'],
-	'address'	=> ['textarea'],
-	'team'		=> [
-		'name'		=> ['textfield', 'alpha', 'min:3', 'max:50'],
-		'age'		=> ['num']
-	]
+    'email'   => ['email'],
+    'name'    => ['textfield', 'min:3', 'alpha'],
+    'phone'   => ['num', 'max:25'],
+    'address' => ['textarea'],
+    'team'    => [
+        'name' => ['textfield', 'alpha', 'min:3', 'max:50'],
+        'age'  => ['num']
+    ]
 ]);
 ```
 > Note how the `infinite` field is validated.
@@ -178,6 +178,6 @@ Of course, this methods is only useful if you specify a custom view for your met
 Next
 ----
 
-* [Meta guide](http://framework.themosis.com/docs/meta/)
-* [Taxonomy guide](http://framework.themosis.com/docs/taxonomy/)
-* [Page guide](http://framework.themosis.com/docs/page/)
+* [Meta guide]({{url}}/meta)
+* [Taxonomy guide]({{url}}/taxonomy)
+* [Page guide]({{url}}/page)

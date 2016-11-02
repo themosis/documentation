@@ -1,10 +1,10 @@
 Routing
 =======
 
-- Introduction
-- Conditional tags
-- Routes
-- The $post & $query globals
+- [Introduction](#introduction)
+- [Conditional tags](#conditional-tags)
+- [Routes](#routes)
+- [The $post & $query globals](#the-post-query-globals)
 
 Introduction
 ------------
@@ -53,7 +53,7 @@ Set a route for the `WordPress Home` page.
 
 ```php
 Route::get('home', function(){
-	return 'Hello World!';
+    return 'Hello World!';
 });
 ```
 The code above listens to `GET` and `HEAD` requests on the home page. But you can listen to other HTTP verbs. Currently the route API handles `HEAD`, `GET` and `POST` HTTP verbs.
@@ -63,7 +63,7 @@ Here is an example of a `POST` route:
 ```php
 Route::post('home', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 });
 ```
 
@@ -74,7 +74,7 @@ In some scenarios, you may need to listen to several HTTP verbs. You can do so b
 ```php
 Route::match(['get', 'post'], 'home', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 });
 ```
 The above code will only listen on `GET` and `POST` requests to the home page.
@@ -84,7 +84,7 @@ You can also use the `any` method which listen to all HTTP verbs.
 ```php
 Route::any('home', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 });
 ```
 
@@ -97,7 +97,7 @@ If you define a front page in the WordPress administration, use the `front` cond
 ```php
 Route::get('front', function()
 {	
-	return 'Hello World!';
+    return 'Hello World!';
 });
 ```
 
@@ -106,7 +106,7 @@ Route::get('front', function()
 ```php
 Route::get('page', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 });
 ```
 
@@ -117,7 +117,7 @@ First, create a new page inside the administration of WordPress. For this exampl
 ```php
 Route::get('page', ['contact', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 }]);
 ```
 
@@ -128,7 +128,7 @@ Route::get('page', ['contact', function()
 ```php
 Route::get('page', [['about', 'contact', 24, 'Our Team'], function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 }]);
 ```
 
@@ -139,7 +139,7 @@ Route::get('page', [['about', 'contact', 24, 'Our Team'], function()
 ```php
 Route::get('single', ['welcome-post', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 }]);
 ```
 
@@ -148,7 +148,7 @@ Route::get('single', ['welcome-post', function()
 ```php
 Route::get('template', ['my-custom-template', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 }]);
 ```
 
@@ -159,7 +159,7 @@ Route::get('template', ['my-custom-template', function()
 ```php
 Route::get('postTypeArchive', ['my-custom-post-type', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 }]);
 ```
 
@@ -168,7 +168,7 @@ Route::get('postTypeArchive', ['my-custom-post-type', function()
 ```php
 Route::get('singular', ['my-custom-post-type', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 }]);
 ```
 
@@ -179,7 +179,7 @@ Simply add as a second parameter the `https` value:
 ```php
 Route::get('single', ['my-post', 'https', function()
 {
-	return 'Hello World!';
+    return 'Hello World!';
 }]);
 ```
 
@@ -197,15 +197,15 @@ In order to define a custom route, you'll need to use the `themosisRouteConditio
 // A custom condition function.
 function is_test()
 {
-	// Some logic that returns true or false.
-	return true;
+    // Some logic that returns true or false.
+    return true;
 }
 
 // Then add the conditional function to the Route class.
 add_filter('themosisRouteConditions', function($conds)
 {
     $conds['test'] = 'is_test';
-	return $conds; // Always return an associative array.
+    return $conds; // Always return an associative array.
 });
 ```
 
@@ -217,7 +217,7 @@ You can now use this `test` route like so:
 // In routes.php
 Route::get('test', function()
 {
-	return "Hello from the test route.";
+    return "Hello from the test route.";
 });
 ```
 > When using the `themosisRouteConditions` filter, make sure to return an associative array where the key is the route name and its value is the conditional function signature.
@@ -232,8 +232,8 @@ Define a route that checks for a single product page.
 // Add the product route.
 add_filter('themosisRouteConditions', function()
 {
-	$conds['product'] = 'is_product';
-	return $conds;
+    $conds['product'] = 'is_product';
+    return $conds;
 });
 ```
 
@@ -242,7 +242,7 @@ Then you'll write in your `routes.php` file:
 ```php
 Route::get('product', function()
 {
-	return View::make('shop.product');
+    return View::make('shop.product');
 });
 ```
 
@@ -257,11 +257,11 @@ If you need them, you can grab them like so:
 Route::any('page', function($post, $query)
 {
     return View::make('pages', [
-		'page'		=> $post	
-	]);
+        'page' => $post	
+    ]);
 });
 ```
 
 Next
 ----
-Read the [controllers guide](http://framework.themosis.com/docs/controllers/)
+Read the [controllers guide]({{url}}/controllers)

@@ -1,21 +1,21 @@
 Form
 ====
 
-- Opening a form
-- Labels
-- Text, password, email, number, date, hidden inputs
-- Textarea
-- Checkbox and radio inputs
-- Select field
-- Buttons
-- Miscellaneous inputs
+- [Opening a form](#opening-a-form)
+- [Labels](#labels)
+- [Text, password, email, number, date, hidden inputs](#text-password-email-number-date-hidden-input)
+- [Textarea](#textarea)
+- [Checkbox and radio inputs](#checkbox-and-radio-inputs)
+- [Select field](#select-field)
+- [Buttons](#buttons)
+- [Miscellaneous inputs](#miscellaneous-inputs)
 
 Opening a form
 --------------
 
 ```php
 {{ Form::open() }}
-	// Form inputs
+    // Form inputs
 {{ Form::close() }}
 ```
 
@@ -40,10 +40,10 @@ In order to add your custom nonce, simply add them to the `$attributes` argument
 
 ```php
 {{ Form::open('', 'post', false, [
-	'nonce'			=> 'action',
-	'nonce_action'	=> 'edit-something'
+    'nonce'        => 'action',
+    'nonce_action' => 'edit-something'
 ]) }}
-	// Inputs
+    // Inputs
 {{ Form::close() }}
 ```
 > Make sure to use the `nonce` key for the nonce field _name_ and the `nonce_action` key for its _value_.
@@ -55,7 +55,7 @@ In order to set a custom action attribute, simply fill in the first parameter of
 ```php
 // This will output <form action="http://www.my-website.com/register/">
 {{ Form::open(home_url('/register/')) }}
-	// Form inputs
+    // Form inputs
 {{ Form::close() }}
 ```
 
@@ -65,7 +65,7 @@ Specify the second parameter of the open() method. Only `get` and `post` values 
 
 ```php
 {{ Form::open('', 'get') }}
-	// Form inputs
+    // Form inputs
 {{ Form::close() }}
 ```
 > Set the first parameter as `empty string` or `null` will set the action attribute to the current URL.
@@ -76,7 +76,7 @@ By setting the third parameter of the `open()` method to `true`, the action attr
 
 ```php
 {{ Form::open('contact', 'post', true) }}
-	// Form inputs
+    // Form inputs
 {{ Form::close() }}
 ```
 
@@ -86,11 +86,11 @@ You can pass as the fourth parameter an array in order to add custom attributes.
 
 ```php
 {{ Form::open(null, 'post', false, [
-	'data-message' 	=> 'The form message.',
-	'enctype'		=> 'multipart/form-data',
-	'id'			=> 'register-form'
+    'data-message' => 'The form message.',
+    'enctype'      => 'multipart/form-data',
+    'id'           => 'register-form'
 ]) }}
-	// Form inputs
+    // Form inputs
 {{ Form::close() }}
 ```
 
@@ -111,7 +111,7 @@ Let's verify the nonce value regarding those two constants:
 // A form is submitted using the POST method.
 if (wp_verify_nonce(Input::get(Session::nonceName), Session::nonceAction))
 {
-	// Proceed with data
+    // Proceed with data
 }
 ```
 The `nonceName` value is the nonce field name attribute. The `nonceAction` value is the nonce action string. Check `wp_verify_nonce()` function in the [codex](http://codex.wordpress.org/Function_Reference/wp_verify_nonce).
@@ -135,8 +135,8 @@ Add attributes to a label:
 ```php
 // This will output <label for="my-input" class="super">Display text</label>
 {{ Form::label('Display text', [
-	'class'	=> 'super',
-    'for'	=> 'my-input'
+    'class' => 'super',
+    'for'   => 'my-input'
 ]) }}
 ```
 
@@ -161,8 +161,8 @@ Add attributes to the text input:
 
 ```php
 {{ Form::text('name', 'Default value', [
-	'class'			=> 'super',
-	'placeholder'	=> 'Insert your name here'
+    'class'       => 'super',
+    'placeholder' => 'Insert your name here'
 ]) }}
 ```
 
@@ -207,7 +207,7 @@ Add custom attributes:
 
 ```php
 {{ Form::checkbox('toggle', 'enabled', [], [
-	'class'		=> 'super'
+    'class' => 'super'
 ]) }}
 ```
 
@@ -217,9 +217,9 @@ In order to specify multiple checkboxes, simply pass an array of choices like so
 
 ```php
 {{ Form::checkbox('colors', [
-	'red',
-	'green',
-	'blue'
+    'red',
+    'green',
+    'blue'
 ]) }}
 ```
 
@@ -229,9 +229,9 @@ By default, when you define multiple options/choices for your checkbox, the API 
 
 ```php
 {{ Form::checkbox('colors', [
-	'red'	=> 'Select red color',
-	'green'	=> 'Choose the green',
-	'blue'	=> 'Use the blue color'
+    'red'   => 'Select red color',
+    'green' => 'Choose the green',
+    'blue'  => 'Use the blue color'
 ]) }}
 ```
 
@@ -239,11 +239,11 @@ In order to set values or default values, pass an array as a third parameter to 
 
 ```php
 {{ Form::checkbox('colors', [
-	'red',
-	'green',
-	'blue'
+    'red',
+    'green',
+    'blue'
 ], [
-	'green'
+    'green'
 ]) }}
 ```
 
@@ -253,11 +253,11 @@ Add attributes to your checkbox by passing an array as the fourth parameter:
 
 ```php
 {{ Form::checkbox('colors', [
-	'red', 
-	'green',
-	'blue'
+    'red', 
+    'green',
+    'blue'
 ], [], [
-	'class'		=> 'super'
+    'class' => 'super'
 ]) }}
 ```
 
@@ -265,9 +265,9 @@ This code adds attributes to the checkbox inputs. When you create a checkbox, th
 
 ```php
 {{ Form::checkbox('colors', ['red', 'green', 'blue'], [], [
-	'label'	=> [
-		'class' => 'label-class'
-	]
+    'label'	=> [
+        'class' => 'label-class'
+    ]
 ]) }}
 ```
 
@@ -279,8 +279,8 @@ Output a radio input:
 
 ```php
 {{ Form::radio('gender', [
-	'woman',
-	'man'
+    'woman',
+    'man'
 ]) }}
 ```
 
@@ -291,11 +291,11 @@ Generate a select tag with indexed options values:
 
 ```php
 {{ Form::select('country', [
-	[
-		'belgium',
-		'france',
-		'usa'
-	]
+    [
+        'belgium',
+        'france',
+        'usa'
+    ]
 ]) }}
 ```
 
@@ -303,9 +303,9 @@ This will output the following `<select>` tag:
 
 ```html
 <select name="country">
-	<option value="0">Belgium</option>
-	<option value="1">France</option>
-	<option value="2">Usa</option>
+    <option value="0">Belgium</option>
+    <option value="1">France</option>
+    <option value="2">Usa</option>
 </select>
 ```
 
@@ -313,11 +313,11 @@ Generate a select tag with custom options values:
 
 ```php
 {{ Form::select('country', [
-	[
-		'be'	=> 'belgium',
-		'fr'	=> 'france',
-		'us'	=> 'usa'
-	]
+    [
+        'be' => 'belgium',
+        'fr' => 'france',
+        'us' => 'usa'
+    ]
 ]) }}
 ```
 
@@ -325,9 +325,9 @@ This will output the following `<select>` tag:
 
 ```html
 <select name="country">
-	<option value="be">Belgium</option>
-	<option value="fr">France</option>
-	<option value="us">Usa</option>
+    <option value="be">Belgium</option>
+    <option value="fr">France</option>
+    <option value="us">Usa</option>
 </select>
 ```
 
@@ -335,13 +335,13 @@ Generate a select tag with grouped options values:
 
 ```php
 {{ Form::select('country', [
-	'Europe'	=> [
-		'belgium',
-		'france'
-	],
-	'America'	=> [
-		'usa'
-	]
+    'Europe' => [
+        'belgium',
+        'france'
+    ],
+    'America' => [
+        'usa'
+    ]
 ]) }}
 ```
 
@@ -349,13 +349,13 @@ The code above will output `<optgroup>` tags with indexed options values:
 
 ```html
 <select name="country">
-	<optgroup label="Europe">
-		<option value="0">Belgium</option>
-		<option value="1">France</option>
-	</optgroup>
-	<optgroup label="America">
-		<option value="2">Usa</option>
-	</optgroup>
+    <optgroup label="Europe">
+        <option value="0">Belgium</option>
+        <option value="1">France</option>
+    </optgroup>
+    <optgroup label="America">
+        <option value="2">Usa</option>
+    </optgroup>
 </select>
 ```
 
@@ -363,13 +363,13 @@ Same select tag but with custom options values:
 
 ```php
 {{ Form::select('country', [
-	'Europe'	=> [
-		'be'	=> 'belgium',
-		'fr'	=> 'france'
+    'Europe' => [
+        'be' => 'belgium',
+        'fr' => 'france'
 	],
-	'America'	=> [
-		'us'	=> 'usa'
-	]
+    'America' => [
+        'us' => 'usa'
+    ]
 ]) }}
 ```
 
@@ -379,11 +379,11 @@ You can pass a default value by filling in the third parameter of the `select()`
 
 ```php
 {{ Form::select('country', [
-	[
-		'belgium',
-		'france',
-		'usa'
-	]
+    [
+        'belgium',
+        'france',
+        'usa'
+    ]
 ], 0) }}
 ```
 > This set the default value to indexed value `0` (belgium). For custom options, simply pass the custom value.
@@ -395,14 +395,14 @@ Like other form fields, pass an array as the fourth parameter for custom attribu
 
 ```php
 {{ Form::select('countries', [
-	[
-		'belgium',
-		'france',
-		'usa'
-	]
+    [
+        'belgium',
+        'france',
+        'usa'
+    ]
 ], null, [
-	'class'		=> 'super',
-	'multiple'	=> 'multiple'
+    'class'    => 'super',
+    'multiple' => 'multiple'
 ]) }}
 ```
 
@@ -476,4 +476,4 @@ Other resources:
 
 Check the validation and input guide for documentation on how to retrieve and sanitize submitted data.
 
-* [Validation and input](http://framework.themosis.com/docs/validation/)
+* [Validation and input]({{url}}/validation)

@@ -1,9 +1,9 @@
 Framework
 =========
 
-- Introduction
-- Structure
-- Start building your application
+- [Introduction](#introduction)
+- [Structure](#structure)
+- [Start building your application](#start-building-your-application)
 
 Introduction
 ------------
@@ -59,4 +59,4 @@ Let's start by looking at the route API.
 
 Next
 ----
-Read the [routing guide](http://framework.themosis.com/docs/routing/)
+Read the [routing guide]({{url}}/routing)

@@ -48,9 +48,9 @@ Possible values for the `$features` parameter:
 
 ```php
 $features = [
-	'title' 	=> 'The field display title. By default it uses the $name.',
-	'info'		=> 'Add a helper text/description to the field.',
-	'default' 	=> 'You can define a default value for the field.'
+    'title'   => 'The field display title. By default it uses the $name.',
+    'info'    => 'Add a helper text/description to the field.',
+    'default' => 'You can define a default value for the field.'
 ];
 ```
 
@@ -215,12 +215,12 @@ Build a simple select field with **numeric** values:
 
 ```php
 Field::select('my-field', [
-	[
-		'None',
-		'Belgium',
-		'France',
-		'United States'
-	]
+    [
+        'None',
+        'Belgium',
+        'France',
+        'United States'
+    ]
 ], ['title' => 'Choose a country:']);
 ```
 
@@ -228,12 +228,12 @@ Build a simple select field with **custom** values:
 
 ```php
 Field::select('my-field', [
-	[
-		'none'	=> 'None',
-		'bel' 	=> 'Belgium',
-		'fra'	=> 'France',
-		'usa'	=> 'United States'
-	]
+    [
+        'none' => 'None',
+        'bel'  => 'Belgium',
+        'fra'  => 'France',
+        'usa'  => 'United States'
+    ]
 ], ['title' => 'Choose a country:']);
 ```
 
@@ -243,13 +243,13 @@ Build a select field with subgroup of options using **numeric** values:
 
 ```php
 Field::select('my-field', [
-	'europe' 	=> [
-		'Belgium',
-		'France'
-	],
-	'america'	=> [
-		'United States'
-	]
+    'europe' => [
+        'Belgium',
+        'France'
+    ],
+    'america' => [
+        'United States'
+    ]
 ]);
 ```
 
@@ -257,13 +257,13 @@ Build a select field with subgroup of options using **custom** values:
 
 ```php
 Field::select('my-field', [
-	'europe' 	=> [
-		'bel'	=> 'Belgium',
-		'fra'	=> 'France'
-	],
-	'america'	=> [
-		'usa'	=> 'United States'
-	]
+    'europe' => [
+        'bel' => 'Belgium',
+        'fra' => 'France'
+    ],
+    'america' => [
+        'usa' => 'United States'
+    ]
 ]);
 ```
 
@@ -273,12 +273,12 @@ Simply set the multiple attribute of the select field like so:
 
 ```php
 Field::select('my-field', [
-	[
-		'None',
-		'Belgium',
-		'France',
-		'United States'
-	]
+    [
+        'None',
+        'Belgium',
+        'France',
+        'United States'
+    ]
 ], ['title' => 'Choose a country:'], ['multiple']);
 ```
 
@@ -317,8 +317,8 @@ In order to allow the media field to attach other files except images, you need 
 
 ```php
 Field::media('report', [
-	'title'		=> 'Attach report',
-	'type'		=> 'application'
+    'title' => 'Attach report',
+    'type'  => 'application'
 ])
 ```
 > The `type` feature only accepts 4 values: `image`, `application`, `video` and `audio`.
@@ -375,9 +375,9 @@ Example of an infinite field:
 
 ```php
 Field::infinite('books', [
-	Field::text('title'),
-	Field::textarea('excerpt'),
-	Field::media('cover-image')
+    Field::text('title'),
+    Field::textarea('excerpt'),
+    Field::media('cover-image')
 ]);
 ```
 
@@ -385,11 +385,11 @@ You can limit the number of repeatable rows by setting the `limit` property like
 
 ```php
 Field::infinite('books', [
-	Field::text('title'),
-	Field::media('image')
+    Field::text('title'),
+    Field::media('image')
 ], [
-	'title'		=> 'List of books',
-	'limit'		=> 10
+    'title' => 'List of books',
+    'limit' => 10
 ])
 ```
 
@@ -399,6 +399,6 @@ Next
 ----
 Check those guide to implement your custom fields:
 
-* [Metabox guide](http://framework.themosis.com/docs/metabox/)
-* [Page guide](http://framework.themosis.com/docs/page/)
-* [User guide](http://framework.themosis.com/docs/user/)
+* [Metabox guide]({{url}}/metabox)
+* [Page guide]({{url}}/page)
+* [User guide]({{url}}/user)

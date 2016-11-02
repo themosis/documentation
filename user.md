@@ -1,18 +1,18 @@
 User
 ====
 
-- Basic usage
-	- Create a new user
-	- Get current user
-	- Get user by ID
-	- Check for a specific role
-	- Set a role to a user
-	- Check user capability
-	- Update user properties
-- User custom fields
-	- Add sections
-	- Add custom fields
-	- Validate user fields
+- [Basic usage](#basic-usage)
+	- [Create a new user](#create-a-new-user)
+	- [Get current user](#get-current-user)
+	- [Get user by ID](#get-user-by-id)
+	- [Check for a specific role](#check-for-a-specific-role)
+	- [Set a role to a user](#set-a-role-to-a-user)
+	- [Check user capability](#check-user-capability)
+	- [Update user properties](#update-user-properties)
+- [User custom fields](#user-custom-fields)
+	- [Add sections](#add-sections)
+	- [Add custom fields](#add-custom-fields)
+	- [Validate user fields](#validate-user-fields)
 
 Basic usage
 -----------
@@ -60,7 +60,7 @@ $user = User::current();
 
 if ($user->hasRole('editor'))
 {
-	// Do something
+    // Do something
 }
 ```
 
@@ -81,7 +81,7 @@ $user = User::current();
 
 if ($user->can('edit_posts'))
 {
-	// Do something
+    // Do something
 }
 ```
 
@@ -93,8 +93,8 @@ You can update user data by providing an array of properties. Note that the ID p
 $user = User::current();
 
 $user->update([
-	'user_url'    => 'http://www.somewebsite.com',
-	'user_email'  => 'foo@bar.com'
+    'user_url'   => 'http://www.somewebsite.com',
+    'user_email' => 'foo@bar.com'
 ]);
 ```
 
@@ -128,10 +128,10 @@ In the following example, we will add custom fields to our previously defined se
 // Grab our User instance from previous code sample
 // and add fields to each section.
 $user->addFields([
-	'section-slug'  => [
+    'section-slug' => [
         Field::text('street', ['title' => 'Street address'])
     ],
-    'social'        => [
+    'social' => [
         Field::text('facebook', ['info' => 'Your facebook page.']),
         Field::text('twitter', ['info' => 'Twitter account name.'])
     ]
@@ -181,4 +181,4 @@ Simply define the field name as the key and specify a list of validation/sanitiz
 
 We also suggest you to always prefix your custom fields name so they don't conflict with other WordPress plugins or WordPress reserved terms.
 
-For more information about validation rules, check the [validation guide](http://framework.themosis.com/docs/validation/).
+For more information about validation rules, check the [validation guide]({{url}}/validation).

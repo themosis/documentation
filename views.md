@@ -1,12 +1,12 @@
 Views
 =====
 
-- Basic usage
-	- Organize your views
-	- Passing data to views
-	- Sharing data with all views
-	- Render your views
-- View composers
+- [Basic usage](#basic-usage)
+	- [Organize your views](#organize-your-views)
+	- [Passing data to views](#passing-data-to-views)
+	- [Sharing data with all views](#sharing-data-with-all-views)
+	- [Render your views](#render-your-views)
+- [View composers](#view-composers)
 
 Basic usage
 -----------
@@ -18,12 +18,12 @@ Here is an example of a simple view:
 ```html
 <!-- View stored in resources/views/welcome.php -->
 <html>
-	<head>
-		<title>Welcome WordPress developers</title>
-	</head>
-	<body>
-		<h1>Hello, <?php echo $name; ?></h1>
-	</body>
+    <head>
+        <title>Welcome WordPress developers</title>
+    </head>
+    <body>
+        <h1>Hello, <?php echo $name; ?></h1>
+    </body>
 </html>
 ```
 
@@ -32,7 +32,7 @@ And this view may be returned to the browser like so:
 ```php
 Route::get('home', function()
 {
-	return View::make('welcome', ['name' => 'Julien']);
+    return View::make('welcome', ['name' => 'Julien']);
 });
 ```
 
@@ -78,8 +78,8 @@ The `View::share()` method allows you to share data across all views of your Wor
 ```php
 // Multiple data shared across views.
 View::share([
-	'key'		=> 'value',
-	'blog'		=> 'WordPress'
+    'key'  => 'value',
+    'blog' => 'WordPress'
 ]);
 
 // Single data shared across views.
@@ -111,16 +111,16 @@ Here is an example of a view composer that runs when the `pages.home` view is ca
 // or inside a controller class.
 View::composer('pages.home', function($view)
 {
-	// Pass data to the view.
-	$view->with('foo', 'bar');
+    // Pass data to the view.
+    $view->with('foo', 'bar');
 });
 
 // routes.php
 Route::get('home', function()
 {
-	// Each time this view is rendered,
-	// the registered view composer is called right before.
-	return View::make('pages.home');
+    // Each time this view is rendered,
+    // the registered view composer is called right before.
+    return View::make('pages.home');
 });
 ```
 
@@ -129,8 +129,8 @@ You can register one callback to run on multiple views like so:
 ```php
 View::composer(['pages.home', 'pages.contact'], function($view)
 {
-	// Pass the same data to the pages.home and pages.contact views.
-	$view->with('foo', 'bar');
+    // Pass the same data to the pages.home and pages.contact views.
+    $view->with('foo', 'bar');
 });
 ```
 
@@ -140,16 +140,16 @@ In place of using a closure, you can also tell the method to look after a class 
 // Register a class
 class MyComposerClass
 {
-	public function add($view)
-	{
-		// Pass data to the view.
-		$view->with('foo', 'Bar');
-	}
+    public function add($view)
+    {
+        // Pass data to the view.
+        $view->with('foo', 'Bar');
+    }
 
-	// Default method used for a view composer.
-	public function compose($view)
-	{
-	}
+    // Default method used for a view composer.
+    public function compose($view)
+    {
+    }
 }
 
 // The view composer.
@@ -168,12 +168,12 @@ You can also define multiple composers using the `View::composers` method like s
 
 ```php
 View::composers([
-	'MyComposerClass'		=> 'pages.home',
-	'MyComposerClass@add'	=> 'pages.add',
-	'OtherComposerClass'	=> ['pages.home', 'pages.product']
+    'MyComposerClass'     => 'pages.home',
+    'MyComposerClass@add' => 'pages.add',
+    'OtherComposerClass'  => ['pages.home', 'pages.product']
 ]);
 ```
 
 Next
 ----
-Read the [Scout template guide](http://framework.themosis.com/docs/scout/)
+Read the [Scout template guide]({{url}}/scout)

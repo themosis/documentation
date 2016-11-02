@@ -45,8 +45,8 @@ $page = get_page_by_title('Home');
 
 if (themosis_is_post($page->ID))
 {
-	// You're on Home page.
-	// Do something for the Home page only.
+    // You're on Home page.
+    // Do something for the Home page only.
 }
 ```
 
@@ -200,9 +200,9 @@ Get an item of an array using a "." notation
 
 ```php
 $array = ['items' => [
-		'first-item' => 'I am the first item', 
-		'second-item' => 'I am the second Item'
-	]
+        'first-item' => 'I am the first item', 
+        'second-item' => 'I am the second Item'
+    ]
 ]
 
 $item = array_get($array, 'items.first-item', 'no key found') // 'I am the first item'

@@ -1,13 +1,13 @@
 Asset
 =====
 
-- Introduction
-- Load assets
-	- Load asset in the WordPress admin
-	- Load asset in login screen
-	- Load external assets
-	- Load an asset on a specific request
-- Localize 
+- [Introduction](#introduction)
+- [Load assets](#load-assets)
+	- [Load asset in the WordPress admin](#load-asset-in-the-wordPress-admin)
+	- [Load asset in login screen](#load-asset-in-login-screen)
+	- [Load external assets](#load-external-assets)
+	- [Load an asset on a specific request](#load-an-asset-on-a-specific-request)
+- [Localize](#localize)
 
 Introduction
 ------------
@@ -31,6 +31,8 @@ Asset::add($handle, $path, $deps = [], $version = '1.0', $mixed = null, $type = 
 * `$version`: _string or boolean_. A string specifying the asset version number.
 * `$mixed`: _string or boolean_. For stylesheets a _string_ that specify the media type. For javascript files, a _boolean_ that indicate if the asset is loaded before the closing `</head>` tag or in the footer (the theme must insert the `wp_head()` and `wp_footer()` functions).
 * `$type`: _string_ Use this parameter if your external asset do not have a file extension. Use `script` to define a JS file and `style` to define a CSS file.
+
+<a name="load-assets"></a>
 
 Load assets
 -----------
@@ -100,8 +102,8 @@ Simply add your code before returning a view:
 ```php
 Route::is('home', function()
 {
-	Asset::add('my-handle', 'js/file.js', ['jquery'], '1.0', true);
-	return View::make('home');
+    Asset::add('my-handle', 'js/file.js', ['jquery'], '1.0', true);
+    return View::make('home');
 });
 ```
 
@@ -119,17 +121,17 @@ Then use the constructor method of your controller to load your asset for this s
 // File stored in resources/controllers/HomeController.php
 class HomeController
 {
-	public function __construct()
+    public function __construct()
     {		
-		// This asset is only available to the home page
-		Asset::add('my-handle', 'css/tool.css', array('main-style'), '1.0', 'screen');
-	}
+        // This asset is only available to the home page
+        Asset::add('my-handle', 'css/tool.css', array('main-style'), '1.0', 'screen');
+    }
 	
-	// Method responsible to render the home view
-	public function index()
+    // Method responsible to render the home view
+    public function index()
     {	
-		return View::make('home');
-	}
+        return View::make('home');
+    }
 }
 ```
 

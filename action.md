@@ -1,10 +1,10 @@
 Action
 ======
 
-- Basic usage
-	- Priority and accepted arguments
-	- Function and closure
-	- Class
+- [Basic usage](#basic-usage)
+	- [Priority and accepted arguments](#priority-and-accepted-arguments)
+	- [Function and closure](#function-and-closure)
+	- [Class](#class)
 
 Basic usage
 -----------
