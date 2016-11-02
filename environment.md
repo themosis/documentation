@@ -145,7 +145,7 @@ In the example above, if the `getenv('varName')` exists, this will load the the 
 
 ##### Nginx
 
-Nginx has a `ENV` function but this apparently only work in the main context of your web server. In order to specify an environment variable per `server` context, you will use the `fastcgi_param` statement.
+Nginx has a `ENV` function but this apparently only works in the main context of your web server. In order to specify an environment variable per `server` context, you will use the `fastcgi_param` statement.
 
 ```
 server {
