@@ -2,21 +2,29 @@ Routing
 =======
 
 - [Introduction](#introduction)
-- [Conditional tags](#conditional-tags)
-- [Routes](#routes)
+- [WordPress routes](#wordpress-routes)
+	- [Conditional tags](#conditional-tags)
+	- [Routing examples](#routing-examples)
+- [Custom routes](#custom-routes)
 - [The $post & $query globals](#the-post-query-globals)
 
 Introduction
 ------------
 
-Most of the routes of your website/application will be defined in the `resources/routes.php` file of your `themosis-theme` theme.
+Most of the routes of your website/application will be defined into the `resources/routes.php` file of either your `themosis-theme` theme or custom plugin.
 
-The route system is an enhanced "if" statement. It is based on the [WordPress template conditional tags](https://codex.wordpress.org/Conditional_Tags).
+> For the following documentation, code samples assume we're working with the theme `routes.php` file but all samples work as well inside any plugins `routes.php` file.
 
-A basic route is using a conditional tag and a closure callback.
+The route system allows you to define WordPress routes as well as custom ones. The Route class extends the Illuminate/Router package providing extra features like group, namespacing, middlewares and more.
 
-Conditional tags
+The WordPress routes are based on the [WordPress template conditional tags](https://codex.wordpress.org/Conditional_Tags).
+
+A basic WordPress route is using a conditional tag followed by a closure. A custom route is using an URI and a closure.
+
+WordPress routes
 ----------------
+
+### Conditional tags
 
 Here is the current list of available route conditional tags in alphabetical order (**bold** = extra conditional tags):
 
@@ -40,14 +48,17 @@ Here is the current list of available route conditional tags in alphabetical ord
 * **subpage**
 * tag
 * tax
-* **template**
+* template
 * time
 * year
 
-Routes
-------
+### Routing examples
 
-### Basic routing
+Remember that when you're developing with the Themosis framework, you're still doing WordPress development. In WordPress, in order for a route to work, the data has to exists first (usually by posting content from the WordPress administration).
+
+WordPress routes are mapped to WordPress core conditional functions like `is_home()`, `is_page()`, ... so the following routes samples may not have sense directly if you're coming from another traditional framework but stay with us as custom routing is also available [(see below)](#custom-routes)
+
+#### Home route
 
 Set a route for the `WordPress Home` page.
 

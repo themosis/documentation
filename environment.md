@@ -78,13 +78,24 @@ Once you get your hostname, open the `environment.php` file and replace the valu
 <?php
 
 /*----------------------------------------------------*/
-// Define your environments
+// Define environment type
 /*----------------------------------------------------*/
 return [
 
-    'local'      => 'WRITE YOUR HOSTNAME HERE',
-    'production' => 'remote machine hostname'
+    'local'      => 'INSERT-HOSTNAME',
+    'production' => 'INSERT-PRODUCTION-HOSTNAME'
 
+];
+```
+
+The hostname value can be the exact machine name, a wildcard or regular expression. For example:
+
+```php
+<?php
+
+return [
+    'local' => '*.domain.com',
+    'production' => 'xyz\..+\.net'
 ];
 ```
 
@@ -92,17 +103,14 @@ return [
 
 ##### Multiple hostnames
 
-In some scenarios, you'll probably need to define several hostnames per environment. In order to do so, you can pass an array of hostnames to each environment key like so:
+In some scenarios, you'll probably need to define several hostnames per environment. In order to do so, you can pass an array of hostnames to each environment key. Array values can also be multiple wildcard or regular expressions. Here is an example:
 
 ```php
 <?php
 
-/*----------------------------------------------------*/
-// Define your environments
-/*----------------------------------------------------*/
 return [
 
-    'local'      => ['computer1', 'computer2', 'computer3'],
+    'local'      => ['computer1', 'computer2', '*.project.dev'],
     'production' => 'remote machine hostname'
 
 ];

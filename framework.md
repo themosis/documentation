@@ -10,9 +10,9 @@ Introduction
 
 The Themosis framework is a pre-configured stack to develop WordPress website and application. It comes with a plugin, the `themosis-framework` which contains the APIs and a theme `themosis-theme` where you'll write your application/website  front-end code.
 
-Since release 1.3.0, you can also develop WordPress plugins that leverage the Themosis framework API. By default, this plugin boilerplate package is not loaded when starting a new project. In order to learn more about plugin development, please read the [plugin guide]({{url}}/plugin).
+Since release 1.3.0, you can also develop WordPress plugins that leverage the Themosis framework API. By default, this plugin boilerplate package is not included when starting a new project. In order to learn more about plugin development, please read the [plugin guide]({{url}}/plugin).
 
-> We suggest you to rename the default `themosis-theme` folder name to better match your project (Note: you can also remove the composer dependency statement **themosis/theme** in your composer.json file).
+> We suggest you to rename the default `themosis-theme` folder name to better match your project. This also prevents Composer from erasing your custom theme. We also recommend to remove the composer dependency statement **themosis/theme** in your composer.json file located at your project root.
 
 Let's take a look at the framework structure.
 
@@ -29,27 +29,27 @@ The plugin gives you classes to easily create or handle: custom post types, meta
 
 ### Theme: themosis-theme
 
-> We suggest you to change the `themosis-theme` folder name to match your project.
+> As previously suggested, we recommend you to change the `themosis-theme` folder name to match your project.
 
 The `themosis-theme` is stored inside the `htdocs/content/themes/` folder of your project. The theme contains a `resources` directory. This is the main folder where you write your code for building your application/website's theme.
 
-Let's take a look inside this `resource` folder:
+Let's take a look inside this `resources` folder:
 
 - **admin/**: This folder is an extension of the classic `functions.php` file. You can add as many files as you want at its root. As the name suggests, this is where you'll write your code in order to shape the WordPress administration and general behavior on the front-end. **Note:** The framework will load your files in alphabetical order. An `actions.php` and `theme.php` files are loaded by default.
 
 - **config/**: Contains the theme configuration files: `constants`, `images`, `loading`, `menus`, `providers`, `sidebars`, `supports`, `templates`, `theme`. Read the [configuration guide]({{url}}/configuration) for more information.
 
-- **controllers/**: This folder stores all your controller classes.
+- **controllers/**: This folder stores all your theme's controller classes.
 
-- **models/**: Stores your model classes. **Note:** If using the Themosis framework "full-stack", you can leverage the Eloquent ORM. Read the [models guide]({{url}}/models)
+- **models/**: Stores your model classes. **Note:** If you're using the Themosis framework "full-stack", you can leverage the Eloquent ORM. Read the [models guide]({{url}}/models)
 
 - **providers/**: Stores your service providers classes. Since release 1.3.0, the framework takes advantages of the Illuminate Container and Service Provider packages. Read the [providers guide]({{url}}/providers).
 
 - **views/**: This folder contains your views - HTML. You can point to sub-directories using a dot syntax.
 
-- **widgets/**: Contains your widget classes.
+- **widgets/**: Contains your widget classes. Read the [widgets guide]({{url}}/widgets) for more information on how to register your widgets.
 
-- **routes.php**: This file handles your website routes. Since release 1.3.0, we've implemented the full Illuminate Router package. This means that you can define custom routes (like in any web framework) and WordPress routes. Read the [routing guide]({{url}}/routing) for more information on how to manage, create custom and WordPress your routes.
+- **routes.php**: This file handles your theme's routes. Since release 1.3.0, we've implemented the full Illuminate Router package. This means that you can define custom (like in any web framework) and WordPress routes. Read the [routing guide]({{url}}/routing) for more information on how to manage, create custom and WordPress routes.
 
 Finally, one difference is the directory change regarding the **assets**. From now on, there are 2 directories located at theme's root:
 
@@ -69,9 +69,9 @@ Since release 1.3.0, we highly recommend you to develop custom plugins when you 
 
 We've also reinforced the use of PHP namespaces over all the framework.
 
-The following guides will give you code examples on how to use the APIs. And as for now, those code samples do work inside your theme or inside any custom plugins built with the Themosis Plugin boilerplate.
+The following guides will give you code examples on how to use the APIs. And as for now, those code samples do work inside your theme or inside any custom plugins built with the [Themosis Plugin boilerplate]({{url}}/plugin).
 
-As a general rule, we've developed both theme and plugin with a similar folder structure. No matter where you'll code, theme or plugin, you'll write your code inside their `resources` folder mainly.
+As a general rule, we've developed both theme and plugin with a similar folder structure. No matter where you'll code, theme or plugin, you'll mainly write your code inside their `resources` folder.
 
 Now, let's get started by looking at the route API.
 
