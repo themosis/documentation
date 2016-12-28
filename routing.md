@@ -54,20 +54,34 @@ Here is the current list of available route conditional tags in alphabetical ord
 
 ### Routing examples
 
-Remember that when you're developing with the Themosis framework, you're still doing WordPress development. In WordPress, in order for a route to work, the data has to exists first (usually by posting content from the WordPress administration).
-
-WordPress routes are mapped to WordPress core conditional functions like `is_home()`, `is_page()`, ... so the following routes samples may not have sense directly if you're coming from another traditional framework but stay with us as custom routing is also available [(see below)](#custom-routes)
+Before digging into the routing API, remember that when you're developing with the Themosis framework, you're still doing WordPress development. So in WordPress, in order for a route to work, the data has to exists first (usually by posting content from the WordPress administration).
 
 #### Home route
 
-Set a route for the `WordPress Home` page.
+In the WordPress world, there are 2 routes available for the home page of your website/application:
+
+1. The `home` route
+2. The `front` route
+
+##### 1- The home route
+
+This route is mapped to core WordPress function `is_home()`. Historically we could say it handled the home page, now it's more the blog main page. The `home` route handles the request to the URI that lists the most recent published posts.
+
+So there are 2 cases:
+
+- If your website is mainly a blog, you can keep the default behavior and use it as is for the home page and it listens to requests made to this URI `/`
+- If your home page is not a main blog page, a custom WordPress page has been defined to display the list of most recent posts, so the `home` route won't handle requests made to `/` URI but perhaps to a `/blog` URI instead. In order for this scenario to work, you must define a custom page from the WordPress administration -> Settings -> Reading panel.
+
+Here's an example of a route listening to the WordPress Home page:
 
 ```php
-Route::get('home', function(){
+// This route listens to a '/' or '/custom-page' URI
+Route::get('home', function() {
     return 'Hello World!';
 });
 ```
-The code above listens to `GET` and `HEAD` requests on the home page. But you can listen to other HTTP verbs. Currently the route API handles `HEAD`, `GET` and `POST` HTTP verbs.
+
+> The previous example listens to `GET` and `HEAD` requests on the WordPress home page. But you can listen to other HTTP verbs as described above.
 
 Here is an example of a `POST` route:
 
