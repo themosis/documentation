@@ -2,143 +2,201 @@ Controllers
 ===========
 
 - [Basic usage](#basic-usage)
-	- [Autoloading classes](#autoloading-classes)
-- [Perform actions at controller instantiation](#perform-actions-at-controller-instantiation)
-- [The layout property](#the-layout-property)
+- [Namespaces](#namespaces)
+- [Autoloading](#autoloading)
+- [Dependency injection](#dependency-injection)
 
 Basic usage
 -----------
 
 Instead of defining all of your route-level logic in a single `routes.php` file, you may wish to organize this behavior using Controller classes.
 
-Controllers can group related route logic into a class. Controllers are stored in the `resources/controllers` directory of your `themosis-theme` theme.
+Controllers can group related route logic into a class. Controllers are stored in the `resources/controllers` directory of your `themosis-theme` theme or custom plugin.
 
 Here is an example of a basic controller class:
 
 ```php
 <?php
-// This class is stored in resources/controllers/HomeController.php
-class HomeController extends BaseController
+namespace Theme\Controllers;
+
+use Themosis\Route\BaseController;
+
+class Home extends BaseController
 {
     public function index()
     {
-        return View::make('pages.home');
+        return view('pages.home');
     }
 }
-?>
 ```
 
-> All your controller classes must extend the `BaseController` class in order to work.
+> All your controller classes must extend the `BaseController` class in order to work. Be careful about the namespace `Themosis\Route\BaseController`.
 
-Now, using this controller and its method/action, we can specify the route like so:
+Now based on our code example above, we can use this controller and its method/action from within our `routes.php` file like so:
 
 ```php
-Route::get('home', 'HomeController@index');
+Route::get('home', 'Home@index');
 ```
 
-Here is another example with a generic page route:
-
-```php
-Route::get('page', 'HomeController@index');
-```
-
-To link a controller to a route, use the following syntax `'ClassName@method'`. In the example above, the route is linked to the `HomeController` class and calls the `index` method of that same class.
+To link a controller to a route, use the following syntax `'ClassName@method'`. In the example above, the route is linked to the `Theme\Controller\Home` class and calls its `index` method.
 
 #### Other way to use a controller
 
-Sometimes routes need more parameters. For example when you define a route for a specific page. To use a controller, add the `uses` key to the route parameters and set its value to the controller like so:
+Sometimes routes need more parameters. For example when you define a route for a specific page. To use a controller, add the `uses` key to the route callback array and set its value to the controller like so:
 
 ```php
-Route::get('page', ['about-us', 'uses' => 'AboutController@index']);
+Route::get('page', ['about-us', 'uses' => 'About@index']);
 ```
 
-### Autoloading classes
+Namespaces
+----------
 
-By default, controller (and model) classes are loaded using the PSR-4 standard and are setup without any namespaces.
+We now force developers to use PHP namespaces for the controllers and classes in general. In both the theme and plugin.
 
-If you want to add directories to autoload custom classes or add namespaces to your existing controllers, use the `loading.config.php` file stored inside the `resources/config` directory of your `themosis-theme`:
+A `themosis-theme` theme has its namespace set to `Theme\\` by default. So every controller added into your theme `resources/controllers` directory must have their namespace set to `Theme\Controllers`.
+
+> Check the [plugin guide]({{url}}/plugin) regarding plugin namespace.
+
+So the following theme route example:
+
+```php
+Route::match(['get', 'post'], 'home', 'Home@show');
+```
+
+is instantiating the `Theme\Controllers\Home` class saved into the theme `resources/controllers/Home.php` file and is calling its `show()` public method.
+
+Here is a sample of the above `Theme\Controllers\Home` class:
+
+```php
+<?php
+namespace Theme\Controllers;
+
+use Themosis\Route\BaseController;
+
+class Home extends BaseController
+{
+    public function show()
+    {
+        return view('pages.home');
+    }
+}
+```
+
+Autoloading
+-----------
+
+By default, theme controller classes are loaded using the PSR-4 standard and have a namespace of `Theme\Controllers`.
+
+In order to modify your theme controller namespace and autoloading, use the `loading.config.php` file stored inside the `resources/config` directory of your `themosis-theme`:
 
 ```php
 <?php
 
 return [
+
     /*
     * Edit this file in order to configure your theme's
     * classes autoloading. Classes are loaded using PSR-4.
     *
     * The key is the namespace and key's value contains one or more paths to your classes.
     */
-    ''  => [themosis_path('theme').'controllers', themosis_path('theme').'models']
+    'Theme\\Controllers\\' => themosis_path('theme.resources').'controllers',
+    'Theme\\Models\\' => themosis_path('theme.resources').'models',
+    'Theme\\Providers\\' => themosis_path('theme.resources').'providers'
+
 ];
 ```
 
-The function `themosis_path('theme')` returns the theme `resources` folder path. More information about the `themosis_path` function in the [Helpers guide](http://framework.themosis.com/docs/helpers/).
+The function `themosis_path('theme.resources')` returns the theme `resources` folder path. More information about the `themosis_path` function in the [Helpers guide]({{url}}/helpers).
 
-Perform actions at controller instantiation
--------------------------------------------
+Dependency injection
+--------------------
 
-Each time you use a controller within your routes, the controller is automatically instantiated for you before calling the defined method in the route.
+The Themosis framework now implements the Illuminate\Container in order to resolve controllers. As a result, you can now type-hint any dependencies your controller may need in its constructor or public methods.
 
-This means that you can define the constructor method and perform common actions before the route calls the controller method responsible to render the view.
+### Constructor injection
 
-Here is an example:
+Here is an example of a dependency injected in a controller constructor:
+
 ```php
 <?php
 
-class HomeController extends BaseController
+namespace Theme\Controllers;
+
+use Theme\Models;
+use Themosis\Route\BaseController;
+
+class Home extends BaseController
 {
-    protected $property;
+    /**
+     * A books model instance.
+     */
+    protected $books;
 
-    public function __construct()
+    /*
+     * Auto-instantiate a Theme\Models\Books class.
+     */
+    public function __construct(Books $books)
     {
-        // Do something
-        $this->property = 'A value';
-    }
-
-    public function index()
-    {	
-        return View::make('pages.home', ['data' => $this->property]);
-    }
-}
-?>
-```
-
-The layout property
--------------------
-
-When you create a controller class, you must extend the `BaseController` class. Thanks to this parent class, your controller contains an instance property called `$layout` which you can override.
-
-The layout property is useful in the case where all your controller methods need to return the same view or if you want to provide a default view which can of course be overriden in your controller method.
-
-Also note that once you defined a layout property, it automatically becomes a view instance inside the controller method.
-
-```php
-class PageController extends BaseController
-{
-    protected $layout = 'pages.common';
-
-    public function all()
-    {
-        // $layout is a view instance
-        // I can pass data to it using the with() method
-        $this->layout->with('key', 'hello');
+        $this->books = $books;
     }
 }
 ```
 
-In the code example above, when a route calls the `PageController@all` method, it will return the `pages.common` view with the added data `$key` with a value of `hello`.
+### Method injection
 
-As mentioned earlier, even if you define a `$layout` property, you can still override the view you want to return inside the method like so:
+The same principle can be used to controller methods. You can type-hint your dependency just like in the constructor. Here is an example:
 
 ```php
-class PageController extends BaseController
-{
-    protected $layout = 'pages.common';
+<?php
 
-    public function all()
+namespace Theme\Controllers;
+
+use Theme\Models;
+use Themosis\Route\BaseController;
+
+class Home extends BaseController
+{
+    /*
+     * Auto-instantiate a Theme\Models\Books class.
+     */
+    public function show(Books $books)
     {
-        return View::make('pages.custom');
+        $books = $books->query()->get();
     }
+}
+```
+
+If your controller method is also expecting values from route parameters, simply append those parameters after your dependencies. Two possible scenarios for this case:
+
+1. Using a WordPress route
+2. Using a custom route
+
+#### Using a WordPress route
+
+Route parameters are not available to WordPress routes. But each time you use a WordPress route, we give you the globals `$post` and `$query` as parameters. In order to access them, simply define them after your method dependencies like so:
+
+```php
+public function show(Books $books, $post, $query)
+{
+    return view('books');
+}
+```
+
+#### Using a custom route
+
+If you have for example a route defined like so:
+
+```php
+Route::get('projects/{id}', 'Projects@show');
+```
+
+You can access your route parameter value this way:
+
+```php
+public function show(Projects $projects, $id)
+{
+    // Write some logic...
 }
 ```
 
