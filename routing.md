@@ -376,7 +376,7 @@ Then you'll write in your `routes.php` file:
 
 ```php
 Route::get('product', function () {
-    return View::make('shop.product');
+    return view('shop.product');
 });
 ```
 

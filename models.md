@@ -18,7 +18,11 @@ A model will store the methods/functions that manipulate your data. You can perf
 Register a Model
 ----------------
 
-In order to create a model, simply create a new PHP class inside the `resources/models` directory of your theme or custom plugin. Here is an example of a simple model class:
+In order to create a model, simply create a new PHP class inside the `resources/models` directory of your theme or custom plugin. By default, model classes are loaded using the PSR-4 standard. Models from the theme use the `Theme\Models` namespace.
+
+> Check the [plugin guide]({{url}}/plugin) for custom plugin namespace.
+
+Here is an example of a simple model class:
 
 ```php
 <?php
@@ -45,7 +49,6 @@ class Post
     }
 }
 ```
-By default, model classes are loaded using the PSR-4 standard. Models from the theme use the `Theme\Models` namespace.
 
 If you want to change your theme models namespace, use the `loading.config.php` file stored inside the `resources/config` directory of your `themosis-theme`:
 
