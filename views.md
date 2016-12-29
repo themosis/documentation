@@ -1,17 +1,45 @@
 Views
 =====
 
-- [Basic usage](#basic-usage)
-	- [Organize your views](#organize-your-views)
-	- [Passing data to views](#passing-data-to-views)
-	- [Sharing data with all views](#sharing-data-with-all-views)
-	- [Render your views](#render-your-views)
-- [View composers](#view-composers)
+- [Introduction](#introduction)
+- [View API](#view-api)
+    - [Create a view](#create-a-view)
+    - [Organize your views](#organize-your-views)
+    - [Passing data](#passing-data)
+	- [Sharing data](#sharing-data)
+	- [Render](#render)
+	- [View composers](#view-composers)
+- [Blade engine](#blade-engine)
+- [Twig engine](#twig-engine)
 
-Basic usage
------------
+Introduction
+------------
 
-Views contain the HTML of your website/application. They provide a convenient way of separating your controller and domain logic from your presentation logic. Views are stored in the `resources/views` directory of your `themosis-theme` theme.
+In order to handle the application views (HTML), the Themosis framework comes with a view API that extends the illuminate/view package. Beside providing same API found in the Laravel framework, the Themosis framework views come with 2 great template engines:
+
+- [Blade](https://laravel.com/docs/5.3/blade)
+- [Twig](http://twig.sensiolabs.org/)
+
+Depending of your background, you might prefer working with the Twig engine, Blade engine or vanilla PHP, the choice is yours. Regarding the view API, there is one difference to note regarding view composers if you decide to go with the Twig engine (and vanilla PHP as well). See view composers below for the details.
+
+> In versions anterior to 1.3.0, there was the Scout template engine which was a fork of the Blade engine. The Scout template were using a `.scout.php` file extension. For backward compatibility, you can still use this file extension but it is recommended to rename your files with a `.blade.php` file extension instead.
+
+View API
+--------
+
+Views contain the HTML of your website/application. They provide a convenient way of separating your controllers and application logic from your presentation logic.
+
+Before digging into the view API available methods, let's take a look on how views are loaded.
+
+Views are registered through the use of Views Finder class. By default, views are stored in the `resources/views` directory of either your `themosis-theme` theme or custom plugin.
+
+If you need to add more views directories (locations) in your project, you can do so by fetching the finder instance and call its `addLocation()` method like so:
+
+```php
+container('view.finder')->addLocation($path_to_directory);
+```
+
+> In previous code sample, we use the helper function `container()` which resolve a view finder instance. Check the [service container guide]({{url}}/container) for more information.
 
 Here is an example of a simple view:
 
