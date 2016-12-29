@@ -81,10 +81,8 @@ Once you get your hostname, open the `environment.php` file and replace the valu
 // Define environment type
 /*----------------------------------------------------*/
 return [
-
     'local'      => 'INSERT-HOSTNAME',
     'production' => 'INSERT-PRODUCTION-HOSTNAME'
-
 ];
 ```
 
@@ -109,10 +107,8 @@ In some scenarios, you'll probably need to define several hostnames per environm
 <?php
 
 return [
-
     'local'      => ['computer1', 'computer2', '*.project.dev'],
     'production' => 'remote machine hostname'
-
 ];
 ```
 
@@ -135,11 +131,9 @@ Now inside your `environment.php` file, in place of an array, you'll replace you
 ```php
 <?php
 
-return function()
-{
+return function () {
     // Check for the environment variable
-    if ('varValue' === getenv('varName'))
-    {
+    if ('varValue' === getenv('varName')) {
         // Return the environment file slug name: .env.{$slug}
         return 'local';
     }
@@ -176,11 +170,9 @@ For Nginx, your environment variable is accessible by using `$_SERVER[]`. So ins
 ```php
 <?php
 
-return function()
-{
+return function () {
     // Check for the environment variable
-    if ('varValue' === $_SERVER['varName'])
-    {
+    if ('varValue' === $_SERVER['varName']) {
       // Return the environment file slug name: .env.{$slug}
       return 'local';
     }
