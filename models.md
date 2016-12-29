@@ -110,18 +110,29 @@ You can also define custom timestamps columns using the const `CREATED_AT` and `
 Basic usage
 -----------
 
-In order to use your model, simply create a new instance anywhere in your code or if you used static methods, only call your method. Using the above example code, we can retrieve all the `posts` for our view like so:
+In order to use your model, simply create a new instance. Using the above example code, we can retrieve all the `posts` for our view like so:
 
 ```php
-Route::get('home', function()
-{
-    return View::make('pages.home', [
-        'posts' => PostModel::all()
+// Using the simple model representation.
+// Route callback can auto instantiate classes as well.
+Route::get('home', function (Post $model) {
+    return view('pages.home', [
+        'posts' => $model->all()
     ]);
 });
 ```
 
-> Store your `model` classes in the `resources/models` directory.
+In the previous example, it returns an array of WP_Post objects. Now you can use the same approach with our model that extends the Eloquent ORM like so:
+
+```php
+Route::get('home', function (Post $model) {
+    return view('pages.all', [
+        'posts' => $model->all() // Now the all() method is coming from the Eloquent base model
+    ]);
+});
+```
+
+> Store your `model` classes in the `resources/models` directory of your theme or custom plugin.
 
 Next
 ----
