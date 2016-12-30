@@ -1,9 +1,9 @@
-Blade
-=====
+Twig
+====
 
 - [Introduction](#introduction)
 - [Basic usage](#basic-usage)
-- [Blade control structures](#blade-control-structures)
+- [Twig control structures](#twig-control-structures)
 	- [Include views](#include-views)
 	- [Pass data to included views](#pass-data-to-included-views)
 	- [Sections](#sections)
@@ -12,16 +12,17 @@ Blade
 	- [Loop statements](#loop-statements)
 	- [Displaying raw text](#displaying-raw-text)
 	- [Comments](#comments)
-- [Extending Blade](#extending-blade)
-- [Themosis directives](#themosis-directives)
-- [Loop helper](#loop-helper)
+- [Extending Twig](#extending-twig)
+- [Themosis Twig Extensions](#themosis-twig-extensions)
 
 Introduction
 ------------
 
-The Blade template engine is bundled with the illuminate/view package. When working with the Themosis framework, you automatically get access to it in order to work out your views.
+The Themosis framework now adds support to the Twig template engine. For a more detailed presentation of the Twig engine, please check the official documentation:
 
-- [Blade official documentation](https://laravel.com/docs/5.3/blade)
+- [Twig official documentation](http://twig.sensiolabs.org/)
+
+In this documentation, you'll find the basics operations on how to get started with Twig engine as well as the Twig extensions the Themosis framework has added in order to help you work with WordPress and its core functions within your views. For more advanced topics regarding Twig, please refer to the official documentation.
 
 Basic usage
 -----------
@@ -109,13 +110,13 @@ Add the `@endsection` statement when closing your section. This will overwrite t
 
 #### Extend parent section
 
-Add the `@@parent` statement in order to keep the content of the parent section defined in the layout view.
+Add the `@parent` statement in order to keep the content of the parent section defined in the layout view.
 
 ```html
 @extends('layouts.main')
 
 @section('sidebar')
-    @@parent
+    @parent
     <p>Child sidebar content appended to parent's content</p>
 @endsection
 ```
@@ -298,26 +299,6 @@ The `@query` directive provides a shortcut to run custom WordPress loops:
 The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query. You can also pass the WP_Query instance to the `@query` statement.
 
 > The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More informations below.
-
-### @wp_head
-
-The `@wp_head` directive is a shortcut for `<?php wp_head(); ?>:
-
-```html
-<head>
-    @wp_head
-</head>
-<body>
-```
-
-### @wp_footer
-
-The `@wp_footer` directive is a shortcut for `<?php wp_footer(); ?>`
-
-```html
-    @wp_footer
-</body>
-```
 
 Loop helper
 -----------
