@@ -3,6 +3,7 @@ Routing
 
 - [Introduction](#introduction)
 - [Router methods](#router-methods)
+- [Managing routes](#managing-routes)
 - [WordPress routes](#wordpress-routes)
 	- [Conditional tags](#conditional-tags)
 	- [Routing examples](#routing-examples)
@@ -52,6 +53,36 @@ Route::match(['GET', 'POST'], $uri, function () {
 ```
 
 Pass an array of HTTP verbs as the first parameter, followed by an URI (or condition) and a callback.
+
+Managing routes
+---------------
+
+A theme is not the only place where you can define routes. You can easily register routes from a custom plugin as well.
+
+The router will use plugin routes as "fallback". Meaning that you can define some routes in a plugin but if the theme registers the same route, it's the route from the theme that will be used. This allows theme developers to overwrite plugin routes and customize the output.
+
+Here is an example. Imagine we have a custom plugin with a registered route that listens to requests made to a custom post type archive of `books`:
+
+```php
+use Themosis\Facades\Route;
+
+// Plugin routes.php file
+Route::match(['get', 'post'], 'postTypeArchive', ['books', function () {
+    return 'Books from the plugin.';
+}]);
+```
+
+Now the theme developer wants to customize the output for the books page, he can overwrite the plugin route like so from the theme `routes.php` file:
+
+```php
+Route::match(['get', 'post'], 'postTypeArchive', ['books', function () {
+    return 'Books from the theme.';
+}]);
+```
+
+When visiting the books page in the browser, the page is only showing "Books from the theme.".
+
+So keep in mind that a theme `routes.php` file has precedence over any plugin `routes.php` files.
 
 Now let's dive into WordPress available routes.
 
