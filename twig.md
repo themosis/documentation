@@ -361,4 +361,25 @@ By default, Poedit cannot find strings to translate from Twig templates. Here is
 	- Source code charset: `--from-code=%c`
 4. Click save
 
-In order for this to work, you must have a poedit project correctly setup pointing to the `languages` folder of either your theme or custom plugin and define the gettext methods and resources base path.
+In order for this to work, you must have a poedit project correctly setup pointing to the `languages` folder of either your theme or custom plugin and define the gettext methods and resources base path. From the catalog preferences, set the sources paths like so:
+
+- Base path: `../`
+- Paths:
+    - `resources`
+    - `resources/admin`
+    - `resources/views`
+
+as well as adding the following gettext methods to the source keywords catalog tab:
+
+- `__`
+- `_e`
+- `_x`
+- `esc_html__`
+- `esc_html_e`
+- `_n`
+- `_nx`
+- `_n_noop`
+- `_nx_noop`
+- `_ex`
+
+and more if needed.

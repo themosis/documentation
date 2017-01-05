@@ -15,6 +15,7 @@ Blade
 - [Extending Blade](#extending-blade)
 - [Themosis directives](#themosis-directives)
 - [Loop helper](#loop-helper)
+- [Poedit](#poedit)
 
 Introduction
 ------------
@@ -513,3 +514,42 @@ Here is an example of the rendered HTML code with the class attribute:
     {!! Loop::paginate() !!}
 @endloop
 ```
+
+Poedit
+------
+
+By default, Poedit cannot find strings to translate from Blade templates. Here is a list of parameters to add to your Poedit software preferences so it can detect translation strings from your Blade views:
+
+1. Open Poedit
+2. Go to Preferences -> Parsers
+3. Add a new parser with following settings:
+	- Language: `Blade`
+	- Extension: `*.twig`
+	- Parser command: `xgettext --language=Python --add-comments=TRANSLATORS --force-po -o %o %C %K %F`
+	- An item in keyword list: `-k%k`
+	- An item in input files list: `%f`
+	- Source code charset: `--from-code=%c`
+4. Click save
+
+In order for this to work, you must have a poedit project correctly setup pointing to the `languages` folder of either your theme or custom plugin and define the gettext methods and resources base path. From the catalog preferences, set the sources paths like so:
+
+- Base path: `../`
+- Paths:
+    - `resources`
+    - `resources/admin`
+    - `resources/views`
+
+as well as adding the following gettext methods to the source keywords catalog tab:
+
+- `__`
+- `_e`
+- `_x`
+- `esc_html__`
+- `esc_html_e`
+- `_n`
+- `_nx`
+- `_n_noop`
+- `_nx_noop`
+- `_ex`
+
+and more if needed.
