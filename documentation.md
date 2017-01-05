@@ -20,10 +20,14 @@
 - [Blade]({{url}}/blade)
 - [Twig]({{url}}/twig)
 
-#### WordPress
+#### WordPress development
 
 - [Plugin]({{url}}/plugin)
 - [Theme]({{url}}/theme)
+- [Multisite]({{url}}/multisite)
+- [WP-CLI]({{url}}/wp-cli)
+
+#### WordPress API
 
 - [Action]({{url}}/action)
 - [Ajax]({{url}}/ajax)
@@ -34,7 +38,6 @@
 - [Helpers]({{url}}/helpers)
 - [Meta]({{url}}/meta)
 - [Metabox]({{url}}/metabox)
-- [Multisite]({{url}}/multisite)
 - [Option]({{url}}/option)
 - [Page]({{url}}/page)
 - [PostType]({{url}}/posttype)
@@ -42,4 +45,3 @@
 - [User]({{url}}/user)
 - [Validation & Input]({{url}}/validation)
 - [Widgets]({{url}}/widgets)
-- [WP-CLI]({{url}}/wp-cli)
