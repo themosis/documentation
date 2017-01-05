@@ -10,7 +10,7 @@ Contributing
 Introduction
 ------------
 
-Themosis is an open-source project and anyone can contribute to it. Themosis  contains multiple repositories and they're all stored on Github.
+Themosis is an open-source project and anyone can contribute to it. Themosis contains multiple repositories and they're all stored on Github.
 
 If you feel confident writing code, we have 3 repositories handling the different part of the framework:
 
@@ -20,18 +20,18 @@ If you feel confident writing code, we have 3 repositories handling the differen
 
 For each of these repositories, you can accordingly report any issues you may found or provide pull requests.
 
-We also need help on the documentation. If you see grammar typos or think the docs are lacking of explanation or examples, feel free to complete it:
+We also need help on the documentation. If you see grammar typos or think the docs are lacking some explanation or examples, feel free to complete it:
 
 - [themosis/documentation](https://github.com/themosis/documentation)
 
 Reporting issues
 ----------------
 
-Regarding `code` issues, please **add your code to the request** and give detailed explanations about what you're trying to achieve.
+Regarding `code` issues, please **submit your code with the request** and give **detailed explanations** about what you're trying to achieve.
 
 If your code is in multiple files or is more complex, **setup your own repository** so people can look at it.
 
-We highly encourage you to send pull requests with the bug fix. Make sure to work on the latest stable release and **not** the `master` branch.
+We highly encourage you to send pull requests with the bug fix. Make sure to work on the latest stable release and **not** the `master` branch. The framework version `1.3.*` has a `1.3` branch from which you have to write your pull request for. A pull request **must have unit tests** along your code.
 
 If you're unsure how to retrieve the latest (tagged) stable release, check these resources:
 
