@@ -71,7 +71,16 @@ We've also reinforced the use of PHP namespaces over all the framework.
 
 The following guides will give you code examples on how to use the APIs. And as for now, those code samples do work inside your theme or inside any custom plugins built with the [Themosis Plugin boilerplate]({{url}}/plugin).
 
-As a general rule, we've developed both theme and plugin with a similar folder structure. No matter where you'll code, theme or plugin, you'll mainly write your code inside their `resources` folder.
+As a general rule, we've developed both theme and plugin with a similar folder structure. No matter where you code, theme or plugin, you'll mainly write your code inside their `resources` folder.
+
+Composer support
+----------------
+
+By default, the Themosis framework block core WordPress automatic updates except security patches. This is done on purpose as we encourage people to handle application updates and manage their dependencies, plugin and PHP packages, through the use of composer.
+
+As a matter, we highly recommend users to define their PHP packages but as well their WordPress plugin dependencies into the root `composer.json` file of their project.
+
+Plugins, like the WordPress core, should not be modified but extended. Meaning that by default WordPress and plugins should not be tracked with your version control system. This configuration allows for easy and light code management of your WordPress application.
 
 Now, let's get started by looking at the route API.
 

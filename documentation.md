@@ -13,10 +13,17 @@
 - [Routing]({{url}}/routing)
 - [Controllers]({{url}}/controllers)
 - [Models]({{url}}/models)
-- [Views]({{url}}/views)
-- [Scout templates]({{url}}/scout)
 
-#### Learn more
+#### Views & templates
+
+- [Views]({{url}}/views)
+- [Blade]({{url}}/blade)
+- [Twig]({{url}}/twig)
+
+#### WordPress
+
+- [Plugin]({{url}}/plugin)
+- [Theme]({{url}}/theme)
 
 - [Action]({{url}}/action)
 - [Ajax]({{url}}/ajax)
