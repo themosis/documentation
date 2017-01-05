@@ -97,7 +97,7 @@ This command can include a view file called `header.php` or `header.blade.php`.
 
 #### Overwrite section
 
-Add the `@endsection` statement when closing your section. This will overwrite the content of the parent section defined inside the layout view.
+Add the `@section` and `@endsection` statements to overwrite a layout section.
 
 ```html
 @extends('layouts.main')
@@ -210,11 +210,13 @@ The above is the same as:
 
 ### Displaying raw text
 
-If you need to display a string that is wrapped in curly braces, you may escape the Scout behavior by prefixing your text with an `@` symbol:
+If you need to display a string that is wrapped in curly braces, you may escape the Blade behavior by prefixing your text with an `@` symbol:
 
 ```html
 @{{ This is not processed by Scout }}
 ```
+
+> Check also the [verbatim](https://laravel.com/docs/5.3/blade#displaying-data) directive for larger text.
 
 ### Comments
 

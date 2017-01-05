@@ -13,7 +13,8 @@ Twig
 	- [Displaying raw text](#displaying-raw-text)
 	- [Comments](#comments)
 - [Extending Twig](#extending-twig)
-- [Themosis Twig Extensions](#themosis-twig-extensions)
+- [Themosis Twig Extension](#themosis-twig-extension)
+- [Poedit](#poedit)
 
 Introduction
 ------------
@@ -22,33 +23,31 @@ The Themosis framework now adds support to the Twig template engine. For a more 
 
 - [Twig official documentation](http://twig.sensiolabs.org/)
 
-In this documentation, you'll find the basics operations on how to get started with Twig engine as well as the Twig extensions the Themosis framework has added in order to help you work with WordPress and its core functions within your views. For more advanced topics regarding Twig, please refer to the official documentation.
+In this documentation, you'll find the basics operations on how to get started with the Twig engine as well as the Twig extension the Themosis framework has added in order to help you work with WordPress and its core functions within your views. For more advanced topics regarding Twig, please refer to the official documentation.
 
 Basic usage
 -----------
 
-In order to use the Blade engine, all your view files should use the `.blade.php` extension.
+In order to use the Twig engine, all your view files should use the `.twig` extension.
 
-> Previous versions of the Themosis framework used a fork of the Blade engine called Scout. It is now deprecated to use it. For backward compatibility, views using the `.scout.php` file extension are now compiled through the Blade engine. But you'll need to update view statements as `{{ }}` double curly braces now escape data causing some layout issues during upgrade.
+Here is an example of a basic view, using Twig, stored inside the `resources/views` folder:
 
-Here is an example of a basic view, using Blade, stored inside the `resources/views` folder:
+```twig
+<!-- View stored in resources/views/welcome.twig -->
+{% extends 'layouts/main.twig' %}
 
-```html
-<!-- View stored in resources/views/welcome.blade.php -->
-@extends('layouts.main')
+{% block main %}
+    <h1>Hello, {{ name }}</h1>
+{% endblock %}
 
-@section('main')
-    <h1>Hello, {{ $name }}</h1>
-@endsection
-
-@section('sidebar')
+{% block sidebar %}
     <h3>Latest posts</h3>
     <ul>
-        @foreach($items as $item)
-            <li>{{ $item->post_title }}</li>
-        @endforeach
+        {% for item in items %}
+            <li>{{ item.post_title }}</li>
+        {% endfor %}
     </ul>
-@endsection
+{% endblock %}
 ```
 
 And this view may be returned to the browser like so:
@@ -60,435 +59,306 @@ Route::get('home', function ($post, $query) {
 });
 ```
 
-In the previous example, we used the `@extends` syntax. This function allows you to use layouts:
+In the previous example, we used the `{% extends 'layouts/main' %}` syntax. This function allows you to use layouts:
 
-```html
-<!-- Layout stored in resources/views/layouts/main.blade.php -->
-@include('header')
+```twig
+<!-- Layout stored in resources/views/layouts/main.twig -->
+{{ include('header.twig') }}
     <div class="container">
-        @yield('main')
+        {% block main %}{% endblock %}
     </div>
 
     <div class="sidebar">
-        @section('sidebar')	
-            <p>Sidebar section from the "main" layout file.</p>
-        @show
+        {% block sidebar %}	
+            <p>Sidebar section from the "main.twig" layout file.</p>
+        {% endblock %}
     </div>
-@include('footer')
+{{ include('footer.twig') }}
 ```
 
-Blade control structures
+> Compared to the Blade engine, in Twig, you cannot omit the `.twig` file extension when refering to a view layout or a view you would like to include. Qnother comparison, is the path to your views. Where Blade uses a dot notation, with Twig, you stick to classic path notation using the `/` symbol.
+
+Twig control structures
 ------------------------
 
 ### Include views
 
-```html
-@include('header')
+```twig
+{{ include('header.twig') }}
 ```
 
-This command can include a view file called `header.php` or `header.blade.php`.
+This command can include a view file called `header.twig` only.
 
-### Pass data to included views
-
-```html
-@include('header', ['title' => 'Documentation'])
-```
+> Note regarding views inheritance. Included views can access variables defined from their parent view. So compared to Blade, you don't to pass a second argument array with view variables. See also the official documentation for [template inheritance.](http://twig.sensiolabs.org/doc/2.x/templates.html#template-inheritance)
 
 ### Sections
 
 #### Overwrite section
 
-Add the `@endsection` statement when closing your section. This will overwrite the content of the parent section defined inside the layout view.
+Add the `{% block %}` and `{% endblock %}` statements to overwrite a layout section.
 
-```html
-@extends('layouts.main')
+```twig
+{% extends 'layouts/main.twig' %}
 
-@section('sidebar')
+{% block sidebar %}
     <p>New sidebar content</p>
-@endsection
+{% endblock %}
 ```
 
 #### Extend parent section
 
-Add the `@parent` statement in order to keep the content of the parent section defined in the layout view.
+Add the `{{ parent() }}` function in order to keep the content of the parent section defined in the layout view.
 
-```html
-@extends('layouts.main')
+```twig
+{% extends 'layouts/main.twig' %}
 
-@section('sidebar')
-    @parent
+{% block sidebar %}
+    {{ parent() }}
     <p>Child sidebar content appended to parent's content</p>
-@endsection
+{% endblock %}
 ```
 
 ### Echo data
 
-```html
-Hello {{ $name }}
+```twig
+Hello {{ name }}
 ```
-By default the double curly braces echo the data and escape it.
+By default the double curly braces echo the data but DO NOT escape it.
 
-#### Echo unescaped data
+> In Twig, no need to prepend your variable name with a `$` sign. Simply refer the name only between the curly braces.
 
-```html
-Hello {!! $name !!}
+#### Echo escaped data
+
+In Twig, in order to print escaped data, you'll use `filters`. The `e` filter tells Twig to escape the variable value before it gets printed. Here is an example:
+
+```twig
+Hello {{ name|e }}
 ```
-
-This is useful when you need to display HTML data like for example a post content.
+In order to use a filter, simply add a `|` sign followed by one or multiple filters. The `e` filter escapes HTML by default. Check the [escape filter](http://twig.sensiolabs.org/doc/2.x/filters/escape.html) documentation for more details. You can also get a list of all [Twig filters here.](http://twig.sensiolabs.org/doc/2.x/filters/index.html)
 
 #### Echoing data after checking for existence
 
 By default you could write the following statement:
 
-```html
-{{ isset($name) ? $name : 'Default' }}
+```twig
+{{ isset(name) ? name : 'Default' }}
 ```
-Instead of writing a ternary statement, Blade allows you to use the following convenient short-cut:
+Instead of writing a ternary statement, Twig allows you to use the following convenient short-cut:
 
 ```html
-{{ $name or 'Default' }}
+{{ name ?? 'Default' }}
 ```
 
 ### Conditional statements
 #### If
 
-```html
-@if(isset($value))
-    <p>The value is {{ $value }}.</p>
-@elseif(is_array($value))
+```twig
+{% if value %}
+    <p>The value is {{ value }}.</p>
+{% elseif value is iterable %}
     <p>The value is an array.</p>
-@else
+{% else %}
     <p>Something is wrong, there is no value.</p>
-@endif
+{% endif %}
 ```
 
-#### Unless
+In Twig, you cannot run PHP functions like you do in a classic PHP file or Blade view. Twig provides multiple helpers to meet your needs through the use of filters, tags, tests. In the code example from above, we use the test function `iterable` in order to check that our value is an array like value (which is identical to `is_array($value)`).
 
-Sometimes it is more readable to use `@unless` syntax instead of `@if`.
-
-```html
-@unless(User::current()->can('edit_posts'))
-    <p>No editing permission.</p>
-@endunless
-```
-
-The above is the same as:
-
-```html
-@if(!User::current()->can('edit_posts'))
-    <p>No editing permission.</p>
-@endif
-```
+> The Themosis framework Twig extension provides helpers to call core PHP and WordPress functions. [Read the details below.](#themosis-twig-extension)
 
 ### Loop statements
-#### For
+#### For - Foreach
 
-```html
+In Twig, there is one `for` tag to loop through an iterable variable.
+
+Using a number sequence like in a PHP for loop `for ($i = 0; $i < 10; $i++)`:
+
+```twig
 <ul>
-    @for($i = 0; $i < 10; $i++)
-        <li>Item {{ $i }}</li>
-    @endfor
+    {% for i in 0..9 %}
+        <li>Item {{ i }}</li>
+    {% endfor %}
 </ul>
 ```
 
-#### While
+Using an associative array and iterate over keys and values like a PHP foreach:
 
-```html
-@while(true)
-    <p>Show it!</p>
-@endwhile
+```twig
+{% for key, value in items) %}
+    <p>This {{ value }} opens that {{ key }}.</p>
+{% endfor %}
 ```
 
-#### Foreach
-
-```html
-@foreach($items as $key => $value)
-    <p>This {{ $value }} opens that {{ $key }}.</p>
-@endforeach
-```
-
-> Check the [official documentation](https://laravel.com/docs/5.3/blade#the-loop-variable) for information about the `$loop` variable.
+> Check the [official documentation](http://twig.sensiolabs.org/doc/2.x/tags/for.html) for more information about the `for` tag.
 
 ### Displaying raw text
 
-If you need to display a string that is wrapped in curly braces, you may escape the Scout behavior by prefixing your text with an `@` symbol:
+If you need to display a string that is wrapped in curly braces, you may escape the Twig behavior by surrounding your code with the `verbatim` tag like so:
 
-```html
-@{{ This is not processed by Scout }}
+```twig
+{% verbatim %}
+    {{ This is not processed by Twig }}
+{% endverbatim %}
 ```
 
 ### Comments
 
-```html
-{{-- This comment will not be rendered in HTML --}}
+Use the `{# ... #}` statements to add comments into your Twig view:
+
+```twig
+{# This comment will not be rendered in HTML #}
 ```
 
-Extending Blade
----------------
+Extending Twig
+--------------
 
-Blade allows you to add new compiler statements, called directives by using the `directive()` method. The Themosis framework already extends Blade but do not provide a "facade" to access it like in the official documentation.
+The Twig template engine can be extended and provides extra features needed for your project.
+In this section, we're not going through what you can do to extend Twig but rather how to retrieve the engine instance.
 
-In order to get the Blade compiler instance, use the following code:
+If you want to explore what kind of extensions you can add to Twig, please read the [official documentation.](http://twig.sensiolabs.org/doc/2.x/advanced.html)
+
+Now, in order to register your extensions, you need to fetch the Twig Environment instance and call its `addExtension` method:
 
 ```php
-$blade = container('view')->getEngineResolver()->resolve('blade')->getCompiler();
+container('twig')->addExtension(new \Twig_Extension_Optimizer())
 ```
 
-> We recommend you to register directives from a service provider. Check the [Service provider guide]({{url}}/service) for more information.
+> We recommend you to register Twig extensions from a service provider. Check the [Service provider guide]({{url}}/service) for more information.
 
-Here is an example in order to add a simple directive `@menu()` that works as a shortcut to the WordPress function `wp_nav_menu()`.
+Themosis Twig Extension
+-----------------------
+
+The Themosis framework provides a Twig extension with multiple helpers in order to ease your transition to the engine for your templates/views.
+
+### Functions
+
+Twig do not let you use PHP functions inside your `.twig` templates like you would in a classic PHP file. Meaning that from a Twig template, you cannot make this for example:
 
 ```php
-$blade = container('view')->getEngineResolver()->resolve('blade')->getCompiler();
-
-$blade->directive('menu', function ($expression) {
-    return '<?php wp_nav_menu('.$expression.'); ?>';
-});
+<p>{{ ucfirst(name) }}</p>
 ```
 
-Themosis directives
--------------------
+So in order to bring the use of PHP functions, the Themosis framework Twig extension has added 2 helpers:
 
-The Themosis framework provides extra directives to help you work with WordPress templates.
+- A function `fn`
+- A `fn` namespace
 
-### @loop
+The `fn` keyword is for `function` and let you call any PHP function.
 
-The `@loop` directive gives you a shortcut to handle the WordPress loop.
+#### Function fn
 
-In place of typing these statements:
+The Twig function `fn` first argument is the name of the PHP function you want to call, and following arguments are arguments to pass to the original PHP function. Here is an example:
+
+```twig
+<h1>{{ fn('bloginfo', 'name') }}</h1>
+```
+
+which calls the WordPress function `bloginfo('name')`.
+
+Here is another example from our `ucfirst` sample from above:
+
+```twig
+<p>{{ fn('ucfirst', name) }}</p>
+```
+
+#### Namespace fn
+
+The namespace `fn` behaves exactly like the global `fn` and lets you call any PHP functions with a different syntax like so:
+
+```twig
+<h1>{{ fn.bloginfo('name') }}</h1>
+```
+
+The namespace `fn` is easier to use as it lets you call PHP functions like "usual".Here is the example with the `ucfirst` function:
+
+```twig
+<p>{{ fn.ucfirst(name) }}</p>
+```
+
+### Form global
+
+We've added a `Form` global allowing developers to use the Themosis Form API directly into their Twig templates. Indeed developers are used to use it into Blade template like so in order to create HTML forms:
 
 ```php
-<?php
-if (have_posts()) {
-    while (have_posts()) {
-        the_post();
-?>
-        <h1><?php the_title(); ?></h1>
-        <div>
-            <?php the_content(); ?>
-        </div>
-<?php
-    }
-}
+// From a Blade view
+{{ Form::open() }}
+    {{ Form::text('username') }}
+{{ Form::close() }}
 ```
 
-Simply write this code into your view:
+Now from a Twig template:
 
-```html
-@loop
-    <h1>{{ Loop::title() }}</h1>
-    <div>
-        {{ Loop::content() }}
-    </div>
-@endloop
+```twig
+{{ Form.open() }}
+    {{ Form.text('username') }}
+{{ Form.close() }}
 ```
 
-### @query
+Please note the dot syntax in order to call Form class methods.
 
-The `@query` directive provides a shortcut to run custom WordPress loops:
+> Check the [Form guide]({{url}}/form) for a list of available methods.
 
-```html
-@query(['post_type' => 'post', 'posts_per_page' => 3])
-    <h1>{{ Loop::title() }}</h1>
-    <div>
-        {{ Loop::content() }}
-    </div>
-@endquery
+### WordPress functions
+
+By default you can call any PHP and WordPress functions using our `fn` helper. But in order to ease the development we've already added some most used WordPress functions to Twig. This means that you can call the following functions like you're used to within your Twig template.
+
+Here is the list of already defined WordPress functions for Twig:
+
+- wp_head()
+- wp_footer()
+- body_class()
+- post_class()
+- wpautop()
+- wp_trim_words()
+- meta()
+
+and we've also added WordPress gettext functions:
+
+- translate()
+- __()
+- _e()
+- _n()
+- _x()
+- _ex()
+- _nx()
+- _n_noop()
+- _nx_noop()
+- translate_nooped_plural()
+
+Here is an example on how to call these functions within your Twig view:
+
+```twig
+<html>
+<head>
+    {{ wp_head() }}
+</head>
+<body {{ body_class('custom-class') }}>
+    {% for post in posts %}
+        <article>
+            <h2>{{ post.post_title|title }}</h2>
+            <div>{{ wpautop(post.post_content) }}</div>
+            <a href="{{ fn.get_permalink(post.ID) }}">{{ __('Read more', 'text-domain') }}</a>
+        </article>
+    {% endfor %}
+    {{ wp_footer() }}
+</body>
+</html>
 ```
 
-The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress codex](http://codex.wordpress.org/Class_Reference/WP_Query) to customize your loop query. You can also pass the WP_Query instance to the `@query` statement.
+Poedit
+------
 
-> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More informations below.
+By default, Poedit cannot find strings to translate from Twig templates. Here is a list of parameters to add to your Poedit software preferences so it can detect translation strings from your Twig views:
 
-Loop helper
------------
+1. Open Poedit
+2. Go to Preferences -> Parsers
+3. Add a new parser with following settings:
+	- Language: `Twig`
+	- Extension: `*.twig`
+	- Parser command: `xgettext --language=Python --add-comments=TRANSLATORS --force-po -o %o %C %K %F`
+	- An item in keyword list: `-k%k`
+	- An item in input files list: `%f`
+	- Source code charset: `--from-code=%c`
+4. Click save
 
-The `Loop` helper class provides methods with a simple syntax in order to call WordPress loop functions.
-
-Here is a list of the available methods.
-
-> This class only works inside WordPress loop statements. The `Loop` class methods always return a result, so use echo statements to output their content.
-
-### Get the ID of current post
-
-```php
-@loop
-    $id = Loop::id();
-@endloop
-```
-
-### Get the title of current post
-
-```php
-@loop
-    <h1>{{ Loop::title() }}</h1>
-@endloop
-```
-
-### Get the author
-
-```php
-@loop
-    <em>{{ Loop::author() }}</em>
-@endloop
-```
-
-### Get author meta
-
-```php
-@loop
-    <em>{{ Loop::authorMeta('email') }}</em>
-@endloop
-```
-
-### Get the content of current post
-
-```php
-@loop
-    <article>{{ Loop::content() }}</article>
-@endloop
-```
-
-### Get the excerpt of current post
-
-```php
-@loop
-    <aside>{{ Loop::excerpt() }}</aside>
-@endloop
-```
-
-### Get the thumbnail of current post
-
-This method accepts two arguments:
-
-- **$size**: _string|array_ The size of the thumbnail
-- **$attr**: _string|array_ The img tag attributes
-
-```php
-@loop
-    {{ Loop::thumbnail('thumbnail') }}
-@endloop
-```
-
-### Get the thumbnail URL
-
-You can also pass a `$size` value (string or array) and `$icon` boolean value as arguments:
-
-```php
-@loop
-    <img src="{{ Loop::thumbnailUrl('thumbnail') }}">
-@endloop
-``` 
-
-### Get the permalink of current post
-
-```php
-@loop
-    <a href="{{ Loop::link() }}">Read more</a>
-@endloop
-```
-
-### Get the categories of current post
-
-```php
-@loop
-    <ul>
-        @foreach(Loop::category() as $cat)
-            <li>{{ $cat->name }}</li>
-        @endforeach
-    </ul>
-@endloop
-```
-
-### Get the tags of current post
-
-```php
-@loop
-    <ul>
-        @foreach(Loop::tags() as $tag)
-            <li>{{ $tag->name }}</li>
-        @endforeach
-    </ul>
-@endloop
-```
-
-### Get the custom taxonomy terms of current post
-
-Pass the custom taxonomy slug as first argument.
-
-- **$taxonomy**: _string_ The taxonomy slug.
-
-```php
-@loop
-    <ul>
-        @foreach(Loop::terms('custom-slug') as $term)
-            <li>{{ $term->name }}</li>
-        @endforeach
-    </ul>
-@endloop
-```
-
-### Get the date
-
-You can pass a date format string as an argument as well.
-
-```php
-@loop
-    <time>{{ Loop::date() }}</time>
-@endloop
-```
-
-### Display the class attribute of the current post
-
-The `Loop::postClass()` method returns the HTML `class` attribute with WordPress generated class terms. You also have the opportunity to add one or more custom classes to the current post or a defined post.
-
-**Loop::postClass($class = '', $post_id = null)**:
-
-- **$class**: _string|array_ One or more classes to add.
-- **$post_id**: _int|WP_Post_ Given post ID or post object.
-
-Output the post classes:
-
-```php
-@loop
-    <article {{ Loop::postClass() }}>
-        <h2>Title</h2>
-    </article>
-@endloop
-```
-
-Here is an example of the rendered HTML code with the class attribute:
-
-```html
-<article class="post-4 post type-post status-publish hentry">
-    <h2>Title</h2>
-</article>
-```
-
-> Note that this function is heavy and may slow your pages if used during the output of a list of posts.
-
-### Display next post link
-
-```php
-@loop
-    {!! Loop::nextPage() !!}
-@endloop
-```
-
-
-### Display previous post link
-
-```php
-@loop
-    {!! Loop::previousPage() !!}
-@endloop
-```
-
-
-### Display archive pagination
-
-```php
-@loop
-    {!! Loop::paginate() !!}
-@endloop
-```
+In order for this to work, you must have a poedit project correctly setup pointing to the `languages` folder of either your theme or custom plugin and define the gettext methods and resources base path.
