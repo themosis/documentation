@@ -1,10 +1,22 @@
 Upgrade
 =======
 
+- [Upgrade from 1.2.* to 1.3.0](#upgrade-from-12-to-130)
 - [Upgrade from 1.2.0 to 1.2.3](#upgrade-from-120-to-123)
 - [Upgrade from 1.1.* to 1.2.0](#upgrade-from-11-to-120)
 
 These notes cover the steps to follow in order to upgrade major versions of the framework.
+
+Upgrade from 1.2.* to 1.3.0
+---------------------------
+
+Follow the steps below if you're using version 1.2.x and want to upgrade to version 1.3.0. Version `1.3.0` has many code breaking changes, so take extra attention to each steps. You'll need to upgrade the root files first, then modify your custom theme root files and finally run a database query in order to make your existing project work with the Themosis framework `1.3.0`.
+
+### Upgrade project root
+
+### Upgrade theme
+
+### Upgrade database
 
 Upgrade from 1.2.0 to 1.2.3
 ---------------------------
