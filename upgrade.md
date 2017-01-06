@@ -10,7 +10,7 @@ These notes cover the steps to follow in order to upgrade major versions of the 
 Upgrade from 1.2.* to 1.3.0
 ---------------------------
 
-Follow the steps below if you're using version 1.2.x and want to upgrade to version 1.3.0. Version `1.3.0` has many code breaking changes, so take extra care to each steps. We recommend you to upgrade your project using another branch and merge it once complete. For this update, you'll need to upgrade the root files, your custom theme root files and code and finally run a tiny database query in order to make your existing project work with the Themosis framework `1.3.0`.
+Follow the steps below if you're using version 1.2.x and want to upgrade to version 1.3.0. Version `1.3.0` has many code breaking changes, so take extra care to each step. We recommend you to upgrade your project using another branch and merge it once complete. For this update, you'll need to upgrade the root files, your custom theme root files and code and finally run a tiny database query in order to make your existing project work with the Themosis framework `1.3.0`.
 
 ### Upgrade project root
 
@@ -64,10 +64,11 @@ If you have followed the previous steps, the framework core is up-to-date and a 
 26. The `BaseController` class is no longer bundled within the theme. Please define its path by adding the following use statement at the top of each of your controller classes: `use Themosis\Route\BaseController;`.
 27. Find and replace all instances of the `THEMOSIS_TEXTDOMAIN` constant by `THEMOSIS_THEME_TEXTDOMAIN` constant. Make sure to check your config files as well.
 28. The `Session::nonceName` and `Session::nonceAction` constants have been removed. If you used them into your code, please define your own nonces.
-29. The PostType `getSlug()` method is deprecated. Update your code and use the `get(‘name’)` method. If you encounter other deprecated functions or method, please refer to the documentation in order to update your code.
-30. Rename all your view files to now use the `.blade.php` extension in place of the deprecated `.scout.php` extension.
-31. The directive `{{ }}` prints and escapes values now and the `{!! !!}` directive only prints the value. Update your views accordingly to avoid HTML content being escaped like the post content for example.
-32. For those using the Themosis page templates, the current version is now using WordPress core templates. Meaning that all the code referencing the meta key `_themosisPageTemplate` must be updated and reference the meta key `_wp_page_template`. Once your code updated, please refer to the last step below in order to update your `postmeta` database table.
+29. The PostType `getSlug()` method is deprecated. Update your code and use the `get(‘name’)` method.
+30. The Form `checkboxes()` method is deprecated. Update your code to use the `checkbox()` method instead.
+31. Rename all your view files to now use the `.blade.php` extension in place of the deprecated `.scout.php` extension.
+32. The directive `{{ }}` prints and escapes values now and the `{!! !!}` directive only prints the value. Update your views accordingly to avoid HTML content being escaped like the post content for example.
+33. For those using the Themosis page templates, the current version is now using WordPress core templates. Meaning that all the code referencing the meta key `_themosisPageTemplate` must be updated and reference the meta key `_wp_page_template`. Once your code updated, please refer to the last step below in order to update your `postmeta` database table.
 
 ### Upgrade database
 

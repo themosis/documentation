@@ -1,6 +1,56 @@
 Changelog
 =========
 
+1.3.0
+-----
+
+#### New
+
+- Plugin development.
+- Service container (Illuminate/Container).
+- Service providers.
+- Eloquent ORM and Query Builder.
+- Custom and WordPress routes (Illuminate/Router).
+- Controllers namespace.
+- Middlewares.
+- Blade template engine.
+- Twig template engine.
+- Taxonomy term meta.
+- Handle theme and custom plugin translations.
+- Finder class.
+- Custom post status now handles the `trash` status.
+- Taxonomy `get()` method to retrieve taxonomy properties.
+- Add Filter class.
+- Add Whoops package for better stack trace and debug.
+- Allow custom attributes on assets using the Asset API.
+- Add assets to the Customizer using the Asset API.
+- Add custom checkbox label in both Form and Field API.
+- Theme Gulp, Webpack, Bower commands.
+
+#### Updates
+
+- Add pagination method to Loop helper class.
+- Templates now use WordPress API. Templates can be defined for pages and custom post types (since WordPress 4.7).
+- Form select now handles numeric keys and duplicate values.
+- The media and collection fields can now handle multiple file types for selection(text, image, application, video, audio).
+- Add documentation to translate Blade (Scout) and Twig views with Poedit.
+- Allow no versions on assets.
+- HTML class attributes are now HTML5 attributes.
+
+#### Fixes
+
+- Fix custom taxonomy terms count for custom post type with custom status.
+- Fix Taxonomy translated names.
+- Fix PostType translated names.
+- Fix Metabox template property to show metabox based on page template only.
+- Fix registered actions being run twice.
+- Fix Page API and sub pages when not using tabs.
+
+#### Deprecated
+
+- PostType `getSlug()` has been removed.
+- Form `checkboxes()` has been removed.
+
 1.2.3
 -----
 
