@@ -524,7 +524,7 @@ By default, Poedit cannot find strings to translate from Blade templates. Here i
 2. Go to Preferences -> Parsers
 3. Add a new parser with following settings:
 	- Language: `Blade`
-	- Extension: `*.twig`
+	- Extension: `*.scout.php, *.blade.php`
 	- Parser command: `xgettext --language=Python --add-comments=TRANSLATORS --force-po -o %o %C %K %F`
 	- An item in keyword list: `-k%k`
 	- An item in input files list: `%f`
