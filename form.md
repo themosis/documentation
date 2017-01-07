@@ -14,9 +14,9 @@ Opening a form
 --------------
 
 ```php
-{{ Form::open() }}
+{!! Form::open() !!}
     // Form inputs
-{{ Form::close() }}
+{!! Form::close() !!}
 ```
 
 Form::open($action = null, $method = 'POST', $ssl = false, $attributes = [])
@@ -30,7 +30,7 @@ By default, the form sets the method attribute to `POST` and its action attribut
 
 The `open()` method returns the opening form HTML tag and the `close()` method returns the closing form tag.
 
-> When using the `Form::open()` method, it automatically adds WordPress nonce and http referer hidden fields into your form. The nonce field uses the `Session::nonceName` and `Session::nonceAction` constants to populate its value. Check below on how to check for nonce values when form is submitted.
+> When using the `Form::open()` method, it automatically adds WordPress nonce and http referer hidden fields into your form. The nonce field uses the `_themosisnonce` nonce and `form` action to populate its value. Check below on how to check for nonce values when form is submitted.
 
 ### Define custom nonce values.
 
@@ -39,13 +39,14 @@ You can overwrite the default custom nonce fields used inside the `Form::open()`
 In order to add your custom nonce, simply add them to the `$attributes` argument of the `Form::open()` method like so:
 
 ```php
-{{ Form::open('', 'post', false, [
+{!! Form::open('', 'post', false, [
     'nonce'        => 'action',
     'nonce_action' => 'edit-something'
-]) }}
+]) !!}
     // Inputs
-{{ Form::close() }}
+{!! Form::close() !!}
 ```
+
 > Make sure to use the `nonce` key for the nonce field _name_ and the `nonce_action` key for its _value_.
 
 ### Set a custom action attribute
@@ -54,9 +55,9 @@ In order to set a custom action attribute, simply fill in the first parameter of
 
 ```php
 // This will output <form action="http://www.my-website.com/register/">
-{{ Form::open(home_url('/register/')) }}
+{!! Form::open(home_url('/register/')) !!}
     // Form inputs
-{{ Form::close() }}
+{!! Form::close() !!}
 ```
 
 ### Change the form method attribute
@@ -64,10 +65,11 @@ In order to set a custom action attribute, simply fill in the first parameter of
 Specify the second parameter of the open() method. Only `get` and `post` values are accepted.
 
 ```php
-{{ Form::open('', 'get') }}
+{!! Form::open('', 'get') !!}
     // Form inputs
-{{ Form::close() }}
+{!! Form::close() !!}
 ```
+
 > Set the first parameter as `empty string` or `null` will set the action attribute to the current URL.
 
 ### Make sure to submit your data to a SSL page
@@ -75,9 +77,9 @@ Specify the second parameter of the open() method. Only `get` and `post` values 
 By setting the third parameter of the `open()` method to `true`, the action attribute will change its protocol to `https`.
 
 ```php
-{{ Form::open('contact', 'post', true) }}
+{!! Form::open('contact', 'post', true) !!}
     // Form inputs
-{{ Form::close() }}
+{!! Form::close() !!}
 ```
 
 ### Add custom attributes to the opening form tag
@@ -85,13 +87,13 @@ By setting the third parameter of the `open()` method to `true`, the action attr
 You can pass as the fourth parameter an array in order to add custom attributes.
 
 ```php
-{{ Form::open(null, 'post', false, [
+{!! Form::open(null, 'post', false, [
     'data-message' => 'The form message.',
     'enctype'      => 'multipart/form-data',
     'id'           => 'register-form'
-]) }}
+]) !!}
     // Form inputs
-{{ Form::close() }}
+{!! Form::close() !!}
 ```
 
 ### Check nonce values when a form is submitted
@@ -103,22 +105,21 @@ If you check your page source code, you'll find two hidden fields:
 - The first one is a NONCE value
 - The second one is the HTTP REFERER value
 
-As explained in the `open()` method, it uses two class's constants: `Session::nonceName` and `Session::nonceAction`.
+As explained in the `open()` method, it uses the `_themosisnonce` name and `form` action.
 
 Let's verify the nonce value regarding those two constants:
 
 ```php
 // A form is submitted using the POST method.
-if (wp_verify_nonce(Input::get(Session::nonceName), Session::nonceAction))
-{
+if (wp_verify_nonce(Input::get('_themosisnonce'), 'form')) {
     // Proceed with data
 }
 ```
-The `nonceName` value is the nonce field name attribute. The `nonceAction` value is the nonce action string. Check `wp_verify_nonce()` function in the [codex](http://codex.wordpress.org/Function_Reference/wp_verify_nonce).
+The `nonce` value is the nonce field name attribute. The `action` value is the nonce action string. Check `wp_verify_nonce()` function in the [codex](https://developer.wordpress.org/reference/functions/wp_verify_nonce/).
 
-The example above is working in a front-end example. If you have a custom form on a custom page in the admin, check also the `check_admin_referer` function in the [codex](http://codex.wordpress.org/Function_Reference/check_admin_referer)
+The example above is working in a front-end example. If you have a custom form on a custom page in the admin, check also the `check_admin_referer` function in the [codex](https://developer.wordpress.org/reference/functions/check_admin_referer/)
 
-> Note: In the previous example, we use the Input class to grab POST data. Check the [validation guide](http://framework.themosis.com/docs/validation/) for the Input class use.
+> Note: In the previous example, we use the Input class to grab POST data. Check the [validation guide]({{url}}/validation) for the Input class use.
 
 Labels
 ------
@@ -127,17 +128,17 @@ Output a label tag:
 
 ```php
 // This will output <label>Display text</label>
-{{ Form::label('Display text') }}
+{!! Form::label('Display text') !!}
 ```
 
 Add attributes to a label:
 
 ```php
 // This will output <label for="my-input" class="super">Display text</label>
-{{ Form::label('Display text', [
+{!! Form::label('Display text', [
     'class' => 'super',
     'for'   => 'my-input'
-]) }}
+]) !!}
 ```
 
 Text, password, email, number, date, hidden inputs
@@ -147,23 +148,23 @@ Output a text input:
 
 ```php
 // This will output <input type="text" name="name">
-{{ Form::text('name') }}
+{!! Form::text('name') !!}
 ```
 
 Set the input value:
 
 ```php
 // <input type="text" name="name" value="Text value"> 
-{{ Form::text('name', 'Text value') }}
+{!! Form::text('name', 'Text value') !!}
 ```
 
 Add attributes to the text input:
 
 ```php
-{{ Form::text('name', 'Default value', [
+{!! Form::text('name', 'Default value', [
     'class'       => 'super',
     'placeholder' => 'Insert your name here'
-]) }}
+]) !!}
 ```
 
 > The `Form::password()`, `Form::email()`, `Form::number()`, `Form::date()` and `Form::hidden()` methods use the same signature.
@@ -174,19 +175,19 @@ Textarea
 The `Form::textarea()` method will output a `<textarea></textarea>` tag.
 
 ```php
-{{ Form::textarea('name') }}
+{!! Form::textarea('name') !!}
 ```
 
 Set the textarea "value" by passing data to the second parameter:
 
 ```php
-{{ Form::textarea('name', 'Text content') }}
+{!! Form::textarea('name', 'Text content') !!}
 ```
 
 Add attributes to the textarea tag by passing an array as the third parameter to the method:
 
 ```php
-{{ Form::textarea('name', 'Text content', ['class' => 'regular-text']) }}
+{!! Form::textarea('name', 'Text content', ['class' => 'regular-text']) !!}
 ```
 
 Checkbox and radio inputs
@@ -198,7 +199,7 @@ Output one checkbox:
 
 ```php
 // This will output <input type="checkbox" name="toggle[]" value="toggle">
-{{ Form::checkbox('toggle', 'toggle') }}
+{!! Form::checkbox('toggle', 'toggle') !!}
 ```
 
 > When checking for submitted data, the checkbox method register an array of values even for one checkbox.
@@ -206,9 +207,9 @@ Output one checkbox:
 Add custom attributes:
 
 ```php
-{{ Form::checkbox('toggle', 'enabled', [], [
+{!! Form::checkbox('toggle', 'enabled', [], [
     'class' => 'super'
-]) }}
+]) !!}
 ```
 
 ### Multiple checkboxes and radio
@@ -216,11 +217,11 @@ Add custom attributes:
 In order to specify multiple checkboxes, simply pass an array of choices like so:
 
 ```php
-{{ Form::checkbox('colors', [
+{!! Form::checkbox('colors', [
     'red',
     'green',
     'blue'
-]) }}
+]) !!}
 ```
 
 The first parameter is the common name of your checkboxes. The second parameter is an array of choices/options for your checkbox input.
@@ -228,23 +229,23 @@ The first parameter is the common name of your checkboxes. The second parameter 
 By default, when you define multiple options/choices for your checkbox, the API is using the value as display text beside the checkbox. In order to define a custom display text for your checkbox options, define an array of key/value pairs like so:
 
 ```php
-{{ Form::checkbox('colors', [
+{!! Form::checkbox('colors', [
     'red'   => 'Select red color',
     'green' => 'Choose the green',
     'blue'  => 'Use the blue color'
-]) }}
+]) !!}
 ```
 
 In order to set values or default values, pass an array as a third parameter to your checkbox method:
 
 ```php
-{{ Form::checkbox('colors', [
+{!! Form::checkbox('colors', [
     'red',
     'green',
     'blue'
 ], [
     'green'
-]) }}
+]) !!}
 ```
 
 The above example will check the green checkbox by default.
@@ -252,23 +253,23 @@ The above example will check the green checkbox by default.
 Add attributes to your checkbox by passing an array as the fourth parameter:
 
 ```php
-{{ Form::checkbox('colors', [
+{!! Form::checkbox('colors', [
     'red', 
     'green',
     'blue'
 ], [], [
     'class' => 'super'
-]) }}
+]) !!}
 ```
 
 This code adds attributes to the checkbox inputs. When you create a checkbox, the displayed text beside each checkbox is rendered within a label tag. You can define the attributes for these label tags by passing a `label` property to the checkbox attributes like so:
 
 ```php
-{{ Form::checkbox('colors', ['red', 'green', 'blue'], [], [
+{!! Form::checkbox('colors', ['red', 'green', 'blue'], [], [
     'label'	=> [
         'class' => 'label-class'
     ]
-]) }}
+]) !!}
 ```
 
 The example above will add the `label-class` class to each labels inside your checkbox input.
@@ -278,10 +279,10 @@ The example above will add the `label-class` class to each labels inside your ch
 Output a radio input:
 
 ```php
-{{ Form::radio('gender', [
+{!! Form::radio('gender', [
     'woman',
     'man'
-]) }}
+]) !!}
 ```
 
 Select field
@@ -290,13 +291,13 @@ Select field
 Generate a select tag with indexed options values:
 
 ```php
-{{ Form::select('country', [
+{!! Form::select('country', [
     [
         'belgium',
         'france',
         'usa'
     ]
-]) }}
+]) !!}
 ```
 
 This will output the following `<select>` tag:
@@ -312,13 +313,13 @@ This will output the following `<select>` tag:
 Generate a select tag with custom options values:
 
 ```php
-{{ Form::select('country', [
+{!! Form::select('country', [
     [
         'be' => 'belgium',
         'fr' => 'france',
         'us' => 'usa'
     ]
-]) }}
+]) !!}
 ```
 
 This will output the following `<select>` tag:
@@ -334,7 +335,7 @@ This will output the following `<select>` tag:
 Generate a select tag with grouped options values:
 
 ```php
-{{ Form::select('country', [
+{!! Form::select('country', [
     'Europe' => [
         'belgium',
         'france'
@@ -342,7 +343,7 @@ Generate a select tag with grouped options values:
     'America' => [
         'usa'
     ]
-]) }}
+]) !!}
 ```
 
 The code above will output `<optgroup>` tags with indexed options values:
@@ -362,7 +363,7 @@ The code above will output `<optgroup>` tags with indexed options values:
 Same select tag but with custom options values:
 
 ```php
-{{ Form::select('country', [
+{!! Form::select('country', [
     'Europe' => [
         'be' => 'belgium',
         'fr' => 'france'
@@ -370,7 +371,7 @@ Same select tag but with custom options values:
     'America' => [
         'us' => 'usa'
     ]
-]) }}
+]) !!}
 ```
 
 ### Pass default value(s)
@@ -378,14 +379,15 @@ Same select tag but with custom options values:
 You can pass a default value by filling in the third parameter of the `select()` method:
 
 ```php
-{{ Form::select('country', [
+{!! Form::select('country', [
     [
         'belgium',
         'france',
         'usa'
     ]
-], 0) }}
+], 0) !!}
 ```
+
 > This set the default value to indexed value `0` (belgium). For custom options, simply pass the custom value.
 > When using multiple selection, pass in an array as default values.
 
@@ -394,7 +396,7 @@ You can pass a default value by filling in the third parameter of the `select()`
 Like other form fields, pass an array as the fourth parameter for custom attributes.
 
 ```php
-{{ Form::select('countries', [
+{!! Form::select('countries', [
     [
         'belgium',
         'france',
@@ -403,7 +405,7 @@ Like other form fields, pass an array as the fourth parameter for custom attribu
 ], null, [
     'class'    => 'super',
     'multiple' => 'multiple'
-]) }}
+]) !!}
 ```
 
 Buttons
@@ -412,7 +414,7 @@ Buttons
 Generate a button tag:
 
 ```php
-{{ Form::button('toggle', 'Click me!') }}
+{!! Form::button('toggle', 'Click me!') !!}
 ```
 
 This will output the following html:
@@ -424,7 +426,7 @@ This will output the following html:
 Generate a submit button:
 
 ```php
-{{ Form::submit('register', 'Sign up') }}
+{!! Form::submit('register', 'Sign up') !!}
 ```
 
 This will output the following html:
@@ -436,8 +438,8 @@ This will output the following html:
 Add custom attributes by passing an array as a third parameter:
 
 ```php
-{{ Form::button('toggle', 'Click me!', ['class' => 'super']) }}
-{{ Form::submit('register', 'Sign up', ['id' => 'awesome']) }}
+{!! Form::button('toggle', 'Click me!', ['class' => 'super']) !!}
+{!! Form::submit('register', 'Sign up', ['id' => 'awesome']) !!}
 ```
 
 Miscellaneous inputs
@@ -456,19 +458,19 @@ Form::input($type, $name, $value = null, array $attributes = [])
 Generate a text input:
 
 ```php
-{{ Form::input('text', 'your-name') }}
+{!! Form::input('text', 'your-name') !!}
 ```
 
 Generate a password input:
 
 ```php
-{{ Form::input('password', 'your-password') }}
+{!! Form::input('password', 'your-password') !!}
 ```
 
 Generate a color input:
 
 ```php
-{{ Form::input('color', 'my-color') }}
+{!! Form::input('color', 'my-color') !!}
 ```
 
 Other resources:
