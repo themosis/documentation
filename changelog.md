@@ -20,7 +20,7 @@ Changelog
 - Finder class.
 - Custom post status now handles the `trash` status.
 - Taxonomy `get()` method to retrieve taxonomy properties.
-- Add Filter class.
+- Add Hook API and Filter class.
 - Add Whoops package for better stack trace and debug.
 - Allow custom attributes on assets using the Asset API.
 - Add assets to the Customizer using the Asset API.

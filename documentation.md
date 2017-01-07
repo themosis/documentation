@@ -34,6 +34,7 @@
 - [Asset]({{url}}/asset)
 - [Configuration]({{url}}/configuration)
 - [Field]({{url}}/field)
+- [Filter]({{url}}/filter)
 - [Form]({{url}}/form)
 - [Helpers]({{url}}/helpers)
 - [Meta]({{url}}/meta)
