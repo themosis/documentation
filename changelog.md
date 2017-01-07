@@ -37,6 +37,8 @@ Changelog
 - Allow no versions on assets.
 - HTML class attributes are now HTML5 attributes.
 - Change post custom fields save method. Now only the Collection and Infinite fields are stored in one serialized meta value.
+- Add `js` and `css` asset types to identify external assets.
+- Add inline code for any assets.
 
 #### Fixes
 
