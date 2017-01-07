@@ -51,6 +51,7 @@ Changelog
 
 - PostType `getSlug()` has been removed.
 - Form `checkboxes()` has been removed.
+- Ajax `run()` method. Use the `listen()` method instead.
 
 1.2.3
 -----
