@@ -66,8 +66,8 @@ Here is a complete list of the configuration files stored inside the theme.
 * **loading**: Allow you to specify directories of classes for autoloading. By default, it is loading your theme's controller and model classes.
 * **menus**: Allow you to define custom navigation menu locations. More information in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
 * **providers**: Allow you to define the list of theme's service providers.
-* **sidebars**: Help you register your sidebars for your website/application. Uses the same arguments found in the [WordPress codex: register_sidebar()](http://codex.wordpress.org/Function_Reference/register_sidebar).
-* **supports**: Equivalent to the [add\_theme\_support()](http://codex.wordpress.org/Function_Reference/add_theme_support) function.
+* **sidebars**: Help you register your sidebars for your website/application. Uses the same arguments found in the [WordPress codex: register_sidebar()](https://developer.wordpress.org/reference/functions/register_sidebar/).
+* **supports**: Equivalent to the [add\_theme\_support()](https://developer.wordpress.org/reference/functions/add_theme_support/) function.
 * **templates**: Handles the custom templates. Define your templates inside this file by providing a `key` or `key/value` pairs.
 * **theme**: Main configuration file. You can specify your own class aliases inside this file.
 

@@ -19,19 +19,19 @@ The `Field` class implements the `Form` class to render its inputs but also prov
 
 Here is the list of custom fields available:
 
-* Checkbox
-* Collection
-* Color
-* Date
-* Editor
-* Infinite
-* Media
-* Number
-* Password
-* Radio
-* Select
-* Text
-* Textarea
+* [Checkbox](#checkbox)
+* [Collection](#collection)
+* [Color](#color)
+* [Date](#date)
+* [Editor](#editor)
+* [Infinite](#infinite)
+* [Media](#media)
+* [Number](#number)
+* [Password](#password)
+* [Radio](#radio)
+* [Select](#select)
+* [Text](#text)
+* [Textarea](#textarea)
 
 ### Text field
 
