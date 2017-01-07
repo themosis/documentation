@@ -30,9 +30,9 @@ Here are the method details:
 Ajax::listen($action, $callback, $logged);
 ```
 
-* `$action`: _string_. Your custom action name for the Ajax request.
-* `$callback`: _string_. A callback function where you run your custom code.
-* `$logged`: _callback_. Possible values are `true`, `false`, `both`. You tell if the ajax action should be performed for logged in(true) or logged out(false) users or both.
+* $action _string_: Your custom action name for the Ajax request.
+* $callback _string_: A callback function where you run your custom code.
+* $logged _callback_: Possible values are `true`, `false`, `both`. You tell if the ajax action should be performed for logged in(true) or logged out(false) users or both.
 
 > The new `listen()` swapped the $callback and $logged parameters.
 
