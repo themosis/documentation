@@ -12,9 +12,10 @@ This class is used for:
 * Adding custom fields to a metabox
 * Adding custom fields to an option page (Settings API)
 * Adding custom fields to users
-* More to come (Taxonomy, Customize, ...)
+* Adding custom fields to taxonomy terms
+* More to come (Customize,...)
 
-The `Field` class implements the `Form` class to output its inputs but also provides a UI regarding the context: metabox, settings, user, ...
+The `Field` class implements the `Form` class to render its inputs but also provides a UI regarding the context: metabox, settings, user, terms,...
 
 Here is the list of custom fields available:
 
@@ -321,11 +322,23 @@ Field::media('report', [
     'type'  => 'application'
 ])
 ```
-> The `type` feature only accepts 4 values: `image`, `application`, `video` and `audio`.
+
+In some scenario, you might need to define multiple `types`, like having the ability to let users choose a PDF file or an image. In order to define multiple `types`, simply pass an array:
+
+```php
+Field::media('attachments', [
+    'title' => 'Share a file',
+    'type' => ['image', 'application']
+]);
+```
+
+> The `type` feature only accepts 5 values: `image`, `text`, `application`, `video` and `audio`.
 
 ### Collection field
 
-Allows a user to add/edit/delete a collection of media files. The collection field UI allows an end-user to add, order, delete or bulk delete files. Useful for galleries or specifying a list of files to download, ...
+Allows a user to add/edit/delete a collection of media files. The collection field UI allows an end-user to add, order, delete or bulk delete files. Useful for galleries or specifying a list of files to download,...
+
+> Current implementation of the collection field only saves its meta data as one single serialized value.
 
 ```php
 Field::collection($name, $features = []);
@@ -347,6 +360,12 @@ Field::collection('gallery');
 Field::collection('papers', ['type' => 'application']);
 ```
 
+#### Create a collection of images and files
+
+```php
+Field::collection('files', ['type' => ['image', 'application']]);
+```
+
 #### Limit the number of media
 
 Using the `limit` feature property, you can limit the number of media files a user can add to the collection field:
@@ -355,11 +374,13 @@ Using the `limit` feature property, you can limit the number of media files a us
 // Limit the number of media to add to a collection.
 Field::collection('pics', ['limit' => 5]);
 ```
-> Allowed `type` values: `image`, `application`, `video`, `audio`.
+> Allowed `type` values: `image`, `text`, `application`, `video`, `audio`.
 
 ### Infinite field
 
 Build a repeatable field. This allows you to define a single field or a group of fields to be repeated.
+
+> Current implementation of the infinite field only saves its meta data as one single serialized value.
 
 ```php
 Field::infinite($name, $fields, $features);
@@ -402,3 +423,4 @@ Check those guide to implement your custom fields:
 * [Metabox guide]({{url}}/metabox)
 * [Page guide]({{url}}/page)
 * [User guide]({{url}}/user)
+* [Taxonomy guide]({{url}}/taxonomy)
