@@ -39,6 +39,7 @@ Changelog
 - Change post custom fields save method. Now only the Collection and Infinite fields are stored in one serialized meta value.
 - Add `js` and `css` asset types to identify external assets.
 - Add inline code for any assets.
+- New helpers functions.
 
 #### Fixes
 
@@ -54,6 +55,7 @@ Changelog
 - PostType `getSlug()` has been removed.
 - Form `checkboxes()` has been removed.
 - Ajax `run()` method. Use the `listen()` method instead.
+- The `themosis_assets()` must be replaced by the `themosis_theme_assets()` function.
 
 1.2.3
 -----
