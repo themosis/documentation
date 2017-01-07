@@ -10,6 +10,7 @@ Asset
 	- [Load an asset on a specific request](#load-an-asset-on-a-specific-request)
 - [Localize](#localize)
 - [Custom attributes](#custom-attributes)
+- [Inline code](#inline-code)
 
 Introduction
 ------------
