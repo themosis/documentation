@@ -20,14 +20,14 @@
 - [Blade]({{url}}/blade)
 - [Twig]({{url}}/twig)
 
-#### WordPress development
+#### WordPress guides
 
 - [Plugin]({{url}}/plugin)
 - [Theme]({{url}}/theme)
 - [Multisite]({{url}}/multisite)
 - [WP-CLI]({{url}}/wp-cli)
 
-#### WordPress API
+#### WordPress
 
 - [Action]({{url}}/action)
 - [Ajax]({{url}}/ajax)
