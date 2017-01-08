@@ -18,6 +18,8 @@ Get input data
 
 The framework comes with an `Input` class that helps you retrieve form submitted data.
 
+> The `Input` class extends the `Illuminate\Http\Request`.
+
 ### Get all submitted data
 
 ```php
@@ -86,7 +88,7 @@ Validation rules
 - **textarea**: Validate a value from a textarea field. Uses the WordPress `esc_textarea` function.
 - **html**: Validate a HTML value. Uses the WordPress `esc_html` function.
 - **email**: Validate an email value. Uses the WordPress `sanitize_email` function.
-- **url**: Validate an URL value. Uses the WordPress `esc_url` function. You can pass arguments to the rule like so: `['url:http, https']`. See the [codex](http://codex.wordpress.org/Function_Reference/esc_url) for the list of protocols you can pass to the rule.
+- **url**: Validate an URL value. Uses the WordPress `esc_url` function. You can pass arguments to the rule like so: `['url:http, https']`. See the [WordPress reference](https://developer.wordpress.org/reference/functions/esc_url/) for the list of protocols you can pass to the rule.
 - **min**: Validate a value if it has a minimum length. You have to pass arguments to the rule like so: `['min:5']`.
 - **max**: Validate a value if it has a maximum length. You have to define arguments to the rule like so: `['max:25']`.
 - **bool**: Validate a boolean value. Returns `true` if data equal to `true`, `1`, `on` and `yes`. Returns false otherwise.

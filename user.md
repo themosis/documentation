@@ -19,7 +19,7 @@ Basic usage
 
 The Themosis framework comes with a User class that gives you shortcuts to core WordPress user functions. The User class extends the core WP_User class. So every core methods are available to your User instances as well.
 
-> The User class is not a static one. When using the `User` facade, you create each time a new instance. This is **important** to notice especially when working with user custom fields.
+> The User class is not a "static" one. When using the `User` facade, you create each time a new instance. This is **important** to notice especially when working with user custom fields.
 
 ### Create a new user
 
