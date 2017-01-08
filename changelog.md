@@ -40,6 +40,8 @@ Changelog
 - Add `js` and `css` asset types to identify external assets.
 - Add inline code for any assets.
 - New helpers functions.
+- Add Page class a `menu` property in order to define a custom menu display title.
+- Add PostType `instance()` method to retrieve WP_Post_Type instance.
 
 #### Fixes
 

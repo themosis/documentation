@@ -5,6 +5,7 @@ PostType
 	- [Plural and single display names](#plural-and-single-display-names)
 	- [Customize your custom post type](#customize-your-custom-post-type)
 	- [Retrieve custom post type parameters value](#retrieve-custom-post-type-parameters-value)
+	- [Retrieve the WP_Post_Type instance](#retrieve-the-wp-post-type-instance)
 - [Custom status](#custom-status)
 	- [Add custom status](#add-custom-status)
 
@@ -24,7 +25,7 @@ PostType::make('books', 'Books', 'Book')->set([
 ]);
 ```
 
-This will build a basic custom post type accessible in the WordPress admin. You can customize the custom post type by passing arguments to the `set()` method. In the above code we specified that the custom post type should be public. You can pass all the arguments defined in the WordPress core function [register_post_type](https://codex.wordpress.org/Function_Reference/register_post_type#Arguments) like so:
+This will build a basic custom post type accessible in the WordPress admin. You can customize the custom post type by passing arguments to the `set()` method. In the above code we specified that the custom post type should be public. You can pass all the arguments defined in the WordPress core function [register_post_type](https://developer.wordpress.org/reference/functions/register_post_type/) like so:
 
 ```php
 PostType::make('slug-books', 'Books', 'Book')->set([
@@ -52,25 +53,25 @@ In the above code sample, the custom post type will have a plural display name o
 
 ### Customize your custom post type
 
-In order to define the behavior of your custom post type, use the `set()` method and pass it an array of [arguments](https://codex.wordpress.org/Function_Reference/register_post_type#Arguments) like so:
+In order to define the behavior of your custom post type, use the `set()` method and pass it an array of [parameters](https://developer.wordpress.org/reference/functions/register_post_type/#parameters) like so:
 
 ```php
 PostType::make('books', 'Books', 'Book')->set([
     'public'   => false,
     'supports' => ['title', 'editor'],
     'labels'   => [
-        'add_item' => __('Add', THEMOSIS_TEXTDOMAIN)
+        'add_item' => __('Add', 'THEME_TEXTDOMAIN')
     ]
 ]);
 ```
 
-> Note: the `THEMOSIS_TEXTDOMAIN` constant value is defined inside the `application.config.php` file.
+> Note: the `THEME_TEXTDOMAIN` constant value is defined inside the `theme.config.php` file.
 
 ### Retrieve custom post type parameters value
 
 The `get()` method allows you to retrieve parameters value from your custom post type that **you defined** in the `set()` method. Here is a list of what you can grab:
 
-> Note: this methods replace the deprecated method $postType->getSlug(). If you use this method, make sure to update your code if you use a version of the framework higher or equal to 1.2.0.
+> Note: this methods replace the deprecated method $postType->getSlug(). If you used this method, make sure to update your code if you use a version of the framework higher or equal to 1.2.0.
 
 - **name**: The custom post type name. 
 - **label**: The plural display name.
@@ -107,6 +108,15 @@ $rewriteParameters = $postType->get('rewrite');
 $slug = $rewriteParameters['slug']; // return the 'library' value.
 ```
 
+### Retrieve the WP_Post_Type instance
+
+WordPress now returns an object when registering a custom post type. In order to get access to this instance, use the `instance()` method like so:
+
+```php
+$books = PostType::make('books', 'Books', 'Book')->set(['public' => true]);
+$type = $books->instance(); // return WP_Post_Type instance
+```
+
 Custom status
 -------------
 
@@ -114,7 +124,7 @@ The PostType API provides a method to register one or multiple custom statuses f
 
 > Note: This do not work for core post types (post, page, attachment,...).
 
-When you add custom statuses, the default statuses are removed except the `draft` one. There is no need to define a `draft` status in your list of custom statuses. This is handled automatically.
+When you add custom statuses, the default statuses are removed except the `draft` and `trash` ones.
 
 When you add custom statuses, they appear in the order you defined them. And the first defined status is the one used in order to "publish/register/post" your custom post type. So basically, the first defined status is acting like the core "Publish" button or simply is the first status to be saved for your custom post type except if you choose to draft it.
 
@@ -124,7 +134,7 @@ In this example, keeping the books custom post type, we want to build a system t
 
 #### Add one status
 
-The `status()` method uses the same arguments than the WordPress [register_post_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function. But you can also pass an array of statuses.
+The `status()` method uses the same arguments than the WordPress [register_post_status()](https://developer.wordpress.org/reference/functions/register_post_status/) function. But you can also pass an array of statuses.
 
 First, let's add one custom status `rent`:
 
@@ -136,7 +146,7 @@ $books = PostType::make('books', 'Books', 'Book')->set();
 $books->status('rent');
 ```
 
-In the example above, one status `rent` is registered. The method assign default properties to the status, the same properties used in the [register_post_status()](https://codex.wordpress.org/Function_Reference/register_post_status) function:
+In the example above, one status `rent` is registered. The method assign default properties to the status, the same properties used in the [register_post_status()](https://developer.wordpress.org/reference/functions/register_post_status/) function:
 
 - **label**: Its default value is the status `name` with first character set to uppercase
 - **public**: Default to `true`
@@ -150,7 +160,7 @@ In the following example, we add a custom publish button text to our `rent` stat
 
 ```php
 $books->status('rent', [
-    'publish_text' => __('Rent the book', THEMOSIS_TEXTDOMAIN)
+    'publish_text' => __('Rent the book', THEME_TEXTDOMAIN)
 ]);
 ```
 
@@ -193,6 +203,7 @@ $books->status([
     ]
 ]);
 ```
+
 The array key is the custom status name and each value is an array of status properties.
 
 > Note: Currently the UI for custom statuses is a work-in-progress. When viewing the list of your custom post type, if you click on `Quick Edit`, it still displays core statuses.
