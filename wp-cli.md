@@ -1,5 +1,5 @@
 WP-CLI
-------
+======
 
 - [Introduction](#introduction)
 - [Installation](#installation)
