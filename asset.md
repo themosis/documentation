@@ -11,6 +11,7 @@ Asset
 - [Localize](#localize)
 - [Custom attributes](#custom-attributes)
 - [Inline code](#inline-code)
+- [Register assets locations](#register-assets-locations)
 
 Introduction
 ------------
@@ -237,3 +238,18 @@ In above example, the inline script is rendered before the JS asset. The positio
 
  - _after_ (default)
  - _before_
+
+Register assets locations
+-------------------------
+
+You can define custom assets locations different than the pre-configured theme `dist` directory for example. This is useful for plugin development if you need to store custom assets related to your plugin features.
+
+In order to register a new asset location, retrieve an assets finder instance and call its `addPaths()` method and pass it an array of key value pairs where the key is the URL to your (compiled) assets base directory and its value is the PATH:
+
+```php
+container('asset.finder')->addPaths([
+    themosis_theme_assets() => themosis_path('theme').'dist'
+]);
+```
+
+You can add multiple locations. The above example is from the `themosis-theme` theme where the `themosis_theme_assets()` helper function return our theme `dist` URL as a key and the value contains the PATH.
