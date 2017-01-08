@@ -10,3 +10,4 @@ Theme development
     - Gulp JS
     - Webpack
     - Bower
+- Translations
