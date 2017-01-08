@@ -1,7 +1,7 @@
 Service providers
 =================
 
-** Work in progress ** guide.
+**Work in progress** guide.
 
 - Introduction
 - Write a service provider

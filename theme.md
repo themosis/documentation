@@ -1,7 +1,7 @@
 Theme development
 =================
 
-** Work in progress ** guide.
+**Work in progress** guide.
 
 - Introduction
 - Structure
