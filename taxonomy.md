@@ -6,6 +6,8 @@ Taxonomy
 	- [Customize your taxonomy](#customize-your-taxonomy)
 	- [Shared taxonomies](#shared-taxonomies)
 - [Bind your taxonomy](#bind-your-taxonomy)
+- [Term custom fields](#term-custom-fields)
+    - [Sanitize custom fields](#sanitize-custom-fields)
 
 Basic usage
 -----------
@@ -22,7 +24,7 @@ Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
 ]);
 ```
 
-This will build a basic custom taxonomy accessible from the books custom post type. You can customize your taxonomy by passing arguments to the `set()` method. In the above code we specified that the custom taxonomy should be public. You can pass all the arguments defined in the WordPress core function [register_taxonomy](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments) like so:
+This will build a basic custom taxonomy accessible from the books custom post type. You can customize your taxonomy by passing arguments to the `set()` method. In the above code we specified that the custom taxonomy should be public. You can pass all the arguments defined in the WordPress core function [register_taxonomy](https://developer.wordpress.org/reference/functions/register_taxonomy/) like so:
 
 ```php
 Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
@@ -37,7 +39,7 @@ Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
 
 ### Plural and single display names
 
-The `make()` method needs a plural and singular display names as third and fourth parameter. Those parameters will pre-fill the labels property of your custom taxonomy.
+The `make()` method needs a plural and singular display names as third and fourth parameters. Those parameters will pre-fill the labels property of your custom taxonomy.
 
 ```php
 Taxonomy::make('authors', 'books', 'Authors', 'Author')->set();
@@ -49,7 +51,7 @@ In the above code sample, the custom taxonomy will have a plural display name of
 
 ### Customize your taxonomy
 
-In order to define the behavior of your custom taxonomy, use the `set()` method and pass it an array of [arguments](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments) like so:
+In order to define the behavior of your custom taxonomy, use the `set()` method and pass it an array of [parameters](https://developer.wordpress.org/reference/functions/register_taxonomy/#parameters) like so:
 
 ```php
 Taxonomy::make('authors', 'books', 'Authors', 'Author')->set([
@@ -76,7 +78,7 @@ Bind your taxonomy
 
 Attach the post type to the taxonomy inside filter callback that run during `parse_request` or `pre_get_posts`.
 
-You can use the `bind()` method which is a shortcut to the [register\_taxonomy\_for\_object\_type](http://codex.wordpress.org/Function_Reference/register_taxonomy_for_object_type) function.
+You can use the `bind()` method which is a shortcut to the [register\_taxonomy\_for\_object\_type](https://developer.wordpress.org/reference/functions/register_taxonomy_for_object_type/) function.
 
 Call the method on your taxonomy instance like so:
 
@@ -87,4 +89,58 @@ $tax = Taxonomy::make('authors', ['post', 'books'], 'Authors', 'Author')->set();
 $tax->bind();
 ```
 
-> You can also bind your taxonomy when registering your custom post type by adding the `taxonomies` argument. Check the [register\_post\_type](http://codex.wordpress.org/Function_Reference/register_post_type) function.
+> You can also bind your taxonomy when registering your custom post type by adding the `taxonomies` argument. Check the [register\_post\_type](https://developer.wordpress.org/reference/functions/register_post_type/) function.
+
+Term custom fields
+------------------
+
+You can define custom fields to taxonomy terms by using the `addFields()` method of the Taxonomy class.
+
+You can call it from a taxonomy instance, which will automatically retrieve the correct taxonomy slug in order to associate the custom fields. Or you can call the method directly in order to add custom fields to core taxonomy terms for example.
+
+#### Add fields to a custom taxonomy
+
+Call the `addFields()` method to a custom taxonomy instance and pass it an array of fields to add:
+
+```php
+$authors = Taxonomy::make('authors', $books->get('name'), 'Authors', 'Author')->set();
+
+$authors->addFields([
+    Field::media('profile'),
+    Field::text('website')
+]);
+```
+
+#### Add fields to a core taxonomy
+
+Call the `addFields()` method directly in order to add custom fields to core taxonomy terms:
+
+```php
+Taxonomy::addFields([
+    Field::text('subtitle')
+], 'category');
+```
+
+In order to add custom fields to core taxonomy terms, please provide the taxonomy slug as a second parameter.
+
+The `addFields()` method returns a Taxonomy instance, so it is possible to chain methods.
+
+### Sanitize custom fields
+
+You can sanitize term custom fields values using the `sanitize()` method. Here is an example using our custom taxonomy of authors:
+
+```php
+$authors = Taxonomy::make('authors', $books->get('name'), 'Authors', 'Author')->set();
+
+$authors->addFields([
+    Field::media('profile'),
+    Field::text('website')
+]);
+
+$authors->sanitize([
+    'website' => ['url']
+]);
+```
+
+Pass an array of sanitize rules to the `sanitize()` method. Check the [validation guide]({{url}}/validation) for a list available rules.
+
