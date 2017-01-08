@@ -9,6 +9,7 @@ Views
 - [Sharing data](#sharing-data)
 - [View composers](#view-composers)
 - [Template engines](#template-engines)
+- [Register views locations](#register-views-locations)
 
 Introduction
 ------------
@@ -290,6 +291,19 @@ but for deeper information, we suggest you to read their official documentation:
 
 - [Blade](https://laravel.com/docs/5.3/blade)
 - [Twig](http://twig.sensiolabs.org/)
+
+Register views locations
+------------------------
+
+You can define custom views locations in order to store your view files. Both `themosis-theme` theme and `themosis-plugin` plugin boiler plate use a View Finder instance to define their own `resources/views` location but you add your own too.
+
+Get a view finder instance and call its `addLocation()` method and pass it your custom views folder path like so:
+
+```php
+container('view.finder')->addLocation(themosis_path('theme.resources').'views');
+```
+
+You can only add one location per call. If you want to add multiple locations at once, just call the method several times.
 
 Next
 ----
