@@ -196,12 +196,12 @@ If a theme calls its view like so: `view(store.shop)`, it's the plugin view that
 
 ```php
 resources/views/
-+-- tld
-    +-- domain
-        +-- plugin
-            +-- layouts
++-- tld/
+    +-- domain/
+        +-- plugin/
+            +-- layouts/
             |   +-- main.twig
-            +-- store
+            +-- store/
             |   +-- shop.twig
 ```
 
