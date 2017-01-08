@@ -17,9 +17,9 @@ User
 Basic usage
 -----------
 
-The Themosis framework comes with a User class that gives you shortcuts to core WordPress user functions.
+The Themosis framework comes with a User class that gives you shortcuts to core WordPress user functions. The User class extends the core WP_User class. So every core methods are available to your User instances as well.
 
-The User class extends the core WP_User class. So every core methods are available to your User instances as well.
+> The User class is not a static one. When using the `User` facade, you create each time a new instance. This is **important** to notice especially when working with user custom fields.
 
 ### Create a new user
 
@@ -58,8 +58,7 @@ Check if your user instance has a specific role:
 ```php
 $user = User::current();
 
-if ($user->hasRole('editor'))
-{
+if ($user->hasRole('editor')) {
     // Do something
 }
 ```
@@ -70,7 +69,6 @@ You can attach a role to a selected user:
 
 ```php
 $user =  User::current();
-
 $user->setRole('editor');
 ```
 
@@ -79,8 +77,7 @@ $user->setRole('editor');
 ```php
 $user = User::current();
 
-if ($user->can('edit_posts'))
-{
+if ($user->can('edit_posts')) {
     // Do something
 }
 ```
@@ -138,7 +135,7 @@ $user->addFields([
 ]);
 ```
 
-> Use the Field API to define your user custom fields just like you would with metabox custom fields and options page.
+> Use the Field API to define your user custom fields just like you would with metabox custom fields,...
 
 #### Add custom fields without sections
 
@@ -157,6 +154,8 @@ User::addFields([
     Field::media('avatar')
 ]);
 ```
+
+> Calling the `addFields()` method this way means you're working on a separate user instance.
 
 ### Validate user fields
 
@@ -177,7 +176,7 @@ $user->validate([
 
 Simply define the field name as the key and specify a list of validation/sanitization rules to it.
 
-> Even if sections are defined, only use the custom field name in order to validate its value.
+> Even if sections are defined, only use the custom field name in order to sanitize its value.
 
 We also suggest you to always prefix your custom fields name so they don't conflict with other WordPress plugins or WordPress reserved terms.
 
