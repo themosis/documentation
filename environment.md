@@ -258,9 +258,11 @@ define('NONCE_SALT',       'put your unique phrase here');
 Install WordPress
 -----------------
 
+By default, the bundled theme called `themosis-theme` is activated upon installation to avoid the famous "white screen of death". Please note that we encourage you to rename the theme to reflect your project. When you rename your theme, WordPress lost its tracks. Be sure to log in to the WordPress administration and activate your renamed theme upon installation.
+
 Once your environment is setup, open your browser and start the default WordPress installation process.
 
-> Note: By default, the bundled theme called `themosis-theme` is activated upon installation to avoid the famous "white screen of death". Please note that we encourage you to rename the theme to reflect your project. When you rename your theme, WordPress lost its tracks. Be sure to log in to the WordPress administration and activate your renamed theme.
+> You might be redirected directly to your home page upon installation. Please make sure to **rename** your theme folder before processing any longer.
 
 Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework.
 
