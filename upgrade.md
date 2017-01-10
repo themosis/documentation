@@ -70,6 +70,8 @@ If you have followed the previous steps, the framework core is up-to-date and a 
 32. The directive `{{ }}` prints and escapes values now and the `{!! !!}` directive only prints the value. Update your views accordingly to avoid HTML content being escaped like the post content for example.
 33. For those using the Themosis page templates, the current version is now using WordPress core templates. Meaning that all the code referencing the meta key `_themosisPageTemplate` must be updated and reference the meta key `_wp_page_template`. Once your code updated, please refer to the last step below in order to update your `postmeta` database table.
 
+> For users who were working on the master branch, please update all references of `container('config')` or `$theme['config']` by `container('config.factory')` and `$theme['config.factory']` accordingly from your theme `functions.php` file.
+
 ### Upgrade database
 
 Since the framework now uses the WordPress core template system. You need to update your database `postmeta` table in order for your code to find the right page template. Open a MySQL console and run the following query (please change table name based on your database prefix):
