@@ -26,6 +26,7 @@ Changelog
 - Add assets to the Customizer using the Asset API.
 - Add custom checkbox label in both Form and Field API.
 - Theme Gulp, Webpack, Bower commands.
+- Allow regular expressions for environment configuration.
 
 #### Updates
 
