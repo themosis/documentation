@@ -15,7 +15,7 @@ The `Ajax` class handles the WordPress mechanism for easily handling ajax reques
 In order to listen to a WordPress ajax action, use the `listen` method:
 
 ```php
-Ajax::listen('my_action', 'both', function() {	
+Ajax::listen('my_action', function() {	
     // Perform security check before anything - nonce
     $value = $_POST['key'];
 
