@@ -62,7 +62,7 @@ If you have followed the previous steps, the framework core is up-to-date and a 
 24. _(optional)_ If you already use custom namespace for your controllers, you have to update the `resources/providers/RoutingService` namespace in order to correctly use your controllers within the routes. Find and replace the `'Theme\Controllers'` by your into the Route group method namespace property.
 25. Inside your `resources/routes.php` file, update your controller classes references to only their class name without the namespace. For example, if you had a class controller full name of `Company\Awesome\Controller\Pages@show`, such parameter would be now `Pages@show`.
 26. The `BaseController` class is no longer bundled within the theme. Please define its path by adding the following use statement at the top of each of your controller classes: `use Themosis\Route\BaseController;`.
-27. Find and replace all instances of the `THEMOSIS_TEXTDOMAIN` constant by `THEMOSIS_THEME_TEXTDOMAIN` constant. Make sure to check your config files as well.
+27. Find and replace all instances of the `THEMOSIS_TEXTDOMAIN` constant by `THEME_TEXTDOMAIN` constant. Make sure to check your config files as well.
 28. The `Session::nonceName` and `Session::nonceAction` constants have been removed. If you used them into your code, please define your own nonces.
 29. The PostType `getSlug()` method is deprecated. Update your code and use the `get(‘name’)` method.
 30. The Form `checkboxes()` method is deprecated. Update your code to use the `checkbox()` method instead.
