@@ -1,14 +1,14 @@
 Multisite
 =========
 
-- Installation
-	- Create a new project
-	- Configure your environment
-	- Allow your instance to run the multisite installation
-	- Install WordPress
-	- Update your instance configuration
-	- Activate your themosis-theme
-- Cleanup default URL
+- [Installation](#installation)
+	- [Create a new project](#create-a-new-project)
+	- [Configure your environment](#configure-your-environment)
+	- [Allow your instance to run the multisite installation](#allow-your-instance-to-run-the-multisite-installation)
+	- [Install WordPress](#install-wordpress)
+	- [Update your instance configuration](#update-your-instance-configuration)
+	- [Activate your themosis-theme](#activate-your-themosis-theme)
+- [Cleanup default URL](#cleanup-default-url)
 
 Installation
 ------------
@@ -29,42 +29,34 @@ This command will automatically installs the latest WordPress and Themosis frame
 
 ### Configure your environment
 
-Once your new project is installed, open it in your favorite IDE or code editor. Open the `.env.local.php` file and add your database credentials (supposing you already defined your database) and the default URL for your project. Be sure to let the `/cms` URI in the `WP_SITEURL` parameter.
+Once your new project is installed, open it in your favorite IDE or code editor. Open the `.env.local` file and add your database credentials (supposing you already defined your database) and the default URL for your project. Be sure to let the `/cms` URI in the `WP_SITEURL` parameter.
 
 > The default URL will be your main website URL in your multisite installation.
 
-For this example, our `.env.local.php` environment file will look like this:
+For this example, our `.env.local` environment file will look like this:
 
-```php
-<?php
-
-/*----------------------------------------------------*/
-// Local environment vars
-/*----------------------------------------------------*/
-return [
-
-    'DB_NAME'       => 'wpmu',
-    'DB_USER'       => 'root',
-    'DB_PASSWORD'   => '',
-    'DB_HOST'       => 'localhost',
-    'WP_HOME'       => 'http://wpmu.dev',
-    'WP_SITEURL'    => 'http://wpmu.dev/cms'
-
-];
 ```
-Then open the `environment.php` file and specify your local environment server hostname or define an anonymous function (Closure) to let the framework know which environment file to load. Check the environment guide for more detailed explanations: [http://framework.themosis.com/docs/environment/](http://framework.themosis.com/docs/environment/)
+DB_NAME = "wpmu"
+DB_USER = "root"
+DB_PASSWORD = "password"
+DB_HOST = "localhost"
+WP_HOME = "http://wpmu.dev"
+WP_SITEURL = "http://wpmu.dev/cms"
+```
+
+Then open the `environment.php` file and specify your local environment server hostname or define an anonymous function (Closure) to let the framework know which environment file to load. Check the [environment guide]({{url}}/environment) for more detailed explanations.
 
 ### Allow your instance to run the multisite installation
 
-Now that your environment is setup, look after the `shared.php` file located in the `config` directory and open it.
+Now that your environment is setup, look after your `local.php` file located in the `config/environments` directory and open it.
 
-First add the WordPress salt keys by following this URL: [https://api.wordpress.org/secret-key/1.1/salt/](https://api.wordpress.org/secret-key/1.1/salt/)
-
-Then simply add the following constant to your `shared.php` file:
+Then simply add the following constant to your `local.php` file:
 
 ```
 define('WP_ALLOW_MULTISITE', true);
 ```
+
+> In previous documentation, we recommended to put this configuration into your `shared.php` file. This is no longer the case, define each multisite configuration per environment as post-install configuration contains constants related to your environment and cannot be shared.
 
 ### Install WordPress
 
@@ -72,9 +64,9 @@ define('WP_ALLOW_MULTISITE', true);
 
 Visit in your browser the URL defined for your WordPress project to start the default WordPress installation. In this example, the website is located at the following address: **http://wpmu.dev**
 
-Follow on screen steps and once the process is finished, log in the WordPress administration.
+Follow on screen steps and once the process is finished, log into the WordPress administration.
 
-Next, using the left menus in the administration, go to `Tools>Network Setup`. Choose which type of addresses for your websites you would like:
+Next, using the left menus in the administration, go to `Tools > Network Setup`. Choose which type of addresses for your websites you would like:
 
 - Sub-domains
 - Sub-directories
@@ -87,18 +79,16 @@ Click the **Install** button.
 
 ### Update your instance configuration
 
-> On some installation you might get a warning message with a `timeout` issue when WordPress tried to access a random sub-domain address. Don't worry, this is because you haven't a wild-card defined for sub-domains.
+> On some installation you might get a warning message with a `timeout` issue when WordPress tried to access a random sub-domain address. Don't worry, this is because you haven't a wild-card defined for your sub-domains.
 
 WordPress is now telling you to modify your configuration by adding some new constants and by updating the `.htaccess` file.
 
-> We'll update the documentation regarding an Nginx installation.
-
-Open your `shared.php` (and not wp-config.php) file and add the mentioned constants. In our example, you'll add those lines:
+Open your environment configuration file (in our case, the `local.php` file) and add the mentioned constants. In our example, you'll add those lines:
 
 ```php
 define('MULTISITE', true);
 define('SUBDOMAIN_INSTALL', true); // Set to false if you selected the "Sub-directories" installation.
-define('DOMAIN_CURRENT_SITE', 'wpmu.dev'); // Main domain. Same as defined in your .env file without the http protocol.
+define('DOMAIN_CURRENT_SITE', 'wpmu.dev'); // Main domain. Same as defined in your .env.local file without the http protocol.
 define('PATH_CURRENT_SITE', '/');
 define('SITE_ID_CURRENT_SITE', 1);
 define('BLOG_ID_CURRENT_SITE', 1);
@@ -142,5 +132,3 @@ http://wpmu.dev/
 Visit the front-end and everything should work as expected.
 
 **Congratulations, you can now develop your multisite project using all the WordPress and framework APIs.**
-
-**If you encounter an issue, don't hesitate to post it on Github: [https://github.com/themosis/framework/issues](https://github.com/themosis/framework/issues)**

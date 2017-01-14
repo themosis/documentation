@@ -1,22 +1,24 @@
 Validation
 ==========
 
-The framework comes with a class to help you sanitize your inputs.
+- [Get input data](#get-input-data)
+	- [Get all submitted data](#get-all-submitted-data)
+	- [Get a specific data](#get-a-specific-data)
+	- [Return a default value if no data found](#return-a-default-value-if-no-data-found)
+- [Validate](#validate)
+	- [Validate single data](#validate-single-data)
+	- [Validate multiple data](#validate-multiple-data)
+	- [Rules parameters](#rules-parameters)
+- [Validation rules](#validation-rules)
 
-- Get input data
-	- Get all submitted data
-	- Get a specific data
-	- Return a default value if no data found
-- Validate
-	- Validate single data
-	- Validate multiple data
-	- Rules parameters
-- Validation rules
+The framework comes with a class to help you sanitize your inputs.
 
 Get input data
 --------------
 
 The framework comes with an `Input` class that helps you retrieve form submitted data.
+
+> The `Input` class extends the `Illuminate\Http\Request`.
 
 ### Get all submitted data
 
@@ -44,7 +46,7 @@ If no `name` value is found, the code returns the `Foo` value.
 Validate
 --------
 
-### Validate one data
+### Validate single data
 
 ```php
 $data = Validator::single($data, ['num', 'min:3']);
@@ -55,7 +57,7 @@ Pass an array of validation rules as a second parameter.
 
 ```php
 $data = Validator::multiple(Input::all(), [
-    'field-name'	 => ['alnum', 'min:5'],
+    'field-name' => ['alnum', 'min:5'],
     'email'      => ['email'],
     'age'        => ['num']
 ]);
@@ -63,7 +65,7 @@ $data = Validator::multiple(Input::all(), [
 
 Pass an array of validation rules as a second parameter where the `key` is the data field name and its value is an array of validation rules.
 
-### Parameters rules
+### Rules parameters
 
 Some rules accept extra parameters in order to validate your data. Simply add a colon after your rule followed by parameters separated by a comma.
 
@@ -86,7 +88,7 @@ Validation rules
 - **textarea**: Validate a value from a textarea field. Uses the WordPress `esc_textarea` function.
 - **html**: Validate a HTML value. Uses the WordPress `esc_html` function.
 - **email**: Validate an email value. Uses the WordPress `sanitize_email` function.
-- **url**: Validate an URL value. Uses the WordPress `esc_url` function. You can pass arguments to the rule like so: `['url:http, https']`. See the [codex](http://codex.wordpress.org/Function_Reference/esc_url) for the list of protocols you can pass to the rule.
+- **url**: Validate an URL value. Uses the WordPress `esc_url` function. You can pass arguments to the rule like so: `['url:http, https']`. See the [WordPress reference](https://developer.wordpress.org/reference/functions/esc_url/) for the list of protocols you can pass to the rule.
 - **min**: Validate a value if it has a minimum length. You have to pass arguments to the rule like so: `['min:5']`.
 - **max**: Validate a value if it has a maximum length. You have to define arguments to the rule like so: `['max:25']`.
 - **bool**: Validate a boolean value. Returns `true` if data equal to `true`, `1`, `on` and `yes`. Returns false otherwise.

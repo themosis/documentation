@@ -1,25 +1,25 @@
 User
 ====
 
-- Basic usage
-	- Create a new user
-	- Get current user
-	- Get user by ID
-	- Check for a specific role
-	- Set a role to a user
-	- Check user capability
-	- Update user properties
-- User custom fields
-	- Add sections
-	- Add custom fields
-	- Validate user fields
+- [Basic usage](#basic-usage)
+	- [Create a new user](#create-a-new-user)
+	- [Get current user](#get-current-user)
+	- [Get user by ID](#get-user-by-id)
+	- [Check for a specific role](#check-for-a-specific-role)
+	- [Set a role to a user](#set-a-role-to-a-user)
+	- [Check user capability](#check-user-capability)
+	- [Update user properties](#update-user-properties)
+- [User custom fields](#user-custom-fields)
+	- [Add sections](#add-sections)
+	- [Add custom fields](#add-custom-fields)
+	- [Validate user fields](#validate-user-fields)
 
 Basic usage
 -----------
 
-The Themosis framework comes with a User class that gives you shortcuts to core WordPress user functions.
+The Themosis framework comes with a User class that gives you shortcuts to core WordPress user functions. The User class extends the core WP_User class. So every core methods are available to your User instances as well.
 
-The User class extends the core WP_User class. So every core methods are available to your User instances as well.
+> The User class is not a "static" one. When using the `User` facade, you create each time a new instance. This is **important** to notice especially when working with user custom fields.
 
 ### Create a new user
 
@@ -58,9 +58,8 @@ Check if your user instance has a specific role:
 ```php
 $user = User::current();
 
-if ($user->hasRole('editor'))
-{
-	// Do something
+if ($user->hasRole('editor')) {
+    // Do something
 }
 ```
 
@@ -70,7 +69,6 @@ You can attach a role to a selected user:
 
 ```php
 $user =  User::current();
-
 $user->setRole('editor');
 ```
 
@@ -79,9 +77,8 @@ $user->setRole('editor');
 ```php
 $user = User::current();
 
-if ($user->can('edit_posts'))
-{
-	// Do something
+if ($user->can('edit_posts')) {
+    // Do something
 }
 ```
 
@@ -93,8 +90,8 @@ You can update user data by providing an array of properties. Note that the ID p
 $user = User::current();
 
 $user->update([
-	'user_url'    => 'http://www.somewebsite.com',
-	'user_email'  => 'foo@bar.com'
+    'user_url'   => 'http://www.somewebsite.com',
+    'user_email' => 'foo@bar.com'
 ]);
 ```
 
@@ -128,17 +125,17 @@ In the following example, we will add custom fields to our previously defined se
 // Grab our User instance from previous code sample
 // and add fields to each section.
 $user->addFields([
-	'section-slug'  => [
+    'section-slug' => [
         Field::text('street', ['title' => 'Street address'])
     ],
-    'social'        => [
+    'social' => [
         Field::text('facebook', ['info' => 'Your facebook page.']),
         Field::text('twitter', ['info' => 'Twitter account name.'])
     ]
 ]);
 ```
 
-> Use the Field API to define your user custom fields just like you would with metabox custom fields and options page.
+> Use the Field API to define your user custom fields just like you would with metabox custom fields,...
 
 #### Add custom fields without sections
 
@@ -157,6 +154,8 @@ User::addFields([
     Field::media('avatar')
 ]);
 ```
+
+> Calling the `addFields()` method this way means you're working on a separate user instance.
 
 ### Validate user fields
 
@@ -177,8 +176,8 @@ $user->validate([
 
 Simply define the field name as the key and specify a list of validation/sanitization rules to it.
 
-> Even if sections are defined, only use the custom field name in order to validate its value.
+> Even if sections are defined, only use the custom field name in order to sanitize its value.
 
 We also suggest you to always prefix your custom fields name so they don't conflict with other WordPress plugins or WordPress reserved terms.
 
-For more information about validation rules, check the [validation guide](http://framework.themosis.com/docs/validation/).
+For more information about validation rules, check the [validation guide]({{url}}/validation).

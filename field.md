@@ -12,25 +12,26 @@ This class is used for:
 * Adding custom fields to a metabox
 * Adding custom fields to an option page (Settings API)
 * Adding custom fields to users
-* More to come (Taxonomy, Customize, ...)
+* Adding custom fields to taxonomy terms
+* More to come (Customize,...)
 
-The `Field` class implements the `Form` class to output its inputs but also provides a UI regarding the context: metabox, settings, user, ...
+The `Field` class implements the `Form` class to render its inputs but also provides a UI regarding the context: metabox, settings, user, terms,...
 
 Here is the list of custom fields available:
 
-* Checkbox
-* Collection
-* Color
-* Date
-* Editor
-* Infinite
-* Media
-* Number
-* Password
-* Radio
-* Select
-* Text
-* Textarea
+* [Checkbox](#checkbox-field)
+* [Collection](#collection-field)
+* [Color](#color-field)
+* [Date](#date-field)
+* [Editor](#editor-field)
+* [Infinite](#infinite-field)
+* [Media](#media-field)
+* [Number](#number-field)
+* [Password](#password-field)
+* [Radio](#radio-field)
+* [Select](#select-field)
+* [Text](#text-field)
+* [Textarea](#textarea-field)
 
 ### Text field
 
@@ -48,9 +49,9 @@ Possible values for the `$features` parameter:
 
 ```php
 $features = [
-	'title' 	=> 'The field display title. By default it uses the $name.',
-	'info'		=> 'Add a helper text/description to the field.',
-	'default' 	=> 'You can define a default value for the field.'
+    'title'   => 'The field display title. By default it uses the $name.',
+    'info'    => 'Add a helper text/description to the field.',
+    'default' => 'You can define a default value for the field.'
 ];
 ```
 
@@ -215,12 +216,12 @@ Build a simple select field with **numeric** values:
 
 ```php
 Field::select('my-field', [
-	[
-		'None',
-		'Belgium',
-		'France',
-		'United States'
-	]
+    [
+        'None',
+        'Belgium',
+        'France',
+        'United States'
+    ]
 ], ['title' => 'Choose a country:']);
 ```
 
@@ -228,12 +229,12 @@ Build a simple select field with **custom** values:
 
 ```php
 Field::select('my-field', [
-	[
-		'none'	=> 'None',
-		'bel' 	=> 'Belgium',
-		'fra'	=> 'France',
-		'usa'	=> 'United States'
-	]
+    [
+        'none' => 'None',
+        'bel'  => 'Belgium',
+        'fra'  => 'France',
+        'usa'  => 'United States'
+    ]
 ], ['title' => 'Choose a country:']);
 ```
 
@@ -243,13 +244,13 @@ Build a select field with subgroup of options using **numeric** values:
 
 ```php
 Field::select('my-field', [
-	'europe' 	=> [
-		'Belgium',
-		'France'
-	],
-	'america'	=> [
-		'United States'
-	]
+    'europe' => [
+        'Belgium',
+        'France'
+    ],
+    'america' => [
+        'United States'
+    ]
 ]);
 ```
 
@@ -257,13 +258,13 @@ Build a select field with subgroup of options using **custom** values:
 
 ```php
 Field::select('my-field', [
-	'europe' 	=> [
-		'bel'	=> 'Belgium',
-		'fra'	=> 'France'
-	],
-	'america'	=> [
-		'usa'	=> 'United States'
-	]
+    'europe' => [
+        'bel' => 'Belgium',
+        'fra' => 'France'
+    ],
+    'america' => [
+        'usa' => 'United States'
+    ]
 ]);
 ```
 
@@ -273,12 +274,12 @@ Simply set the multiple attribute of the select field like so:
 
 ```php
 Field::select('my-field', [
-	[
-		'None',
-		'Belgium',
-		'France',
-		'United States'
-	]
+    [
+        'None',
+        'Belgium',
+        'France',
+        'United States'
+    ]
 ], ['title' => 'Choose a country:'], ['multiple']);
 ```
 
@@ -317,15 +318,27 @@ In order to allow the media field to attach other files except images, you need 
 
 ```php
 Field::media('report', [
-	'title'		=> 'Attach report',
-	'type'		=> 'application'
+    'title' => 'Attach report',
+    'type'  => 'application'
 ])
 ```
-> The `type` feature only accepts 4 values: `image`, `application`, `video` and `audio`.
+
+In some scenario, you might need to define multiple `types`, like having the ability to let users choose a PDF file or an image. In order to define multiple `types`, simply pass an array:
+
+```php
+Field::media('attachments', [
+    'title' => 'Share a file',
+    'type' => ['image', 'application']
+]);
+```
+
+> The `type` feature only accepts 5 values: `image`, `text`, `application`, `video` and `audio`.
 
 ### Collection field
 
-Allows a user to add/edit/delete a collection of media files. The collection field UI allows an end-user to add, order, delete or bulk delete files. Useful for galleries or specifying a list of files to download, ...
+Allows a user to add/edit/delete a collection of media files. The collection field UI allows an end-user to add, order, delete or bulk delete files. Useful for galleries or specifying a list of files to download,...
+
+> Current implementation of the collection field only saves its meta data as one single serialized value.
 
 ```php
 Field::collection($name, $features = []);
@@ -347,6 +360,12 @@ Field::collection('gallery');
 Field::collection('papers', ['type' => 'application']);
 ```
 
+#### Create a collection of images and files
+
+```php
+Field::collection('files', ['type' => ['image', 'application']]);
+```
+
 #### Limit the number of media
 
 Using the `limit` feature property, you can limit the number of media files a user can add to the collection field:
@@ -355,11 +374,13 @@ Using the `limit` feature property, you can limit the number of media files a us
 // Limit the number of media to add to a collection.
 Field::collection('pics', ['limit' => 5]);
 ```
-> Allowed `type` values: `image`, `application`, `video`, `audio`.
+> Allowed `type` values: `image`, `text`, `application`, `video`, `audio`.
 
 ### Infinite field
 
 Build a repeatable field. This allows you to define a single field or a group of fields to be repeated.
+
+> Current implementation of the infinite field only saves its meta data as one single serialized value.
 
 ```php
 Field::infinite($name, $fields, $features);
@@ -375,9 +396,9 @@ Example of an infinite field:
 
 ```php
 Field::infinite('books', [
-	Field::text('title'),
-	Field::textarea('excerpt'),
-	Field::media('cover-image')
+    Field::text('title'),
+    Field::textarea('excerpt'),
+    Field::media('cover-image')
 ]);
 ```
 
@@ -385,11 +406,11 @@ You can limit the number of repeatable rows by setting the `limit` property like
 
 ```php
 Field::infinite('books', [
-	Field::text('title'),
-	Field::media('image')
+    Field::text('title'),
+    Field::media('image')
 ], [
-	'title'		=> 'List of books',
-	'limit'		=> 10
+    'title' => 'List of books',
+    'limit' => 10
 ])
 ```
 
@@ -399,6 +420,7 @@ Next
 ----
 Check those guide to implement your custom fields:
 
-* [Metabox guide](http://framework.themosis.com/docs/metabox/)
-* [Page guide](http://framework.themosis.com/docs/page/)
-* [User guide](http://framework.themosis.com/docs/user/)
+* [Metabox guide]({{url}}/metabox)
+* [Page guide]({{url}}/page)
+* [User guide]({{url}}/user)
+* [Taxonomy guide]({{url}}/taxonomy)

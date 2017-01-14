@@ -1,9 +1,18 @@
 WP-CLI
-------
+======
 
-The Themosis framework comes with a [WP-CLI](http://wp-cli.org/) configuration file which points to the folder where WordPress is installed.
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [The Themosis command](#the-themosis-command)
 
-WP-CLI is a command line tool for handling your WordPress installation.
+
+Introduction
+------------
+
+The Themosis framework comes with a [WP-CLI](http://wp-cli.org/) configuration file which points to the folder where WordPress is installed. WP-CLI is a command line tool for handling your WordPress installation.
+
+Installation
+------------
 
 ### Install WP-CLI on UNIX like environment.
 
@@ -35,3 +44,8 @@ This will download and create a directory `wp-cli` on your system. We recommend 
 Then add the `wp-cli\bin` folder to your system variable `PATH`. For example, using the recommended installation location, you'll store the following path to your system variable `PATH`: `c:\developer\tools\wp-cli\bin;`
 
 This will allow you to use the `wp` command inside your Console.
+
+The Themosis command
+--------------------
+
+We have an ongoing project in order to add a `themosis` command directly into the WP_Cli. Please check this [open GitHub issue](https://github.com/themosis/framework/issues/296) if you have any suggestions or features requests regarding a Themosis CLI tool.

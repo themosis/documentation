@@ -1,47 +1,38 @@
 Environment Setup
 =================
 
-- Introduction
-- Load your environment
-- Shared environment configuration
-- Install WordPress
+- [Introduction](#introduction)
+- [Load your environment](#load-your-environment)
+- [Shared environment configuration](#shared-environment-configuration)
+- [Install WordPress](#install-wordpress)
 
 Introduction
 ------------
 
 The Themosis framework has its own way for defining WordPress configurations. It's done on purpose to facilitate collaboration. By default, the Themosis framework comes with a `local` and a `production` environments pre-configured.
 
-You'll start by registering your database credentials and application URLs into a `.env.{environment}.php` file located in the root directory of your project. Then you'll be able to define your environment configurations by modifying files located in the `config` directory.
+You'll start by registering your database credentials and application URLs into a `.env.{environment}` file located in the root directory of your project. Then you'll be able to define your environment configurations by modifying files located in the `config` directory.
 
-> Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local.php`.
+> Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local`. The framework release is now leveraging the [DotEnv PHP package](https://github.com/vlucas/phpdotenv).
 
 Load your environment
 ---------------------
 
 Let's start by installing your WordPress application on a local environment.
 
->Follow the same steps for a remote/production environment or any custom ones.
+> Follow the same steps for a remote/production environment or any custom ones.
 
 ### 1 - Set your credentials and URLs
 
-Open the default `.env.local.php` file located in the root of your project. Fill in the values with your local database credentials and specify your local virtual host URLs.
+Open the default `.env.local` file located in the root of your project. Fill in the values with your local database credentials and specify your local virtual host URLs.
 
-```php
-<?php
-
-/*----------------------------------------------------*/
-// Local environment vars
-/*----------------------------------------------------*/
-return [
-
-    'DB_NAME'		=> 'your_database_name',
-    'DB_USER'		=> 'database_username',
-    'DB_PASSWORD'	=> 'database_password',
-    'DB_HOST'		=> 'localhost',
-    'WP_HOME'		=> 'http://my-website.dev',
-    'WP_SITEURL'	=> 'http://my-website.dev/cms'
-
-];
+```
+DB_NAME = "your_database_name"
+DB_USER = "database_username"
+DB_PASSWORD = "database_password"
+DB_HOST = "localhost"
+WP_HOME = "http://my-website.dev"
+WP_SITEURL = "http://my-website.dev/cms"
 ```
 
 > WordPress is defined as a dependency and is loaded by the framework inside the `cms` directory located in the web root folder `htdocs`. Make sure to always define the `WP_SITEURL` value with `/cms` appended at the end.
@@ -66,6 +57,7 @@ In order for the framework to identify your `local` environment, you have to reg
 ##### Find hostname on *NIX
 
 Open your Terminal and simply run the following command:
+
 ```bash
 hostname
 ```
@@ -73,6 +65,7 @@ hostname
 ##### Find hostname on Windows
 
 Open your Console and run the following command:
+
 ```bash
 ipconfig/all
 ```
@@ -85,33 +78,37 @@ Once you get your hostname, open the `environment.php` file and replace the valu
 <?php
 
 /*----------------------------------------------------*/
-// Define your environments
+// Define environment type
 /*----------------------------------------------------*/
 return [
-
-    'local'             => 'WRITE YOUR HOSTNAME HERE',
-    'production'        => 'remote machine hostname'
-
+    'local'      => 'INSERT-HOSTNAME',
+    'production' => 'INSERT-PRODUCTION-HOSTNAME'
 ];
 ```
 
-> The key defined in the `environment.php` file is used to load the `.env.{$environment}.php` file and also the `{$environment}.php` file located in the `config/environments` directory.
-
-##### Multiple hostnames
-
-In some scenarios, you'll probably need to define several hostnames per environment. In order to do so, you can pass an array of hostnames to each environment key like so:
+The hostname value can be the exact machine name, a wildcard or regular expression. For example:
 
 ```php
 <?php
 
-/*----------------------------------------------------*/
-// Define your environments
-/*----------------------------------------------------*/
 return [
+    'local' => '*.domain.com',
+    'production' => 'xyz\..+\.net'
+];
+```
 
-    'local'             => ['computer1', 'computer2', 'computer3'],
-    'production'        => 'remote machine hostname'
+> The key defined in the `environment.php` file is used to load the `.env.{$environment}` file and also the `{$environment}.php` file located in the `config/environments` directory.
 
+##### Multiple hostnames
+
+In some scenarios, you'll probably need to define several hostnames per environment. In order to do so, you can pass an array of hostnames to each environment key. Array values can also be multiple wildcard or regular expressions. Here is an example:
+
+```php
+<?php
+
+return [
+    'local'      => ['computer1', 'computer2', '*.project.dev'],
+    'production' => 'remote machine hostname'
 ];
 ```
 
@@ -134,21 +131,19 @@ Now inside your `environment.php` file, in place of an array, you'll replace you
 ```php
 <?php
 
-return function()
-{
-	// Check for the environment variable
-	if ('varValue' === getenv('varName'))
-	{
-		// Return the environment file slug name: .env.{$slug}.php
-		return 'local';
-	}
+return function () {
+    // Check for the environment variable
+    if ('varValue' === getenv('varName')) {
+        // Return the environment file slug name: .env.{$slug}
+        return 'local';
+    }
 
-	// Else if no environment variable found... it might be a production environment...
-	return 'production';
+    // Else if no environment variable found... it might be a production environment...
+    return 'production';
 };
 ```
 
-In the example above, if the `getenv('varName')` exists, this will load the the `local` environment file: `.env.local.php` located at the root of your application.
+In the example above, if the `getenv('varName')` exists, this will load the the `local` environment file: `.env.local` located at the root of your application.
 
 ##### Nginx
 
@@ -156,19 +151,17 @@ Nginx has a `ENV` function but this apparently only works in the main context of
 
 ```
 server {
-
     location ~ \.php$ {
     	include        fastcgi_params;
         fastcgi_pass   themosis.dev:9000;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name";
 
-		###############################
-		# Your environment variable   #
-		###############################
+        ###############################
+        # Your environment variable   #
+        ###############################
         fastcgi_param varName varValue;
     }
-
 }
 ```
 
@@ -177,17 +170,15 @@ For Nginx, your environment variable is accessible by using `$_SERVER[]`. So ins
 ```php
 <?php
 
-return function()
-{
-	// Check for the environment variable
-	if ('varValue' === $_SERVER['varName'])
-	{
-		// Return the environment file slug name: .env.{$slug}.php
-		return 'local';
-	}
+return function () {
+    // Check for the environment variable
+    if ('varValue' === $_SERVER['varName']) {
+      // Return the environment file slug name: .env.{$slug}
+      return 'local';
+    }
 
-	// Else if no environment variable found... it might be a production environment...
-	return 'production';
+    // Else if no environment variable found... it might be a production environment...
+    return 'production';
 };
 ```
 
@@ -213,17 +204,28 @@ define('DB_HOST', getenv('DB_HOST') ? getenv('DB_HOST') : 'localhost');
 define('WP_HOME', getenv('WP_HOME'));
 define('WP_SITEURL', getenv('WP_SITEURL'));
 
+// Jetpack
+define('JETPACK_DEV_DEBUG', true);
+
+// Encoding
+define('THEMOSIS_CHARSET', 'UTF-8');
+
 // Development
 define('SAVEQUERIES', true);
 define('WP_DEBUG', true);
+define('WP_DEBUG_DISPLAY', true);
 define('SCRIPT_DEBUG', true);
 
 // Themosis framework
-define('THEMOSIS_ERROR_DISPLAY', true);
-define('THEMOSIS_ERROR_SHUTDOWN', true);
-define('THEMOSIS_ERROR_REPORT', -1);
+define('THEMOSIS_ERROR', true);
+define('BS', true);
 ```
+
 This is the pre-configured local configuration file. You can add as many as you want configurations to this file. These are only available for your `local` environment.
+
+> Notice the removed constants `THEMOSIS_ERROR_REPORT`, `THEMOSIS_ERROR_DISPLAY` and `THEMOSIS_ERROR_SHUTDOWN` which are no longer used. The framework now integrates error reporting with the [Whoops package](http://filp.github.io/whoops/).
+
+Finally, note the `BS` constant which is mainly used inside the new theme to output BrowserSync script for your local development.
 
 Shared environment configuration
 --------------------------------
@@ -256,12 +258,14 @@ define('NONCE_SALT',       'put your unique phrase here');
 Install WordPress
 -----------------
 
+By default, the bundled theme called `themosis-theme` is activated upon installation to avoid the famous "white screen of death". Please note that we encourage you to rename the theme to reflect your project. When you rename your theme, WordPress lost its tracks. Be sure to log in to the WordPress administration and activate your renamed theme upon installation.
+
 Once your environment is setup, open your browser and start the default WordPress installation process.
 
-> Note: After installation, be sure to **first log in your WordPress administration and activate the theme** in order to avoid the white screen of death.
+> You might be redirected directly to your home page upon installation. Please make sure to **rename** your theme folder before processing any longer.
 
 Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework.
 
 Next
 ----
-Read the [framework guide](http://framework.themosis.com/docs/framework/)
+Read the [framework guide]({{url}}/framework)
