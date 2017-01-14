@@ -90,7 +90,7 @@ The Asset class allows you to load external assets from CDN and others locations
 ```php
 Asset::add('gg-jquery', '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js', false, '2.1.1', true);
 ```
-The class is looking for the asset extension in order to define if it is a stylesheet or a javascript file. Some externals assets do not show the file extension. In those cases, simply add the `$type` argument. Use `script` or `js` to specify that you load a JS file and use `style` or `css` for a CSS file.
+The class is looking for the asset extension in order to define if it is a stylesheet or a javascript file. Some externals assets do not show the file extension. In those cases, simply add the `$type` argument. Use `script` to specify that you load a JS file and use `style` for a CSS file.
 
 ```php
 Asset::add('gg-map', 'https://maps.googleapis.com/maps/api/js?key=mysecretkey', false, '3.22', true, 'script');
@@ -124,6 +124,7 @@ Route::is('home', 'Pages@index');
 ```
 
 Then use the constructor or method of your controller to load your asset for this specific URI/page request.
+If you're using a controller class to handle multiple routes, call the asset from its constructor will "share" the asset between all requests. Use a controller method instead if you want to load the asset for a specific route.
 
 ```php
 namespace Theme\Controllers;
@@ -142,7 +143,7 @@ class Pages
     // Method responsible to render the home view
     public function index()
     {	
-        return View::make('home');
+        return view('home');
     }
 }
 ```
