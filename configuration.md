@@ -20,12 +20,16 @@ Use the `get()` method to retrieve all properties of a defined configuration fil
 Let's grab all properties of the theme's `theme.config.php` file:
 
 ```php
-$all = Config::get('application');
+use Themosis\Facades\Config;
+
+$all = Config::get('theme');
 ```
 
 The above code is fetching all properties from the `theme.config.php` file stored in the `resources/config` folder. Simply provide the file name without the `.config.php` extension as a parameter of the `get()` method.
 
 ```php
+use Themosis\Facades\Config;
+
 // Grab all theme templates
 $templates = Config::get('templates');
 ```
