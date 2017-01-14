@@ -34,7 +34,7 @@ Asset::add($handle, $path, $deps = [], $version = '1.0', $mixed = null, $type = 
 * $deps _array or boolean_: An array of asset dependencies. _false_ if nothing.
 * $version _string or boolean_: A string specifying the asset version number or _false_ for no versioning.
 * $mixed _string or boolean_: For stylesheets a _string_ that specify the media type. For javascript files, a _boolean_ that indicate if the asset is loaded before the closing `</head>` tag or in the footer (the theme must insert the `wp_head()` and `wp_footer()` functions).
-* $type _string_: Use this parameter if your external asset do not have a file extension. Use `script` or `js` to define a JS file and `style` or `css` to define a CSS file.
+* $type _string_: Use this parameter if your external asset do not have a file extension. Use `script` to define a JS file and `style` to define a CSS file.
 
 Load assets
 -----------
