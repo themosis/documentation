@@ -132,17 +132,18 @@ namespace Theme\Controllers;
 use Themosis\Facades\Asset;
 use Themosis\Route\BaseController;
 
-class Pages
+class Pages extends BaseController
 {
     public function __construct()
     {		
-        // This asset is only available to the home page
-        Asset::add('my-handle', 'css/tool.css', ['main-style'], '1.3', 'screen');
+        // Call assets here in order to share them between multiple requests.
     }
 	
     // Method responsible to render the home view
     public function index()
     {	
+        // This asset is only available to the home page
+        Asset::add('my-handle', 'css/tool.css', ['main-style'], '1.3', 'screen');
         return view('home');
     }
 }
