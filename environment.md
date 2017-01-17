@@ -15,8 +15,16 @@ You'll start by registering your database credentials and application URLs into 
 
 > Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local`. The framework release is now leveraging the [DotEnv PHP package](https://github.com/vlucas/phpdotenv).
 
-Load your environment
----------------------
+Load your environment (short)
+----------------------------
+
+The quick way to set your up your environment is to rename the .env.local to just .env and then open up /config/environment.php and set it to `return false`.
+
+This will tell Themosis to use the .env file in any environment. Since the .env is git ignored, you don’t have to worry about any stealing your secrets, and when you’re ready to deploy to staging or production, just SSH (or FTP) into those environments and set a .env with the proper credentials.
+
+
+Load your environment (long)
+-----------------------------------
 
 Let's start by installing your WordPress application on a local environment.
 
