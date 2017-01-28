@@ -273,6 +273,7 @@ Once your environment is setup, open your browser and start the default WordPres
 > You might be redirected directly to your home page upon installation. Please make sure to **rename** your theme folder before processing any longer.
 
 Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework.
+> To log into the admin screen use /login. /wp-admin will redirect to home.
 
 Next
 ----
