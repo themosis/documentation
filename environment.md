@@ -15,22 +15,26 @@ You'll start by registering your database credentials and application URLs into 
 
 > Opening your project in a text editor or IDE should show you a default `.env` file: `.env.local`. The framework release is now leveraging the [DotEnv PHP package](https://github.com/vlucas/phpdotenv).
 
-Load your environment (short)
-----------------------------
+Load your environment
+---------------------
 
-The quick way to set your up your environment is to rename the .env.local to just .env and then open up /config/environment.php and set it to `return false`.
+### Single environment
 
-This will tell Themosis to use the .env file in any environment. Since the .env is git ignored, you don’t have to worry about any stealing your secrets, and when you’re ready to deploy to staging or production, just SSH (or FTP) into those environments and set a .env with the proper credentials.
+By default, we recommend a "multiple" environment configuration but in some cases you might want to use the same credentials for local, staging and why not production environments.
 
+In order to do so, rename the default `.env.local` file to `.env` and then open up the `config/environment.php` and set it to `return false`.
 
-Load your environment (long)
------------------------------------
+This will tell the Themosis framework to use the `.env` file in any environment.
+
+> The framework will always load the `config/environments/local.php` configuration file as well.
+
+### Multiple environments
 
 Let's start by installing your WordPress application on a local environment.
 
 > Follow the same steps for a remote/production environment or any custom ones.
 
-### 1 - Set your credentials and URLs
+#### 1 - Set your credentials and URLs
 
 Open the default `.env.local` file located in the root of your project. Fill in the values with your local database credentials and specify your local virtual host URLs.
 
@@ -49,20 +53,20 @@ WP_SITEURL = "http://my-website.dev/cms"
 
 Once your credentials are registered, we need to identify the local environment.
 
-### 2 - Identify your local environment
+#### 2 - Identify your local environment
 
 2 methods are available in order to identify your environment:
 
 - By looking at your machine/computer `hostname`
 - By looking after a server environment variable
 
-#### Identify environment using the hostname
+##### Identify environment using the hostname
 
 > Default method used by the framework
 
 In order for the framework to identify your `local` environment, you have to register your machine/computer `hostname` in the `environment.php` file located inside the `config` directory.
 
-##### Find hostname on *NIX
+**Find hostname on *NIX**
 
 Open your Terminal and simply run the following command:
 
@@ -70,7 +74,7 @@ Open your Terminal and simply run the following command:
 hostname
 ```
 
-##### Find hostname on Windows
+**Find hostname on Windows**
 
 Open your Console and run the following command:
 
@@ -107,7 +111,7 @@ return [
 
 > The key defined in the `environment.php` file is used to load the `.env.{$environment}` file and also the `{$environment}.php` file located in the `config/environments` directory.
 
-##### Multiple hostnames
+**Multiple hostnames**
 
 In some scenarios, you'll probably need to define several hostnames per environment. In order to do so, you can pass an array of hostnames to each environment key. Array values can also be multiple wildcard or regular expressions. Here is an example:
 
@@ -120,11 +124,11 @@ return [
 ];
 ```
 
-#### Identify environment using a server environment variable
+##### Identify environment using a server environment variable
 
 If you have total control of your web server and are able to set environment variable, you can use a closure in order to load the application environment configuration.
 
-##### Apache
+**Apache:**
 
 Normally you put a `SetEnv` statement inside your `<VirtualHost>` directive or if you don't have access to this configuration, you can add it inside your `.htaccess` file if allowed.
 
@@ -153,7 +157,7 @@ return function () {
 
 In the example above, if the `getenv('varName')` exists, this will load the the `local` environment file: `.env.local` located at the root of your application.
 
-##### Nginx
+**Nginx:**
 
 Nginx has a `ENV` function but this apparently only works in the main context of your web server. In order to specify an environment variable per `server` context, you will use the `fastcgi_param` statement.
 
@@ -192,7 +196,7 @@ return function () {
 
 Now that your environment is defined, you can configure it to your needs.
 
-### 3 - Add configurations
+#### 3 - Add configurations
 
 By default, the Themosis framework defines a `local` environment and loads the default `local.php` file stored in the `config/environments` folder:
 
@@ -273,7 +277,8 @@ Once your environment is setup, open your browser and start the default WordPres
 > You might be redirected directly to your home page upon installation. Please make sure to **rename** your theme folder before processing any longer.
 
 Visit your project home page and you should be granted with a welcome message. Congratulations! You have installed WordPress and the Themosis framework.
-> To log into the admin screen use /login. /wp-admin will redirect to home.
+
+> To log into the WordPress admin screen use the `/login` URI. The Themosis framework default theme will always redirect non logged in users to the home page if you're trying to use the popular `/wp-admin` URI.
 
 Next
 ----
