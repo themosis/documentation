@@ -1,6 +1,16 @@
 Changelog
 =========
 
+1.3.1
+-----
+
+#### Fixes
+
+- Fix router method `uri()` compatibility with Illuminate Router 5.4.
+- Fix HTML builder attributes method to handle numeric values.
+- Fix Illuminate Database Capsule configuration class and associated service container.
+- Fix metabox sections on save.
+
 1.3.0
 -----
 
