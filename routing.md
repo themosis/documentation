@@ -112,7 +112,7 @@ Here is the current list of available route conditional tags in alphabetical ord
 * single
 * singular
 * sticky
-* **subpage**
+* subpage
 * tag
 * tax
 * template
