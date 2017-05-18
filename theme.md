@@ -1,13 +1,20 @@
 Theme development
 =================
 
-**Work in progress** guide.
-
 - [Introduction](#introduction)
 - [Structure](#structure)
 - [Namespace](#namespace)
 	- [Namespace management and autoloading](#namespace-management-and-autoloading)
 - [Command line tools](#command-line-tools)
+    - [Installation](#installation)
+    - [Use GulpJs](#use-gulpjs)
+    - [Gulp Commands](#gulp-commands)
+    - [BrowserSync](#browsersync)
+    - [Sass](#sass)
+    - [Stylus](#stylus)
+    - [Autoprefixer](#autoprefixer)
+    - [Javascript & WebPack](#javascript-&-webPack)
+    - [Bower](#bower)
 - [Translations](#translations)
 
 Introduction
@@ -114,7 +121,7 @@ The theme is bundled with a `package.json` file and define the following develop
 - [BrowserSync](https://www.browsersync.io/)
 - [Sass](http://sass-lang.com/)
 - [Stylus](http://stylus-lang.com/)
-- [Autoprefixr](https://github.com/postcss/autoprefixer)
+- [Autoprefixer](https://github.com/postcss/autoprefixer)
 
 ### Installation
 
@@ -136,7 +143,7 @@ The previous command should output the CLI Gulp version if installed globally as
 
 > For brevity, I'll write the shorthand `gulp` command instead of the local command.
 
-### Gulp commands
+### Gulp Commands
 
 The theme `gulpfile.js` configuration contains 2 commands that are available to developers from the command-line:
 
@@ -204,3 +211,100 @@ Action::add('wp_footer', function()
 Within the code block, look after the version `v` query string and if the default theme's code version number is not the same as the one from your Terminal or Console, please update it, save your file and reload the browser.
 
 > BrowserSync is currently only ran in the front-end part of your application. If your assets are for the WordPress administration, change the action hook to `admin_footer`
+
+#### Toggle BrowserSync On/Off
+
+If you have installed the Themosis full stack framework, there is `BS` constant parameter defined into each environment file that controls whether or not the theme should output the BrowserSync script:
+
+```php
+// Stored in the config/environments/local.php
+define('BS', true);
+```
+
+By default, it is set to `true` for the local environment. Set it to `false` to toggle off BrowserSync.
+
+### Sass
+
+The `guplfile.js` file has tasks defined in order to compile `.scss` files stored inside the theme's assets folder `assets/sass`.
+
+By default, a `screen.scss` file is located at the root of the sass directory. It is the main sass file. This file will be compiled as `screen.min.css` into your `dist/css` folder.
+
+> **Important:** In fact, all sass files stored at the root of the sass directory are compiled to their respective `filename.min.css` file inside the `dist/css` folder.
+
+We highly encourage you to structure your sass files within sub-directories of the `assets/sass` folder and to import them into the main `screen.scss` file. This allows you to create many CSS files depending of their use (for administration for example) and import only the shared or specific styles per main file.
+
+> During development, using the `watch` command, your assets are compiled with sourcemaps for debugging. When releasing your theme, always make sure to run the `build` command in order to fully minified and compressed your CSS file.
+
+#### Bootstrap CSS
+
+The sass tasks are also compatible and set to work with the [Bootstrap CSS](https://www.getbootstrap.com) framework in its sass version.
+
+### Stylus
+
+For those who like to save some typos and enjoy working with [Stylus](http://stylus-lang.com/), we got you covered.
+
+Just like for Sass, by default, a `screen.styl` file is defined at the root of the `assets/stylus` folder. All files located at the root of the `assets/stylus` folder are compiled to the `dist/css` directory.
+
+> If for some reasons you work with both sass ans stylus files, make sure that their main files do not have the same filename as at each compilation one is overwriting the other.
+
+### Autoprefixer
+
+All your compiled Sass or Stylus files are parsed through the [Autoprefixer](https://github.com/postcss/autoprefixer) library so you don't need to care about browsers prefixes in your CSS.
+
+### Javascript & WebPack
+
+Javascript files are handled by [WebPack 1.x](https://webpack.github.io/). At the root of the `themosis-theme`, you'll find a `webpack.config.js` file in order to manage WebPack compilation.
+
+> The theme is working with WebPack version 1.x.
+
+Within the `webpack.config.js` file, you'll find one entry point by default:
+
+```js
+entry: {
+    theme: path.join(__dirname, 'assets/js/theme.js')
+},
+```
+
+By default, the theme is looking after the `assets/js/theme.js` file and compiles it to the `dist/js/theme.min.js` file. The `assets/js/theme.js` file is your theme's main JS file. Both `watch` and `build` commands handle ES2015 and beyond javascript thanks to the use of the [BabelJs](http://babeljs.io/) compiler that compiles your modern code to its respective Ecmascript 5 version.
+
+#### Define multiple JS files
+
+Like explained above, the `webpack.config.js` file, by default, only contains one entry point which is the `assets/js/theme.js` file. Adding Js files to the root of the `assets/js` directory won't automatically compiled them.
+
+In order to define another main JS file, you need to add an entry point to the `webpack.config.js` file. For example, let's add a `assets/js/superfeature.js` file that compiles to a `dist/js/admin.js` file by modifying the `entry` property of our configuration file:
+
+```php
+entry: {
+    theme: path.join(__dirname, 'assets/js/theme.js'),
+    admin: path.join(__dirname, 'assets/js/superfeature.js')
+},
+```
+
+> If a `watch` command is already running when you edit the `webpack.config.js` file, you need to restart your `watch` command in order for WebPack to take your changes into consideration.
+
+Now, each time you modify any JS files, or build your scripts for production, you'll find a `dist/js/theme.min.js` and `dist/js/admin.min.js` files.
+
+### Bower
+
+If you have [Bower](https://bower.io/) installed on your machine, the theme contains a `.bowerrc` configuration file as well as a `bower.json` file for storing dependencies.
+
+When installing dependencies (components) through Bower, they will be stored into the `assets/components` directory.
+
+Translations
+------------
+
+The `themosis-theme` theme is translation ready.
+
+At the root of the theme, a `languages` directory is defined with sampled `.po` files. During theme development, use the `THEME_TEXTDOMAIN` constant as a textdomain value for the gettext functions. For example:
+
+```php
+// From a Blade view
+<button>{{ __("Read more", THEME_TEXTDOMAIN) }}</button>
+
+// From a Twig view
+<button>{{ __("Read more", constant('THEME_TEXTDOMAIN')) }}</button>
+```
+
+WordPress themes only need `.po` files with a locale filename. For example: `en_US`, `fr_BE`,...
+
+Based on defined locale from WordPress, the theme is automatically loading the corresponding translation file for you.
