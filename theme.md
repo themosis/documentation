@@ -13,7 +13,7 @@ Theme development
     - [Sass](#sass)
     - [Stylus](#stylus)
     - [Autoprefixer](#autoprefixer)
-    - [Javascript & WebPack](#javascript-&-webPack)
+    - [Javascript & WebPack](#javascript-&-webpack)
     - [Bower](#bower)
 - [Translations](#translations)
 
@@ -308,3 +308,5 @@ At the root of the theme, a `languages` directory is defined with sampled `.po` 
 WordPress themes only need `.po` files with a locale filename. For example: `en_US`, `fr_BE`,...
 
 Based on defined locale from WordPress, the theme is automatically loading the corresponding translation file for you.
+
+> We recommend the use of [PoEdit](https://poedit.net/) in order to update and translate your files. Check the [Twig]({{url}}/twig) or [Blade]({{url}}/blade) guides in order to configure PoEdit for your views.
