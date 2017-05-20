@@ -30,6 +30,7 @@ $loader = container('loader.widget');
 $loader->add([
     themosis_path('theme.resources').'widgets/'
 ]);
+$loader->load();
 ```
 
 > You **must** provide an ending `/` to each defined paths.
