@@ -6,6 +6,7 @@ Metabox
 	- [Custom post type metabox](#custom-post-type-metabox)
 	- [Page metabox](#page-metabox)
 - [Sanitize metabox fields](#sanitize-metabox-fields)
+- [Metabox mapping](#metabox-mapping)
 - [Retrieve data](#retrieve-data)
 - [Customize the metabox](#customize-the-metabox)
 - [Send data to your metabox](#send-data-to-your-metabox)
@@ -123,6 +124,40 @@ The validate method works more like a "sanitizer". This means that currently if 
 > Tip: If you want to make required custom fields, currently we suggest to pass a `required` attribute to your custom field. This will avoid the update of the post until a value is defined inside your custom field. A better required API is planned and will come in a future release of the framework.
 
 Check the [validation guide]({{url}}/validation) for more information about the validation rules.
+
+Metabox mapping
+---------------
+
+The metabox class provides a `map()`method that allows you to map a custom field value to one of the current `WP_Post` instance properties.
+
+For example, you might have a custom field with a list of pages you can choose from. The purpose of the custom field here is to set a relation between your current post and the selected page. By default, this value is registered as a `post meta`. Depending on your needs, it might also really useful to store the selected page ID (custom field value) to the `post_parent` property of your edited post. Here is an example:
+
+```php
+$metabox = Metabox::make('Properties', 'custom-post-slug')->set([
+    Field::select('related_page', $pagesList)
+]);
+
+/*
+ * Let's also store the selected page from the custom field to
+ * the post_parent property of our post instance.
+ */
+$metabox->map([
+    'related_page' => 'post_parent'
+]);
+```
+
+From the above code sample, each time the user is saving its post, the value of the `related_page` custom field will be stored as well to the `post_parent` property of the post.
+
+> Be careful when using this method. You can't store anything on whatever post object properties. Each WP_Post property as a limit to which data to store based on the SQL schema. Make sure to know the `wp_post` table schema before using this method.
+
+You can only map one custom field value to one WP_Post property at the moment but you can define multiple mappings at once like so:
+
+```php
+$metabox->map([
+    'related_page' => 'post_parent',
+    'custom-field' => 'post_content' // This one will overwrite the content of your post for example... 
+]);
+```
 
 Retrieve data
 -------------
