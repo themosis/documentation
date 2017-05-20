@@ -127,7 +127,7 @@ Check the [validation guide]({{url}}/validation) for more information about the 
 Retrieve data
 -------------
 
-In order to retrieve the custom fields data, you can use the core function `get_post_meta()` or use the `Meta` class. Please refer to the [Meta guide]({{meta}}/meta).
+In order to retrieve the custom fields data, you can use the core function `get_post_meta()` or use the `Meta` class. Please refer to the [Meta guide]({{url}}/meta).
 
 Customize the metabox
 ---------------------
