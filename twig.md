@@ -345,10 +345,18 @@ Here is an example on how to call these functions within your Twig view:
 </html>
 ```
 
-Poedit
-------
+Extracting strings with Poedit
+------------------------------
 
-By default, Poedit cannot find strings to translate from Twig templates. Here is a list of parameters to add to your Poedit software preferences so it can detect translation strings from your Twig views:
+### Using Poedit 2
+
+Poedit 2 has native support for extracting from Twig files and no extra setup is necessary (Pro version).
+
+### Using Poedit 1.x
+
+(Also usable in Poedit 2.) By default, Poedit cannot find strings to translate from Twig templates. It's possible to workaround this by pretending to Poedit that Twig files are written in Python. This may produce some warnings, but mostly works. Note however that this method may miss some strings; quotes in particular (such as in HTML attributes) can cause it to skip over `__` calls.
+
+Here is a list of parameters to add to your Poedit software preferences so it can detect translation strings from your Twig views:
 
 1. Open Poedit
 2. Go to Preferences -> Parsers
