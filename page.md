@@ -159,7 +159,7 @@ $page->validate([
     'street-address' => ['textfield'],
     'phone'          => ['num', 'min:7'],
     'theme-logo'     => ['file:jpeg, jpg, png, gif']
-));
+]);
 ```
 
 You only need to specify the `setting name` as the key and the value is a list of sanitization rules.
