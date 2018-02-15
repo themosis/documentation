@@ -397,7 +397,7 @@ Define a route that checks for a single product page.
 // File store in /admin/routing.php
 // Keeping all our route definitions in one place.
 // Add the product route.
-add_filter('themosisRouteConditions', function () {
+add_filter('themosisRouteConditions', function ($conds) {
     $conds['product'] = 'is_product';
     return $conds;
 });
