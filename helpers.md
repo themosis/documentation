@@ -115,7 +115,7 @@ $parent = themosis_is_subpage(['non-existing-parent-page']) // false
 * **param** _string_
 * **return** _string_
 
-Replaces all '.' characters to the '/' directory seperator 
+Replaces all '.' characters to the '/' directory separator 
 
 ```php
 // assets/images/header
@@ -286,7 +286,7 @@ str_contains('This is a comment', 'post'); // return false
 
 * **param** _string_ $instance
 
-Helper function to return any instance registerd into the service container.
+Helper function to return any instance registered into the service container.
 
 ```php
 $config = container('config'); // return the config instance

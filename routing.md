@@ -418,7 +418,7 @@ Sometimes we do want routing like in any other framework. This could be a single
 
 Since release 1.3.0, the Themosis framework extends the Illuminate/Router package and provides a "traditional" router in addition to the existing WordPress one.
 
-All router methods described previously are avaible (get, post, put, ...). Custom routes work differently than WordPress routes as in this case, you directly specify the URI you want to listen to without the need of generating data before.
+All router methods described previously are available (get, post, put, ...). Custom routes work differently than WordPress routes as in this case, you directly specify the URI you want to listen to without the need of generating data before.
 
 Please take note that even if we get more freedom in routing, make sure that your custom routes do not conflict with WordPress routes. It won't break but if WordPress has a route condition available for your URI perhaps it is best to use it. The choice is yours.
 
