@@ -152,7 +152,7 @@ The theme `gulpfile.js` configuration contains 2 commands that are available to 
 
 #### Watch
 
-The watch command is the development command. It continuessly look after any changes done to one of your `sass`, `stylus` or `js` files stored inside the `assets` directory.
+The watch command is the development command. It continuously look after any changes done to one of your `sass`, `stylus` or `js` files stored inside the `assets` directory.
 
 Every time you change one of your asset, gulp compiles and minifies the asset to its proper `dist` folder, provides source maps and refreshes your active browser window thanks to BrowserSync.
 
