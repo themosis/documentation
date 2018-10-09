@@ -289,12 +289,12 @@ We've added a `Form` global allowing developers to use the Themosis Form API dir
 Now from a Twig template:
 
 ```twig
-{{ Form.open() }}
-    {{ Form.text('username') }}
-{{ Form.close() }}
+{{ Form.open()|raw }}
+    {{ Form.text('username')|raw }}
+{{ Form.close()|raw }}
 ```
 
-Please note the dot syntax in order to call Form class methods.
+Please note the dot syntax in order to call Form class methods. And the raw filter to render HTML strings as HTML Markup.
 
 > Check the [Form guide]({{url}}/form) for a list of available methods.
 
