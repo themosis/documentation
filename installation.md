@@ -10,11 +10,10 @@ Installation
 Requirements:
 -------------
 
-The framework has one system requirement before getting started:
+The server requirements are basically the same as for [WordPress](https://wordpress.org/about/requirements/) with the addition of a few ones:
 
 - PHP >= 7.1
-
-Otherwise the server requirements are the same as for WordPress. [Check here](https://wordpress.org/about/requirements/) for default WordPress requirements.
+- [Intl PHP Extension](http://php.net/manual/fr/intro.intl.php)
 
 Install Composer
 ----------------
@@ -41,86 +40,23 @@ Install the theme
 
 By default, the default theme is no longer installed using Composer.
 
-Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install a fresh theme, run the following command from the terminal:
+Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install the new theme, run the following command from the terminal:
 
 ```bash
 php console theme:install
 ```
 
-The command will setup your theme based on the provided name, setup the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
+The command will ask the user for a theme name and then download and unzip the theme into the `htdocs/content/themes` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
 
-Project structure
+Install WordPress
 -----------------
-
-Open your `my-project-name` folder. You should find the following files and directories:
-
-```php
-+-- app/
-|    +-- Console
-|    +-- Exceptions
-|    +-- Forms
-|    +-- Hooks
-|    +-- Http
-    |    +-- Controllers
-|    +-- Mail
-|    +-- Providers
-|    +-- Widgets
-+-- bootstrap/
-+-- config/
-|    +-- app.php
-|    +-- ...
-|    +-- wordpress.php
-+-- database/
-+-- htdocs/
-|   +-- cms/
-|   +-- content/
-|   +-- index.php
-|   +-- wp-config.php
-+-- resources/
-|    +-- languages/
-|    +-- views/
-+-- routes/
-|    +-- console.php
-|    +-- web.php
-+-- storage/
-+-- tests/
-+-- vendor/
-+-- .env
-+-- composer.json
-+-- console
-+-- wp-cli.yml
-```
-
-### The public directory
-
-
-
-The `app` directory is where you store your application core code and logic.
-
-The `bootstrap` directory is where the framework stores cache files
-
-The `config` directory is where you defined your application configuration per environment as well as the shared one. By default, the framework comes with `local.php` and `production.php` environment configuration files inside the `config/environments` folder.
-
-The `htdocs` folder is the **web root** directory. Because WordPress is defined as a dependency, the framework installs the latest WordPress version inside the `cms` folder.
-
-The framework also modifies the default `wp-content` location. Your WordPress plugins and themes should all be installed inside the `content` directory.
-
-The `library` directory contains Themosis custom classes that handle environment loading. It's a framework dependency and may contain other classes to help bootstrap the application.
-
-The `storage` directory is used to store pre-compiled view files and other temporary files. Since release 1.3, the storage directory stores compiled Blade and Twig views.
-
-**Note:** If you install the framework in a "classic" WordPress project, make sure to add a `storage`, `storage/views` and `storage/twig` directories inside your `wp-content` folder.
-
-> Your project will have a `vendor` directory installed. This `vendor` directory is created by default by Composer. It stores package dependencies used by the Themosis framework.
-
-### Installation
 
 Habitually, you define your environment variables like database name, database user, authentication salts and other WordPress configurations inside the `wp-config.php` file.
 
-With the Themosis framework, those configurations are extracted from the web root and located in the parent folder, at project root. The framework allows you to define multiple environments: local, production, staging,... and to specify configuration and access per environment.
+With the Themosis framework, those configurations are extracted from the web root and located in the parent folder, at project root through the use of a `.env` file.
 
-> Follow the **Environment** guide and see how to **install your WordPress application** on a local and production environment/server.
+Follow the [configuration guide]({{url}}/configuration) and see how to install your WordPress application.
 
 Next
 ----
-Read the [environment setup guide]({{url}}/environment)
+Read the [configuration guide]({{url}}/configuration)

@@ -3,7 +3,9 @@ Introduction
 
 The Themosis framework is a tool aimed to WordPress developers of any levels. But the better WordPress and PHP knowledge you have the easier it is to work with.
 
-The Themosis framework has always been inspired by the [Laravel](https://laravel.com/)  framework. With the release of the version 2.0, the framework now provides better compatibility with the illuminate packages.
+The main goal of the framework is to provide a common coding structure for bespoke WordPress development as well as providing better tools to developers.
+
+In order to provide those tools, the Themosis framework has always been inspired by the [Laravel](https://laravel.com/)  framework. With each release, we tried to implement concepts and packages from Laravel into the framework. The 2.0 release now provides better and deeper compatibility with the illuminate packages.
 
 Themosis framework
 ------------------
