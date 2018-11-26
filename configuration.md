@@ -1,10 +1,59 @@
 Configuration
 =============
 
+- [Introduction](#introduction)
+- [Environment configuration](#environment-configuration)
+    - [Default environment configuration](#default-configuration)
+
 - [Basic usage](#basic-usage)
 	- [Retrieve all properties](#retrieve-all-properties)
 	- [Retrieve a specific property](#retrieve-a-specific-property)
 - [Theme configuration files](#theme-configuration-files)
+
+Introduction
+------------
+
+All of the configuration files for the Themosis framework are stored in the `config` directory. Each option is documented so feel free to explore the files and get to know the options available to you.
+
+The root `config` directory is storing global or shared options for your application. But both theme and custom plugins you develop also store dedicated configuration files into a `config` directory.
+
+Environment Configuration
+-------------------------
+
+The Themosis framework has always provided a way to define environment variables. Since release 2.0, the framework has changed its environment management and simplified it by defining a single `.env` file at project root.
+
+If you install the Themosis framework with Composer, the repository holds a default `.env.sample` file which is automatically renamed to `.env` upon installation.
+
+You configure your application by using this `.env` file.
+
+### Default Configuration
+
+In order to install your application, the default `.env` file contains the following variables:
+
+```bash
+APP_ENV = "local"
+APP_DEBUG = true
+DATABASE_NAME = "your-database-name"
+DATABASE_USER = "your-database-user"
+DATABASE_PASSWORD = "your-database-password"
+DATABASE_HOST = "localhost"
+APP_URL = "http://local.test"
+WP_URL = "http://local.test/cms"
+```
+
+By default, the application environment is set for `local` development with debugging option set to `true`.
+
+In order to install the application, just fill in the database options as well as defining your local virtual host for the `APP_URL` and `WP_URL` configurations.
+
+> Make sure to keep the `/cms` URI fragment as by default WordPress is installed under the `cms` directory.
+
+After completing those default options, you can visit your application from your browser and complete the WordPress installation process.
+
+> You can use [Laravel Homestead](https://laravel.com/docs/5.7/homestead) has a local development tool for your projects.
+
+### Retrieving environment configuration
+
+In order to retrieve a value from your configuration file.
 
 Basic usage
 ------------
