@@ -4,31 +4,38 @@ Configuration
 - [Introduction](#introduction)
 - [Environment configuration](#environment-configuration)
     - [Default environment configuration](#default-configuration)
-
-- [Basic usage](#basic-usage)
-	- [Retrieve all properties](#retrieve-all-properties)
-	- [Retrieve a specific property](#retrieve-a-specific-property)
-- [Theme configuration files](#theme-configuration-files)
+    - [Retrieving environment configuration](#retrieving-environment-configuration)
+    - [Determining the current environment](#determining-the-current-environment)
+- [Install WordPress](#install-wordpress)
+    - [Fine-tune WordPress configuration](#fine-tune-wordpress-configuration)
+- [Access configuration values](#access-configuration-values)
+    - [Retrieve all properties](#retrieve-all-properties)
 
 Introduction
 ------------
 
-All of the configuration files for the Themosis framework are stored in the `config` directory. Each option is documented so feel free to explore the files and get to know the options available to you.
+Before digging into the WordPress configuration, please note that all of the configuration files for the Themosis framework are stored in the `config` directory located at project root.
+
+The folder is containing a list of files, each dedicated to some features or packages of your application (application, cache, database, WordPress, ...). Each file is documented so feel free to read the files and get to know the options available to you.
 
 The root `config` directory is storing global or shared options for your application. But both theme and custom plugins you develop also store dedicated configuration files into a `config` directory.
+
+Let's first explore the environment configuration in order to setup our application and then proceed to the WordPress installation.
 
 Environment Configuration
 -------------------------
 
 The Themosis framework has always provided a way to define environment variables. Since release 2.0, the framework has changed its environment management and simplified it by defining a single `.env` file at project root.
 
-If you install the Themosis framework with Composer, the repository holds a default `.env.sample` file which is automatically renamed to `.env` upon installation.
+If you install the Themosis framework with Composer, the repository holds a default `.env.sample` file which is automatically renamed to `.env` upon installation for you.
 
-You configure your application by using this `.env` file.
+Thanks to this `.env` file, you're now able to store critical data for your application services out of the web server public root.
+
+In order to complete your application installation, you need to configure it by using this `.env` file.
 
 ### Default Configuration
 
-In order to install your application, the default `.env` file contains the following variables:
+Open your project `.env` file from your code editor or IDE. The `.env` file contains the following default variables:
 
 ```bash
 APP_ENV = "local"
@@ -41,149 +48,124 @@ APP_URL = "http://local.test"
 WP_URL = "http://local.test/cms"
 ```
 
-By default, the application environment is set for `local` development with debugging option set to `true`.
+The application environment is set for `local` development with debugging option set to `true` by default.
 
-In order to install the application, just fill in the database options as well as defining your local virtual host for the `APP_URL` and `WP_URL` configurations.
+> If you remove the `APP_ENV` variable, its value is set to `production` by default.
 
-> Make sure to keep the `/cms` URI fragment as by default WordPress is installed under the `cms` directory.
+In order to install the application, you need to fill in the database options as well as defining your local virtual host URL in the `APP_URL` and `WP_URL` configurations.
 
-After completing those default options, you can visit your application from your browser and complete the WordPress installation process.
+The `APP_URL` variable is the base URL of your application and the `WP_URL` is the base URL of the WordPress directory. Here WordPress is installed in the sub-directory `cms`, so make sure to keep the `/cms` fragment in your `WP_URL` value.
 
 > You can use [Laravel Homestead](https://laravel.com/docs/5.7/homestead) has a local development tool for your projects.
 
 ### Retrieving environment configuration
 
-In order to retrieve a value from your configuration file.
+Environment variables defined in the `.env` file are parsed by the [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) package. The package is loading those variables into the `$_ENV` and `$_SERVER` superglobals of PHP making them available anywhere in your application.
 
-Basic usage
-------------
+In order to retrieve a value from your environment configuration file, you can use the `env()` helper function:
 
-The Config API has received a completely overhauled API. Using the Config API, you can now retrieve at run-time any configuration property.
+```php
+$debug = env('APP_DEBUG');
+```
 
-Configuration files are stored in `resources/config` folders.
+You can also specify a default value if the requested environment variable does not exist:
+
+```php
+$custom = env('CUSTOM_VAR', 'default value');
+```
+
+### Determining the current environment
+
+The current application environment is defined by the `APP_ENV` variable from your `.env` file. You can access this value by using the `environment()` method of the `App` facade like so:
+
+```php
+$env = App::environment();
+```
+
+You may also pass arguments to the environment method to check if the environment matches a given value. The method will return true if the environment matches any of the given values:
+
+```php
+if (App::environment('local')) {
+    // Local environment...
+}
+
+if (App::environment(['local', 'staging'])) {
+    // Environment is either "local" or "staging"...
+}
+```
+
+Install WordPress
+-----------------
+
+Now that your `.env` default variables are filled in, you can open your browser and visit your application at the URL defined in `APP_URL` environment variable.
+
+Follow steps on screen in order to complete the WordPress installation.
+
+### Fine-tune WordPress configuration
+
+The framework now bundles a `wordpress.php` configuration file stored in the `config` directory.
+
+Instead of populating the `wp-config.php` file, you can now add all your WordPress constants into the `config/wordpress.php` file.
+
+From that file, you can also access your environment variables with the use of the `env()` helper function.
+
+Make sure to define the [WordPress authentication keys and salts](https://api.wordpress.org/secret-key/1.1/salt/) constants before developing or deploying your application:
+
+```php
+define('AUTH_KEY', 'put your unique phrase here');
+define('SECURE_AUTH_KEY', 'put your unique phrase here');
+define('LOGGED_IN_KEY', 'put your unique phrase here');
+define('NONCE_KEY', 'put your unique phrase here');
+define('AUTH_SALT', 'put your unique phrase here');
+define('SECURE_AUTH_SALT', 'put your unique phrase here');
+define('LOGGED_IN_SALT', 'put your unique phrase here');
+define('NONCE_SALT', 'put your unique phrase here');
+```
+
+Access configuration values
+---------------------------
+
+The Themosis framework is now using the `illuminate/config` package for managing the application configuration.
+
+You can access the configuration values by using the `config()` helper function:
+
+```php
+$name = config('app.name');
+```
+
+The `Config` facade is also still available. Use the `get()` method in order to retrieve a configuration value:
+
+```php
+$charset = Config::get('app.charset');
+```
+
+Both the `config()` helper function and the `Config` facade `get()` method can define a second parameter. The second parameter is used to return a default value if the configuration value requested does not exist:
+
+```php
+$name = config('app.name', 'My Application');
+$env = Config::get('app.env', 'staging');
+``` 
+
+The configuration API is using a dot syntax in order to look through your configuration files. In the example above, the `app` fragment before the dot is indicating the `app.php` file stored into the `config` root directory. The `name` fragment is configuration key name in that file.
+
+You can nest configuration values. For example, the `app.php` file contains the following configuration for WordPress:
+
+```php
+$wp_directory = config('app.wp.dir');
+```
 
 ### Retrieve all properties
 
-Use the `get()` method to retrieve all properties of a defined configuration file.
+By providing the configuration file name without the `.php` extension, you can retrieve all of its configuration values.
 
-Let's grab all properties of the theme's `theme.config.php` file:
-
-```php
-use Themosis\Facades\Config;
-
-$all = Config::get('theme');
-```
-
-The above code is fetching all properties from the `theme.config.php` file stored in the `resources/config` folder. Simply provide the file name without the `.config.php` extension as a parameter of the `get()` method.
+Let's grab all properties of the theme's `theme.php` configuration file:
 
 ```php
-use Themosis\Facades\Config;
-
-// Grab all theme templates
-$templates = Config::get('templates');
+$all = config('theme');
 ```
 
-#### Plugin configuration file names
+The above code is fetching all properties from the `theme.php` file stored in the theme `config` folder.
 
-When creating configuration files for a custom plugin, we recommend you to prefix your configuration file names with your domain tld, domain and plugin name in front of the configuration base name in order to avoid conflicts.
-
-If your plugin creates a `templates.config.php` file, it will break the theme's `templates.config.php` configuration.
-
-Here is a valid `templates` configuration file for a custom plugin: `com_domain_shop_templates.config.php`
-
-And in order to retrieve it from your plugin:
-
-```php
-$templates = Config::get('com_domain_shop_templates');
-```
-
-### Retrieve a specific property
-
-Depending of your application, you might need to retrieve only one specific property from a configuration file.
-
-For this, simply use a dot syntax to specify your property. For example, let's retrieve the `namespace` property from the `theme.config.php` file:
-
-```php
-$namespace = Config::get('theme.namespace');
-```
-
-> Note: you can't set/modify configuration values at run-time. Configuration values are read only.
-
-Theme configuration files
--------------------------
-
-Here is a complete list of the configuration files stored inside the theme.
-
-* **constants**: Allow you to define constant variables.
-* **images**: Allow you to register image sizes for your media library.
-* **loading**: Allow you to specify directories of classes for autoloading. By default, it is loading your theme's controller and model classes.
-* **menus**: Allow you to define custom navigation menu locations. More information in the [WordPress codex](http://codex.wordpress.org/Navigation_Menus).
-* **providers**: Allow you to define the list of theme's service providers.
-* **sidebars**: Help you register your sidebars for your website/application. Uses the same arguments found in the [WordPress codex: register_sidebar()](https://developer.wordpress.org/reference/functions/register_sidebar/).
-* **supports**: Equivalent to the [add\_theme\_support()](https://developer.wordpress.org/reference/functions/add_theme_support/) function.
-* **templates**: Handles the custom templates. Define your templates inside this file by providing a `key` or `key/value` pairs.
-* **theme**: Main configuration file. You can specify your own class aliases inside this file.
-
-> Details on how to modify and use those configurations are explained inside each file.
-
-Project structure
------------------
-
-Open your `my-project-name` folder. You should find the following files and directories:
-
-```php
-+-- app/
-|    +-- Console
-|    +-- Exceptions
-|    +-- Forms
-|    +-- Hooks
-|    +-- Http
-    |    +-- Controllers
-|    +-- Mail
-|    +-- Providers
-|    +-- Widgets
-+-- bootstrap/
-+-- config/
-|    +-- app.php
-|    +-- ...
-|    +-- wordpress.php
-+-- database/
-+-- htdocs/
-|   +-- cms/
-|   +-- content/
-|   +-- index.php
-|   +-- wp-config.php
-+-- resources/
-|    +-- languages/
-|    +-- views/
-+-- routes/
-|    +-- console.php
-|    +-- web.php
-+-- storage/
-+-- tests/
-+-- vendor/
-+-- .env
-+-- composer.json
-+-- console
-+-- wp-cli.yml
-```
-
-### The public directory
-
-The `app` directory is where you store your application core code and logic.
-
-The `bootstrap` directory is where the framework stores cache files
-
-The `config` directory is where you defined your application configuration per environment as well as the shared one. By default, the framework comes with `local.php` and `production.php` environment configuration files inside the `config/environments` folder.
-
-The `htdocs` folder is the **web root** directory. Because WordPress is defined as a dependency, the framework installs the latest WordPress version inside the `cms` folder.
-
-The framework also modifies the default `wp-content` location. Your WordPress plugins and themes should all be installed inside the `content` directory.
-
-The `library` directory contains Themosis custom classes that handle environment loading. It's a framework dependency and may contain other classes to help bootstrap the application.
-
-The `storage` directory is used to store pre-compiled view files and other temporary files. Since release 1.3, the storage directory stores compiled Blade and Twig views.
-
-**Note:** If you install the framework in a "classic" WordPress project, make sure to add a `storage`, `storage/views` and `storage/twig` directories inside your `wp-content` folder.
-
-> Your project will have a `vendor` directory installed. This `vendor` directory is created by default by Composer. It stores package dependencies used by the Themosis framework.
+Next
+----
+Read the [application structure guide]({{url}}/structure)

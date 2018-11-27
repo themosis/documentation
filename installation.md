@@ -3,9 +3,9 @@ Installation
 
 - [Requirements](#requirements)
 - [Install Composer](#install-composer)
-- [Install Themosis framework](#install-themosis-framework)
+- [Install the Themosis framework](#install-the-themosis-framework)
 - [Install the theme](#install-the-theme)
-- [Project structure](#project-structure)
+- [Install WordPress](#install-wordpress)
 
 Requirements:
 -------------
@@ -14,6 +14,8 @@ The server requirements are basically the same as for [WordPress](https://wordpr
 
 - PHP >= 7.1
 - [Intl PHP Extension](http://php.net/manual/fr/intro.intl.php)
+
+> We recommend to use at least PHP 7.2+
 
 Install Composer
 ----------------
@@ -24,8 +26,8 @@ On Windows, you can use the Composer [Windows installer](https://getcomposer.org
 
 > We recommend you to install Composer globally on your system.
 
-Install Themosis framework
---------------------------
+Install the Themosis framework
+------------------------------
 
 Open your `Terminal` or `Console` and execute the following command:
 
