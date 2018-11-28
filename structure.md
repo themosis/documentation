@@ -189,4 +189,4 @@ The `Widgets` directory contains all of your WordPress widgets. You can create a
 
 Next
 ----
-Read the [framework guide]({{url}}/framework)
+Read the [routing guide]({{url}}/routing)
