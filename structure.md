@@ -10,7 +10,12 @@ Application Structure
 - [The app directory](#the-app-directory)
     - [The Console directory](#the-console-directory)
     - [The Exceptions directory](#the-exceptions-directory)
+    - [The Forms directory](#the-forms-directory)
+    - [The Hooks directory](#the-hooks-directory)
     - [The Http directory](#the-http-directory)
+    - [The Mail directory](#the-mail-directory)
+    - [The Providers directory](#the-providers-directory)
+    - [The Widgets directory](#the-widgets-directory)
 
 Introduction
 ------------
