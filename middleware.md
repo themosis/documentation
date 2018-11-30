@@ -231,3 +231,6 @@ The `terminate` method should receive both the request and the response. Once yo
 
 When calling the `terminate` method on your middleware, the framework will resolve a fresh instance of the middleware from the [service container](https://laravel.com/docs/5.7/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method.
 
+Next
+----
+Read the [controllers guide]({{url}}/controllers)
