@@ -181,7 +181,7 @@ class CheckCapability
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string  $role
+     * @param  string  $cap
      * @return mixed
      */
     public function handle($request, Closure $next, $cap)
