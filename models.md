@@ -2,140 +2,135 @@ Models
 ======
 
 - [Introduction](#introduction)
-- [Register a Model](#register-a-model)
-    - [Add Eloquent ORM support](#add-eloquent-orm-support)
-- [Basic usage](#basic-usage)
+- [Basic models](#basic-models)
+- [WordPress database](#wordpress-database)
 
 Introduction
 ------------
 
-Themosis framework comes with a basic system of models and if you're using the full stack of the Themosis framework, you can extend your model class to use the popular Laravel Eloquent ORM.
+The Themosis framework comes with full support of the `illuminate/database` package and provides [Laravel Eloquent ORM](https://laravel.com/docs/5.7/eloquent) to your application.
 
-A model will store the methods/functions that manipulate your data. You can perform actions to read, update and delete data from your WordPress database, using both WordPress core functions and/or Illuminate/Database API.
+Eloquent is a simple ActiveRecord implementation for working with your database. Each database table has a corresponding "Model" which is used to interact with that table. Models allow you to query for data in your tables, as well as insert new records into the table.
 
-> The Query Builder and Eloquent ORM API from the Illuminate/database package are only available if you're using the full stack Themosis framework. Meaning that your project is based on the `themosis/themosis` package and not a classic WordPress installation with the framework loaded.
+By default, your application is configured to connect to a `MySQL` database. You can manage your database configuration in the `config/database.php` file.
 
-Register a Model
-----------------
+The Themosis is bundled with the following database tools:
 
-In order to create a model, simply create a new PHP class inside the `resources/models` directory of your theme or custom plugin. By default, model classes are loaded using the PSR-4 standard. Models from the theme use the `Theme\Models` namespace.
+- [Database query builder](https://laravel.com/docs/5.7/database)
+- [Eloquent ORM](https://laravel.com/docs/5.7/eloquent)
+- [Database migration](https://laravel.com/docs/5.7/migrations)
+- [Collections](https://laravel.com/docs/5.7/eloquent-collections)
 
-> Check the [plugin guide]({{url}}/plugin) for custom plugin namespace.
+For more details on what is available by these tools and their full configuration, please [read the official documentation](https://laravel.com/docs/5.7/database#configuration).
 
-Here is an example of a simple model class:
+Basic models
+------------
+
+In order to create a model, simply create a new PHP class inside the root `app` directory of your application by using the `make:model` console command:
+
+```bash
+php console make:model Book
+```
+
+The above command will generate a model class inside your `app` folder but you are free to place them anywhere that can be auto-loaded according to your `composer.json` file. All Eloquent models extends `Illuminate\Database\Eloquent\Model` class:
 
 ```php
 <?php
 
-namespace Theme\Models;
+namespace App;
 
-class Post
+use Illuminate\Database\Eloquent\Model;
+
+class Book extends Model
 {
-    /**
-     * Return a list of all published posts.
-     * (not recommended)
-     * 
-     * @return array
-     */
-    public function all()
-    {
-        $query = new WP_Query([
-            'post_type' => 'post',
-            'posts_per_page' => -1,
-            'post_status' => 'publish'
-        ]);
-
-        return $query->get_posts();
-    }
+    //
 }
 ```
 
-If you want to change your theme models namespace, use the `loading.config.php` file stored inside the `resources/config` directory of your `themosis-theme`:
+If you would like to generate a database migration when you generate the model, you may use the `--migration` or `-m` option:
 
-```php
-<?php
+```bash
+php console make:model Book --migration
 
-return [
-
-    /*
-    * Edit this file in order to configure your theme's
-    * classes autoloading. Classes are loaded using PSR-4.
-    *
-    * The key is the namespace and key's value contains one or more paths to your classes.
-    */
-    'Theme\\Controllers\\' => themosis_path('theme.resources').'controllers',
-    'Theme\\Models\\' => themosis_path('theme.resources').'models',
-    'Theme\\Providers\\' => themosis_path('theme.resources').'providers'
-
-];
+php console make:model Book -m
 ```
 
-The function `themosis_path('theme.resources')` returns the theme `resources` folder path. More information about the `themosis_path` function in the [Helpers guide]({{url}}/helpers).
+For more details on how to configure your models, retrieving models, inserting, updating, deleting models and more, please follow [the official documentation](https://laravel.com/docs/5.7/eloquent).
 
-### Add Eloquent ORM support
+WordPress database
+------------------
 
-Developers familiar with the Illuminate/database package can set their models to extend the Eloquent ORM. Here is an example of a model class extending the above simple post model:
+The Themosis framework does not provide models by default to manage WordPress database tables data. But here is an example on how to configure a model to manage the `wp_posts` database table.
+
+First, let's create a `Post` model class using the `make:model` console command:
+
+```bash
+php console make:model Post
+```
 
 ```php
 <?php
 
-namespace Theme\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    /**
-     * The post model class fetch its records
-     * from the "wp_posts" table.
-     * The DB prefix is already defined for you.
-     */
-    protected $table = 'posts';
-
-    /**
-     * Eloquent needs to know which column in
-     * the wp_posts table is the primary key.
-     */
-    protected $primaryKey = 'ID';
-
-    /**
-     * WordPress do not have "created_at" and "updated_at"
-     * columns. Or define class const CREATED_AT and UPDATED_AT
-     */
-    public $timestamps = false;
+    //
 }
 ```
 
-You can also define custom timestamps columns using the const `CREATED_AT` and `UPDATED_AT` and specify the `post_date` and `post_modified` columns in place of not handling timestamps at all.
+By convention, Eloquent use a "snake case", plural name of the class as the table name. So by default, our `Post` model expects a database `posts` which is the name of the table defined by WordPress.
 
-> For more information about Eloquent ORM configuration, please read the [Laravel documentation.](https://laravel.com/docs/5.3/eloquent)
+> Table name prefix is automatically handled. You can define it in [your environment configuration]({{url}}/configuration). See the `config/databse.php` configuration file for the available variables.
 
-Basic usage
------------
-
-In order to use your model, simply create a new instance. Using the above example code, we can retrieve all the `posts` for our view like so:
+In the case where you need to customize the table name for your model, use the `$table` instance property like so:
 
 ```php
-// Using the simple model representation.
-// Route callback can auto instantiate classes as well.
-Route::get('home', function (Post $model) {
-    return view('pages.home', [
-        'posts' => $model->all()
-    ]);
-});
+protected $table = 'custom_table';
 ```
 
-In the previous example, it returns an array of WP_Post objects. Now you can use the same approach with our model that extends the Eloquent ORM like so:
+> Do not specify the table prefix even for a custom name as this is handled automatically.
+
+By default, Eloquent models expect that the primary key is an `id` column. However WordPress is setting the `wp_posts` table primary key column to `ID`. Let's update the default model and set the `$primaryKey` property of the model:
 
 ```php
-Route::get('home', function (Post $model) {
-    return view('pages.all', [
-        'posts' => $model->all() // Now the all() method is coming from the Eloquent base model
-    ]);
-});
+/**
+ * @var string
+ */
+protected $primaryKey = 'ID';
 ```
 
-> Store your `model` classes in the `resources/models` directory of your theme or custom plugin.
+Each Eloquent models also expect that your database table handle timestamps using a `created_at` and `updated_at` columns. WordPress, in our case is using the `post_date` and `post_update` columns. Let's update the model to handle those columns:
+
+```php
+const CREATED_AT = 'post_date';
+const UPDATED_AT = 'post_modified';
+```
+
+Here is the code sample for a custom `Post` model class that allow you to manage your WordPress posts using Eloquent:
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
+{
+    const CREATED_AT = 'post_date';
+    const UPDATED_AT = 'post_modified';
+
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'ID';
+}
+```
+
+Read the [official documentation](https://laravel.com/docs/5.7/eloquent) for more details about Eloquent ORM.
 
 Next
 ----
