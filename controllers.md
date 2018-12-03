@@ -429,3 +429,12 @@ php console route:clear
 Next
 ----
 Read the [models guide]({{url}}/models)
+
+### Additional information
+
+You can find below a list of links to the official documentation of the [Laravel](https://laravel.com/) framework that may give you more details about some of the available APIs also implemented into the Themosis framework:
+
+- [Service container](https://laravel.com/docs/5.7/container)
+- [Service providers](https://laravel.com/docs/5.7/providers)
+- [HTTP Requests](https://laravel.com/docs/5.7/requests)
+- [HTTP Responses](https://laravel.com/docs/5.7/responses)
