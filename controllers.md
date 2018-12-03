@@ -322,7 +322,7 @@ Route::resource('posts', 'PostController');
 Dependency injection
 --------------------
 
-The Themosis framework now implements the Illuminate\Container in order to resolve controllers. As a result, you can now type-hint any dependencies your controller may need in its constructor or public methods.
+The Themosis framework now implements the [Illuminate\Container](https://laravel.com/docs/5.7/container) in order to resolve controllers. As a result, you can now type-hint any dependencies your controller may need in its constructor or public methods.
 
 ### Constructor injection
 
@@ -331,12 +331,11 @@ Here is an example of a dependency injected in a controller constructor:
 ```php
 <?php
 
-namespace Theme\Controllers;
+namespace App\Http\Controllers;
 
-use Theme\Models;
-use Themosis\Route\BaseController;
+use App\Books;
 
-class Home extends BaseController
+class HomeController extends Controller
 {
     /**
      * A books model instance.
@@ -344,7 +343,7 @@ class Home extends BaseController
     protected $books;
 
     /*
-     * Auto-instantiate a Theme\Models\Books class.
+     * Auto-instantiate a App\Books class.
      */
     public function __construct(Books $books)
     {
@@ -353,61 +352,78 @@ class Home extends BaseController
 }
 ```
 
+Of course, you may also type-hint any [contract from Laravel](https://laravel.com/docs/5.7/contracts). If the container can resolve it, you can type-hint it. Depending on your application, injecting your dependencies into your controller may provide better testability.
+
 ### Method injection
 
-The same principle can be used to controller methods. You can type-hint your dependency just like in the constructor. Here is an example:
+The same principle can be used to controller methods. You can type-hint your dependency just like in the constructor. By default, the `Illuminate\Http\Request` class instance is use when you create a controller with the `make:controller` console command:
 
 ```php
 <?php
 
-namespace Theme\Controllers;
+namespace App\Http\Controllers;
 
-use Theme\Models;
-use Themosis\Route\BaseController;
+use App\Books;
+use Illuminate\Http\Request;
 
-class Home extends BaseController
+class HomeController extends Controller
 {
     /*
-     * Auto-instantiate a Theme\Models\Books class.
+     * Auto-instantiate a App\Books class.
      */
-    public function show(Books $books)
+    public function show(Request $request, Books $books)
     {
-        $books = $books->query()->get();
+        //
     }
 }
 ```
 
-If your controller method is also expecting values from route parameters, simply append those parameters after your dependencies. Two possible scenarios for this case:
-
-1. Using a WordPress route
-2. Using a custom route
-
-#### Using a WordPress route
-
-Route parameters are not available to WordPress routes. But each time you use a WordPress route, we give you the globals `$post` and `$query` as parameters. In order to access them, simply define them after your method dependencies like so:
+If your controller method is also expecting input from route parameters, simply append those parameters after your dependencies. Two possible scenarios for this case:
 
 ```php
-public function show(Books $books, $post, $query)
+Route::put('books/{id}', 'BookController@update');
+```
+
+You may still type-hint the `Illuminate\Http\Request` and access your `id` parameter by defining your controller method as follows:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class BookController extends Controller
 {
-    return view('books');
+    /**
+     * Update the given book.
+     *
+     * @param  Request  $request
+     * @param  string  $id
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
 }
 ```
 
-#### Using a custom route
+Route caching
+-------------
 
-If you have for example a route defined like so:
+If your application is exclusively using controller based routes, you should take advantage of route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application's routes. In some cases, your route registration may even be up to 100x faster. To generate a route cache, just execute the `route:cache` console command:
 
 ```php
-Route::get('projects/{id}', 'Projects@show');
+php console route:cache
 ```
 
-You can access your route parameter value this way:
+After running this command, your cached routes file will be loaded on every request. Remember, if you add any new routes you will need to generate a fresh route cache. Because of this, you should only run the `route:cache` command during your project's deployment.
+
+You may use the `route:clear` command to clear the route cache:
 
 ```php
-public function show(Projects $projects, $id)
-{
-    // Write some logic...
-}
+php console route:clear
 ```
 
 Next
