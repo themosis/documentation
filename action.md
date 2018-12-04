@@ -4,6 +4,7 @@ Action
 - [Register an action](#register-an-action)
     - [Priority and accepted arguments](#priority-and-accepted-arguments)
     - [Function, closure and class](#function-closure-and-class)
+- [Constructor injection](#constructor-injection)
 - [Run an action](#run-an-action)
 - [Check action existence](#check-action-existence)
 - [Remove an action](#remove-an-action)
@@ -33,7 +34,7 @@ class ClassName
 }
 ```
 
-> Note that you **must** provide the full class name with its namespace, as for now, the Hook API do not handle a default namespace property.
+> Note that you **must** provide the full class name with its namespace.
 
 You can also omit the method name. By default, the API is looking for a class method with the same name as the action. So if your action is `init`, the class will look after the `init` method:
 
@@ -54,7 +55,7 @@ class ClassName
 
 ### Priority and accepted arguments
 
-You can specify the priority and the number of arguments your action method/function will receive using the third and fourth parameters respectively. By default, the `priority` is set to `10` and the number of arguments to `3`.
+You can specify the priority and the number of arguments your action method/function will receive using the third and fourth arguments respectively. By default, the `priority` is set to `10` and the number of arguments to `3`.
 
 Here is an example on how to set a priority and a number of accepted arguments:
 
@@ -93,6 +94,47 @@ Action::add('init', [$this, 'init']);
 // With an instance.
 $class = new ClassName();
 Action::add('init', [$class, 'init']);
+```
+
+Constructor injection
+---------------------
+
+If you use the `Namespace\Classname@method` syntax for your action, you can now type-hint your class dependencies in the constructor method as it is automatically resolved by the application service container:
+
+```php
+<?php
+
+namespace App\Hooks\Modules;
+
+use App\Services\Shop\Metrics;
+use Illuminate\Http\Request;
+
+class Shop
+{
+    protected $request;
+    
+    protected $metrics;
+    
+    public function __construct(Request $request, Metrics $metrics)
+    {
+        $this->request = $request;
+        $this->metrics = $metrics;
+    }
+    
+    /**
+     * Method automatically called by the "init" action hook.
+     */
+    public function init()
+    {
+        // Code...
+    }
+}
+```
+
+If you call the `init` action and attach the above class example, your will automatically get the `Illuminate\Http\Request` and `App\Services\Shop\Metrics` class instances injected:
+
+```php
+Action::add('init', 'App\Hooks\Modules\Shop');
 ```
 
 Run an action
