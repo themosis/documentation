@@ -26,7 +26,7 @@ Before digging into the view API available methods, let's take a look on how vie
 
 Views are registered through the use of a finder class. By default, views are stored in the `views` directory of your theme and the `resources/views` directory located at project root.
 
-If you need to add more views directories (locations) in your project, you can do so by editing the `config/theme.php` file from your theme. Or if your need to add more global views directories, use the `config/views.php` configuration file from project root.
+If you need to add more views directories (locations) in your project, you can do so by editing the `config/theme.php` file from your theme. Or if your need to add more global views directories, use the `config/view.php` configuration file from project root.
 
 Create a view
 -------------

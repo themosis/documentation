@@ -83,7 +83,7 @@ class Post extends Model
 
 By convention, Eloquent use a "snake case", plural name of the class as the table name. So by default, our `Post` model expects a database `posts` which is the name of the table defined by WordPress.
 
-> Table name prefix is automatically handled. You can define it in [your environment configuration]({{url}}/configuration). See the `config/databse.php` configuration file for the available variables.
+> Table name prefix is automatically handled. You can define it in [your environment configuration]({{url}}/configuration). See the `config/database.php` configuration file for the available variables.
 
 In the case where you need to customize the table name for your model, use the `$table` instance property like so:
 
@@ -102,7 +102,7 @@ By default, Eloquent models expect that the primary key is an `id` column. Howev
 protected $primaryKey = 'ID';
 ```
 
-Each Eloquent models also expect that your database table handle timestamps using a `created_at` and `updated_at` columns. WordPress, in our case is using the `post_date` and `post_update` columns. Let's update the model to handle those columns:
+Each Eloquent models also expect that your database table handle timestamps using a `created_at` and `updated_at` columns. WordPress, in our case is using the `post_date` and `post_modified` columns. Let's update the model to handle those columns:
 
 ```php
 const CREATED_AT = 'post_date';
