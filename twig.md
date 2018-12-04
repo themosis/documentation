@@ -21,7 +21,7 @@ Introduction
 
 The Themosis framework now adds support to the Twig template engine. For a more detailed presentation of the Twig engine, please check the official documentation:
 
-- [Twig official documentation](http://twig.sensiolabs.org/)
+- [Twig official documentation](https://twig.symfony.com/)
 
 In this documentation, you'll find the basics operations on how to get started with the Twig engine as well as the Twig extension the Themosis framework has added in order to help you work with WordPress and its core functions within your views. For more advanced topics regarding Twig, please refer to the official documentation.
 
@@ -30,10 +30,10 @@ Basic usage
 
 In order to use the Twig engine, all your view files should use the `.twig` extension.
 
-Here is an example of a basic view, using Twig, stored inside the `resources/views` folder:
+Here is an example of a basic view, using Twig, stored inside the theme `views` folder:
 
 ```twig
-<!-- View stored in resources/views/welcome.twig -->
+<!-- View stored in views/welcome.twig -->
 {% extends 'layouts/main.twig' %}
 
 {% block main %}
@@ -62,7 +62,7 @@ Route::get('home', function ($post, $query) {
 In the previous example, we used the `{% extends 'layouts/main' %}` syntax. This function allows you to use layouts:
 
 ```twig
-<!-- Layout stored in resources/views/layouts/main.twig -->
+<!-- Layout stored in views/layouts/main.twig -->
 {{ include('header.twig') }}
     <div class="container">
         {% block main %}{% endblock %}
@@ -76,7 +76,7 @@ In the previous example, we used the `{% extends 'layouts/main' %}` syntax. This
 {{ include('footer.twig') }}
 ```
 
-> Compared to the Blade engine, in Twig, you cannot omit the `.twig` file extension when refering to a view layout or a view you would like to include. Qnother comparison, is the path to your views. Where Blade uses a dot notation, with Twig, you stick to classic path notation using the `/` symbol.
+> Compared to the Blade engine, in Twig, you cannot omit the `.twig` file extension when referring to a view layout or a view you would like to include. Another comparison, is the path to your views. Where Blade uses a dot notation, with Twig, you stick to classic path notation using the `/` symbol.
 
 Twig control structures
 ------------------------
@@ -87,9 +87,9 @@ Twig control structures
 {{ include('header.twig') }}
 ```
 
-This command can include a view file called `header.twig` only.
+This command can include a view file called `header.twig`.
 
-> Note regarding views inheritance. Included views can access variables defined from their parent view. So compared to Blade, you don't to pass a second argument array with view variables. See also the official documentation for [template inheritance.](http://twig.sensiolabs.org/doc/2.x/templates.html#template-inheritance)
+> Included views can access variables defined from their parent view. So compared to Blade, you don't have to pass a second argument array with view variables. See also the official documentation for [template inheritance.](https://twig.symfony.com/doc/2.x/templates.html#template-inheritance)
 
 ### Sections
 
@@ -134,7 +134,7 @@ In Twig, in order to print escaped data, you'll use `filters`. The `e` filter te
 ```twig
 Hello {{ name|e }}
 ```
-In order to use a filter, simply add a `|` sign followed by one or multiple filters. The `e` filter escapes HTML by default. Check the [escape filter](http://twig.sensiolabs.org/doc/2.x/filters/escape.html) documentation for more details. You can also get a list of all [Twig filters here.](http://twig.sensiolabs.org/doc/2.x/filters/index.html)
+In order to use a filter, simply add a `|` sign followed by one or multiple filters. The `e` filter escapes HTML by default. Check the [escape filter](https://twig.symfony.com/doc/2.x/filters/escape.html) documentation for more details. You can also get a list of all [Twig filters here.](https://twig.symfony.com/doc/2.x/)
 
 #### Echoing data after checking for existence
 
@@ -189,7 +189,7 @@ Using an associative array and iterate over keys and values like a PHP foreach:
 {% endfor %}
 ```
 
-> Check the [official documentation](http://twig.sensiolabs.org/doc/2.x/tags/for.html) for more information about the `for` tag.
+> Check the [official documentation](https://twig.symfony.com/doc/2.x/tags/for.html) for more information about the `for` tag.
 
 ### Displaying raw text
 
@@ -215,15 +215,17 @@ Extending Twig
 The Twig template engine can be extended and provides extra features needed for your project.
 In this section, we're not going through what you can do to extend Twig but rather how to retrieve the engine instance.
 
-If you want to explore what kind of extensions you can add to Twig, please read the [official documentation.](http://twig.sensiolabs.org/doc/2.x/advanced.html)
+If you want to explore what kind of extensions you can add to Twig, please read the [official documentation.](https://twig.symfony.com/doc/2.x/advanced.html)
 
 Now, in order to register your extensions, you need to fetch the Twig Environment instance and call its `addExtension` method:
 
 ```php
-container('twig')->addExtension(new \Twig_Extension_Optimizer())
+use Themosis\Support\Facade\Twig;
+
+Twig::addExtension(new \Twig_Extension_Optimizer())
 ```
 
-> We recommend you to register Twig extensions from a service provider. Check the [Service provider guide]({{url}}/service) for more information.
+> We recommend you to register Twig extensions from a service provider. Check the [Service provider guide](https://laravel.com/docs/5.7/providers) for more information.
 
 Themosis Twig Extension
 -----------------------
@@ -275,29 +277,6 @@ The namespace `fn` is easier to use as it lets you call PHP functions like "usua
 <p>{{ fn.ucfirst(name) }}</p>
 ```
 
-### Form global
-
-We've added a `Form` global allowing developers to use the Themosis Form API directly into their Twig templates. Indeed developers are used to use it into Blade template like so in order to create HTML forms:
-
-```php
-// From a Blade view
-{{ Form::open() }}
-    {{ Form::text('username') }}
-{{ Form::close() }}
-```
-
-Now from a Twig template:
-
-```twig
-{{ Form.open() }}
-    {{ Form.text('username') }}
-{{ Form.close() }}
-```
-
-Please note the dot syntax in order to call Form class methods.
-
-> Check the [Form guide]({{url}}/form) for a list of available methods.
-
 ### WordPress functions
 
 By default you can call any PHP and WordPress functions using our `fn` helper. But in order to ease the development we've already added some most used WordPress functions to Twig. This means that you can call the following functions like you're used to within your Twig template.
@@ -308,8 +287,6 @@ Here is the list of already defined WordPress functions for Twig:
 - wp_footer()
 - body_class()
 - post_class()
-- wpautop()
-- wp_trim_words()
 - meta()
 
 and we've also added WordPress gettext functions:
@@ -325,7 +302,18 @@ and we've also added WordPress gettext functions:
 - _nx_noop()
 - translate_nooped_plural()
 
-Here is an example on how to call these functions within your Twig view:
+### WordPress filters
+
+The Themosis WordPress Twig extension also provides a bunch of filters:
+
+- wpantispam
+- wpautop
+- wpnofollow
+- wptrimexcerpt
+- wptrimwords
+- zeroise
+
+Here is an example on how to call these functions and filters within your Twig view:
 
 ```twig
 <html>
@@ -336,7 +324,7 @@ Here is an example on how to call these functions within your Twig view:
     {% for post in posts %}
         <article>
             <h2>{{ post.post_title|title }}</h2>
-            <div>{{ wpautop(post.post_content) }}</div>
+            <div>{{ post.post_content|wpautop }}</div>
             <a href="{{ fn.get_permalink(post.ID) }}">{{ __('Read more', 'text-domain') }}</a>
         </article>
     {% endfor %}
@@ -365,21 +353,23 @@ In order for this to work, you must have a poedit project correctly setup pointi
 
 - Base path: `../`
 - Paths:
-    - `resources`
-    - `resources/admin`
-    - `resources/views`
+    - `inc`
+    - `views`
 
 as well as adding the following gettext methods to the source keywords catalog tab:
 
 - `__`
 - `_e`
-- `_x`
+- `_n:1,2`
+- `_x:1,2c`
+- `_ex:1,2c`
+- `_nx:4c,1,2`
+- `esc_attr__`
+- `esc_attr_e`
+- `esc_attr_x:1,2c`
 - `esc_html__`
 - `esc_html_e`
-- `_n`
-- `_nx`
-- `_n_noop`
-- `_nx_noop`
-- `_ex`
-
-and more if needed.
+- `esc_html_x:1,2c`
+- `_n_noop:1,2`
+- `_nx_noop:3c,1,2`
+- `__ngettext_noop:1,2`
