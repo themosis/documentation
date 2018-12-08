@@ -7,6 +7,8 @@ Installation
 - [Install the theme](#install-the-theme)
 - [Install WordPress](#install-wordpress)
 
+> Themosis framework 2.0 is in a beta state. It is stable enough for production but some APIs might still change.
+
 Requirements:
 -------------
 
