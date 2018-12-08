@@ -175,7 +175,7 @@ $action->remove('init');
 
 // Using custom priority - The priority must be defined as well on remove if different than 10.
 $action = Action::add('init', 'SomeClass@method', 5);
-$action->remove('init', 5);
+$action->remove('init', 'SomeClass@method', 5);
 ```
 
 Retrieve action callback

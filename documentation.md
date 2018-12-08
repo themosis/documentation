@@ -21,14 +21,6 @@
 - [Blade]({{url}}/blade)
 - [Twig]({{url}}/twig)
 
-#### WordPress guides
-
-- [Plugin]({{url}}/plugin)
-- [Theme]({{url}}/theme)
-- [Multisite]({{url}}/multisite)
-- [WooCommerce]({{url}}/woocommerce)
-- [WP-CLI]({{url}}/wp-cli)
-
 #### WordPress
 
 - [Action]({{url}}/action)
@@ -43,6 +35,14 @@
 - [Taxonomy]({{url}}/taxonomy)
 - [User]({{url}}/user)
 - [Widgets]({{url}}/widgets)
+
+#### Handbooks
+
+- [Plugin]({{url}}/plugin)
+- [Theme]({{url}}/theme)
+- [Multisite]({{url}}/multisite)
+- [WooCommerce]({{url}}/woocommerce)
+- [WP-CLI]({{url}}/wp-cli)
 
 #### Advanced
 
