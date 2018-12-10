@@ -1,6 +1,8 @@
 Introduction
 ============
 
+> Themosis framework 2.0 is in a **beta** state. It is stable enough for production but some APIs might still change.
+
 The Themosis framework is a tool aimed to WordPress developers of any levels. But the better WordPress and PHP knowledge you have the easier it is to work with.
 
 The main goal of the framework is to provide a common coding structure for bespoke WordPress development as well as providing better tools to developers.

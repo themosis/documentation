@@ -5,9 +5,10 @@ Installation
 - [Install Composer](#install-composer)
 - [Install the Themosis framework](#install-the-themosis-framework)
 - [Install the theme](#install-the-theme)
+- [Laravel Homestead](#laravel-homestead)
 - [Install WordPress](#install-wordpress)
 
-> Themosis framework 2.0 is in a beta state. It is stable enough for production but some APIs might still change.
+> Themosis framework 2.0 is in a **beta** state. It is stable enough for production but some APIs might still change.
 
 Requirements:
 -------------
@@ -34,7 +35,7 @@ Install the Themosis framework
 Open your `Terminal` or `Console` and execute the following command:
 
 ```bash
-composer create-project themosis/themosis my-project-name
+composer create-project themosis/themosis my-project-name 2.0-beta1
 ```
 
 This will create a directory called `my-project-name` on your computer and automatically download the latest WordPress version along with the latest Themosis framework version and its dependencies.
@@ -51,6 +52,43 @@ php console theme:install
 ```
 
 The command will ask the user for a theme name and then download and unzip the theme into the `htdocs/content/themes` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
+
+Laravel Homestead
+-----------------
+
+By default, the Themosis framework is packaged with [Laravel Homestead](https://laravel.com/docs/5.7/homestead) so you can quickly start a local development environment.
+
+If you want to develop your application with Homestead, you first need to have [Vagrant](https://www.vagrantup.com/) installed on your computer. Once installed, open your Terminal or Console at project root and run the following command:
+
+```bash
+./vendor/bin/homestead make
+```
+
+The code will install at project root a group of files in order to bootstrap your virtual machine. Open the `Homestead.yaml` file and change the `sites -> to` value to point to the framework default public directory `htdocs`. Here is an example of a default configuration:
+
+```yaml
+ip: 192.168.10.10
+memory: 2048
+cpus: 1
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    -
+        map: /Users/username/web/my-project-name
+        to: /home/vagrant/code
+sites:
+    -
+        map: homestead.test
+        to: /home/vagrant/code/htdocs
+databases:
+    - homestead
+name: themosis
+hostname: themosis
+```
+
+> For more information regarding Homestead configuration, please read [the official documentation](https://laravel.com/docs/5.7/homestead).
 
 Install WordPress
 -----------------
