@@ -90,6 +90,14 @@ hostname: themosis
 
 > For more information regarding Homestead configuration, please read [the official documentation](https://laravel.com/docs/5.7/homestead).
 
+Once your configuration of Homestead is complete, from the Terminal or Console, run the following command:
+
+```bash
+vagrant up
+```
+
+Before visiting the browser in order to install WordPress, please make sure to first read the [configuration guide]({{url}}/configuration).
+
 Install WordPress
 -----------------
 
