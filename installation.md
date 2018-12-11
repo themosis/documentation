@@ -45,13 +45,13 @@ Install the theme
 
 By default, the default theme is no longer installed using Composer.
 
-Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install the new theme, run the following command from the terminal:
+Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install the new theme, run the `theme:install` command from the terminal:
 
 ```bash
-php console theme:install
+php console theme:install my-theme
 ```
 
-The command will ask the user for a theme name and then download and unzip the theme into the `htdocs/content/themes` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
+The command will download and unzip a new theme into the `htdocs/content/themes/my-theme` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
 
 Laravel Homestead
 -----------------
