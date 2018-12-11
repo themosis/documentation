@@ -61,6 +61,7 @@ By default, the Themosis framework is packaged with [Laravel Homestead](https://
 If you want to develop your application with Homestead, you first need to have [Vagrant](https://www.vagrantup.com/) installed on your computer. Once installed, open your Terminal or Console at project root and run the following command:
 
 ```bash
+cd my-project-name
 ./vendor/bin/homestead make
 ```
 
