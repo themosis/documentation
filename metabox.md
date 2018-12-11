@@ -2,86 +2,122 @@ Metabox
 =======
 
 - [Basic usage](#basic-usage)
-	- [Set a custom id attribute](#set-a-custom-id-attribute)
-	- [Custom post type metabox](#custom-post-type-metabox)
-	- [Page metabox](#page-metabox)
-- [Sanitize metabox fields](#sanitize-metabox-fields)
-- [Metabox mapping](#metabox-mapping)
-- [Retrieve data](#retrieve-data)
+    - [Set a custom title](#set-a-custom-title)
+    - [Set the context](#set-the-context)
+    - [Set the priority](#set-the-priority)
+- [Custom fields](#custom-fields)
+    - [Add custom fields](#add-custom-fields)
+    - [Add custom fields groups](#add-custom-fields-groups)
+- [Validation](#sanitize-metabox-fields)
 - [Customize the metabox](#customize-the-metabox)
 - [Send data to your metabox](#send-data-to-your-metabox)
-
-As the name suggests, the `Metabox` class helps you build custom WordPress metabox. A metabox is a UI container for your custom fields (post metadata).
-
-Before digging into the `Metabox` documentation, make sure to read the [Field class guide]({{url}}/field).
 
 Basic usage
 -----------
 
-In order to create a metabox for your post, page or custom post type, you have to call the `Metabox::make()` method.
+As the name suggests, the `Metabox` class helps you build a custom WordPress metabox. A metabox is a UI container, attached to one or more post types, where you can define and display any custom content.
+
+By default, when you create a metabox with the framework, it is setup to display custom fields. But you are free to add any content into a metabox. See below for customizing the metabox.
+
+In order to create a metabox for your post, page or custom post type, you have to use the `make` method and pass it a unique identifier and a screen parameter. Then, you register the metabox by calling to the `set()` method like so:
 
 ```php
-Metabox::make($title, $postType, $options = [], $view = null)->set($fields);
+use Themosis\Support\Facade\Metabox;
+
+Metabox::make('properties', 'post')->set();
 ```
 
-* **$title**: _string_. The display title of the metabox.
-* **$postType**: _string_. The post type slug to link the metabox with.
-* **$options**: _array_. An array of options. You can set the `context`, `priority` and `id` properties of the metabox.
-* **$view**: _IRenderable_. A view file. Allow you to customize the UI of your metabox.
+The above example will display a metabox with a title of "Properties" in a WordPress post edit screen. It will also display an empty layout as it is configured to display custom fields by default.
 
-Here is an example of a basic metabox, containing one text field, that is displayed inside your posts edit screen:
+You can also attach a metabox to multiple post types by passing an array as a second parameter:
 
 ```php
-Metabox::make('Infos', 'post')->set([
-    Field::text('author')
-]);
+use Themosis\Support\Facades\Metabox;
+
+Metabox::make('properties', ['post', 'page'])->set();
 ```
 
-The code above will render a metabox with a title of _Infos_ and a single custom text field.
+### Set a custom title
 
-> A metabox is not registered/displayed until you call its `set()` method.
+When registering a metabox, you first need to pass a unique identifier. By default, the class is using that id as the metabox title. In order to provide a custom title for your metabox, you may use the `setTitle()` method like so:
 
 ```php
-Metabox::make('Infos', 'post')->set();
+Metabox::make('properties', 'post')
+    -setTitle(_x('Product details', 'metabox', 'textdomain'))
+    ->set();
 ```
 
-### Set a custom ID attribute
+### Set the context
 
-In some scenarios, you might need to be able to specify an ID to your metabox in order to fetch it for JS scripts or for styling. In order to set the id attribute for your metabox, pass it an `id` option like so:
+By default, a metabox context is set to `normal`. If you want to change the metabox context (display area), you can use the `setContext()` method:
 
 ```php
-Metabox::make('Infos', 'post', [
-    'id' => 'my-custom-id'
-])->set();
+Metabox::make('properties', 'post')
+    ->setContext('side')
+    ->set();
 ```
 
-### Custom post type metabox
+### Set the priority
 
-Here is an example of a metabox attached to a custom post type with a slug of `books`:
+By default, a metabox priority is set to `default`. If you want to change the metabox priority, you may call the `setPriority()` method:
 
 ```php
-// Let's create our custom post type
-$books = PostType::make('books', 'Books', 'Book')->set();
-
-// Attach our metabox to our custom post type
-Metabox::make('Informations', $books->get('name'))->set();
+Metabox::make('properties', 'post')
+    ->setPriority('high')
+    ->set();
 ```
 
-The code above is using the PostType `get()` method in order to fetch the custom post type name. Check the [PostType guide]({{url}}/posttype) for more information.
+By default, the metabox is configured to handle custom fields. If you want to create metabox with a custom user interface, read the section [customize the metabox](#customize-the-metabox) below.
 
-### Page metabox
+Custom fields
+-------------
 
-In this example, a metabox is displayed on all pages edit screen with some custom fields:
+Since release 2.0, the framework is bundled with new custom fields managed by a RestAPI and [ReactJS](https://reactjs.org/) components. The metabox class leverages the Field class in order to add custom fields.
+
+> Please note that not all form fields are available on a metabox. Please see the [field guide]({{url}}/field) for more details.
+
+### Add custom fields
+
+In order to add custom fields to a metabox, use the `add` method:
 
 ```php
-Metabox::make('Informations', 'page')->set([
-    Field::text('name'),
-    Field::text('phone'),
-    Field::textarea('address')
-]);
+use Themosis\Support\Facades\Field;
+
+Metabox::make('properties', 'post')
+    ->add(Field::text('author'))
+    ->add(Field::text('isbn'))
+    ->add(Field::integer('publication_year'))
+    ->set();
 ```
 
-> Note: Make sure to always prefix your custom fields name so they don't conflict with the [WordPress reserved terms](https://codex.wordpress.org/Reserved_Terms).
+The above example will display a metabox with two text fields and a number field. The new Field API for metabox is now handled through JavaScript only and built with ReactJS components.
+
+In order for a user to save the data handled by the custom fields, each metabox displays a "Save" button below. If the user click on the main "Publish" or "Update" button for the post, the metabox custom fields data will not be saved. Custom fields data is now saved through a custom RestAPI.
+
+> Note: the metabox and field RestAPI is using the default `api` middleware group. Be sure to not change the group name.
+
+### Add custom fields groups
+
+It is also possible to organize custom fields by group using the `add` method and by passing a section instance with custom fields:
+
+```php
+use Themosis\Support\Facades\Field;
+use Themosis\Support\Facades\Metabox;
+use Themosis\Support\Section;
+
+Metabox::make('properties', 'post')
+    ->add(new Section('general', 'General', [
+        Field::text('author'),
+        Field::text('publisher')
+    ]))
+    ->add(new Section('details', 'Details', [
+        Field::text('isbn'),
+        Field::media('cover')
+    ]))
+    ->set();
+```
+
+The above example will display fields organize in 2 tabs: "General" and "Details".
 
 Sanitize metabox fields
 -----------------------

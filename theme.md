@@ -1,6 +1,8 @@
 Theme development
 =================
 
+> In progress... The following document has not yet been updated for release 2.0.
+
 - [Introduction](#introduction)
 - [Structure](#structure)
 - [Namespace](#namespace)
