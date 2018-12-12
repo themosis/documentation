@@ -11,8 +11,8 @@ Metabox
     - [Prefixing](#prefixing)
 - [Validation](#validation)
 - [Localization](#localization)
+- [Retrieve data](#retrieve-data)
 - [Customize the metabox](#customize-the-metabox)
-- [Send data to your metabox](#send-data-to-your-metabox)
 
 Basic usage
 -----------
@@ -163,11 +163,46 @@ For a list of available validation rules, please read [the official documentatio
 
 ### Customize error message
 
-//
+By default, validation messages for the overall application are defined into a `validation.php` file stored in a directory with a name equivalent to the current loaded locale within the `resources/languages/` directory at project root.
+
+If you want to customize the errors messages for your metabox fields, you can pass a `messages` property to each field with an array containing key value pairs. The key is the validation rule and the value is the message.
+
+Let's customize the fields from previous example:
+
+```php
+Metabox::make('settings', 'Parameters')
+    ->add(Field::text('author', [
+        'rules' => 'required|min:3',
+        'messages' => [
+            'required' => 'Required, the :attribute field is.',
+            'min' => [
+                'string' => 'At least :min characters, the :attribute must be.'
+            ]
+        ]
+    ]))
+    ->set();
+```
+
+The `:attribute` and `:min` are validation placeholders terms. In order to know what type of messages you can define per rule, follow default messages defined into the `validation.php` file.
 
 ### Customize validation attribute
 
-//
+On validation, the `:attribute` placeholder term is replaced by the field name (without the prefix). If you want to provide an attribute name different than the field name, you may pass a `placeholder` property to the field like so:
+
+```php
+Metabox::make('settings', 'Parameters')
+    ->add(Field::text('author', [
+        'rules' => 'required',
+        'placeholder' => 'guy'
+    ]))
+    ->set();
+```
+
+The above example will display the following error message:
+
+```html
+The guy field is required.
+```
 
 Localization
 ------------
@@ -183,55 +218,12 @@ In order to retrieve the custom fields data, you can use the core `get_post_meta
 $author = get_post_meta($post_id, 'th_author', true);
 ```
 
-> Please note that custom fields meta key names are using a [prefix](#prefixing) by default.
+> Please note that custom fields meta key names are now using a [prefix](#prefixing) by default.
 
 Customize the metabox
 ---------------------
 
-You can customize the look and feel and the behaviour of your metabox by defining a custom view (and why not view composers...).
-
-You can pass a custom view to your metabox using the 4th argument of the `Metabox::make()` method like so:
-
-```php
-// Code below written inside the 'admin/metabox.php' file.
-// File stored inside the 'views/metabox/custom.blade.php'.
-$view = View::make('metabox.custom');
-
-Metabox::make('Properties', 'post', ['priority' => 'high'], $view);
-```
-
-Inside the view file of your metabox you have access to "special" variables by default:
-
-- **$__fields**: Gives you an array of registered fields with your metabox.
-- **$__metabox**: Gives you access to your metabox instance.
-- **$__post**: Gives you access to the current post instance object (WP_Post).
-
-This allows you to customize as you want the look of your metabox. By also using `View::composer()` method, you might also perform specific actions when the metabox is rendered.
-
-In case you needed to customize the metabox output but still need to output the core custom fields, simply add this code snippet inside your metabox view:
-
-```php
-<!-- Default Themosis metabox view -->
-<table class="form-table themosis-metabox">
-    <tbody>
-        @each('_themosisMetaboxRow', $__fields, 'field')
-    </tbody>
-</table>
-```
-
-Send data to your metabox
--------------------------
-
-Each time you create a metabox, a view file is attached to it. If you need to customize the metabox and need to use more data, you can pass data to your metabox view by using the `with` method like so:
-
-```php
-$metabox = Metabox::make('Infos', 'post')->set();
-
-// Send a custom data to the metabox view
-$metabox->with('key', 'value');
-```
-
-Of course, this methods is only useful if you specify a custom view for your metabox. You can also pass an array of `key/value` pairs to the `with` method.
+//
 
 Next
 ----
