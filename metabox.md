@@ -8,7 +8,9 @@ Metabox
 - [Custom fields](#custom-fields)
     - [Add custom fields](#add-custom-fields)
     - [Add custom fields groups](#add-custom-fields-groups)
-- [Validation](#sanitize-metabox-fields)
+    - [Prefixing](#prefixing)
+- [Validation](#validation)
+- [Localization](#localization)
 - [Customize the metabox](#customize-the-metabox)
 - [Send data to your metabox](#send-data-to-your-metabox)
 
@@ -117,88 +119,71 @@ Metabox::make('properties', 'post')
     ->set();
 ```
 
-The above example will display fields organize in 2 tabs: "General" and "Details".
+The above example will display fields organized within 2 tabs: "General" and "Details". Each time you define a section, you have to provide a unique identifier as the first parameter and a display label as the second parameter. The section fields are then defined into the third parameter as an array.
 
-Sanitize metabox fields
------------------------
+> You need to define at least 2 sections of fields in order to trigger the tabs layout.
 
-The Metabox API contains an instance of the Validator class which gives you a method to validate/sanitize the custom fields attach to your metabox.
+In order to customize your individual fields, please read the documentation on the [field guide]({{url}}/field) for more information.
 
-In order to validate/sanitize your fields, use the `validate()` method like so:
+### Prefixing
 
-```php
-$metabox = Metabox::make('A title', 'page')->set([
-    Field::text('email'),
-    Field::text('name'),
-    Field::text('phone'),
-    Field::textarea('address'),
-    Field::infinite('team', [
-        Field::text('name'),
-        Field::text('age')
-    ])
-]);
+The new field API is automatically prefixing custom fields names. By default if you add a text field with a name of `author`, it stores the value with a meta key of `th_author` in the post meta table.
 
-// Let's validate our custom fields
-$metabox->validate([
-    'email'   => ['email'],
-    'name'    => ['textfield', 'min:3', 'alpha'],
-    'phone'   => ['num', 'max:25'],
-    'address' => ['textarea'],
-    'team'    => [
-        'name' => ['textfield', 'alpha', 'min:3', 'max:50'],
-        'age'  => ['num']
-    ]
-]);
-```
-
-> Note how the `infinite` field is validated.
-
-If validation passes, the value entered is registered. In case the validation fails, it returns an empty string value.
-
-The validate method works more like a "sanitizer". This means that currently if an end-user is updating its post and that the value entered in your custom field is not valid, the post is still updated.
-
-> Tip: If you want to make required custom fields, currently we suggest to pass a `required` attribute to your custom field. This will avoid the update of the post until a value is defined inside your custom field. A better required API is planned and will come in a future release of the framework.
-
-Check the [validation guide]({{url}}/validation) for more information about the validation rules.
-
-Metabox mapping
----------------
-
-The metabox class provides a `map()`method that allows you to map a custom field value to one of the current `WP_Post` instance properties.
-
-For example, you might have a custom field with a list of pages you can choose from. The purpose of the custom field here is to set a relation between your current post and the selected page. By default, this value is registered as a `post meta`. Depending on your needs, it might also really useful to store the selected page ID (custom field value) to the `post_parent` property of your edited post. Here is an example:
+If you want to change the default prefix for your metabox fields, you may use the `setPrefix` method:
 
 ```php
-$metabox = Metabox::make('Properties', 'custom-post-slug')->set([
-    Field::select('related_page', $pagesList)
-]);
-
-/*
- * Let's also store the selected page from the custom field to
- * the post_parent property of our post instance.
- */
-$metabox->map([
-    'related_page' => 'post_parent'
-]);
+Metabox::make('properties', 'post')
+    ->add(Field::text('author'))
+    ->setPrefix('wp_')
+    ->set();
 ```
 
-From the above code sample, each time the user is saving its post, the value of the `related_page` custom field will be stored as well to the `post_parent` property of the post.
+> Prefixing is enabled by default to avoid any conflicts with core reserved terms and data coming from third party plugins. If you do not want to use prefix, simply pass an empty string to the `setPrefix` method.
 
-> Be careful when using this method. You can't store anything on whatever post object properties. Each WP_Post property as a limit to which data to store based on the SQL schema. Make sure to know the `wp_post` table schema before using this method.
+Validation
+----------
 
-You can only map one custom field value to one WP_Post property at the moment but you can define multiple mappings at once like so:
+The new field API is leveraging the [illuminate/validation](https://laravel.com/docs/5.7/validation) package from Laravel in order to validate custom fields data. The new user interface also provides error display on each field and also on tabs if you're using groups.
+
+In order to validate data, you need to define a set of `rules` on a per field basis. Here is an example of a text field:
 
 ```php
-$metabox->map([
-    'related_page' => 'post_parent',
-    'custom-field' => 'post_content' // This one will overwrite the content of your post for example... 
-]);
-```
+Metabox::make('settings', 'Parameters')
+    ->add(Field::text('author', [
+        'rules' => 'required|min:3'
+    ]))
+    ->set();
+``` 
+
+The above example sets the author text field as a required value and must have a length of at least 3 characters. If the validation fails, the field data is not saved and the metabox is displaying an error message below the field.
+
+For a list of available validation rules, please read [the official documentation](https://laravel.com/docs/5.7/validation#available-validation-rules).
+
+> When a validation fails, the metabox is displaying a "Saved with errors" message in its footer. This means that valid field data is saved in the database while failed one is not.
+
+### Customize error message
+
+//
+
+### Customize validation attribute
+
+//
+
+Localization
+------------
+
+//
 
 Retrieve data
 -------------
 
-In order to retrieve the custom fields data, you can use the core function `get_post_meta()` or use the `Meta` class. Please refer to the [Meta guide]({{url}}/meta).
+In order to retrieve the custom fields data, you can use the core `get_post_meta` function. Here is an example based on an `author` custom text field:
+
+```php
+$author = get_post_meta($post_id, 'th_author', true);
+```
+
+> Please note that custom fields meta key names are using a [prefix](#prefixing) by default.
 
 Customize the metabox
 ---------------------
