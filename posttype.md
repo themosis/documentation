@@ -138,9 +138,9 @@ Here is an example based on the above `books` custom post type:
 ```php
 PostType::make('books', 'Livres', 'Livre')->set();
 
-$instance = app('posttype.books');
+$instance = app('themosis.posttype.books');
 
-$instance = App::make('posttype.books');
+$instance = App::make('themosis.posttype.books');
 ```
 
 Custom status
