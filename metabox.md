@@ -11,6 +11,7 @@ Metabox
     - [Prefixing](#prefixing)
 - [Validation](#validation)
 - [Localization](#localization)
+    - [Get metabox translation](#get-metabox-translation)
 - [Retrieve data](#retrieve-data)
 - [Customize the metabox](#customize-the-metabox)
 
@@ -207,7 +208,44 @@ The guy field is required.
 Localization
 ------------
 
-//
+When using the metabox with custom fields, the user interface is displaying texts regarding its current state. Each label can be translated. A translation is associated to a key name. Here is the list of default labels applied to a metabox:
+
+```php
+[
+    'done' => __('Saved'),
+    'error' => __('Saved with errors'),
+    'saving' => __('Saving'),
+    'submit' => sprintf('%s %s', __('Save'), $metabox->getTitle())
+]
+```
+
+You can override the default labels applied to a metabox by calling the `addTranslation` method and pass it the key name and the translation as a value:
+
+```php
+Metabox::make('properties', 'post')
+    ->add(Field::text('author'))
+    ->addTranslation('done', 'Success!')
+    ->set();
+```
+
+### Get metabox translation
+
+You can add as many translations strings as you want to your metabox. Especially when building a custom user interface with it.
+
+A metabox instance provides methods to retrieve translations and use them in your interface. You can use the `getTranslations` method to get the full list of translations or you can call the `getTranslation` method to grab a specific one:
+
+```php
+$box = Metabox::make('custom', 'Options')
+    ->addTranslation('title', __('A title'))
+    ->addTranslation('subtitle', __('The subtitle'))
+    ->set();
+    
+$all = $box->getTranslations();
+
+$title = $box->getTranslation('title');
+```
+
+> You will rarely need to grab a metabox translation out of it. Those methods are useful when you create a custom metabox user interface and want to get optional translation in your interface/view.
 
 Retrieve data
 -------------
