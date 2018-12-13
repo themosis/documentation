@@ -14,6 +14,10 @@ Metabox
     - [Get metabox translation](#get-metabox-translation)
 - [Retrieve data](#retrieve-data)
 - [Customize the metabox](#customize-the-metabox)
+    - [Class callback](#class-callback)
+    - [Callback arguments](#callback-arguments)
+- [Display based on capability](#display-based-on-capability)
+- [Display based on template](#display-based-on-template)
 
 Basic usage
 -----------
@@ -261,11 +265,104 @@ $author = get_post_meta($post_id, 'th_author', true);
 Customize the metabox
 ---------------------
 
-//
+If you want to create a custom user interface, you can do so by passing a callback to your metabox using the `setCallback` method:
+
+```php
+Metabox::make('custom', 'post')
+    ->setCallback(function () {
+        return view('metabox.custom');
+    })
+    ->set();
+```
+
+In the above example, the metabox is displaying the `metabox.custom` view. From a metabox callback you can return a `Renderable` instance (view), a string or even a `Response` instance.
+
+### Class callback
+
+The metabox API can also handle a class callback using the `ClassName@method` syntax:
+
+```php
+Metabox::make('custom', 'post')
+    ->setCallback('App\Metabox\Custom@show')
+    ->set();
+```
+
+Just like in action or filter, you have to provide the full class name, with its namespace, for the callback.
+
+### Callback arguments
+
+By default, the metabox callback receives as a parameter an `$args` array containing an instance of your metabox, an instance of the current post and the screen it is attached to:
+
+```php
+Metabox::make('custom', 'post')
+    ->setCallback(function ($args) {
+        return view('metabox.custom', [
+            'post' => $args['post'],
+            'metabox' => $args['metabox'],
+            'screen' => $args['screen']
+        ]);
+    })
+    ->set();
+```
+
+You can also provide additional data to your metabox by using the `setArguments` method and pass it an array of key value pairs:
+
+```php
+Metabox::make('custom', 'post')
+    ->setCallback('App\Metabox\Custom@show')
+    ->setArguments([
+        'users' => App\User::all()
+    ])
+    ->set();
+````
+
+Those arguments are then provided to your callback:
+
+```php
+<?php
+namespace App\Metabox;
+    
+class Custom
+{
+    public function show($args)
+    {
+        return view('metabox.custom', [
+            'users' => $args['users']
+        ]);
+    }
+}    
+```
+
+Display based on capability
+---------------------------
+
+You can configure your metabox to display based on current user capability. In order to do so, you may use the `setCapability` method:
+
+```php
+Metabox::make('custom', ['post', 'page'])
+    ->setCapability('edit_posts')
+    ->set();
+```
+
+Display based on template
+-------------------------
+
+You can limit metabox display to WordPress templates by calling the `setTemplate` method:
+
+```php
+Metabox::make('custom', ['post', 'page'])
+    ->setTemplate(['featured', 'holidays'], 'post')
+    ->setTemplate('team')
+    ->set();
+```
+
+The `setTemplate` method accepts as a first argument a template name or an array of templates and as a second argument the screen|post type to which the templates are associated to. By default, the screen parameter is set to `page` screen.
+
+> You can chain the `setTemplate` method as many times as you want.
+
 
 Next
 ----
 
-* [Meta guide]({{url}}/meta)
 * [Taxonomy guide]({{url}}/taxonomy)
 * [Page guide]({{url}}/page)
