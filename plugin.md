@@ -1,6 +1,8 @@
 Plugin development
 ==================
 
+> Documentation not yet updated for 2.0
+
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Configuration](#configuration)
