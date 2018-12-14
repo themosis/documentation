@@ -1,6 +1,8 @@
 Field
 =====
 
+> The field documentation is not yet up to date with release 2.0.
+
 The Themosis framework is bundled with an API to build WordPress custom fields. The framework gives you a list of predefined fields to use that leverage WordPress core API in order to customize your content.
 
 The framework handles the display of your custom fields in the WordPress administration.
