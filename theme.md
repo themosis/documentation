@@ -1,12 +1,21 @@
 Theme development
 =================
 
-> In progress... The following document has not yet been updated for release 2.0.
+> In progress...
 
 - [Introduction](#introduction)
-- [Structure](#structure)
+- [Installation](#installation)
+- [Theme structure](#theme-structure)
+    - [The assets directory](#the-assets-directory)
+    - [The config directory](#the-config-directory)
+    - [The dist directory](#the-dist-directory)
+    - [The inc directory](#the-inc-directory)
+    - [The languages directory](#the-languages-directory)
+    - [The resources directory](#the-resources-directory)
+    - [The views directory](#the-views-directory)
+    - [Theme routes](#theme-routes)
 - [Namespace](#namespace)
-	- [Namespace management and autoloading](#namespace-management-and-autoloading)
+    - [Namespace management and autoloading](#namespace-management-and-autoloading)
 - [Command line tools](#command-line-tools)
     - [Installation](#installation)
     - [Use GulpJs](#use-gulpjs)
@@ -22,45 +31,70 @@ Theme development
 Introduction
 ------------
 
-When you start a new Themosis framework project, Composer also installs the `themosis-theme` theme boilerplate inside the `htdocs/content/themes` directory.
+By default, when you create a new project, a theme is no longer installed automatically for your project. If you have followed the installation guide, you must already have a theme installed for your application. If not, please follow the installation step below.
 
-The theme is already setup to work with the Themosis framework core and brings configuration for autoloading theme classes, configuration files, service providers, routing and more.
+Installation
+------------
 
-Since release 1.3.0, the theme also bundles GulpJS, WebPack (1.x), BrowserSync and Bower in order to help you work with your theme assets (css, js).
+The framework comes with a command line tool at its root directory. If you need to install a fresh theme for your project, you first need to open your terminal and then go to your application root and run the `theme:install` command like so:
 
-> Do not forget to rename your theme folder and remove the dependency of the `themosis-theme` in your root project `composer.json` file.
+```bash
+php console theme:install your-theme-name
+```
 
-Structure
----------
+You have to provide a name for your theme when calling the command. Spaces are not allowed and we also suggest that you keep your theme name in lowercase.
 
-The `themosis-theme` theme structure, since release 1.3.0, is slightly different than previous versions. Here is the new theme file structure:
+The `theme:install` command will download the latest theme boilerplate, install it under the `htdocs/content/themes/your-theme-name` directory, configure the theme `style.css` file headers and set it as the default theme for your application.
+
+Theme structure
+---------------
+
+The theme should be responsible to only handle the views (HTML), its assets like JavaScript and stylesheets files as well as basic templating logic. Here is a look of the default theme structure:
 
 ```php
 +-- assets/
-|   +-- js/
-|   +-- sass/
-|   +-- stylus/
+|    +-- js/
+|    +-- sass/
++-- config/
 +-- dist/
-|   +-- css/
-|   +-- images/
-|   +-- js/
+|    +-- css/
+|    +-- images/
+|    +-- js/
++-- inc/
 +-- languages/
 +-- resources/
-|   +-- admin/
-|   +-- config/
-|   +-- controllers/
-|   +-- models/
-|   +-- providers/
-|   +-- views/
-|   +-- widgets/
-|   +-- routes.php
+|    +-- Providers/
++-- views/
 +-- functions.php
-+-- gulpfile.js
 +-- index.php
 +-- package.json
++-- routes.php
 +-- style.css
-+-- webpack.config.js
++-- webpack.mix.js
 ```
+
+### The assets directory
+
+### The config directory
+
+### The dist directory
+
+### The inc directory
+
+### The languages directory
+
+### The resources directory
+
+### The views directory
+
+### Theme routes
+
+
+
+
+
+
+
 
 When working with the theme assets, all your `sass`, `stylus`, `js` source files should be inside the appropriate `assets` directory. The theme Gulp configuration is set to compile and "minify" all assets into the `dist` directory.
 
