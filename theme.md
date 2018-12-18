@@ -14,6 +14,7 @@ Theme development
     - [The resources directory](#the-resources-directory)
     - [The views directory](#the-views-directory)
     - [Theme routes](#theme-routes)
+- [Compiling assets](#compiling-assets)
 - [Namespace](#namespace)
     - [Namespace management and autoloading](#namespace-management-and-autoloading)
 - [Command line tools](#command-line-tools)
@@ -75,17 +76,31 @@ The theme should be responsible to only handle the views (HTML), its assets like
 
 ### The assets directory
 
+The `assets` directory contains all your JavaScript and CSS files. There is a default `js/theme.js` file as well as default [Sass](https://sass-lang.com/) files extracted from the [Underscore](https://underscores.me/) theme.
+
 ### The config directory
+
+The `config` directory contains the theme configuration files. From this folder, you can control your theme images, menus, sidebars, support features and templates. There is also a `theme.php` configuration file that handle theme core configuration like the autoloading PSR-4 parameters, the views paths and the list of its service providers. Each configuration file contains comments with explanations about each available option.
 
 ### The dist directory
 
+The `dist` directory contains your compiled assets. Compiled assets are then enqueued by the [Asset]({{url}}/asset) API. Asset compilation is managed by [webpack](https://webpack.js.org/) through [Laravel Mix](https://laravel-mix.com/) tool. You can read more about managing the assets [below](#compiling-assets).
+
 ### The inc directory
+
+The `inc` directory is a folder that extends the default `functions.php` file. You can insert as many PHP files as you want into the folder and all files will be automatically included. You can event nest PHP files within subfolders.
 
 ### The languages directory
 
+The `languages` directory contains the PO template file for your theme. You can load it with the [PoEdit](https://poedit.net/) software and start translating your theme.
+
 ### The resources directory
 
+The `resources` directory is the theme namespaced directory. You can organize your theme PHP Class into the folder by following the [PSR-4](https://www.php-fig.org/psr/psr-4/) specification. The `\Theme` namespace is pointing to the `resources` directory. By default, it contains a `Providers` directory that holds the theme `RouteServiceProvider` class.
+
 ### The views directory
+
+The `views` directory contains all your view files. By default, it contains views extracted from the [Underscore](https://underscores.me/) theme. Feel free to use, modify or delete default views based on your project.
 
 ### Theme routes
 
