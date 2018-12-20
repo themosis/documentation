@@ -16,12 +16,16 @@ Theme development
     - [Install Laravel Mix](#install-laravel-mix)
     - [Configure assets](#configure-assets)
     - [Compile assets](#compile-assets)
+    - [Asset version](#asset-version)
+- [Theme manager](#theme-manager)
+    - [Get the theme manager](#get-the-theme-manager)
+    - [Get a theme header](#get-a-theme-header)
+    - [Get theme path](#get-theme-path)
+    - [Get theme URL](#get-theme-url)
 - [Translations](#translations)
 
 Introduction
 ------------
-
-> Documentation in progress...
 
 By default, when you create a new project, a theme is no longer installed automatically for your project. If you have followed the installation guide, you must already have a theme installed for your application. If not, please follow the installation step below.
 
@@ -168,14 +172,123 @@ When you're ready to publish your application, run the `production` command in o
 npm run production
 ```
 
+### Asset version
+
+When enqueueing assets, it is common to provide a version number in order to provide a browser cache hint. The version number of the default theme assets is set based on the theme `Version` header defined into the `style.css` file.
+
+In order to reset browser cache for your assets after a modification, simply update the `Version` header value from the theme `style.css` file.
+
+```css
+/*
+Theme Name: Themosis
+...
+Version: 1.0.1
+...
+Text Domain: themosis
+*/
+```
+
+Theme assets are loaded from the `AssetServiceProvider` class stored in the `resources/Providers` directory. If you need to remove or add an asset, simply edit the file:
+
+```php
+public function register()
+    {
+        /** @var ThemeManager $theme */
+        $theme = $this->app->make('wp.theme');
+
+        Asset::add('theme_styles', 'css/theme.css', [], $theme->getHeader('version'))->to('front');
+        Asset::add('theme_woo', 'css/woocommerce.css', ['theme_styles'], $theme->getHeader('version'))->to('front');
+        Asset::add('theme_js', 'js/theme.min.js', [], $theme->getHeader('version'))->to('front');
+    }
+```
+
+> The theme is manage by a `ThemeManager` class. See how the theme `version` value is retrieved from the `style.css` header.
+
+Theme manager
+-------------
+
+The framework is handling a theme through a `ThemeManager` class. The manager is responsible to provide utilities in order to work with the current active theme as well as registering it theme configuration.
+
+You can find below a list of methods available in order to work with your theme.
+
+### Get the theme manager
+
+If you need to work inside the theme `functions.php` file, the `ThemeManager` class instance is already provided to you through the `$theme` variable.
+
+The `ThemeManager` class instance is also registered into the application service container under the abstract name `wp.theme`. Here is an example on how to retrieve it from a theme service provider:
+
+```php
+<?php
+namespace \Theme\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class MyServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $theme = $this->app->make('wp.theme');
+    }
+}
+```
+
+It is also possible to retrieve the theme manager instance by using the `app()` helper function:
+
+```php
+$theme = app('wp.theme');
+```
+
+### Get a theme header
+
+Sometimes, you may need to retrieve information from the theme headers defined inside the `style.css` file. In order to get a header value, use the `getHeader` method like so:
+
+```php
+$theme = app('wp.theme');
+$version = $theme->getHeader('version');
+```
+
+Here is the list of available headers you can retrieve from the `style.css` file:
+
+```php
+$name = $theme->getHeader('name');
+$theme_uri = $theme->getHeader('theme_uri');
+$author = $theme->getHeader('author');
+$author_uri = $theme->getHeader('author_uri');
+$description = $theme->getHeader('description');
+$version = $theme->getHeader('version');
+$license = $theme->getHeader('license');
+$license_uri = $theme->getHeader('license_uri');
+$text_domain = $theme->getHeader('text_domain');
+```
+
+### Get theme path
+
+If you need to get the theme path or a path of a sub-directory of your theme, you can use the `getPath` method like so:
+
+```php
+$theme_root_path = $theme->getPath();
+
+$subdirectory = $theme->getPath('inc/features');
+```
+
+### Get theme URL
+
+If you need to get the theme URL or a URL of a sub-directory of your theme, you can use the `getUrl` method like so:
+
+```php
+$theme_url = $theme->getUrl();
+
+$theme_subdir_url = $theme->getUrl('dist/images/logo.png');
+```
+
 Translations
 ------------
 
-The theme is translation ready.
+The theme is translation ready and provides a `languages` directory with a `.po` template file. During development, use the `THEME_TD` constant, defined by the theme manager, as a text domain value when calling gettext functions.
 
-At the root of the theme, a `languages` directory is defined with a `.po` template file. During theme development, use the `THEME_TD` constant as a text domain value with the gettext functions. The constant value is automatically defined based on theme name during installation and its value is located in the `Text Domain` header inside the theme `style.css` file.
+The constant `THEME_TD` value is automatically defined based on theme name during installation but you can easily change it by updating the `Text Domain` header inside the `style.css` file.
 
-From the theme views, you may use the `THEME_TD` constant like so:
+Finally you may use the `THEME_TD` constant in your views like so:
 
 ```php
 // From a Blade view
