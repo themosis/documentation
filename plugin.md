@@ -1,8 +1,6 @@
 Plugin development
 ==================
 
-> Documentation in progress...
-
 - [Introduction](#introduction)
 - [Installation](#installation)
     - [Install as a mu-plugin](#install-as-a-mu-plugin)
