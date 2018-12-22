@@ -35,7 +35,7 @@ Install the Themosis framework
 Open your `Terminal` or `Console` and execute the following command:
 
 ```bash
-composer create-project themosis/themosis my-project-name 2.0-beta1
+composer create-project themosis/themosis my-project-name 2.0-beta2
 ```
 
 This will create a directory called `my-project-name` on your computer and automatically download the latest WordPress version along with the latest Themosis framework version and its dependencies.
