@@ -38,15 +38,15 @@
 
 #### Handbooks
 
-- [Plugin]({{url}}/plugin)
 - [Theme]({{url}}/theme)
+- [Plugin]({{url}}/plugin)
 - [Multisite]({{url}}/multisite)
 - [WooCommerce]({{url}}/woocommerce)
 - [WP-CLI]({{url}}/wp-cli)
 
 #### Advanced
 
-- [Database]({{url}}/database)
-- [Validation]({{url}}/validation)
 - [Service container]({{url}}/container)
 - [Service providers]({{url}}/providers)
+- [Database]({{url}}/database)
+- [Validation]({{url}}/validation)
