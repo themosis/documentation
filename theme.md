@@ -83,7 +83,7 @@ The `dist` directory contains your compiled assets. Compiled assets are then enq
 
 ### The inc directory
 
-The `inc` directory is a folder that extends the default `functions.php` file. You can insert as many PHP files as you want into the folder and all files will be automatically included. You can event nest PHP files within subfolders.
+The `inc` directory is a folder that extends the default `functions.php` file. You can insert as many PHP files as you want into the folder and all files will be automatically included. You can even nest PHP files within subfolders.
 
 ### The languages directory
 
