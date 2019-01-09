@@ -81,4 +81,4 @@ See [extending WordPress routes]({{url}}/routing#extending-wordpress-routes) fro
 The shop template
 -----------------
 
-
+> In progress...
