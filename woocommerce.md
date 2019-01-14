@@ -83,7 +83,7 @@ The shop template
 
 As we no longer let WooCommerce loads its default templates or at least not the "root" ones, we have to generate the view for the shop archive.
 
-WooCommerce is using action hooks to attach HTML parts. Paste the following code in a custom view (note that the code sample below is based on default theme):
+WooCommerce is using action hooks to attach HTML parts. Paste the following code in a custom view (note that the code sample below is based on default theme) and store it into the `shop/archive.blade.php` file inside your theme views folder:
 
 ```php
 @extends('layouts.main')
@@ -133,7 +133,55 @@ In this template, we only omit the call to `do_action('woocommerce_sidebar');` a
 
 The above code is displaying the registered sidebar with an identifier of `sidebar-shop`. You can register as many sidebars as you want by editing the theme `config/sidebars.php` file.
 
+Now that the products archive is defined, add the `shop` route to your application `routes/web.php` file:
+
+```php
+Route::any('shop', function () {
+    return view('shop.archive');
+});
+```
+
+WooCommerce product category and tag use the same template for their archive. You can also define their routes and return the same view as for the shop like so:
+
+```php
+Route::any('product_category', function () {
+    return view('shop.archive');
+});
+
+Route::any('product_tag', function () {
+    return view('shop.archive');
+});
+```
+
+> We recommend the use of [controller classes]({{url}}/controllers) for managing requests and avoid code duplication.
+
 The product template
 --------------------
+
+Similar to the products archive, single product template is a WooCommerce "root" template. In order to display a product using core WooCommerce parts, create a view with the following code (based on theme default views):
+
+```php
+@extends('layouts.main')
+
+@section('content')
+    @php(do_action('woocommerce_before_main_content'))
+
+    @loop
+        @php(do_action('woocommerce_before_single_product'))
+        <div id="product-{{ Loop::id() }}" {{ wc_product_class() }}>
+            @php(do_action('woocommerce_before_single_product_summary'))
+            
+            <div class="summary entry-summary">
+                @php(do_action('woocommerce_single_product_summary'))
+            </div>
+            
+            @php(do_action('woocommerce_after_single_product_summary'))
+        </div>
+        @php(do_action('woocommerce_after_single_product'))
+    @endloop
+
+    @php(do_action('woocommerce_after_main_content'))
+@endsection()
+```
 
 > In progress...
