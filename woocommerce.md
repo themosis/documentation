@@ -81,4 +81,59 @@ See [extending WordPress routes]({{url}}/routing#extending-wordpress-routes) fro
 The shop template
 -----------------
 
+As we no longer let WooCommerce loads its default templates or at least not the "root" ones, we have to generate the view for the shop archive.
+
+WooCommerce is using action hooks to attach HTML parts. Paste the following code in a custom view (note that the code sample below is based on default theme):
+
+```php
+@extends('layouts.main')
+
+@section('content')
+    @php(do_action('woocommerce_before_main_content'))
+    <header class="woocommerce-products-header">
+        @if(apply_filters('woocommerce_show_page_title', true))
+            <h1 class="woocommerce-products-header__title page-title">{{ woocommerce_page_title(false) }}</h1>
+        @endif
+        @php(do_action('woocommerce_archive_description'))
+    </header>
+    @if(woocommerce_product_loop())
+        @php(do_action('woocommerce_before_shop_loop'))
+        
+        {!! woocommerce_product_loop_start(false) !!}
+        
+        @if(wc_get_loop_prop('total'))
+            @while(have_posts())
+                @php(the_post())
+                
+                @php(do_action('woocommerce_shop_loop'))
+                @php(wc_get_template_part('content', 'product'))
+            @endwhile
+        @endif
+        
+        {!! woocommerce_product_loop_end(false) !!}
+        
+        @php(do_action('woocommerce_after_shop_loop'))
+    @else
+        @php(do_action('woocommerce_no_products_found'))
+    @endif
+
+    @php(do_action('woocommerce_after_main_content'))
+@endsection
+```
+
+This is a default sample on how to manage the WooCommerce products archive. You can customize it as you want for your own project. This is based on the WooCommerce template stored in the plugin at `woocommerce/templates/archive-product.php`.
+
+In this template, we only omit the call to `do_action('woocommerce_sidebar');` as it is trying to call the WordPress `get_sidebar` function. If you need to use a sidebar on your products archive page, you can directly call the [dynamic_sidebar]() function instead in your view like so:
+
+```php
+@if(function_exists('dynamic_sidebar'))
+    @php(dynamic_sidebar('sidebar-shop'))
+@endif
+```
+
+The above code is displaying the registered sidebar with an identifier of `sidebar-shop`. You can register as many sidebars as you want by editing the theme `config/sidebars.php` file.
+
+The product template
+--------------------
+
 > In progress...
