@@ -7,6 +7,7 @@ WooCommerce
 - [Add WooCommerce routes](#add-woocommerce-routes)
 - [The shop template](#the-shop-template)
 - [The product template](#the-product-template)
+    - [Product reviews](#product-reviews)
 
 Introduction
 ------------
@@ -158,7 +159,7 @@ Route::any('product_tag', function () {
 The product template
 --------------------
 
-Similar to the products archive, single product template is a WooCommerce "root" template. In order to display a product using core WooCommerce parts, create a view with the following code (based on theme default views):
+Similar to the products archive, single product template is a WooCommerce "root" template. In order to display a product using core WooCommerce parts, create a view with the following code (based on theme default views) and store it in `shop/single.blade.php`:
 
 ```php
 @extends('layouts.main')
@@ -183,5 +184,27 @@ Similar to the products archive, single product template is a WooCommerce "root"
     @php(do_action('woocommerce_after_main_content'))
 @endsection()
 ```
+
+The above code sample will display a WooCommerce product. You can also customize it depending on your project. All action hooks used for this view can be found in the WooCommerce plugin folder in the `woocommerce/templates/single-product.php` file and the `woocommerce/templates/content-single-product.php` file.
+
+> If you need to use a sidebar as well on a single product page, directly use the `dynamic_sidebar` function like in the shop view.
+
+Now that the single product view is ready, add the corresponding route to your application `routes/web.php` file like so (based on added route conditions):
+
+```php
+Route::any('product', function () {
+    return view('shop.single');
+});
+```
+
+### Product reviews
+
+In the case where product reviews feature is enabled. You might encounter an error as WordPress is requesting a `comments.php` file. WooCommerce has its own template to handle product comments/reviews. In order to add the reviews/comments file, add a `comments_template` filter like so:
+
+```php
+Filter::add('comments_template', ['WC_Template_Loader', 'comments_template_loader']);
+```
+
+The above code will call the `comments_template_loader` method on the WooCommerce template loader class and provide support for product reviews.
 
 > In progress...
