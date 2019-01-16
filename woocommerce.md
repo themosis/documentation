@@ -8,6 +8,8 @@ WooCommerce
 - [The shop template](#the-shop-template)
 - [The product template](#the-product-template)
     - [Product reviews](#product-reviews)
+- [Cart, checkout and account templates](#cart-checkout-and-account-templates)
+- [WooCommerce documentation](#woocommerce-documentation)
 
 Introduction
 ------------
@@ -73,7 +75,8 @@ In order to use WooCommerce conditional tags with the Route API, we need to upda
     'is_checkout' => 'checkout',
     'is_account_page' => 'account',
     'is_product_category' => 'product_category',
-    'is_product_tag' => 'product_tag'
+    'is_product_tag' => 'product_tag',
+    'is_wc_endpoint_url' => 'wc_endpoint'
 ]
 ```
 
@@ -159,7 +162,7 @@ Route::any('product_tag', function () {
 The product template
 --------------------
 
-Similar to the products archive, single product template is a WooCommerce "root" template. In order to display a product using core WooCommerce parts, create a view with the following code (based on theme default views) and store it in `shop/single.blade.php`:
+Similar to the products archive, the single product template is a WooCommerce "root" template. In order to display a product using core WooCommerce parts, create a view with the following code (based on theme default views) and store it in `shop/single.blade.php`:
 
 ```php
 @extends('layouts.main')
@@ -207,4 +210,32 @@ Filter::add('comments_template', ['WC_Template_Loader', 'comments_template_loade
 
 The above code will call the `comments_template_loader` method on the WooCommerce template loader class and provide support for product reviews.
 
-> In progress...
+Cart, checkout and account templates
+------------------------------------
+
+The cart, checkout and account templates are rendered using the existing page template. Those pages use a shortcode to display their content. You can either simply use the `page` route or if you need to customize the display of each individual pages, you can define a route for each one of them using defined route conditions.
+
+Here is an example of a default view for managing those templates, it is based on the `pages/default.blade.php` file stored in the theme:
+
+```php
+@extends('layouts.main')
+
+@section('content')
+    @loop
+        @template('parts.content', 'page')
+
+        @if(comments_open() || get_comments_number())
+            @php(comments_template('/views/comments/template.php'))
+        @endif
+    @endloop
+@endsection
+```
+
+WooCommerce documentation
+-------------------------
+
+Here is a list of useful links from the WooCommerce official documentation:
+
+- [Conditional tags](https://docs.woocommerce.com/document/conditional-tags/)
+- [WP_Product_Query](https://github.com/woocommerce/woocommerce/wiki/wc_get_products-and-WC_Product_Query)
+- [WooCommerce code reference](https://docs.woocommerce.com/wc-apidocs/)
