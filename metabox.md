@@ -138,10 +138,12 @@ If you want to change the default prefix for your metabox fields, you may use th
 
 ```php
 Metabox::make('properties', 'post')
-    ->add(Field::text('author'))
     ->setPrefix('wp_')
+    ->add(Field::text('author'))
     ->set();
 ```
+
+Make sure to call the method before adding your custom fields.
 
 > Prefixing is enabled by default to avoid any conflicts with core reserved terms and data coming from third party plugins. If you do not want to use prefix, simply pass an empty string to the `setPrefix` method.
 
