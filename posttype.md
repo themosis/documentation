@@ -6,6 +6,7 @@ PostType
     - [Customize](#customize)
     - [Retrieve parameter value](#retrieve-parameter-value)
     - [The WP_Post_Type instance](#the-wp-post-type-instance)
+    - [Set title placeholder](#set-title-placeholder)
 - [Service container](#service-container)
 - [Custom status](#custom-status)
 	- [Add custom status](#add-custom-status)
@@ -126,6 +127,16 @@ WordPress now returns an object when registering a custom post type. In order to
 ```php
 $books = PostType::make('books', 'Books', 'Book')->set();
 $type = $books->instance(); // return WP_Post_Type instance
+```
+
+### Set title placeholder
+
+You can define a custom title input placeholder value by calling the `setTitlePlaceholder` method on your post type instance like so:
+
+```php
+PostType::make('books', 'Books', 'Book')
+    ->setTitlePlaceholder('Insert the book title here...')
+    ->set();
 ```
 
 Service container
