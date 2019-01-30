@@ -3,16 +3,15 @@ Ajax
 
 - [Basic usage](#basic-usage)
 	- [Example](#example)
-- [Themosis Global Object](#themosis-global-object)
-	- [Customize object name](#customize-object-name)
-	- [WordPress localize](#wordpress-localize)
+- [Themosis Global Objects](#themosis-global-objects)
+	- [Front-end](#front-end)
+	- [WordPress Administration](#wordpress-administration)
+- [WordPress localize](#wordpress-localize)
 
 Basic usage
 -----------
 
-The `Ajax` class handles the WordPress mechanism for easily handling ajax requests.
-
-In order to listen to a WordPress ajax action, use the `listen` method:
+The `Ajax` class handles the WordPress mechanism for easily managing ajax requests in your application. In order to listen to a WordPress ajax action, use the `listen` method:
 
 ```php
 Ajax::listen('my_action', function() {	
@@ -47,7 +46,7 @@ $.ajax({
     dataType: 'json',
     data: {
         action: 'my-custom-action', // Your custom hook/action name
-        security: 'add-posts', // A nonce value
+        security: themosis.nonce, // A nonce value defined by the user with the "add-posts" action
         number: 2 // The value you want to send
     }
 }).done(function(data)
@@ -90,8 +89,10 @@ class Ajax extends Hookable
 
 ```
 
-Themosis Global Object
-----------------------
+Themosis Global Objects
+-----------------------
+
+### Front-end
 
 In the previous javascript example, we get access to some values using the following syntax:
 
@@ -101,7 +102,7 @@ In the previous javascript example, we get access to some values using the follo
 }
 ```
 
-This `themosis` global JSON object is located at the end of the closing `</head>` tag of any pages. By default, it contains the key/value pair `ajaxurl` but you can easily add more key/value pairs to this global object and access them in your code.
+This `themosis` global JSON object is located at the end of the closing `</head>` tag of any pages requested in the user front-end (not the WordPress administration). By default, it contains the key/value pair `ajaxurl` but you can easily add more key/value pairs to this global object and access them in your code.
 
 > Note: This object is defined in the default Application hook class.
 
@@ -109,7 +110,7 @@ To add more values, you can use the `themosis_front_global` filter like so:
 
 ```php
 Filter::add('themosis_front_global', function($data) {
-    $data['myData'] = 'Some value';
+    $data['nonce'] = wp_create_nonce('add-posts');
     return $data;
 });
 ```
@@ -123,7 +124,7 @@ var themosis = {
 };
 ```
 
-### Customize object name
+#### Customize object name
 
 You can easily change the variable name of this global object. In order to do so, open the `config/assets.php` file and change the `ajax.front` property value:
 
@@ -135,6 +136,22 @@ You can easily change the variable name of this global object. In order to do so
 ]
 ```
 
-### WordPress localize
+### WordPress administration
+
+The Themosis framework also exposes a JavaScript global object called `themosisGlobal` inside the WordPress administration pages. This object is used by the core framework but can also be leverage by your own custom application and plugins.
+
+The exception is that its variable name cannot be changed and must stay `themosisGlobal` in order for core JavaScript files to work.
+
+You can add your own data to this global object by using the `themosis_admin_global` filter like so:
+
+```php
+Filter::add('themosis_admin_global', function ($data) {
+    $data['custom'] = 42;
+    return $data;
+});
+```
+
+WordPress localize
+------------------
 
 If you need JavaScript properties for use inside your script, please check the [asset guide]({{url}}/asset) and the `localize` method.
