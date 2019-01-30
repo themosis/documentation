@@ -2,7 +2,7 @@ Page
 ====
 
 - [Introduction](#introduction)
-- [Custom page](#custom-page)
+- [Custom administration page](#custom-administration-page)
 	- [Extra parameters](#extra-parameters)
 	- [Create a custom page](#create-a-custom-page)
 - [WordPress Settings API](#wordpress-settings-api)
@@ -14,12 +14,17 @@ Page
 Introduction
 ------------
 
-The `Page` class allows you to either create custom administrative pages that leverage the View API or either options pages that use the WordPress Settings API combined with the Themosis framework Field API.
+The `Page` class allows you to either create custom WordPress administrative pages or either WordPress options pages that leverage the WordPress Settings API.
 
-Custom page
------------
+Custom administration page
+--------------------------
 
-In order to create a page, type the following code:
+In order to create a WordPress administration page, you first need to create a page instance by calling the `make` method followed by the `set` method in order to register the page within WordPress:
+
+```php
+Page::make('custom-page', 'Page Title')
+    ->set();
+```
 
 ```php
 Page::make($slug, $title, $parent = null, $view = null)->set();
