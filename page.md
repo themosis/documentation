@@ -1,6 +1,8 @@
 Page
 ====
 
+> The page documentation is not yet up to date with release 2.0.
+
 - [Introduction](#introduction)
 - [Custom administration page](#custom-administration-page)
 	- [Extra parameters](#extra-parameters)
