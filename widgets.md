@@ -1,6 +1,8 @@
 Widgets
 =======
 
+> The widget documentation is not yet up to date with release 2.0.
+
 - [Introduction](#introduction)
 - [Register a widget location](#register-a-widget-location)
 - [Create a widget](#create-a-widget)
