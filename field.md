@@ -1,51 +1,72 @@
 Field
 =====
 
+- [Introduction](#introduction)
+- [Shared options](#shared-options)
+- [Fields](#fields)
+    - [Text field](#text-field)
+    - [Textarea field](#textarea-field)
+
 > The field documentation is not yet up to date with release 2.0.
 
-The Themosis framework is bundled with an API to build WordPress custom fields. The framework gives you a list of predefined fields to use that leverage WordPress core API in order to customize your content.
+Introduction
+------------
 
-The framework handles the display of your custom fields in the WordPress administration.
+The Themosis framework is bundled with an API to build custom fields. This API is leveraged by the framework to help you build WordPress metabox custom fields, page settings, ... and form fields.
 
-The `Field` class is an helper class in order to build custom fields in WordPress. It's a generic class that you should use to build any type of custom fields.
+The `Field` class is a generic class that you should use to build any type of custom fields within your application. This class is used for:
 
-This class is used for:
+* Adding fields to a metabox
+* Adding fields to an option page (Settings API)
+* Adding fields to a form
+* And more...
 
-* Adding custom fields to a metabox
-* Adding custom fields to an option page (Settings API)
-* Adding custom fields to users
-* Adding custom fields to taxonomy terms
-* More to come (Customize,...)
+The `Field` class has been fully refactored and no longer returns just an HTML tag. Each time a field is created, it returns a `FieldTypeInterface` instance. Depending on the context, the field API has methods to return each instance either as a string for HTML output, as an array of properties or as a JSON object.
 
-The `Field` class implements the `Form` class to render its inputs but also provides a UI regarding the context: metabox, settings, user, terms,...
+Each field method signature follow the same structure, the first argument is the `name` and the second argument is an array of `options` like so:
 
-Here is the list of custom fields available:
+```php
+Field::text('name', [
+    'label' => 'Full name',
+    ...
+]);
+```
+
+Before going into each field and their specific options, let's first list all the shared options you can use on all instances.
+
+Shared options
+--------------
+
+
+Fields
+------
+
+Here is the list of custom fields available (note that some fields are not available on some contexts):
 
 * [Checkbox](#checkbox-field)
+* [Choice](#choice-field)
 * [Collection](#collection-field)
 * [Color](#color-field)
 * [Date](#date-field)
 * [Editor](#editor-field)
-* [Infinite](#infinite-field)
+* [Integer](#integer-field)
 * [Media](#media-field)
 * [Number](#number-field)
 * [Password](#password-field)
-* [Radio](#radio-field)
-* [Select](#select-field)
 * [Text](#text-field)
 * [Textarea](#textarea-field)
 
-### Text field
+Text field
+----------
 
-Build a simple text field: `<input type="text"/>`
+The text field output an input tag with a type of `text`.
 
 ```php
-Field::text($name, $features = [], $attributes = []);
+Field::text($name, $options = []);
 ```
 
-* **$name**: _string_ The field/meta name/key.
-* **$features**: _array_ Features of the custom field.
-* **$attributes**: _array_ A list of attributes to add to the input field.
+* **$name**: _string_ The field name.
+* **$options**: _array_ Features of the custom field.
 
 Possible values for the `$features` parameter:
 
