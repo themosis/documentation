@@ -14,7 +14,15 @@ Form
     - [By group](#by-group)
     - [All fields](#all-fields)
 - [Retrieve form data](#retrieve-form-data)
-- [Change form prefix](#change-form-prefix)
+    - [Using a data object](#using-a-data-object)
+    - [Using the repository](#using-the-repository)
+- [Form options](#form-options)
+    - [Attributes](#attributes)
+    - [Errors](#errors)
+    - [Flush](#flush)
+    - [WordPress nonce](#wordpress-nonce)
+    - [Tags](#tags)
+    - [Theme](#theme)
 
 Introduction
 ------------
@@ -315,7 +323,7 @@ By setting the `flush` option to `false`, the form will keep its data after a su
 Retrieve form fields
 --------------------
 
-Each form instance contains a `FieldRepositoryInterface` instance. The fields repository class provides method to get fields defined inside your form.
+Each form instance contains a `FieldRepositoryInterface` instance. The fields repository class provides methods to get fields defined inside your form.
 
 In order to access the fields repository class, call the form `repository` method:
 
@@ -326,7 +334,7 @@ $repository = $form->repository();
 
 ### By name
 
-The fields repository class has a `getFieldByName` method you can use to retrieve a specific field instance from your form by passing the field original (not the prefixed one) name value:
+The fields repository class has a `getFieldByName` method you can use to retrieve a specific field instance from your form by passing the field original name (not the prefixed one) value:
 
 ```php
 $form = $this->form(new ContactForm());
@@ -338,9 +346,9 @@ $messageField = $form->repository()->getFieldByName('message');
 
 ### By group
 
-By default, a form instance is organizing all attached fields to a `default` group. Think of a form group as a form section containing its own inner fields.
+By default, a form instance is organizing all attached fields to a `default` group. Think of a form group as a form section containing its own inner fields. At render time, each group is also contained in its own div element.
 
-> See organizing form fields for more information about form groups.
+> See [organizing form fields](#organizing-form-fields) for more information about form groups.
 
 The repository also provides a method where you can grab a collection of fields by their group name using the `getFieldsByGroup` method and passing the group name as the argument:
 
@@ -350,11 +358,11 @@ $form = $this->form(new ContactForm());
 $fields = $form->repository()->getFieldsByGroup('default');
 ```
 
-On a form using only the `default` group, the function is returning all its fields.
+On a form using only the `default` group, the function is returning all fields.
 
 ### All fields
 
-The repository also has an `all` method where you can fetch all your form fields from all its groups as well:
+The repository also has an `all` method where you can fetch all your form fields from all its groups at once:
 
 ```php
 $form = $this->form(new ContactForm());
@@ -367,4 +375,187 @@ The `all` method return an array of fields instances.
 Retrieve form data
 ------------------
 
+After validation, you may access the form valid data in order to perform specific actions. The recommended approach is to use a "data object" representing the form data or by using the form fields repository instance in order to fetch fields objects and retrieve their value individually.
 
+### Using a data object
+
+> This feature is not yet implemented but is coming for the 2.0 stable release.
+
+### Using the repository
+
+Before being able to fetch data from the form repository, make sure to set the form `flush` option to `false` in order to persist validated data after a successful validation.
+
+As mentioned above, using the fields repository, you can access each field instance and return their data by using the `getValue` method like so:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Forms\ContactForm;
+use Illuminate\Http\Request;
+
+class PageController extends Controller
+{
+    public function sendContactConfirmation(Request $request)
+    {
+        $form = $this->form(new ContactForm());
+        $form->handleRequest($request);
+        
+        if ($form->isValid()) {
+            $fullname = $form->repository()->getFieldByName('fullname')->getValue();
+            $email = $form->repository()->getFieldByName('email')->getValue();
+            ...
+            // Send confirmation and redirect...
+        }
+    }
+}
+```
+
+When using the repository methods, use the original name passed when building your form fields. The object make sure to ignore the prefix value as this is only used at render time.
+
+Form options
+------------
+
+Each form instance has a list of options that controls its behavior. In order to customize your form, you can pass an array of options to the form factory `make` method:
+
+```php
+return $factory->make([
+    'attributes' => [
+        'id' => 'contact-form'
+    ],
+    'flush' => false,
+    ...
+]);
+```
+
+Here is a list of the form options available on each instance: `attributes`, `errors`, `flush`, `nonce`, `nonce_action`, `referer`, `tags` and `theme`.
+
+### Attributes
+
+You can control the form tag HTML attributes by passing an `attributes` option to your form and passing an array of key/value pairs. The key is representing the HTML attribute name and the value the attribute value.
+
+You can, for example, specify the `action` attribute value of your form in order to send the request to another URL like so:
+
+```php
+public function build(FormFactoryInterface $factory, FieldFactoryInterface $fields): FormInterface
+{
+    return $factory->make([
+        'attributes' => [
+            'action' => route('settings'), // return http://domain.com/settings URL
+            'id' => 'contact-form',
+            'class' => 'form-control'
+        ]
+    ])
+        ...
+        ->get();
+}
+```
+
+### Errors
+
+The `errors` option allows you to inform the form to display or not the errors messages after validation. By default, after a failed validation, if you render the form, each field is displaying its error message below its input. If you want to control where to display form errors on your page, then you can set the `errors` option to `false` and then leverage the `errors` method of your form instance to get the list of messages to display.
+
+```php
+return $factory->make([
+    'errors' => false
+])
+...
+->get();
+```
+
+By setting the `errors` option to `false`, your form is no longer displaying errors messages. Use the form `errors` method to fetch the messages like so:
+
+```php
+public function sendContactConfirmation(Request $request)
+    {
+        $form = $this->form(new ContactForm());
+        $form->handleRequest($request);
+        
+        if ($form->isNotValid()) {
+            return view('pages.contact', [
+                'form' => $form,
+                'errors' => $form->errors()
+            ]);
+        }
+    }
+```
+
+The `errors` method is returning a `Illuminate\Contracts\Support\MessageBag` instance. From your view, you can loop through all errors messages like so:
+
+```php
+<h1>Contact</h1>
+@if($errors->any())
+    <ul>
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
+{!! $form->render() !!}
+```
+
+### Flush
+
+The `flush` option, as already mentioned, allows you to remove or not validated data after a successful validation. By default the value is set to `true` meaning that the data is removed upon validation. If you want to persist the data in your form instance, set the `flush` option value to `false`.
+
+```php
+return $factory->make([
+    'flush' => false
+])
+...
+->get();
+```
+
+### WordPress nonce
+
+By default, all form instances generate a WordPress nonce field. By default, the nonce name is set to `_themosisnonce` with a default action value of `form`.
+
+It is best to customize the nonce field per form. You can do so by providing a `nonce` and/or a `nonce_action` options to your form instance. Generally, you may want to keep the default nonce name `_themosisnonce` but it is recommended to change the action verb like so:
+
+```php
+return $factory->make([
+    'nonce_action' => 'contact_us'
+])
+...
+->get();
+```
+
+Also, the WordPress nonce uses a `referer` boolean value. If set to `true`, a referrer field is also adding into the form (default). If set to `false`, no referrer value is defined for the request:
+
+```php
+return $factory->make([
+    'nonce_action' => 'contact_us',
+    'referer' => false
+])
+...
+->get();
+```
+
+### Tags
+
+The `tags` option controls the output of the form HTML tags. If for example, your form should be embedded inside an existing form (for example, inside a WordPress administration page), you may need to output only its fields by setting the `tags` option to `false` like so:
+
+```php
+return $factory->make([
+    'tags' => false
+])
+...
+->get();
+```
+
+### Theme
+
+A form and its fields are rendered through a group of pre-defined views. Each group of views is a theme. By default, each form is rendered using the `themosis` theme which output the HTML tags with custom CSS classes in order to customize the look of your form.
+
+The framework also handles a `bootstrap` theme, which output form elements using the BootstrapCSS classes. In order to change the form theme, simply provide a `theme` option with the group name as a value like so:
+
+```php
+return $factory->make([
+    'theme' => 'bootstrap'
+])
+...
+->get();
+```
+
+When a theme is applied from the form, the theme is applied to its inner fields directly.
