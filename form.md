@@ -23,6 +23,8 @@ Form
     - [WordPress nonce](#wordpress-nonce)
     - [Tags](#tags)
     - [Theme](#theme)
+- [Form prefix](#form-prefix)
+- [Organizing form fields](#organizing-form-fields)
 
 Introduction
 ------------
@@ -559,3 +561,64 @@ return $factory->make([
 ```
 
 When a theme is applied from the form, the theme is applied to its inner fields directly.
+
+Form prefix
+-----------
+
+By default, a form is prefixing all passed name attribute values. This mechanism is provided by default in order to avoid conflict with WordPress reserved query vars.
+
+The default `th_` prefix is applied to all form fields. In order to change the prefix for your form fields, you may call the `setPrefix` method on the form instance like so:
+
+```php
+public function build(FormFactoryInterface $factory, FieldFactoryInterface $fields): FormInterface
+{
+    $form = $factory->make()
+        ->add($fields->text('fullname', [
+            'rules' => 'required|min:3'
+        ]))
+        ...
+        ->get();
+        
+    return $form->setPrefix('custom_');
+}
+```
+
+Organizing form fields
+----------------------
+
+The new form API allows you to group fields. This grouping capability does not affect the form behavior in its data management but does change how the form is rendered.
+
+At render time, the form is wrapping each group with their associated fields on a div element. The group feature allows better customization in order to style your form inside your view.
+
+In order to group your form fields, you need to pass a `group` option to each one of your fields:
+
+```php
+public function build(FormFactoryInterface $factory, FieldFactoryInterface $fields): FormInterface
+{
+    return $factory->make()
+        ->add($fields->text('firstname', [
+            'group' => 'main'
+        ]))
+        ->add($fields->text('lastname', [
+            'group' => 'main'
+        ]))
+        ->add($fields->email('email', [
+            'group' => 'main'
+        ]))
+        ->add($fields->textarea('message'))
+        ->add($fields->submit('send', [
+            'label' => 'Contact Us'
+        ]))
+        ->get();
+}
+```
+
+In the above example, the last name, first name and email fields are grouped under the `main` group while other fields are grouped to the `default` one. The group name is arbitrary. The API is grouping fields based on a similar group name.
+
+You can then render the form inside your view using the `render` method:
+
+```php
+{!! $form->render() !!}
+```
+
+Based on the above example, the first 3 fields are wrapped in a separate div element.
