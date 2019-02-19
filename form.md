@@ -9,6 +9,7 @@ Form
 - [Error reporting](#error-reporting)
     - [Perform action on successful validation](#perform-action-on-successful-validation)
     - [Persist form data on successful validation](#persist-form-data-on-successful-validation)
+    - [Customize error messages](#customize-error-messages)
 - [Retrieve form fields](#retrieve-form-fields)
     - [By name](#by-name)
     - [By group](#by-group)
@@ -322,6 +323,64 @@ class ContactForm implements Formidable
 
 By setting the `flush` option to `false`, the form will keep its data after a successful validation so you can now retrieve its validated data.
 
+### Customize error messages
+
+All validation rules have an error message attached to them by default. The list of errors messages is stored at application root inside the `resources/languages/en_US/validation.php` file.
+
+> Note that the framework is also providing error messages in french for France within the `fr_FR` directory and for Belgium in the `fr_BE` folder.
+
+The `validation.php` file is a global list of messages for your application. You could customize your form error messages from there but please note that any change applied inside that validation file is applicable on all your application forms: front-end forms, metabox fields, page settings, ...
+
+If you want to customize the error message for your form, it is best to pass a `messages` option to your field. The `messages` option accept an array of key/value pairs where the key is the name of the validation rule and its value, the validation message.
+
+For example, let's customize the errors messages for the contact form:
+
+```php
+public function build(FormFactoryInterface $factory, FieldFactoryInterface $fields): FormInterface
+{
+    return $factory->make()
+        ->add($fields->text('fullname', [
+            'rules' => 'required|min:3',
+            'messages' => [
+                'min' => 'Your :attribute should contain 3 characters at least.'
+            ]
+        ]))
+        ->add($fields->email('email', [
+            'rules' => 'required|email',
+            'messages' => [
+                'required' => 'Oh dear, please provide your :attribute.'
+            ]
+        ]))
+        ->add($fields->textarea('message', [
+            'rules' => 'required|min:20'
+        ]))
+        ->add($fields->submit('submit'))
+        ->get();
+}
+```
+
+> Note the use of the `:attribute` placeholder. This attribute placeholder is replaced by the field name (without its prefix) inside the message. So, based on the example above, the full name minimum message is: "Your fullname should contain 3 characters at least."
+
+You can also customize the value of the `:attribute` placeholder. You can change the attribute value by passing a `placeholder` option to your field like so:
+
+```php
+// Message: Your full name should contain 3 characters at least.
+$fields->text('fullname', [
+    'messages' => [
+        'min' => 'Your :attribute should contain 3 characters at least.'
+    ],
+    'placeholder' => 'full name',
+])
+
+// Message: Oh dear, please provide your e-mail address.
+$fields->email('email', [
+    'messages' => [
+        'required' => 'Oh dear, please provide your :attribute.'
+    ],
+    'placeholder' => 'e-mail address'
+])
+```
+
 Retrieve form fields
 --------------------
 
@@ -622,3 +681,9 @@ You can then render the form inside your view using the `render` method:
 ```
 
 Based on the above example, the first 3 fields are wrapped in a separate div element.
+
+Next
+----
+
+You can read the following documentation:
+* [Field guide]({{url}}/field)
