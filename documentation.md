@@ -14,6 +14,7 @@
 - [Middleware]({{url}}/middleware)
 - [Controllers]({{url}}/controllers)
 - [Models]({{url}}/models)
+- [Hooks]({{url}}/hooks)
 
 #### Views & templates
 
