@@ -8,7 +8,7 @@ Installation
 - [Laravel Homestead](#laravel-homestead)
 - [Install WordPress](#install-wordpress)
 
-> Themosis framework 2.0 is in a **beta** state. It is stable enough for production but some APIs might still change.
+> Themosis framework 2.0 is in a **Release Candidate** state.
 
 Requirements:
 -------------
@@ -35,23 +35,10 @@ Install the Themosis framework
 Open your `Terminal` or `Console` and execute the following command:
 
 ```bash
-composer create-project themosis/themosis my-project-name 2.0-beta3
+composer create-project themosis/themosis my-project-name 2.0-RC1
 ```
 
 This will create a directory called `my-project-name` on your computer and automatically download the latest WordPress version along with the latest Themosis framework version and its dependencies.
-
-Install the theme
------------------
-
-By default, the default theme is no longer installed using Composer.
-
-Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install the new theme, run the `theme:install` command from the terminal:
-
-```bash
-php console theme:install my-theme
-```
-
-The command will download and unzip a new theme into the `htdocs/content/themes/my-theme` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
 
 Laravel Homestead
 -----------------
@@ -98,6 +85,19 @@ vagrant up
 ```
 
 Before visiting the browser in order to install WordPress, please make sure to first read the [configuration guide]({{url}}/configuration).
+
+Install the theme
+-----------------
+
+By default, the default theme is no longer installed using Composer.
+
+Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install the new theme, connect into your [local virtual machine](#laravel-homestead), go to the project root and run the `theme:install` command from the terminal:
+
+```bash
+php console theme:install my-theme
+```
+
+The command will download and unzip a new theme into the `htdocs/content/themes/my-theme` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
 
 Install WordPress
 -----------------
