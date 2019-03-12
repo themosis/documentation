@@ -21,7 +21,7 @@ The `Field` class is a generic class that you should use to build any type of cu
 * Adding fields to a form
 * And more...
 
-The `Field` class has been fully refactored and no longer returns just an HTML tag. Each time a field is created, it returns a `FieldTypeInterface` instance. Depending on the context, the field API has methods to return each instance either as a string for HTML output, as an array of properties or as a JSON object.
+The `Field` class has been fully refactored and no longer returns just a HTML tag. Each time a field is created, it returns a `FieldTypeInterface` instance. Depending on the context, the field API has methods to return each instance either as a string for HTML output, as an array of properties or as a JSON object.
 
 Each field method signature follow the same structure, the first argument is the `name` and the second argument is an array of `options` like so:
 
@@ -37,6 +37,53 @@ Before going into each field and their specific options, let's first list all th
 Shared options
 --------------
 
+All fields share a list of common properties.
+
+### Attributes
+
+The `attributes` option allows you to define an array of HTML attributes for your field. The key is the attribute name and its value the attribute value. For some attributes, it is also possible to omit the value and only pass the key name.
+
+```php
+Field::text('demo', [
+    'attributes' => [
+        'id' => 'demo-id',
+        'class' => 'custom-demo',
+        'required'
+    ]
+]);
+```
+
+### Data
+
+The `data` option lets you define a default value for your field. You can either set a string or an array default value depending on the field type.
+
+```php
+Field::text('demo', [
+    'data' => 'Initial value'
+]);
+```
+
+### Data Type
+
+The `data_type` option is mainly used for fields combined with WordPress elements like metabox, settings, ... The `data_type` value is used by the WordPress RestAPI and let you define the type of the data stored by the field: `string`, `boolean`, `array`, ... and that is going to be exposed by the RestAPI schema.
+
+```php
+Field::text('demo', [
+    'data_type' => 'string'
+]);
+```
+
+### Errors
+
+The `errors` option lets you display or not the field errors messages. The option only accepts a boolean value. Default value is `true`.
+
+> The `errors` option is not handled by the field when used with a metabox.
+
+```php
+Field::text('demo', [
+    'errors' => false
+]);
+```
 
 Fields
 ------
