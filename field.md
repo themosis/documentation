@@ -4,10 +4,21 @@ Field
 - [Introduction](#introduction)
 - [Shared options](#shared-options)
 - [Fields](#fields)
-    - [Text field](#text-field)
-    - [Textarea field](#textarea-field)
-
-> The field documentation is not yet up to date with release 2.0.
+    - [Button](#button-field)
+    - [Checkbox](#checkbox-field)
+    - [Choice](#choice-field)
+    - [Collection](#collection-field)
+    - [Color](#color-field)
+    - [Editor](#editor-field)
+    - [Email](#email-field)
+    - [Hidden](#hidden-field)
+    - [Integer](#integer-field)
+    - [Media](#media-field)
+    - [Number](#number-field)
+    - [Password](#password-field)
+    - [Submit](#submit-field)
+    - [Text](#text-field)
+    - [Textarea](#textarea-field)
 
 Introduction
 ------------
@@ -303,282 +314,334 @@ Field::checkbox($name, $options = []);
 
 ### Choice field
 
+The choice field allows you to create 4 different types of field:
 
+1. [A single select field](#single-select-field)
+2. [A multiple select field](#multiple-select-field)
+3. [A radio field](#radio-field)
+4. [A multiple checkbox field](#multiple-checkbox-field)
 
-Text field
-------------
-
-The text field output an input tag with a type of `text`.
-
-```php
-Field::text($name, $options = []);
-```
-
-* **$name**: _string_ The field name.
-* **$options**: _array_ Features of the custom field.
-
-Possible values for the `$features` parameter:
+The choice field accept as a first parameter a name and in order to attach a list of options to your field, you need to pass a `choices` option to it like so:
 
 ```php
-$features = [
-    'title'   => 'The field display title. By default it uses the $name.',
-    'info'    => 'Add a helper text/description to the field.',
-    'default' => 'You can define a default value for the field.'
-];
+Field::choice('color', [
+    'choices' => ['red', 'green', 'blue']
+]);
 ```
 
-#### Note about the fields attributes parameter
+The above example renders a single select input element.
 
-Some fields implement a parameter called `$attributes`. This parameter allows you to specify custom attributes to the field HTML tag.
+#### Single select field
 
-For example, let's add a custom class to a text field:
+The choice field is by default configured to output a single select input element. You can pass a list of options by using the `choices` property.
+
+The `choices` field option accepts an array as a value and the structure of your array also defines its output.
+
+##### Define a select field using a numeric array
+
+If you pass a numeric array as a value for your field `choices` option, each array item is considered as the option value.
+
+For example:
 
 ```php
-Field::text('author', ['title' => 'Book author'], ['class' => 'custom-text-class']);
+// Select field with numeric array:
+Field::choice('color', [
+    'choices' => [
+        'red',
+        'green',
+        'blue'
+    ]
+]);
+
+// Output the following HTML:
+<select name="th_color">
+    <option value="red">Red</option>
+    <option value="green">Green</option>
+    <option value="blue">Blue</option>
+</select>
 ```
 
-You can add any attributes you want each time you see a field implementing the `$attributes` parameter.
+> The array value is always used as the option element value.
 
-### Textarea field
+##### Define a select field using an associative array
 
-Build a textarea field: `<textarea></textarea>`
+If you pass an associative array as a value for your field `choices` option, the key is option element text and the value its value attribute.
+
+For example:
 
 ```php
-Field::textarea($name, $features = [], $attributes = []);
+// Select field with associative array
+Field::choice('color', [
+    'choices' => [
+        'Red Color' => 'red',
+        'Green Color' => 'green',
+        'Blue Color' => 'blue'
+    ]
+]);
+
+// Output the following HTML:
+<select name="th_color">
+    <option value="red">Red Color</option>
+    <option value="green">Green Color</option>
+    <option value="blue">Blue Color</option>
+</select>
 ```
 
-* **$name**: _string_ The field name.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes.
+##### Define a select field with options groups
 
-### Number field
+If you pass an array of array as a value for your field `choices` option, you can output a select field with optgroup HTML elements.
 
-Build a simple number field: `<input type="number"/>`
+For example:
 
 ```php
-Field::number($name, $features = [], $attributes = []);
+// Select field with optgroup elements
+Field::choice('color', [
+     'choices' => [
+         'Light Colors' => [
+             'red',
+             'green',
+             'blue'
+         ],
+         'Dark Colors' => [
+             'Dark purple' => 'purple',
+             'Dark brown' => 'brown',
+             'Deep black' => 'black'
+         ]
+    ]
+]);
+
+// Output the following HTML
+<select name="th_color">
+    <optgroup label="Light Colors">
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+        <option value="blue">Blue</option>
+    </optgroup>
+    <optgroup label="Dark Colors">
+        <option value="purple">Dark purple</option>
+        <option value="brown">Dark brown</option>
+        <option value="black">Deep black</option>
+    </optgroup>
+</select>
 ```
 
-* **$name**: _string_ The field name.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes.
+#### Multiple select field
 
-### Date field
-
-Build a simple date field: `<input type="date"/>`
+The choice field can also be used to build a select field with multiple options. In order to let a user select multiple values, set the field `multiple` option to `true` like so:
 
 ```php
-Field::date($name, $features = [], $attributes = []);
+Field::choice('color', [
+    'choices' => [
+        'red',
+        'green',
+        'blue'
+    ],
+    'multiple' => true
+]);
 ```
 
-* **$name**: _string_ The field name.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes.
+#### Radio field
 
-### Password field
-
-Build a simple password field: `<input type="password"/>`
+The choice field can generate a radio input field by setting the field `expanded` option to `true`:
 
 ```php
-Field::password($name, $features = [], $attributes = []);
+Field::choice('direction', [
+    'choices' => [
+        'left',
+        'right'
+    ],
+    'expanded' => true
+]);
 ```
 
-* **$name**: _string_ The field name.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes.
+#### Multiple checkbox field
+
+You can create a multiple checkbox field by setting the `expanded` and `multiple` option of the choice field to `true`:
+
+```php
+Field::choice('languages', [
+    'choices' => [
+        'css',
+        'html',
+        'javascript,'
+        'php'
+    ],
+    'expanded' => true,
+    'multiple' => true
+]);
+```
+
+### Collection field
+
+The collection field is only available within a metabox context and allows a user to insert multiple WordPress media items. The field only stores the WordPress attachment ID. 
+
+The collection field UI allows an end-user to add, order, delete or bulk delete attachments. Useful for galleries or specifying a list of files to download,...
+
+> The collection field is only available within a metabox context.
+
+```php
+Field::collection($name, $options = []);
+```
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+The collection field also accepts a `limit` option which allows you to limit the number of media a user can add to the collection.
+
+You can also specify the `type` of media attachment to insert into the collection by passing a `type` option to the field. The `type` option accepts a string or an array of those values: `image`, `application`, `video`, `audio`, `text`. By default, the `type` options has the following value `['application', 'image']`
+
+#### Create a basic collection of images and files
+
+```php
+// The default collection field allows you to manage images and files
+Field::collection('gallery');
+```
+
+#### Create a collection of files
+
+```php
+// Same but only for files.
+Field::collection('papers', [
+    'type' => 'application'
+]);
+```
+
+#### Create a collection of images
+
+```php
+Field::collection('files', [
+    'type' => 'image'
+]);
+```
+
+#### Limit the number of media
+
+Using the `limit` option, you can limit the number of media files a user can add to the collection field:
+
+```php
+// Limit the number of media to add to a collection.
+Field::collection('pictures', [
+    'limit' => 5
+]);
+```
 
 ### Color field
 
-Build a color field and display a color picker widget so users can pick a color easily.
+Build a color field and display a color picker widget so end-users can easily pick a color.
+
+> Note that the color field is only available within a metabox context.
 
 ```php
-Field::color($name, $features = [], $attributes = []);
+Field::color($name, $options = []);
 ```
 
-* **$name**: _string_ The field name.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes.
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
 
-### Checkbox field
+#### Default color set
 
-Build a **single** or **multiple** checkbox field: `<input type="checkbox"/>`
-
-```php
-Field::checkbox($name, $options, $features = [], $attributes = []);
-```
-
-* **$name**: _string_ The field name.
-* **$options**: _string|array_ One or more options to check.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes. If multiple checkbox, the same attributes will be added to each checkbox.
-
-#### Create a single checkbox
-
-In the example below, let's define a checkbox with one option. This might be a toggle option:
+You can specify a set of default colors for the field by passing a list of colors to the `colors` field option like so:
 
 ```php
-Field::checkbox('toggle', 'activate');
-```
-
-The above code will output a checkbox field with displayed label of `Activate` and a value of `activate`.
-
-If you want to customize the text displayed beside the checkbox, set a `key/value` pair for your checkbox options like so:
-
-```php
-Field::checkbox('toggle', ['activate' => 'Activate this option']);
-```
-
-The code will output the checkbox like the previous example except that its text beside the checkbox is now customized.
-
-##### Add attributes to the checkbox label
-
-The checkbox field renders a label tag beside each of its inputs. You can now pass custom attributes to those label tags by passing a `label` attribute to the field attributes property:
-
-```php
-Field::checkbox('toggle', 'activate', [], ['label' => ['class' => 'label-class']]);
-```
-
-Pass an array of attributes to the `label` special property of the checkbox field.
-
-#### Create a multi-choices checkbox
-
-Simply pass an array of choices/options to your checkbox field like so:
-
-```php
-Field::checkbox('colors', ['red', 'green', 'blue']);
-```
-
-### Radio field
-
-Build radio field: `<input type="radio" />`
-
-The radio field also provides multiple radio inputs with a label beside each input. The `label` attribute is also available to the radio field and you can also customize the displayed text for each option/choice of your field.
-
-```php
-Field::radio($name, $options, $features = [], $attributes = []);
-```
-
-* **$name**: _string_ The field name.
-* **$options**: _array_ A list of options.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes. The `label` attribute is also available. Read the checkbox field documentation above on how to use it.
-
-### Select field
-
-Build a select field: `<select></select>`
-
-The select field is highly customizable. You can build simple select tag or with subgroups or/and define if you need multiple selection.
-
-You can also define the value of your option tag to be numeric or custom: `<option value="$key">$value</option>`
-
-```php
-Field::select($name, $options, $features = [], $attributes = []);
-```
-
-* **$name**: _string_ The field name.
-* **$options**: _array_ The select field options.
-* **$features**: _array_ Field features.
-* **$attributes**: _array_ Field attributes.
-
-> Note: If you want to make multi selection field, simply add the `multiple` attribute. Previous release proposed a `$multiple` argument which is deprecated in favor of the `$attributes['multiple']` parameter.
-
-#### Basic select field
-
-Build a simple select field with **numeric** values:
-
-```php
-Field::select('my-field', [
-    [
-        'None',
-        'Belgium',
-        'France',
-        'United States'
-    ]
-], ['title' => 'Choose a country:']);
-```
-
-Build a simple select field with **custom** values:
-
-```php
-Field::select('my-field', [
-    [
-        'none' => 'None',
-        'bel'  => 'Belgium',
-        'fra'  => 'France',
-        'usa'  => 'United States'
-    ]
-], ['title' => 'Choose a country:']);
-```
-
-#### Select field with subgroups
-
-Build a select field with subgroup of options using **numeric** values:
-
-```php
-Field::select('my-field', [
-    'europe' => [
-        'Belgium',
-        'France'
-    ],
-    'america' => [
-        'United States'
+Field::color('brand', [
+    'colors' => [
+        [
+            'name' => 'Primary Color',
+            'color' => '#f78da7'
+        ],
+        [
+            'name' => 'Secondary Color',
+            'color' => '#cf2e2e'
+        ]
     ]
 ]);
 ```
 
-Build a select field with subgroup of options using **custom** values:
+> Note how the list of colors is formatted, you must pass an array of array with the keys `name` and `color`.
+
+The above example will output a color field with 2 default colors and a color picker.
+
+#### Disable color picker
+
+The color field provides a color picker by default to let the end-user choose a custom color. You can disable this feature and in that case limit the user to use only the pre-defined color palette.
+
+In order to disable the color picker, set the `disableCustomColors` option to `true`:
 
 ```php
-Field::select('my-field', [
-    'europe' => [
-        'bel' => 'Belgium',
-        'fra' => 'France'
-    ],
-    'america' => [
-        'usa' => 'United States'
-    ]
+Field::color('brand', [
+    'disableCustomColors' => true
 ]);
-```
-
-#### Select multiple values
-
-Simply set the multiple attribute of the select field like so:
-
-```php
-Field::select('my-field', [
-    [
-        'None',
-        'Belgium',
-        'France',
-        'United States'
-    ]
-], ['title' => 'Choose a country:'], ['multiple']);
 ```
 
 ### Editor field
 
-Build a WordPress Editor TinyMCE field.
-
-**Note:** This field isn't actually working with the `Infinite` custom field.
+Create a WordPress Editor TinyMCE field.
 
 ```php
-Field::editor($name, $features, $settings);
+Field::editor($name, $options = []);
 ```
 
-* **$name**: _string_ The field name.
-* **$features**: _array_ Field features.
-* **$settings**: _array_ An array of parameters of the WordPress editor. Use this [codex guide](https://codex.wordpress.org/Function_Reference/wp_editor) to define your editor **settings**.
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+You can control the behavior of the TinyMCE editor by passing a `settings` option to the editor field. The `settings` option accepts an array of parameters. Use this [codex guide](https://codex.wordpress.org/Function_Reference/wp_editor) to define the field `settings` option.
+
+If you're using the editor field within the context of a metabox, use the `settings_js` option instead.
+
+### Email field
+
+Create an email input field.
+
+```php
+Field::email($name, $options = []);
+```
+
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+### Hidden field
+
+Create a hidden input field. In the context of a page setting, the hidden field displays a disabled input, the value is then visible to end-users.
+
+> The hidden field is not supported on term fields and user fields.
+
+```php
+Field::hidden($name, $options = []);
+```
+
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+In order to specify the default value for a hidden field, use the `data` option like so:
+
+```php
+Field::hidden('apikey', [
+    'data' => 'XYZ123456789'
+]);
+```
+
+### Integer field
+
+Create a number input field where its value is always formatted to an integer numeric value. The field helps reinforce the value so an end-user cannot enter a float number.
+
+```php
+Field::integer($name, $options = []);
+```
+
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
 
 ### Media field
 
-Build a media field. This field allows you to upload or attach any file by using the WordPress Media API.
+Build a WordPress media field. This field allows you to upload or attach any file by using the WordPress Media API.
+
+> The media field is only available within a metabox context.
 
 ```php
-Field::media($name, $features = []);
+Field::media($name, $options = []);
 ```
 
-* **$name**: _string_ The field name.
-* **$features**: _array_ Field features.
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
 
 By default, the media field allows you to attach images only.
 
@@ -590,109 +653,83 @@ In order to allow the media field to attach other files except images, you need 
 
 ```php
 Field::media('report', [
-    'title' => 'Attach report',
+    'label' => 'Attach report',
     'type'  => 'application'
-])
+]);
 ```
 
-In some scenario, you might need to define multiple `types`, like having the ability to let users choose a PDF file or an image. In order to define multiple `types`, simply pass an array:
+In some scenario, you might need to define multiple types, like having the ability to let users choose a PDF file or an image. In order to define multiple types, simply pass an array:
 
 ```php
 Field::media('attachments', [
-    'title' => 'Share a file',
+    'label' => 'Share a file',
     'type' => ['image', 'application']
 ]);
 ```
 
-> The `type` feature only accepts 5 values: `image`, `text`, `application`, `video` and `audio`.
+> The `type` option accepts the following values: `image`, `text`, `application`, `video` and `audio`.
 
-### Collection field
+### Number field
 
-Allows a user to add/edit/delete a collection of media files. The collection field UI allows an end-user to add, order, delete or bulk delete files. Useful for galleries or specifying a list of files to download,...
-
-> Current implementation of the collection field only saves its meta data as one single serialized value.
+Create a number input field where float values are accepted.
 
 ```php
-Field::collection($name, $features = []);
+Field::number($name, $options = []);
 ```
-- **$name**: _string_ The field name.
-- **$features**: _array_ Field features. Same as the media field with an extra `limit` property which allows you to limit the number of media a user can add to the collection.
 
-#### Create a basic collection of images
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+### Password field
+
+Build a password input field.
 
 ```php
-// The default collection field allows you to manage images.
-Field::collection('gallery');
+Field::password($name, $options = []);
 ```
 
-#### Create a collection of files
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+### Submit field
+
+The submit field can only be used within a form context in order to add a submit input. Similar to the button field.
 
 ```php
-// Same but only for files.
-Field::collection('papers', ['type' => 'application']);
+Field::submit($name, $options = []);
 ```
 
-#### Create a collection of images and files
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+### Text field
+
+The text field output an input tag with a type of `text`.
 
 ```php
-Field::collection('files', ['type' => ['image', 'application']]);
+Field::text($name, $options = []);
 ```
 
-#### Limit the number of media
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
 
-Using the `limit` feature property, you can limit the number of media files a user can add to the collection field:
+### Textarea field
+
+Build a textarea field: `<textarea></textarea>`
 
 ```php
-// Limit the number of media to add to a collection.
-Field::collection('pics', ['limit' => 5]);
-```
-> Allowed `type` values: `image`, `text`, `application`, `video`, `audio`.
-
-### Infinite field
-
-Build a repeatable field. This allows you to define a single field or a group of fields to be repeated.
-
-> Current implementation of the infinite field only saves its meta data as one single serialized value.
-
-```php
-Field::infinite($name, $fields, $features);
+Field::textarea($name, $options = []);
 ```
 
-* **$name**: _string_ The field name.
-* **$fields**: _array_ An array of fields to repeat. Use any methods of the `Field` class excepts the `editor` field.
-* **$features**: _array_ Field features.
-
-> Please note that Infinite fields can't be nested currently.
-
-Example of an infinite field:
-
-```php
-Field::infinite('books', [
-    Field::text('title'),
-    Field::textarea('excerpt'),
-    Field::media('cover-image')
-]);
-```
-
-You can limit the number of repeatable rows by setting the `limit` property like so:
-
-```php
-Field::infinite('books', [
-    Field::text('title'),
-    Field::media('image')
-], [
-    'title' => 'List of books',
-    'limit' => 10
-])
-```
-
-The above code has a limit set to 10 rows of books.
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
 
 Next
 ----
 Check those guide to implement your custom fields:
 
-* [Metabox guide]({{url}}/metabox)
-* [Page guide]({{url}}/page)
-* [User guide]({{url}}/user)
-* [Taxonomy guide]({{url}}/taxonomy)
+- [Form guide]({{url}}/form)
+- [Metabox guide]({{url}}/metabox)
+- [Page guide]({{url}}/page)
+- [User guide]({{url}}/user)
+- [Taxonomy guide]({{url}}/taxonomy)
