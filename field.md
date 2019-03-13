@@ -37,10 +37,12 @@ Before going into each field and their specific options, let's first list all th
 Shared options
 --------------
 
+<div markdown="1"> {.items-list}
 [attributes](#attributes)
 [data](#data)
 [data_type](#data-type)
 [errors](#errors)
+</div>
 
 #### Attributes
 
