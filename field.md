@@ -19,6 +19,7 @@ Field
     - [Submit](#submit-field)
     - [Text](#text-field)
     - [Textarea](#textarea-field)
+- [General usage](#general-usage)
 
 Introduction
 ------------
@@ -723,6 +724,91 @@ Field::textarea($name, $options = []);
 
 - **$name**: _string_ The field name
 - **$options**: _array_ The field options
+
+General usage
+-------------
+
+As mentioned in the introduction, the new Field API is no longer just returning a string of HTML but each time you create a field you get back a `FieldTypeInterface`.
+
+The new API allows you to use it outside of the default core contexts and gives you several methods to control the behavior of your field as well as render it or transform it in a JSON object.
+
+In order to create a new field instance, simply use the `Field` facade like so:
+
+```php
+$title = Field::text('title');
+```
+
+The `$title` variable is now a `FieldTypeInterface` instance.
+
+// NOTE ABOUT FIELD FACTORY.
+
+By default, all field instances generate a field name value that is prefixed by `th_`. If you were to render to above field, its input name will be `th_title`.
+
+### Retrieve the field name
+
+As mentioned above, by default, all field names are prefixed by `th_`. This is done on purpose in order to avoid conflict with WordPress query vars. You can retrieve the composed name by using the `getName` method on a field instance like so:
+
+```php
+$title = Field::text('title');
+
+// Output: th_title
+var_dump($title->getName());
+```
+
+#### Retrieve original field name
+
+It is also possible to retrieve the field base name, without its prefix by calling the `getBaseName` method on a field instance:
+
+```php
+$title = Field::text('title');
+
+// Output: title
+var_dump($title->getBaseName());
+```
+
+### Change the field prefix
+
+You can modify the default prefix of a field by using the `setPrefix` method. In the case where you no longer want to use a prefix, you can pass an empty string as a parameter:
+
+```php
+$title = Field::text('title');
+$title->setPrefix('wp_');
+
+// or remove the prefix
+$title->setPrefix('');
+```
+
+#### Retrieve the field prefix
+
+The `FieldTypeInterface` also provides a method in order to return the field instance prefix. Use the `getPrefix` method to retrieve its value:
+
+```php
+$title = Field::text('title');
+$prefix = $title->getPrefix();
+
+// Output: th_
+var_dump($prefix);
+```
+
+### Define field options
+
+The `Field` facade allows you to pass field options as a second parameter when creating a new instance. Just note that the field factory is calling the `setOptions` method on a field instance for you as well as setting the field locale and view factory.
+
+### Define a field custom view
+
+When used outside of a core context, a field does not have a view file attached to it in order to be rendered. In order to customize the output of your field, you may use the `setView` method like so:
+
+```php
+$text = Field::text('title');
+$text->setView('fields.text');
+```
+
+By default, a field instance will try to use the defined view without prefixing its path with a `theme`. The above example will try to render the field using the `fields/text.blade.php` view file.
+
+```php
+<!-- resources/views/fields/text.blade.php -->
+<input type="text" name="{{ $__field->getName() }}"/>
+```
 
 Next
 ----
