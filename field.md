@@ -728,9 +728,11 @@ Field::textarea($name, $options = []);
 General usage
 -------------
 
-As mentioned in the introduction, the new Field API is no longer just returning a string of HTML but each time you create a field you get back a `FieldTypeInterface`.
+As mentioned in the introduction, the new Field API is no longer just returning a string of HTML but each time you create a field you get back a `FieldTypeInterface` instance.
 
 The new API allows you to use it outside of the default core contexts and gives you several methods to control the behavior of your field as well as render it or transform it in a JSON object.
+
+It is recommended to use the `Field` facade to create new field instances. The facade is referencing a field factory class. Each time you call a factory method, it sets up the field main dependencies and sets its options.
 
 In order to create a new field instance, simply use the `Field` facade like so:
 
@@ -740,11 +742,10 @@ $title = Field::text('title');
 
 The `$title` variable is now a `FieldTypeInterface` instance.
 
-// NOTE ABOUT FIELD FACTORY.
+By default, all field instances generate a field name value that is prefixed by `th_`. If you were to render the above field, its input name will be `th_title`.
 
-By default, all field instances generate a field name value that is prefixed by `th_`. If you were to render to above field, its input name will be `th_title`.
-
-### Retrieve the field name
+Retrieve the field name
+-----------------------
 
 As mentioned above, by default, all field names are prefixed by `th_`. This is done on purpose in order to avoid conflict with WordPress query vars. You can retrieve the composed name by using the `getName` method on a field instance like so:
 
@@ -755,7 +756,7 @@ $title = Field::text('title');
 var_dump($title->getName());
 ```
 
-#### Retrieve original field name
+### Retrieve original field name
 
 It is also possible to retrieve the field base name, without its prefix by calling the `getBaseName` method on a field instance:
 
@@ -766,7 +767,8 @@ $title = Field::text('title');
 var_dump($title->getBaseName());
 ```
 
-### Change the field prefix
+Change the field prefix
+-----------------------
 
 You can modify the default prefix of a field by using the `setPrefix` method. In the case where you no longer want to use a prefix, you can pass an empty string as a parameter:
 
@@ -778,7 +780,7 @@ $title->setPrefix('wp_');
 $title->setPrefix('');
 ```
 
-#### Retrieve the field prefix
+### Retrieve the field prefix
 
 The `FieldTypeInterface` also provides a method in order to return the field instance prefix. Use the `getPrefix` method to retrieve its value:
 
@@ -790,11 +792,87 @@ $prefix = $title->getPrefix();
 var_dump($prefix);
 ```
 
-### Define field options
+Field options
+-------------
 
-The `Field` facade allows you to pass field options as a second parameter when creating a new instance. Just note that the field factory is calling the `setOptions` method on a field instance for you as well as setting the field locale and view factory.
+The `Field` facade allows you to pass field options as a second parameter when creating a new instance. Just note that the field factory is calling the `setOptions` method on a field instance for you as well as setting the field locale and view factory dependencies.
 
-### Define a field custom view
+Some fields have specific and [shared options](#shared-options). Pass field options using the second parameter of the factory method like so:
+
+```php
+Field::text($name, $options);
+```
+
+### Retrieve all field options
+
+You can retrieve all field options by calling the `getOptions` method. The method returns an array of key/value pairs where the key is the option name and the value, the option value.
+
+```php
+$title = Field::text('title');
+
+$options = $title->getOptions();
+```
+
+### Retrieve a specific option
+
+It is also possible to retrieve a single option value by using the `getOption` method like so:
+
+```php
+$title = Field::text('title');
+
+$attributes = $title->getOption('attributes');
+```
+
+If the option is not yet set on the field instance and you're calling the `getOption` method, you can also define a default value to return as a second parameter:
+
+```php
+$title = Field::text('title');
+
+$group = $title->getOption('group', 'general');
+```
+
+> A field instance implements the ArrayAccess interface. It is also possible to get or set field options using the array syntax.
+
+Field value
+-----------
+
+The field instance must handle its data. Each field instance contains a data transformer class. The data transformer class must implement the `DataTransformerInterface` and provides two methods: `transform` and `reverseTransform`. The `transform` method is responsible to convert raw data to an expected data type and the `reverseTransform` method to convert it back to its raw value.
+
+For example, the Integer field has a data transformer to reinforce the value transformation as an integer. A date field might implement a transformer that takes a date string and transform it as a DateTimeImmutable object, ...
+
+### Set field value
+
+In order to set the field value, you may use the `setValue` method like so:
+
+```php
+$title = Field::text('title');
+$title->setValue($request->get($title->getName()));
+```
+
+The `setValue` method calls the field `transform` method and store the transformed value within the instance.
+
+### Get field value
+
+You can retrieve a field value by using the `getValue` method:
+
+```php
+$title = Field::text('title');
+$value = $title->getValue();
+```
+
+The `getValue` method returns the currently stored value of the instance. This means that it is always the transformed value that is returned.
+
+### Get field raw value
+
+You can retrieve the raw value of your field by calling the `getRawValue` method. The `getRawValue` is calling the `reverseTransform` field method in order to return the initial raw value:
+
+```php
+$title = Field::text('title');
+$rawValue = $title->getRawValue();
+```
+
+Field view
+----------
 
 When used outside of a core context, a field does not have a view file attached to it in order to be rendered. In order to customize the output of your field, you may use the `setView` method like so:
 
@@ -808,6 +886,56 @@ By default, a field instance will try to use the defined view without prefixing 
 ```php
 <!-- resources/views/fields/text.blade.php -->
 <input type="text" name="{{ $__field->getName() }}"/>
+```
+
+### Field view variables
+
+All field views received their field instance which is accessible under the `$__field` variable:
+
+- **$__field**: _FieldTypeInterface_ The field instance
+
+Here is an example of a custom text view using field methods:
+
+```php
+<label {!! $__field->attributes($__field->getOption('label_attr')) !!}>{!! $__field->getOption('label') !!}</label>
+<input type="text" name="{{ $__field->getName() }}" {!! $__field->attributes($__field->getAttributes()) !!} value="{{ $__field->getRawValue() }}">
+
+```
+
+Note the use of the `attributes` method that accepts an array of HTML attributes.
+
+### Default framework views
+
+If you want to use framework existing views, you need to define at least a theme to your field. Two themes are defined by the framework, you can use the `themosis` or the `bootstrap` theme and call the `setTheme` method:
+
+```php
+$title = Field::text('title');
+$title->setTheme('themosis');
+```
+
+A theme is mainly a directory name that stores field views. By setting a theme, we basically prepend the theme name in front of the field default view path. On the above example, the field view path will be: `themosis.types.text` and is looking after a `themosis/types/text.blade.php` view file for output.
+
+Field rendering
+---------------
+
+In order to render a field, you may call the `render` method on a field instance. For example, from a controller you might define your field and pass it to a view like so:
+
+```php
+public function index()
+{
+    $title = Field::text('title');
+    $title->setTheme('themosis');
+    
+    return view('page', [
+        'field' => $title
+    ]);
+}
+```
+
+And then render the field instance by using its `render` method:
+
+```php
+{!! $field->render() !!}
 ```
 
 Next
