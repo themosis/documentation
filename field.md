@@ -252,30 +252,61 @@ The `theme` option lets you choose the output style of your field. This option o
 
 ```php
 Field::text('demo', [
-    'theme' => 'boostrap'
+    'theme' => 'bootstrap'
 ]);
 ```
 
 Fields
 ------
 
-Here is the list of bundled fields (note that some fields are not available on some contexts):
+Here is the list of fields bundled with the framework. Please note that some fields from the list below are not available on some contexts.
 
-* [Checkbox](#checkbox-field)
-* [Choice](#choice-field)
-* [Collection](#collection-field)
-* [Color](#color-field)
-* [Date](#date-field)
-* [Editor](#editor-field)
-* [Integer](#integer-field)
-* [Media](#media-field)
-* [Number](#number-field)
-* [Password](#password-field)
-* [Text](#text-field)
-* [Textarea](#textarea-field)
+<div class="options-list" markdown="1">
+[Button](#button-field)
+[Checkbox](#checkbox-field)
+[Choice](#choice-field)
+[Collection](#collection-field)
+[Color](#color-field)
+[Editor](#editor-field)
+[Email](#email-field)
+[Hidden](#hidden-field)
+[Integer](#integer-field)
+[Media](#media-field)
+[Number](#number-field)
+[Password](#password-field)
+[Submit](#submit-field)
+[Text](#text-field)
+[Textarea](#textarea-field)
+</div>
+
+### Button field
+
+The button field can only be used within a form context in order to add a submit/button field.
+
+```php
+Field::button($name, $options = []);
+```
+
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+### Checkbox field
+
+The checkbox field only handles a **single** checkbox input. In order to build a field with multiple checkbox inputs, please use the new [choice field](#choice-field).
+
+```php
+Field::checkbox($name, $options = []);
+```
+
+- **$name**: _string_ The field name
+- **$options**: _array_ The field options
+
+### Choice field
+
+
 
 Text field
-----------
+------------
 
 The text field output an input tag with a type of `text`.
 
