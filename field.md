@@ -42,9 +42,21 @@ Shared options
 [data](#data)
 [data_type](#data-type)
 [errors](#errors)
+[flush](#flush)
+[group](#group)
+[info](#info)
+[l10n](#l10n)
+[label](#label)
+[label_attr](#label-attr)
+[mapped](#mapped)
+[messages](#messages)
+[placeholder](#placeholder)
+[rules](#rules)
+[show_in_rest](#show-in-rest)
+[theme](#theme)
 </div>
 
-#### Attributes
+#### attributes
 
 The `attributes` option allows you to define an array of HTML attributes for your field. The key is the attribute name and its value the attribute value. For some attributes, it is also possible to omit the value and only pass the key name.
 
@@ -58,7 +70,7 @@ Field::text('demo', [
 ]);
 ```
 
-#### Data
+#### data
 
 The `data` option lets you define a default value for your field. You can either set a string or an array default value depending on the field type.
 
@@ -68,7 +80,7 @@ Field::text('demo', [
 ]);
 ```
 
-### Data Type
+#### data_type
 
 The `data_type` option is mainly used for fields combined with WordPress elements like metabox, settings, ... The `data_type` value is used by the WordPress RestAPI and let you define the type of the data stored by the field: `string`, `boolean`, `array`, ... and that is going to be exposed by the RestAPI schema.
 
@@ -78,7 +90,7 @@ Field::text('demo', [
 ]);
 ```
 
-### Errors
+#### errors
 
 The `errors` option lets you display or not the field errors messages. The option only accepts a boolean value. Default value is `true`.
 
@@ -90,10 +102,164 @@ Field::text('demo', [
 ]);
 ```
 
+#### flush
+
+The `flush` option defines if the value of the field should be flushed after a successful validation. By default, it is set to `false`.
+
+> Note that if the field is used from the context of a form, by default it is set to `true`.
+
+```php
+Field::text('demo', [
+    'flush' => true
+]);
+```
+
+#### group
+
+The `group` option lets you organize your fields by groups. Mainly used by the default form API where you can specify a group name for your field. The parent container is then using that information to group fields and wrap them in a HTML container at output.
+
+Here is an example of its usage with a form:
+
+```php
+return $factory->make()
+    ->add($fields->text('firstname', [
+        'group' => 'personal'
+    ]))
+    ->add($fields->text('lastname', [
+        'group' => 'personal'
+    ]))
+    ->add($fields->email())
+    ->get();
+```
+
+In the above example, the fields `firstname` and `lastname` will be grouped together at render time.
+
+#### info
+
+The `info` option lets you specify an extra information text or content generally displayed right under the field.
+
+```php
+Field::text('demo', [
+    'info' => 'This is a short description displayed below the field.'
+]);
+```
+
+#### l10n
+
+The `l10n` option lets you store translations texts for your field. You can pass an array of key/value pairs where the key is the translation ID and the value, the translation text. This option is helpful when you need to provide translated text on fields rendered through a JavaScript component.
+
+```php
+Field::text('demo', [
+    'l10n' => [
+        'hello' => 'World',
+        'say' => __('something', 'textdomain')
+    ]
+]);
+```
+
+#### label
+
+The `label` option lets you specify the label HTML element text rendered beside the field.
+
+```php
+Field::text('demo', [
+    'label' => 'Demonstration'
+]);
+```
+
+#### label_attr
+
+The `label_attr` option lets you define the HTML attributes of the field label element. You can pass an array of key/value pairs where the key is the attribute name and the value, the attribute value.
+
+```php
+Field::text('demo', [
+    'label_attr' => [
+        'class' => 'form-label'
+    ]
+]);
+```
+
+#### mapped
+
+The `mapped` option is used by the form API in order to know if the field should be mapped or not to a data object property. By default, its value is set to `true`.
+
+Here is an example on a form context:
+
+```php
+return $factory->make($dto)
+    ->add($fields->password('password'))
+    ->add($fields->password('password_confirmation', [
+        'mapped' => false
+    ]))
+    ->get();
+```
+
+In the above example, the field `password_confirmation` is not mapped to the given data object.
+
+#### messages
+
+The `messages` option lets you define a list of validation messages by rule. You can pass an array of key/value pairs where the key is the validation rule name and the value, the validation message text.
+
+```php
+Field::text('demo', [
+    'rules' => 'required|min:6',
+    'messages' => [
+        'required' => 'The :attribute field is a required and very important field.',
+        'min' => 'The :attribute field must be at least :min characters long.'
+    ]
+]);
+```
+
+#### placeholder
+
+The `placeholder` option is used by the validation. You can specify a custom text value for the `: attribute` placeholder in a validation message. By default it takes the field name as a value.
+
+```php
+Field::text('demo', [
+    'placeholder' => 'demonstration'
+]);
+```
+
+#### rules
+
+The `rules` option lets you define a list of validation rules for the field. Validation is handled by the `illuminate/validation` package. [Click here](https://laravel.com/docs/validation#available-validation-rules) to view a full list of available validation rules.
+
+```php
+Field::text('demo', [
+    'rules' => 'required|min:6|max:191'
+]);
+```
+
+#### show_in_rest
+
+The `show_in_rest` option is used by WordPress. The option accepts a boolean value and lets you specify if your field (post meta, ...) should be shown in the WordPress Rest API. This option mainly works within the context of a metabox, a page setting, a term meta, ... Its default value is set to `false`
+
+Here is an example in the context of a metabox custom field:
+
+```php
+Metabox::make('properties', 'post')
+    ->add(Field::text('show_me', [
+        'show_in_rest' => true
+    ]))
+    ->set();
+```
+
+#### theme
+
+The `theme` option lets you choose the output style of your field. This option only works within the context of a form. You can choose between the default `themosis` theme or the `bootstrap` theme.
+
+> Generally, it is not necessary to define a theme value on a per field basis. The form API also provide a theme option in order to apply it to all its children elements (fields).
+
+```php
+Field::text('demo', [
+    'theme' => 'boostrap'
+]);
+```
+
 Fields
 ------
 
-Here is the list of custom fields available (note that some fields are not available on some contexts):
+Here is the list of bundled fields (note that some fields are not available on some contexts):
 
 * [Checkbox](#checkbox-field)
 * [Choice](#choice-field)
