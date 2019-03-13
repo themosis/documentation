@@ -37,9 +37,12 @@ Before going into each field and their specific options, let's first list all th
 Shared options
 --------------
 
-All fields share a list of common properties.
+[attributes](#attributes)
+[data](#data)
+[data_type](#data-type)
+[errors](#errors)
 
-### Attributes
+#### Attributes
 
 The `attributes` option allows you to define an array of HTML attributes for your field. The key is the attribute name and its value the attribute value. For some attributes, it is also possible to omit the value and only pass the key name.
 
@@ -53,7 +56,7 @@ Field::text('demo', [
 ]);
 ```
 
-### Data
+#### Data
 
 The `data` option lets you define a default value for your field. You can either set a string or an array default value depending on the field type.
 
