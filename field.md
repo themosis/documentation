@@ -37,7 +37,7 @@ Before going into each field and their specific options, let's first list all th
 Shared options
 --------------
 
-<div markdown="1"> {.items-list}
+<div class="options-list" markdown="1">
 [attributes](#attributes)
 [data](#data)
 [data_type](#data-type)
