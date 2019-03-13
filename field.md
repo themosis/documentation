@@ -37,11 +37,13 @@ Before going into each field and their specific options, let's first list all th
 Shared options
 --------------
 
-<div class="options-list" markdown="1">
+<div id="field-options-list" markdown="1">
+
 [attributes](#attributes)
 [data](#data)
 [data_type](#data-type)
 [errors](#errors)
+
 </div>
 
 #### Attributes
