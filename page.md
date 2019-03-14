@@ -1,10 +1,8 @@
 Page
 ====
 
-> The page documentation is not yet up to date with release 2.0.
-
 - [Introduction](#introduction)
-- [Custom administration page](#custom-administration-page)
+- [Basic usage](#basic-usage)
 	- [Extra parameters](#extra-parameters)
 	- [Create a custom page](#create-a-custom-page)
 - [WordPress Settings API](#wordpress-settings-api)
