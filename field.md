@@ -4,22 +4,14 @@ Field
 - [Introduction](#introduction)
 - [Shared options](#shared-options)
 - [Fields](#fields)
-    - [Button](#button-field)
-    - [Checkbox](#checkbox-field)
-    - [Choice](#choice-field)
-    - [Collection](#collection-field)
-    - [Color](#color-field)
-    - [Editor](#editor-field)
-    - [Email](#email-field)
-    - [Hidden](#hidden-field)
-    - [Integer](#integer-field)
-    - [Media](#media-field)
-    - [Number](#number-field)
-    - [Password](#password-field)
-    - [Submit](#submit-field)
-    - [Text](#text-field)
-    - [Textarea](#textarea-field)
 - [General usage](#general-usage)
+- [Retrieve the field name](#retrieve-the-field-name)
+- [Change the field prefix](#change-the-field-prefix)
+- [Field options](#field-options)
+- [Field value](#field-value)
+- [Field view](#field-view)
+- [Field rendering](#field-rendering)
+- [Field as a resource](#field-as-a-resource)
 
 Introduction
 ------------
@@ -936,6 +928,98 @@ And then render the field instance by using its `render` method:
 
 ```php
 {!! $field->render() !!}
+```
+
+Field as a resource
+-------------------
+
+The `FieldTypeInterface` provides methods to transform a field instance into a resource.
+
+The field transformation uses the [PHP League Fractal](https://fractal.thephpleague.com/) package. You must add a fractal `Manager` instance to your field as well as a transformer class in order to modify the field as a resource. Use the `Themosis\Forms\Resources\Factory` class to set the transformer class for your field. The factory will try to load the appropriate transformer for you.
+
+### Prepare the field for transformation
+
+Each field must have an instance of a fractal `Manager` and a transformer instance:
+
+```php
+use League\Fractal\Manager;
+use Themosis\Forms\Resources\Factory;
+
+$title = Field::text('title');
+// Set the fractal manager instance.
+$title->setManager(new Manager());
+// Set the transformer using core resource factory.
+$title->setResourceTransformerFactory(new Factory());
+```
+
+#### Set a custom transformer class
+
+You can define your own transformer class by passing the fully qualified name of your transformer to the resources factory constructor like so:
+
+```php
+$title->setResourceTransformerFactory(new Factory('\\App\\Transformers\\TitleTransfomer'));
+```
+
+### Field to array
+
+You can transform your field as an associative array by using the `toArray` method like so:
+
+```php
+use League\Fractal\Manager;
+use Themosis\Forms\Resources\Factory;
+
+$title = Field::text('title');
+$title->setManager(new Manager());
+$title->setResourceTransformerFactory(new Factory());
+
+var_dump($title->toArray());
+
+// Output the following resource
+[
+    "attributes" => [
+      "id" => "th_title_field"
+    ]
+    "basename" => "title"
+    "component" => "themosis.fields.text"
+    "data_type" => ""
+    "default" => ""
+    "name" => "th_title"
+    "options" => [
+      "group" => "default"
+      "info" => ""
+      "l10n" => []
+    ]
+    "label" => [
+      "inner" => "Title"
+      "attributes" => [
+        "for" => "th_title_field"
+      ]
+    ]
+    "theme" => ""
+    "type" => "text"
+    "validation" => [
+      "errors" => true
+      "messages" => []
+      "placeholder" => "title"
+      "rules" => ""
+    ]
+    "value" => ""
+]
+```
+
+### Field to JSON
+
+You can transform your field as a JSON object by using the `toJson` method like so:
+
+```php
+use League\Fractal\Manager;
+use Themosis\Forms\Resources\Factory;
+
+$title = Field::text('title');
+$title->setManager(new Manager());
+$title->setResourceTransformerFactory(new Factory());
+
+var_dump($title->toJson());
 ```
 
 Next
