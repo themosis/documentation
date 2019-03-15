@@ -5,13 +5,14 @@ Taxonomy
 - [Labels](#labels)
 - [Customize your taxonomy](#customize-your-taxonomy)
 - [Shared taxonomies](#shared-taxonomies)
+- [Term fields](#term-fields)
+    - [Add custom fields](#add-custom-fields)
+    - [Validation](#validation)
 
 Basic usage
 -----------
 
-The `Taxonomy` class, as the name suggests, helps you build custom taxonomies.
-
-> Taxonomy terms meta fields are no longer supported in version 2.0 of the framework.
+The `Taxonomy` class, as the name suggests, helps you register WordPress custom taxonomies.
 
 In order to register a custom taxonomy, you may call the `make` and `set` methods of the Taxonomy class.
 
@@ -75,3 +76,68 @@ Taxonomy::make('authors', ['post', 'books'], 'Authors', 'Author')->set();
 ```
 
 The above code register an `authors` taxonomy for both `post` and `books` post types.
+
+Term fields
+-----------
+
+Using the `TaxonomyField` facade class, it is possible to define custom fields for taxonomy terms. In order to attach custom fields to taxonomy terms, first call the `make` method of the `TaxonomyField` facade and pass it as a first argument a taxonomy instance:
+
+```php
+use Themosis\Support\Facades\Taxonomy;
+use Themosis\Support\Facades\TaxonomyField;
+
+$author = Taxonomy::make('author', 'post', 'Authors', 'Author')
+    ->set();
+    
+TaxonomyField::make($author)
+    ->set();
+```
+
+See the use of the `set` method call in order to register the taxonomy fields. Fields are only displayed if the `set` method is called.
+
+### Add custom fields
+
+In order to add custom fields to your taxonomy, you may call the `add` method and pass it a field instance like so:
+
+```php
+use Themosis\Support\Facades\Field;
+
+TaxonomyField::make($author)
+    ->add(Field::text('publisher'))
+    ->set();
+```
+
+You can chain multiple calls of the `add` method in order to define all your taxonomy terms fields:
+
+```php
+TaxonomyField::make($author)
+    ->add(Field::text('publisher'))
+    ->add(Field::text('website'))
+    ->add(Field::choice('genre', [
+        'choices' => [
+            'Comedy',
+            'Fantasy',
+            'Science-Fiction',
+            'Thriller'
+        ]
+    ]))
+    ->add(Field::textarea('note'))
+    ->set();
+```
+
+### Validation
+
+The term fields leverage the `illuminate/validation` package for their validation. Simply define a `rules` option to each field. If a validation fails, the default term data used by WordPress is still stored.
+
+```php
+TaxonomyField::make()
+    ->add(Field::text('publisher', [
+        'rules' => 'min:6'
+    ]))
+    ->add(Field::text('website', [
+        'rules' => 'url'
+    ]))
+    ->set();
+```
+
+For more information about each field options, please see the [field guide]({{url}}/field).
