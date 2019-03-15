@@ -8,48 +8,57 @@ User
 	- [Check for a specific role](#check-for-a-specific-role)
 	- [Set a role to a user](#set-a-role-to-a-user)
 	- [Check user capability](#check-user-capability)
-	- [Update user properties](#update-user-properties)
+	- [Update user](#update-user)
+	- [Update user meta](#update-user-meta)
 - [User custom fields](#user-custom-fields)
-	- [Add sections](#add-sections)
 	- [Add custom fields](#add-custom-fields)
-	- [Validate user fields](#validate-user-fields)
+	- [Add sections](#add-sections)
+	- [Validation](#validations)
+	- [Retrieve value](#retrieve-value)
+	- [Change prefix](#change-prefix)
 
 Basic usage
 -----------
 
 The Themosis framework comes with a User class that gives you shortcuts to core WordPress user functions. The User class extends the core WP_User class. So every core methods are available to your User instances as well.
 
-> The User class is not a "static" one. When using the `User` facade, you create each time a new instance. This is **important** to notice especially when working with user custom fields.
-
 ### Create a new user
 
 In order to create a new user, simply use the `make()` method like so:
 
 ```php
-$user = User::make('johndoe', 'asecretpassword', 'john@doe.com');
+use Themosis\Support\Facades\User;
+
+$user = User::make('username', 'secret', 'email@company.com');
 ```
 
-This will create a new user with a username of `johndoe`, a password of  `asecretpassword` assigned to the `john@doe.com` email address.
+This will create a new user with a username of `username`, a password of  `secret` assigned to the `email@company.com` email address.
 
-If WordPress is able to register the user or if the user already exists, it returns a `User` instance. If there is an error, WordPress returns a `WP_Error` instance.
+If WordPress is able to register the user it returns a `User` instance. If the user already exists it throws a `Themosis\User\Exceptions\DuplicateUserException`. If there is an error it throws a `Themosis\User\Exceptions\UserException`.
+
+Also note that the `make` method is performing a validation on user credentials. The username and password must be at least 6 characters long. If the validation fails, it throws a `Themosis\User\Exceptions\UserException`.
+
+> When using the `User` facade `make` method, you create each time a new instance.
 
 ### Get current user
 
-Use the `current()` method to retrieve the current logged in user:
+Use the `current` method in order to retrieve the currently logged in user:
 
 ```php
+use Themosis\Support\Facades\User;
+
 $user = User::current();
 ```
 
 ### Get user by ID
 
-If you have the User ID, you can retrieve an instance of this user like so:
+If you have the User ID, you can retrieve an instance of this user by calling the `get` method  like so:
 
 ```php
+use Themosis\Support\Facades\User;
+
 $user = User::get(24);
 ```
-
-This will return an User instance from a registered user with an ID of 24.
 
 ### Check for a specific role
 
@@ -65,7 +74,7 @@ if ($user->hasRole('editor')) {
 
 ### Set a role to a user
 
-You can attach a role to a selected user:
+You can modify a user role by calling the `setRole` method like so:
 
 ```php
 $user =  User::current();
@@ -74,6 +83,7 @@ $user->setRole('editor');
 
 ### Check user capability
 
+You can verify if a currently logged in user has a specific capability by using the `can` method:
 ```php
 $user = User::current();
 
@@ -82,9 +92,11 @@ if ($user->can('edit_posts')) {
 }
 ```
 
-### Update user properties
+### Update user
 
-You can update user data by providing an array of properties. Note that the ID property is automatically fetched and inserted so you don't have to look after.
+You can update properties of a user by calling the `update` method and providing as an argument an array of user properties.
+
+Note that the `ID` property is automatically inserted so you don't have to look after. See the [wp_insert_user()](https://developer.wordpress.org/reference/functions/wp_insert_user/) function for a list of properties you can pass to the array:
 
 ```php
 $user = User::current();
@@ -95,89 +107,110 @@ $user->update([
 ]);
 ```
 
+### Update user meta
+
+You can also update user meta data by leveraging the `updateMetaData` method on a user instance. You can update only one user meta data with the method. The first argument is a user meta key and the second argument its value:
+
+```php
+$user = User::current();
+
+$user->updateMetaData('first_name', 'Julien');
+```
+
+If the update fails, the framework throws a `Themosis\User\Exceptions\UserException`.
+
 User custom fields
 ------------------
 
-The User class provides methods to define custom user meta data. You can create user custom fields and whether or not to order them by sections.
-
-### Add sections
-
-You can define sections in order to group your user fields. You can add as many sections as you want to your users by using the `addSections()` method. Pass the method a list of sections like so:
+You can define user custom fields by leveraging the `UserField` facade class. First create a new instance using the `make` method and then use the `set` method for registration:
 
 ```php
-$user = User::addSections([
-    Section::make('section-slug', 'Section display name'),
-    Section::make('social', 'Social accounts')
-]);
+use Themosis\Support\Facades\UserField;
+
+UserField::make()
+    ->set();
 ```
-
-> The `addSections()` method returns a User instance. Make sure to use that instance to add your user custom fields.
-
-The above code will add two sections to the WordPress `Add User` and `Edit Profile` screens.
 
 ### Add custom fields
 
-In order to define custom user meta data, use the `addFields()` method and pass it an array of custom fields.
+User custom fields are organized by sections. You can add user fields without creating a section. By default, the framework is managing a `default` section where fields, not associated with one, get sorted.
 
-In the following example, we will add custom fields to our previously defined sections. Pass an array of custom fields to each sections defined as the array key like so:
-
-```php
-// Grab our User instance from previous code sample
-// and add fields to each section.
-$user->addFields([
-    'section-slug' => [
-        Field::text('street', ['title' => 'Street address'])
-    ],
-    'social' => [
-        Field::text('facebook', ['info' => 'Your facebook page.']),
-        Field::text('twitter', ['info' => 'Twitter account name.'])
-    ]
-]);
-```
-
-> Use the Field API to define your user custom fields just like you would with metabox custom fields,...
-
-#### Add custom fields without sections
-
-You can add user custom fields without grouping them into sections. Directly use the `addFields()` method like so:
+In order to define new user custom fields, you may call the `add` method and pass it a field instance like so:
 
 ```php
-User::addFields([
-    Field::text('street'),
-    Field::select('country', [
-        [
-            'Belgium',
-            'Brazil',
-            'Germany'
-        ]
-    ]),
-    Field::media('avatar')
-]);
+UserField::make()
+    ->add(Field::text('favorite_color'))
+    ->set();
 ```
 
-> Calling the `addFields()` method this way means you're working on a separate user instance.
-
-### Validate user fields
-
-You can sanitize/validate user custom fields by using the `validate()` method. Make sure to use the user instance used to define your custom fields in order to validate them:
+You can chain multiple calls to the `add` method in order to define more user fields:
 
 ```php
-$user = User::addFields([
-    Field::text('twitter'),
-    Field::number('age')
-]);
-
-// Validate our user instance fields...
-$user->validate([
-    'twitter' => ['textfield', 'min:3'],
-    'age'     => ['num']
-]);
+UserField::make()
+    ->add(Field::text('favorite_color'))
+    ->add(Field::integer('age'))
+    ->set();
 ```
 
-Simply define the field name as the key and specify a list of validation/sanitization rules to it.
+### Add sections
 
-> Even if sections are defined, only use the custom field name in order to sanitize its value.
+You can also organize your user custom fields by sections. You can add as many sections as you want by passing a `Section` instance to the `add` method. A section instance requires a section ID as the first parameter, a section title as the second parameter and a list of custom fields as the third argument:
 
-We also suggest you to always prefix your custom fields name so they don't conflict with other WordPress plugins or WordPress reserved terms.
+```php
+use Themosis\Support\Facades\Field;
+use Themosis\Support\Facades\UserField;
+use Themosis\Support\Section;
 
-For more information about validation rules, check the [validation guide]({{url}}/validation).
+UserField::make()
+    ->add(new Section('social', 'Social', [
+        Field::text('twitter'),
+        Field::text('facebook')
+    ]))
+    ->set();
+```
+
+### Validation
+
+The user field instance is using the `illuminate/validation` package in order to validate user custom fields values. Specify a `rules` option on the fields you wish to validate:
+
+```php
+UserField::make()
+    ->add(Field::text('favorite_color', [
+        'rules' => 'required'
+    ]))
+    ->add(Field::integer('age', [
+        'rules' => 'numeric|min:18'
+    ]))
+    ->add(new Section('social', 'Social', [
+        Field::text('twitter', [
+            'rules' => 'url'
+        ])
+    ]))
+    ->set();
+```
+
+See the official Laravel documentation for a [list of available validation rules](https://laravel.com/docs/validation#available-validation-rules) to use with your fields.
+
+### Retrieve value
+
+By default, all user fields names are prefixed by `th_`. If you define a user field with a name of `age`, it is stored inside the WordPress database table as `th_age`.
+
+In order to retrieve a user field value, we suggest you to use the core Wordpress [get_user_meta](https://developer.wordpress.org/reference/functions/get_user_meta/) function:
+
+```php
+$user = User::current();
+$age = get_user_meta($user->ID, 'th_age');
+```
+
+### Change prefix
+
+By default all user fields names are prefixed by `th_`. You can modify the prefix by passing a `prefix` option to the user field `make` method like so:
+
+```php
+UserField::make([
+    'prefix' => 'wp_'
+])
+    ->set();
+```
+
+If you don't want to use a prefix, pass an empty string value to the `prefix` option.
