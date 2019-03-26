@@ -38,14 +38,14 @@ Once your new project is installed, open it in your favorite IDE or code editor.
 For this example, our `.env` environment file will look like this:
 
 ```
-APP_ENV = 'local'
-APP_DEBUG = true
-DATABASE_NAME = "wpmu"
-DATABASE_USER = "root"
-DATABASE_PASSWORD = "password"
-DATABASE_HOST = "localhost"
-APP_URL = "http://wpmu.test"
-WP_URL = "http://wpmu.test/cms"
+APP_ENV=local
+APP_DEBUG=true
+DATABASE_NAME=wpmu
+DATABASE_USER=root
+DATABASE_PASSWORD=password
+DATABASE_HOST=localhost
+APP_URL=http://wpmu.test
+WP_URL=http://wpmu.test/cms
 ```
 
 For more details about environment configuration, please read the [configuration]({{url}}/configuration) guide.
@@ -114,7 +114,7 @@ define('DOMAIN_CURRENT_SITE', env('WP_CURRENT_SITE'));
 
 Then open the `.htaccess` file and copy/paste the code shown in your WordPress screen.
 
-Finally click the small **Log in** link at the bottom of your WordPress network installation screen to re-connect and log in back to the administration.
+Finally click the small **Log in** link at the bottom of your WordPress network installation screen to re-connect and login back to the administration.
 
 ### Activate the theme
 
