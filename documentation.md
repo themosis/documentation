@@ -47,7 +47,5 @@
 
 #### Advanced
 
-- [Service container]({{url}}/container)
-- [Service providers]({{url}}/providers)
 - [Database]({{url}}/database)
-- [Validation]({{url}}/validation)
+- [Error handling]({{url}}/errors)
