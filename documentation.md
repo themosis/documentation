@@ -47,6 +47,7 @@
 
 #### Advanced
 
+- [Authentication]({{url}}/authentication)
 - [Console]({{url}}/console)
 - [Database]({{url}}/database)
 - [Error handling]({{url}}/errors)
