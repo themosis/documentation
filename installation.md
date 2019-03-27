@@ -8,8 +8,6 @@ Installation
 - [Laravel Homestead](#laravel-homestead)
 - [Install WordPress](#install-wordpress)
 
-> Themosis framework 2.0 is in a **Release Candidate** state.
-
 Requirements:
 -------------
 
@@ -35,7 +33,7 @@ Install the Themosis framework
 Open your `Terminal` or `Console` and execute the following command:
 
 ```bash
-composer create-project themosis/themosis my-project-name 2.0-RC1
+composer create-project themosis/themosis my-project-name
 ```
 
 This will create a directory called `my-project-name` on your computer and automatically download the latest WordPress version along with the latest Themosis framework version and its dependencies.
