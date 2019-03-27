@@ -47,5 +47,6 @@
 
 #### Advanced
 
+- [Console]({{url}}/console)
 - [Database]({{url}}/database)
 - [Error handling]({{url}}/errors)

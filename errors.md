@@ -200,6 +200,6 @@ The Themosis framework is using the same mechanism as with the Laravel framework
 
 You may also publish core framework error page templates using the console `vendor:publish` command. You can then customize the look and feel of each individual views:
 
-```php
+```bash
 php console vendor:publish --tag=themosis-errors
 ```
