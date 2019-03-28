@@ -174,7 +174,7 @@ By default you could write the following statement:
 Instead of writing a ternary statement, Blade allows you to use the following convenient short-cut:
 
 ```html
-{{ $name or 'Default' }}
+{{ $name ?? 'Default' }}
 ```
 
 ### Conditional statements
