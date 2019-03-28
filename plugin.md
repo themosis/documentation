@@ -3,246 +3,352 @@ Plugin development
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Configuration](#configuration)
-    - [Composer](#composer)
-    - [Plugin name and properties](#plugin-name-and-properties)
-- [Namespace](#namespace)
-- [Refactor the defaults](#refactor-the-defaults)
-- [Notes](#notes)
-    - [Routes](#routes)
-    - [Views](#views)
-    - [Themosis facades](#themosis-facades)
+    - [Install as a mu-plugin](#install-as-a-mu-plugin)
+- [Plugin structure](#plugin-structure)
+    - [The assets directory](#the-assets-directory)
+    - [The config directory](#the-config-directory)
+    - [The dist directory](#the-dist-directory)
+    - [The inc directory](#the-inc-directory)
+    - [The languages directory](#the-languages-directory)
+    - [The resources directory](#the-resources-directory)
+    - [The views directory](#the-views-directory)
+    - [Plugin routes](#plugin-routes)
+- [Managing assets](#managing-assets)
+    - [Install Laravel Mix](#install-laravel-mix)
+    - [Configure assets](#configure-assets)
+    - [Compile assets](#compile-assets)
+    - [Asset version](#asset-version)
+- [Plugin manager](#plugin-manager)
+    - [Get the plugin manager](#get-the-plugin-manager)
+    - [Get a plugin header](#get-a-plugin-header)
+    - [Get plugin path](#get-plugin-path)
+    - [Get plugin url](#get-plugin-url)
+    - [Get plugin configuration](#get-plugin-configuration)
+- [Translations](#translations)
 
 Introduction
 ------------
 
-Since release 1.3.0, the Themosis framework provides a plugin boilerplate in order to help you develop custom WordPress plugins that can leverage Themosis framework APIs.
+The framework provides a plugin boilerplate in order to help you build custom features for your application by leveraging the WordPress plugin API.
 
-The plugin boilerplate provides a similar folder structure borrowed from the `themosis-theme` and let you develop WordPress plugins using manageable and scalable methods.
+The plugin boilerplate uses a similar structure as the theme and lets you develop WordPress plugins using manageable and scalable methods.
 
 Installation
 ------------
 
-In order to start developing custom plugins using the Themosis framework, you fist need to download a copy of the plugin boilerplate from our GitHub account:
+The framework comes with a command line tool at its root directory. In order to create a new plugin, open your terminal or console, go to your application root directory and run the `plugin:install` command like so:
 
-1. From your browser, go to [our plugin boilerplate](https://github.com/themosis/plugin) repository.
-2. Click the `Clone or download` green button on the right of the screen.
-3. Choose `Download ZIP` and save the plugin file on your machine.
-4. Extract the files into your project `htdocs/content/plugins` directory.
-5. Rename your plugin boilerplate folder with a name that reflects your extension purpose
- 
-For this example, let's imagine a custom plugin that handles an application documentation and is called `themosis-documentation`.
-If you have correctly followed the previous steps, you have the plugin boilerplate files into the following directory of your Themosis framework application: `htdocs/content/plugins/themosis-documentation/`
-
-Let's configure our plugin.
-
-Configuration
--------------
-
-You could activate the plugin now but its files names and properties do not correspond yet to our planned extension. Please read the following steps in order to properly configure your custom plugin and make it work with the Themosis framework.
-
-### Composer
-
-The plugin boilerplate contains a default `composer.json` file with basics informations. Please first update the `composer.json` file properties in order to define your plugin as a correct PHP package as well. If you require PHP packages, you can define them here so when you install your complete Themosis framework application, any plugin dependencies are loaded into application root `vendor` directory and not with your plugin.
-
-Inside the `composer.json` file, leave the `type`property set to `wordpress-plugin`. This helps composer to install your plugin in the correct folder when creating a project with your extension.
-
-> Make sure to add your plugin `vendor` directory to the `.gitignore` file as you won't need to track those dependencies.
-
-### Plugin name and properties
-
-Following WordPress recommendations, let's first update our plugin root file name and its inner properties.
-
-1. Open your extension into your favorite IDE or code editor.
-2. At plugin root, rename the default `plugin-name.php` file as your plugin folder name; In our example, this file is renamed as `themosis-documentation.php`.
-3. Open your new plugin root file (in our case `themosis-documentation.php` file).
-4. Update comments located at the top of the file (Plugin Name, Plugin URI, Description, Version,...) except the `Domain Path` which is already set correctly for you.
-
-#### Set plugin textdomain constant
-
-In each plugin, we have set a default textdomain constant for use into all your gettext functions calls. Check around the plugin root file line #35 and update the placeholder constant `MY_PLUGIN_TD`. For example, based on our `themosis-documentation` website, we'll update this constant statement like so:
-
-```php
-defined('THEMOSIS_DOCS_TD') ? THEMOSIS_DOCS_TD : define('THEMOSIS_DOCS_TD', 'themosis-documentation');
+```bash
+php console plugin:install plugin-name
 ```
 
-##### Find and replace
+The command will then ask you to fill in some information before installing the plugin:
 
-In your plugin root file, **find and replace** all instances of `MY_PLUGIN_TD` by your custom plugin textdomain constant.
+- **Description**: the plugin description text.
+- **Author**: the plugin author name.
+- **Text domain**: default value based on the plugin name but you can provide a custom one.
+- **Domain variable**: default to `PLUGIN_TD`. This is the plugin constant name to define for use inside your code for translations. We highly recommend you to provide a custom name in uppercase letter (constant).
+- **Plugin prefix**: a prefix name used to setup the plugin configuration files and avoid conflicts between plugins. Keep the prefix in lowercase.
+- **PHP namespace**: the PHP namespace of your plugin. We recommend you to use a `Tld\Domain\PluginName` syntax. For example, if your plugin is for an application hosted on the `book.store` domain and you're building a book manager, the namespace value could be `Store\Book\Manager`
 
-> Make sure to set your constant value ("themosis-documentation" in our example) as the same value as top file comment `Text Domain: themosis-documentation`.
+After filling in the necessary information, the command will install your new plugin into the `htdocs/content/plugins/plugin-name` directory.
 
-#### Set plugin properties
+The plugin is not activated by default, you must log in into the WordPress administration and activate the plugin manually or using the `WP-CLI`.
 
-Around line #45 of your custom plugin root file, you'll find a `$vars` array containing plugin configuration properties:
+### Install as a mu-plugin
 
-```php
-$vars = [
-    'slug' => 'plugin-key',
-    'name' => 'Plugin Name',
-    'namespace' => 'tld.domain.plugin',
-    'config' => 'tld_domain_plugin'
-];
+You can also install your plugin into the `mu-plugins` directory when calling the `plugin:install` command. Use the `--mu` option to inform the command to install it as a MU Plugin:
+
+```bash
+php console plugin:install plugin-name --mu
 ```
 
-The `slug` property is a plugin key name. This is used by your theme in order to support the plugin. The `name` property is your plugin display name used on admin notice. 
+The above command will install the `plugin-name` inside the `htdocs/content/mu-plugins/plugin-name` directory.
 
-The `namespace` property is the most **important** one. It will help define a custom path to your plugin and avoid conflicts with others plugins. Like the placeholder value suggests, we recommend you to use your domain name, its tld extension and finally the plugin name, all separated with a dot `.`.
-
-Finally the `config` property is your plugin configuration files names prefix to use. Same as the `namespace` property except that you separate each term by an underscore `_`. This is also **important** in order to avoid configuration file names conflicts.
-
-Based on our documentation example, here is an example on how should look like our `$vars` array properties:
+Plugin structure
+----------------
 
 ```php
-$vars = [
-    'slug' => 'themosis-documentation',
-    'name' => 'Themosis Documentation',
-    'namespace' => 'com.themosis.documentation',
-    'config' => 'com_themosis_documentation'
-];
++-- assets
++-- config
++-- dist
++-- inc
++-- languages
++-- resources
++-- views
++-- package.json
++-- plugin-name.php
++-- routes.php
++-- webpack.mix.js
 ```
 
-Namespace
----------
+### The assets directory
 
-When developing custom plugins, it is **mandatory** to work with a PHP namespace. This will help prevent class conflicts with all your plugins.
+The `assets` directory contains all your JavaScript and CSS files. There is a default `js/index.js` file as well as a `sass/style.scss` [Sass](https://sass-lang.com/) file.
 
-Before defining class namespace, we first need to update the file names of the given default configuration files stored inside the `resources/config` directory of our custom plugin based on the `config` plugin property we just set.
+### The config directory
 
-The `resources/config` folder stores by default those 2 files:
+The `config` directory contains the plugin configuration file. The plugin is only bundled with a prefixed `plugin.php` configuration file. The prefix used for the configuration file is the `Plugin prefix` option value defined during installation. This prefix is used to avoid conflicts between plugins when you try to fetch a specific configuration file. See the [plugin manager](#plugin-manager) for more details on how to use your configuration files.
 
-1. _tld\_domain\_plugin\_loading.config.php_: Handle PSR-4 autoloading rules of your custom plugin
-2. _tld\_domain\_plugin\_providers.config.php_: Handle your custom plugin Service providers
+The bundled configuration file helps you define your plugin resources directory path for class autoloading, the list of service providers to load as well as the paths to its views directory.
 
-Based on our example, we will rename those files like so:
+### The dist directory
 
-1. _com\_themosis\_documentation\_loading.config.php_
-2. _com\_themosis\_documentation\_providers.config.php_
+The `dist` directory contains your compiled assets. Compiled assets are then enqueued by the [Asset]({{url}}/asset) API. Asset compilation is managed by [webpack](https://webpack.js.org/) through the [Laravel Mix](https://laravel-mix.com/) tool. You can read more about managing the assets [below](#managing-assets).
 
-### Update PSR-4 loading rules
+### The inc directory
 
-Open your renamed `tld_domain_plugin_loading.config.php` file and set the PHP namespace and paths for the pre-defined service providers and controllers like so (still based on our example):
+The `inc` directory is a folder that extends the base plugin file. You can insert as many PHP files as you want into the folder and all files will be automatically included. You can even nest PHP files within subfolders.
 
-```php
-return [
-    'Com\\Themosis\\Documentation\\Services\\' => themosis_path('plugin.com.themosis.documentation.resources').'providers',
-    'Com\\Themosis\\Documentation\\Controllers\\' => themosis_path('plugin.com.themosis.documentation.resources').'controllers'
-];
+### The languages directory
+
+The `languages` directory contains the PO template file for your plugin. You can load it with the [PoEdit](https://poedit.net/) software and start translating your plugin.
+
+### The resources directory
+
+The `resources` directory is the plugin namespaced directory. You can organize your plugin PHP Class into the folder by following the [PSR-4](https://www.php-fig.org/psr/psr-4/) specification. The namespace used for your plugin has been defined during installation and is pointing to the `resources` directory. By default, it contains a `Providers` directory that holds the plugin `RouteServiceProvider` class.
+
+### The views directory
+
+The `views` directory contains all your plugin view files. We recommend to organize your plugin views in sub-directories using at least a unique prefix in order to avoid conflicts with view paths from another plugin, the theme or your application root views.
+
+### Plugin routes
+
+The plugin provides a `routes.php` file at its root. You can extend the list of available routes of your application as well as providing custom endpoints from your plugin. The `RouteServiceProvider` class, responsible to load your plugin routes, is also configured to handle plugin controllers and their namespace. In order to work with controllers in your plugin, simply create a `Controllers` directory inside the `resources` folder. Controllers will be autoloaded like expected.
+
+Managing assets
+--------------
+
+In order to manage your assets, the plugin is now bundled with [Laravel Mix](https://laravel-mix.com/). Mix is an elegant wrapper around [Webpack](https://webpack.js.org/) for the 80% use case.
+
+Laravel Mix is the only front-end dependency defined in the plugin `package.json` file. With Laravel Mix, you'll be able to compile your JavaScript files as well as your stylesheets and any other required assets for your plugin.
+
+### Install Laravel Mix
+
+Before installing Laravel Mix, you need to make sure to have the following tool installed on your machine:
+
+- [NodeJs](https://nodejs.org/en/)
+
+You can handle your node packages using the default `npm` handler provided by NodeJs or you can also install [Yarn](https://yarnpkg.com/en/) for managing them.
+
+Once NodeJs is installed, open a terminal or console and go to your plugin root and run the following command:
+
+```bash
+npm install
 ```
 
-> The paths contains the plugin `namespace` string defined on your plugin root file inside the `$vars` variable. Make sure to correctly define it here as well.
+or if you're using Yarn:
 
-### Update service providers
-
-Open your renamed `tld_domain_plugin_providers.config.php` file and update the default RoutingService class namespace. Base on our example, the default `Tld\Domain\Plugin\Services\RoutingService::class` would be:
-
-```php
-return [
-    Com\Themosis\Dcumentation\Services\RoutingService::class
-];
+```bash
+yarn install
 ```
 
-Refactor the defaults
----------------------
+The above command will install Laravel Mix and all its dependencies.
 
-As a last step, the plugin boilerplate comes with a sample controller class and a default RoutingService to refactor:
+### Configure assets
 
-1. Open the default `Sample.php` controller file stored in the `resources/controllers` directory.
-2. Update the PHP namespace at the top to use your previously defined namespace inside the `tld_domain_plugin_loading.config.php` file. In our example the namespace would be `namespace Com\Themosis\Documentation\Controllers;`
+In order to configure Laravel Mix, you have to edit the `webpack.mix.js` file located at plugin root. Here is the default configuration provided by the plugin:
 
-The `Sample` controller is there to give an example of a properly defined controller to use inside your plugin. We recommend you to rename the `Sample` class controller for your needs.
+```javascript
+let mix = require('laravel-mix');
 
-### Update plugin routes namespace
+mix.js('assets/js/index.js', 'dist/')
+    .sass('assets/sass/style.scss', 'dist/');
 
-The default RoutingService class, stored inside the `resources/providers` directory, loads the plugin `resources/routes.php` file for you and define its controllers namespace and path. Update the route namespace and path placeholders with your previously defined namespace from your `tld_domain_plugin_loading.config.php` and plugin root files. Based on our example, the service `register()` method would look like this:
-
-```php
-public function register()
-{
-    Route::group([
-        'namespace' => 'Com\Themosis\Documentation\Controllers'
-    ], function () {
-        require themosis_path('plugin.com.themosis.documentation.resources').'routes.php';
-    });
-}
 ```
 
-You now have a fully configured custom plugin. From the WordPress administration, active your custom plugin and start developing your custom features.
+Webpack is compiling the `assets/js/index.js` JavaScript file using the `mix.js()` method and is also compiling the `assets/sass/style.scss` Sass file provided by the plugin using the `sass()` method.
 
-Notes
------
+Laravel Mix provide multiple methods to compile ReactJs components, VueJs components, Less, Stylus, and many more as well as working with BrowserSync, ...
 
-### Routing
+For more configuration options, please read the [official documentation](https://laravel-mix.com/).
 
-You can define default routes from your plugin `routes.php` file. This is useful for example if you would like to provide default views/templates without the need for the theme to handle them.
+### Compile assets
 
-The theme `routes.php` file can override routes defined inside the plugin. This behavior lets a theme developer customize the template.
+The plugin `package.json` file also provides a bunch of scripts/commands in order to help you work with your assets.
 
-### Views
+#### For local development
 
-Default plugin views are stored inside its `resources/views` directory. Imagine the following scenario where your plugin stores those 2 views:
+For local development, you'll mainly work with a mix of the three following commands: `dev`, `hot` and `watch`:
+```bash
+npm run dev
 
-- resources/views/layout/main.twig
-- resources/views/store/shop.twig
+npm run watch
 
-Now if your theme also has similar views stored in its `resources/views` directory:
-
-- resources/views/layout/main.twig
-- resources/views/store/shop.twig
-
-**What would be the result?**
-
-If a theme calls its view like so: `view(store.shop)`, it's the plugin view that is returned and not the one stored inside the theme. In order to avoid view conflicts, we recommend you to "namespace" your plugin views directory like so:
-
-```php
-resources/views/
-+-- tld/
-    +-- domain/
-        +-- plugin/
-            +-- layouts/
-            |   +-- main.twig
-            +-- store/
-            |   +-- shop.twig
+npm run hot
 ```
 
-Creating sub-folders using your domain name, tld extension and plugin name prevent any conflicts between plugins and theme views. So based on our example, our `themosis-documentation` plugin would call its view like so: `view('com.themosis.documentation.store.shop');`
+#### For production
 
-### Themosis facades
+When you're ready to publish your application, run the `production` command in order compile your assets for production:
 
-Since it is mandatory to use PHP namespace for all plugin classes, you can't call directly the Themosis framework facades like inside the theme `admin` files. In order to use the APIs provided by the framework, you first need to import it.
+```bash
+npm run production
+```
 
-For example, let's image that we want to define a custom post type of `books` from our plugin `resources/admin/plugin.php` default file, we would need to code it like so:
+### Asset version
+
+When enqueueing assets, it is common to provide a version number in order to provide a browser cache hint. The version number of the default plugin assets is set based on the plugin `Version` header defined into the plugin root file.
+
+In order to reset browser cache for your assets after a modification, simply update the `Version` header value from the plugin root file.
+
+```css
+/*
+Plugin Name: Themosis
+...
+Version: 1.0.1
+...
+Text Domain: themosis
+*/
+```
+
+Plugin assets are not enqueued by default. In order to do so, we recommend you to create an `AssetServiceProvider` into the `resources/Providers` directory of your plugin and call the Asset API like so:
 
 ```php
 <?php
+namespace Tld\Domain\PluginName\Providers;
 
-use Themosis\Facades\PostType;
+use Illuminate\Support\ServiceProvider;
+use Themosis\Support\Facades\Asset;
 
-PostType::make('books', 'Books', 'Book')->set();
+class AssetServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        /** @var PluginManager $plugin */
+        $plugin = $this->app->make('wp.plugin.plugin-name');
+
+        Asset::add('plugin_styles', 'css/style.css', [], $plugin->getHeader('version'))->to('front');
+        Asset::add('plugin_js', 'js/index.min.js', [], $plugin->getHeader('version'))->to('front');
+    } 
+}
 ```
 
-> This is also similar from "namespaced" classes of your custom theme.
+> The plugin is manage by a `PluginManager` class. See how the plugin `version` value is retrieved from its root file header.
 
-Here is a list of available facades you can import:
+Plugin manager
+--------------
 
-- Themosis\Facades\Action
-- Themosis\Facades\Ajax
-- Themosis\Facades\Asset
-- Themosis\Facades\Blade
-- Themosis\Facades\Config
-- Themosis\Facades\DB
-- Themosis\Facades\Field
-- Themosis\Facades\Filter
-- Themosis\Facades\Form
-- Themosis\Facades\Html
-- Themosis\Facades\Input
-- Themosis\Facades\Loop
-- Themosis\Facades\Metabox
-- Themosis\Facades\Page
-- Themosis\Facades\PostType
-- Themosis\Facades\Route
-- Themosis\Facades\Section
-- Themosis\Facades\Taxonomy
-- Themosis\Facades\User
-- Themosis\Facades\Validator
-- Themosis\Facades\View
+The framework is handling a plugin through a `PluginManager` class. The manager is responsible to provide utilities in order to work with the plugin as well as registering its configuration.
+
+You can find below a list of methods available in order to work with your plugin.
+
+### Get the plugin manager
+
+If you need to work inside the plugin root file, the `PluginManager` class instance is already provided to you through the `$plugin` variable.
+
+The `PluginManager` class instance is also registered into the application service container under the abstract name `wp.plugin.plugin-name` where `plugin-name` must be replaced by your plugin unique name. Here is an example on how to retrieve it from a plugin service provider:
+
+```php
+<?php
+namespace \Tld\Domain\Plugin\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class MyServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $plugin = $this->app->make('wp.plugin.plugin-name');
+    }
+}
+```
+
+It is also possible to retrieve the plugin manager instance by using the `app()` helper function:
+
+```php
+$theme = app('wp.plugin.plugin-name');
+```
+
+### Get a plugin header
+
+Sometimes, you may need to retrieve information from the plugin headers defined inside its root file. In order to get a header value, use the `getHeader` method like so:
+
+```php
+$plugin = app('wp.plugin.plugin-name');
+$version = $plugin->getHeader('version');
+```
+
+Here is the list of available headers you can retrieve from the plugin root file:
+
+```php
+$name = $plugin->getHeader('name');
+$plugin_uri = $plugin->getHeader('plugin_uri');
+$plugin_prefix = $plugin->getHeader('plugin_prefix');
+$plugin_namespace = $plugin->getHeader('plugin_namespace');
+$author = $plugin->getHeader('author');
+$author_uri = $plugin->getHeader('author_uri');
+$description = $plugin->getHeader('description');
+$version = $plugin->getHeader('version');
+$license = $plugin->getHeader('license');
+$license_uri = $plugin->getHeader('license_uri');
+$text_domain = $plugin->getHeader('text_domain');
+$domain_path = $plugin->getHeader('domain_path');
+$domain_var = $plugin->getHeader('domain_var');
+$network = $plugin->getHeader('network');
+```
+
+### Get plugin path
+
+If you need to get the plugin path or a path of a sub-directory of your plugin, you can use the `getPath` method like so:
+
+```php
+$plugin_root_path = $plugin->getPath();
+
+$includes = $plugin->getPath('inc');
+```
+
+### Get plugin URL
+
+If you need to get the plugin URL or a URL of a sub-directory of your plugin, you can use the `getUrl` method like so:
+
+```php
+$plugin_url = $plugin->getUrl();
+
+$plugin_image = $plugin->getUrl('dist/images/logo.png');
+```
+
+### Get plugin configuration
+
+You can get a plugin configuration by using the `Config` facade or the `config()` helper function like so:
+
+```php
+$params = Config::get('prefix_plugin');
+
+$params = config('prefix_plugin');
+```
+
+> You need to make sure to remember your plugin prefix in order to fetch its configuration files.
+
+The plugin manager provides a `config()` method that takes care of the prefix for you. So if you have a plugin configuration file with a full name of `prefix_services.php`, you can get its values like so:
+
+```php
+$plugin = app('wp.plugin.plugin-name');
+
+$services = $plugin->config('services');
+```
+
+Translations
+------------
+
+The plugin is translation ready and provides a `languages` directory with a `.po` template file. The PO template file name is setup during plugin installation and follows the `plugin-name-en_US.po` syntax.
+
+When writing code for your plugin that must be translated, the plugin manager is setting up a PHP constant for you to use inside gettext functions. The constant name is defined during plugin installation and is registered as the `Domain Var` plugin header. If you omit to define a constant name at installation, its default name is `PLUGIN_TD`.
+
+> If you forget to provide a custom constant name at installation, simply update the `Domain Var` plugin header.
+
+The constant value is automatically defined based on plugin name during installation but you can easily change it by changing the `Text Domain` header value.
+
+Finally you may use the plugin constant in your views like so:
+
+```php
+// From a Blade view
+<button>{{ __("Read more", PLUGIN_TD) }}</button>
+
+// From a Twig view
+<button>{{ __("Read more", constant('PLUGIN_TD')) }}</button>
+```
+
+Based on defined locale from WordPress, the plugin is automatically loading the corresponding translation file for you.
+
+> We recommend the use of [PoEdit](https://poedit.net/) in order to update and translate your files. Check the [Twig]({{url}}/twig) or [Blade]({{url}}/blade) guides in order to configure PoEdit for your views.

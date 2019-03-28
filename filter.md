@@ -4,6 +4,7 @@ Filter
 - [Register a filter](#register-a-filter)
     - [Priority and accepted arguments](#priority-and-accepted-arguments)
     - [Function, closure and class](#function-closure-and-class)
+- [Constructor injection](#constructor-injection)
 - [Run a filter](#run-a-filter)
 - [Check filter existence](#check-filter-existence)
 - [Remove a filter](#remove-a-filter)
@@ -33,7 +34,7 @@ class ClassName
 }
 ```
 
-> Note that you **must** provide the full class name with its namespace, as for now, the Hook API do not handle a default namespace property.
+> Note that you **must** provide the full class name with its namespace.
 
 You can also omit the method name. By default, the API is looking for a class method with the same name as the filter. So if your filter is `wp_terms_checklist_args`, the class will look after the `wp_terms_checklist_args` method:
 
@@ -93,6 +94,47 @@ Filter::add('do_mu_upgrade', [$this, 'upgrade']);
 // With an instance.
 $class = new ClassName();
 Filter::add('customize_panel_active', [$class, 'panel']);
+```
+
+Constructor injection
+---------------------
+
+If you use the `Namespace\Classname@method` syntax for your filter, you can now type-hint your class dependencies in the constructor method as it is automatically resolved by the application service container:
+
+```php
+<?php
+
+namespace App\Hooks\Modules;
+
+use App\Services\Editor\Tools;
+use Illuminate\Http\Request;
+
+class Shop
+{
+    protected $request;
+    
+    protected $tools;
+    
+    public function __construct(Request $request, Tools $tools)
+    {
+        $this->request = $request;
+        $this->tools = $tools;
+    }
+    
+    /**
+     * Method automatically called by the "content" filter hook.
+     */
+    public function content()
+    {
+        // Code...
+    }
+}
+```
+
+If you call the `content` filter and attach the above class example, your will automatically get the `Illuminate\Http\Request` and `App\Services\Editor\Tools` class instances injected:
+
+```php
+Filter::add('content', 'App\Hooks\Modules\Editor');
 ```
 
 Run a filter

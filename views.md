@@ -9,33 +9,24 @@ Views
 - [Sharing data](#sharing-data)
 - [View composers](#view-composers)
 - [Template engines](#template-engines)
-- [Register views locations](#register-views-locations)
 
 Introduction
 ------------
 
-In order to handle the application views (HTML), the Themosis framework comes with a view API that extends the illuminate/view package. Beside providing same API found in the Laravel framework, the Themosis framework views come with 2 great template engines:
+In order to handle the application views (HTML), the Themosis framework comes with a view API that extends the `illuminate/view` package. Beside providing same API found in the Laravel framework, the Themosis framework views come with 2 great template engines:
 
-- [Blade](https://laravel.com/docs/5.3/blade)
-- [Twig](http://twig.sensiolabs.org/)
+- [Blade](https://laravel.com/docs/5.7/blade)
+- [Twig](https://twig.symfony.com/)
 
-Depending of your background, you might prefer working with the Twig engine, Blade engine or vanilla PHP, the choice is yours. Regarding the view API, there is one difference to note regarding view composers if you decide to go with the Twig engine (and vanilla PHP as well). See view composers below for the details.
+Depending on your background, you might prefer working with the Twig engine, Blade engine or vanilla PHP, the choice is yours. Regarding the view API, there is one difference to note regarding view composers if you decide to go with the Twig engine (and vanilla PHP as well). See view composers below for the details.
 
-> In versions anterior to 1.3.0, there was the Scout template engine which was a fork of the Blade engine. The Scout template were using a `.scout.php` file extension. For backward compatibility, you can still use this file extension but it is recommended to rename your files with a `.blade.php` file extension instead.
-
-Views contain the HTML of your website/application. They provide a convenient way of separating your controllers and application logic from your presentation logic.
+Views contain the HTML of your application. They provide a convenient way of separating your controllers and application logic from your presentation logic.
 
 Before digging into the view API available methods, let's take a look on how views are loaded.
 
-Views are registered through the use of a Views Finder class. By default, views are stored in the `resources/views` directory of either your `themosis-theme` theme or custom plugin.
+Views are registered through the use of a finder class. By default, views are stored in the `views` directory of your theme and the `resources/views` directory located at project root.
 
-If you need to add more views directories (locations) in your project, you can do so by fetching the finder instance and call its `addLocation()` method like so:
-
-```php
-container('view.finder')->addLocation($path_to_directory);
-```
-
-> In previous code sample, we use the helper function `container()` which resolve a view finder instance. Check the [service container guide]({{url}}/container) for more information.
+If you need to add more views directories (locations) in your project, you can do so by editing the `config/theme.php` file from your theme. Or if your need to add more global views directories, use the `config/view.php` configuration file from project root.
 
 Create a view
 -------------
@@ -43,7 +34,7 @@ Create a view
 The most basic view is a PHP file. To create a view, first add a new PHP file into one of the views directories. Here is an example of a simple view file stored as `hello.php`:
 
 ```html
-<!-- View stored in resources/views/hello.php -->
+<!-- View stored in views/hello.php -->
 <html>
     <head>
         <title>Welcome</title>
@@ -77,7 +68,7 @@ echo $hello;
 The previous sample is a basic representation of a view rendering. Let's use this view from a route and return its content:
 
 ```php
-Route::get('home', function () {
+Route::get('/', function () {
     return View::make('hello');
 });
 ```
@@ -94,7 +85,7 @@ Route::get('home', function () {
 
 > The advantage of rendering the view before returning it is that if your view code has an error, you'll get an appropriate PHP stack error spotting the right line of code.
 
-Finally, the Themosis framework also includes a `view()` helper function that saves you some typos. Here is our `hello` example using the `view()` function:
+Finally, the Themosis framework also includes the `view()` helper function that saves you some typos. Here is our `hello` example using the `view()` function:
 
 ```php
 Route::get('home', function () {
@@ -107,8 +98,8 @@ Route::get('home', function () {
 Finally views are not only reserved to page templates. Views help you write better presentation code without mixing too much PHP logic with your HTML. From a WordPress perspective, there are many places where you could use views, here is a helper list:
 
 - Metabox
-- Custom fields (dashboard, post, term, options, user, ...)
-- Widgets (form and widget methods)
+- Fields
+- Widgets
 - Shortcodes
 - List table
 - Email
@@ -128,7 +119,7 @@ wp_mail($to, 'Subject', $message);
 Organize your views
 -------------------
 
-You can organize your views into sub-directories of the `resources/views` directory. Use the "dot" notation to reference your view. For example, if you store a view file at `resources/views/pages/home.php`, you can access it like so:
+You can organize your views into sub-directories of the `views` directory. Use the "dot" notation to reference your view. For example, if you store a view file at `views/pages/home.php`, you can access it like so:
 
 ```php
 return view('pages.home');
@@ -136,7 +127,7 @@ return view('pages.home');
 
 There is no limitation to the number of sub-folders you want to use in order to organize your views.
 
-> Important, if you have multiple view directories shared between your theme and plugins, the view API will use the first view file it found. Meaning that if a plugin has a view stored exactly with the same relative path from its view directory, you may get inappropriate rendering. It is recommended to store plugin views with a higher folder hierarchy. For example, use your company tld + domain name + plugin name as sub-directories names to avoid conflicts.
+> Important, if you have multiple view directories shared between your theme and plugins, the view API will use the first view file it found. Meaning that if a plugin has a view stored exactly with the same relative path from its view directory, you may get inappropriate rendering. It is recommended to store plugin views with a higher folder hierarchy. For example, use your company TLD + Domain Name + Plugin Name as sub-directories names to avoid conflicts.
 
 Passing data
 ------------
@@ -150,7 +141,7 @@ return view('hello', ['name' => 'Joe']);
 And now let's update our `hello.php` view file to take advantage of the passed `$name` variable:
 
 ```php
-<!-- View stored in resources/views/hello.php -->
+<!-- View stored in views/hello.php -->
 <html>
     <head>
         <title>Welcome</title>
@@ -289,21 +280,8 @@ We have a guide for each template engine covering their basics and specific feat
 
 but for deeper information, we suggest you to read their official documentation:
 
-- [Blade](https://laravel.com/docs/5.3/blade)
-- [Twig](http://twig.sensiolabs.org/)
-
-Register views locations
-------------------------
-
-You can define custom views locations in order to store your view files. Both `themosis-theme` theme and `themosis-plugin` plugin boiler plate use a View Finder instance to define their own `resources/views` location but you add your own too.
-
-Get a view finder instance and call its `addLocation()` method and pass it your custom views folder path like so:
-
-```php
-container('view.finder')->addLocation(themosis_path('theme.resources').'views');
-```
-
-You can only add one location per call. If you want to add multiple locations at once, just call the method several times.
+- [Blade](https://laravel.com/docs/5.7/blade)
+- [Twig](https://twig.symfony.com/)
 
 Next
 ----

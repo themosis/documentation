@@ -1,6 +1,51 @@
 Changelog
 =========
 
+2.0
+---
+
+#### New
+
+- Application directory structure
+- Laravel packages compatibility
+- WooCommerce compatibility
+- Service provider auto-registration (composer.json support)
+- WordPress mu-plugin autoloader
+- Logging
+- Illuminate cache
+- Illuminate session
+- Database migration
+- Illuminate validation
+- Illuminate mail
+- Form API
+- Illuminate configuration
+- Illuminate authentication
+- ReactJS and RestAPI driven metabox custom fields
+- Laravel Mix
+- CLI tool
+- Scaffolding commands
+- Application commands
+- Cron scheduler
+- Full middleware support
+- Plugin boilerplate
+- Route names
+- Granular WordPress route conditions
+- Blade @template directive
+
+#### Fixes
+
+There are many fixes due to a complete refactoring of the code base for release 2.0. but here are a few based on inherited API:
+
+- Handle network administration pages
+- List of locations for assets
+- Subpage condition routing
+- Translations on theme and plugins
+- Twig deprecation warning
+- Localize asset
+- Error on save when attaching a metabox to multiple post types
+- User vulnerability when creating new users with the User::make method
+- Hook callback not able to use a function name reference
+
 1.3.1
 -----
 

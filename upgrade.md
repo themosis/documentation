@@ -1,11 +1,49 @@
 Upgrade
 =======
 
+- [Upgrade from 1.3.* to 2.0](#upgrade-from-13-to-20)
 - [Upgrade from 1.2.* to 1.3.0](#upgrade-from-12-to-130)
 - [Upgrade from 1.2.0 to 1.2.3](#upgrade-from-120-to-123)
 - [Upgrade from 1.1.* to 1.2.0](#upgrade-from-11-to-120)
 
 These notes cover the steps to follow in order to upgrade major versions of the framework.
+
+Upgrade from 1.3.* to 2.0
+-------------------------
+
+The Themosis framework 2.0 is not a backward compatible release. It does share some API with previous releases but as its [directory structure]({{url}}/structure) has changed, you need to move your code with extra care.
+
+The recommended way of upgrading an existing application to a 2.0 release is to create a new 2.0 project and move parts one by one. Here are general steps to look after in order to upgrade your application:
+
+1. Create a new project: `composer create-project themosis/themosis your-app-name`.
+2. Update the root `.env` file based on your application needs
+3. Move any custom WordPress constants you may have defined inside the old `config/environments/local-or-production.php` to the new `config/wordpress.php` file.
+4. Create a new theme: `php console theme:install your-theme-name`.
+5. Move your old theme routes to the new application routes file: `routes/web.php`.
+6. Move your old controllers to the new application controllers directory: `app/Http/Controllers`. Take care of changing the default namespace of your classes to `App\Http\Controllers`.
+7. If you have external dependencies, add them to the root `composer.json` file and update. Move specific business PHP classes, if any, inside the `app` directory and change their namespace accordingly.
+8. Move your old theme views inside the new theme `views` directory defined at theme's root.
+9. Move your old theme `admin` files into the new theme `inc` folder.
+10. Move your old theme `config` files into the new theme `config` folder located at theme's root.
+11. If you have widgets inside your old theme, move them inside the application `app/Widgets` directory and register them within the `app/Hooks/Widgets.php` file.
+12. In order to register your theme assets, you now have to call the `to()` method on each instance. The `to` method default to the `front` end side.
+13. For theme translations, use the `THEME_TD` constant and update gettext files accordingly.
+14. If you use the global front-end javascript object for your application and need to pass custom data through the filter, the filter name has changed to `themosis_front_global`.
+
+If you developed custom plugins on previous releases using the plugin boilerplate, those are no longer compatible with the 2.0 release. Plugin configuration has been simplified and is more straightforward. Just like the theme, it is best to start a new plugin and move parts one by one:
+
+1. Use the `php console plugin:install your-plugin-name` to start a new plugin
+
+The plugin structure follows the same file organisation than the theme. Make sure to read the [plugin guide]({{url}}/plugin) for more information.
+
+### Warning
+
+1. The `media` and `collection` fields only work with a metabox instance
+2. [PostType]({{url}}/posttype), [Metabox]({{url}}/metabox), [Page]({{url}}/page) and [Field]({{url}}/field) API have changed their APIs and are more verbose. You no longer set properties by passing an array on a `set` method. Please check the documentation for each API if you use them.
+
+### Deprecated
+
+1. The `infinite` field is no longer included within the framework for [now](https://github.com/themosis/framework/issues/524)
 
 Upgrade from 1.2.* to 1.3.0
 ---------------------------

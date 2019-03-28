@@ -2,44 +2,44 @@ PostType
 ========
 
 - [Basic usage](#basic-usage)
-	- [Plural and single display names](#plural-and-single-display-names)
-	- [Customize your custom post type](#customize-your-custom-post-type)
-	- [Retrieve custom post type parameters value](#retrieve-custom-post-type-parameters-value)
-	- [Retrieve the WP_Post_Type instance](#retrieve-the-wp-post-type-instance)
+    - [Labels](#labels)
+    - [Customize](#customize)
+    - [Retrieve parameter value](#retrieve-parameter-value)
+    - [The WP_Post_Type instance](#the-wp-post-type-instance)
+    - [Set title placeholder](#set-title-placeholder)
+- [Service container](#service-container)
 - [Custom status](#custom-status)
 	- [Add custom status](#add-custom-status)
-
-The `PostType` class helps you to register and manipulate WordPress custom post types.
 
 Basic usage
 -----------
 
-In order to register a custom post type, you will call the `make` and `set` methods of the PostType class.
+The `PostType` class helps you register and manage WordPress custom post types.
 
-For example, let's register a custom post type in order to handle a list of books. The custom post type will have a slug of `books`:
+In order to register a custom post type, you may call the `make` and `set` methods of the PostType class.
 
-```php
-// File stored in resources/admin/books.php
-PostType::make('books', 'Books', 'Book')->set([
-    'public' => true
-]);
-```
-
-This will build a basic custom post type accessible in the WordPress admin. You can customize the custom post type by passing arguments to the `set()` method. In the above code we specified that the custom post type should be public. You can pass all the arguments defined in the WordPress core function [register_post_type](https://developer.wordpress.org/reference/functions/register_post_type/) like so:
+For example, let's register a custom post type in order to handle a list of books. The custom post type will have a slug of `books` and is registered inside a `Books` hookable class:
 
 ```php
-PostType::make('slug-books', 'Books', 'Book')->set([
-    'public'        => true,
-    'menu_position' => 20,
-    'supports'      => ['title'],
-    'rewrite'       => false,
-    'query_var'     => false
-]);
+<?php
+namespace App\Hooks;
+
+use Themosis\Support\Facades\PostType;
+
+class Books extends Hookable
+{
+    public function register()
+    {
+        PostType::make('books', 'Books', 'Book')->set();
+    }
+}
 ```
+
+This will build a basic custom post type accessible in the WordPress administration.
 
 > Note: the custom post type will only be registered if you call the `set()` method.
 
-### Plural and single display names
+### Labels
 
 The `make()` method needs a plural and singular display names as second and third parameter. Those parameters will pre-fill the labels property of your custom post type.
 
@@ -49,78 +49,115 @@ PostType::make('books', 'Books', 'book')->set();
 
 In the above code sample, the custom post type will have a plural display name of `Books` and a singular display name of `Book`.
 
-> Note: you can override the custom post type `labels` property by adding it to the set method array.
+> Labels for custom post type are set in english by default.
 
-### Customize your custom post type
-
-In order to define the behavior of your custom post type, use the `set()` method and pass it an array of [parameters](https://developer.wordpress.org/reference/functions/register_post_type/#parameters) like so:
+If you need to change default labels or provide labels in your locale, you can override them by using the `setLabels()` method like so:
 
 ```php
-PostType::make('books', 'Books', 'Book')->set([
-    'public'   => false,
-    'supports' => ['title', 'editor'],
-    'labels'   => [
-        'add_item' => __('Add', 'THEME_TEXTDOMAIN')
-    ]
-]);
+PostType::make('books', 'Books', 'Book')
+    ->setLabels([
+        'add_new_item' => _x('Add a book', 'post_type', 'textdomain')
+    ])
+    ->set();
 ```
 
-> Note: the `THEME_TEXTDOMAIN` constant value is defined inside the `theme.config.php` file.
+### Customize
 
-### Retrieve custom post type parameters value
-
-The `get()` method allows you to retrieve parameters value from your custom post type that **you defined** in the `set()` method. Here is a list of what you can grab:
-
-> Note: this methods replace the deprecated method $postType->getSlug(). If you used this method, make sure to update your code if you use a version of the framework higher or equal to 1.2.0.
-
-- **name**: The custom post type name. 
-- **label**: The plural display name.
-- **labels**: The custom post type labels.
-- **description**: The custom post type description.
-- **public**: The public value of your custom post type (boolean).
-- **menu_position**: The menu position value.
-- **has_archive**: The has_archive value (boolean).
-
-Those parameters are default to all custom post type. But if you have defined other parameters and passed them through the set() method, you can grab them too.
-
-Example with a default parameter:
+You can customize the custom post type by passing arguments to the `setArguments()` method. You can pass all the arguments defined in the WordPress core function [register_post_type](https://developer.wordpress.org/reference/functions/register_post_type/) like so:
 
 ```php
-$postType = PostType::make('books', 'Books', 'Book')->set();
-
-// Return "books".
-$name = $postType->get('name');
+PostType::make('slug-books', 'Books', 'Book')
+    ->setArguments([
+        'public' => true,
+        'menu_position' => 20,
+        'supports' => ['title', 'editor'],
+        'rewrite' => false,
+        'query_var' => false
+    ])
+    ->set();
 ```
 
-> If you try to access a parameter other than the list above and that it's not defined in the set method, you'll get an error.
+### Retrieve parameter value
 
-Now let's say we define a custom URI slug for our `books` custom post type like so:
+#### Get the custom post type name
+
+If you need to retrieve the name of your custom post type instance, you can use the `getName()` or `getSlug()` method:
 
 ```php
-$postType = PostType::make('books', 'Books', 'Book')->set([
-    'rewrite' => [
-        'slug' => 'library'
-    ]
-]);
+$books = PostType::make('slug_books', 'Books', 'Book')
+    ->set();
 
-// We can retrieve the rewrite parameter as it is defined in the set method.
-$rewriteParameters = $postType->get('rewrite');
-$slug = $rewriteParameters['slug']; // return the 'library' value.
+$name = $books->getName();
 ```
 
-### Retrieve the WP_Post_Type instance
+#### Get the custom post type argument
 
-WordPress now returns an object when registering a custom post type. In order to get access to this instance, use the `instance()` method like so:
+You can retrieve any value from your custom post type arguments. In order to retrieve all defined arguments, you may use the `getArguments()` method:
 
 ```php
-$books = PostType::make('books', 'Books', 'Book')->set(['public' => true]);
+$args = $postType->getArguments();
+```
+
+or you can fetch a single argument using the `getArgument()` method like so:
+
+```php
+$arg = $postType->getArgument('menu_position');
+```
+
+> This can only fetch a value from a defined argument when registering the custom post type.
+
+#### Get the custom post type label
+
+In order to fetch all labels, you can use the `getLabels()` method on your custom post type instance:
+
+```php
+$labels = $postType->getLabels();
+```
+
+or you can get a single label using the `getLabel()` method like so:
+
+```php
+$label = $postType->getLabel('view_item');
+```
+
+### The WP_Post_Type instance
+
+WordPress now returns an object when registering a custom post type. In order to get access to this instance, use the `getInstance()` method like so:
+
+```php
+$books = PostType::make('books', 'Books', 'Book')->set();
 $type = $books->instance(); // return WP_Post_Type instance
+```
+
+### Set title placeholder
+
+You can define a custom title input placeholder value by calling the `setTitlePlaceholder` method on your post type instance like so:
+
+```php
+PostType::make('books', 'Books', 'Book')
+    ->setTitlePlaceholder('Insert the book title here...')
+    ->set();
+```
+
+Service container
+-----------------
+
+Each defined custom post type instance is registered into the application service container using the abstract name `themosis.posttype.slug`. If you need your post type instance elsewhere in your project, you may use the `app()` function helper or the `App` facade.
+
+Here is an example based on the above `books` custom post type:
+
+```php
+PostType::make('books', 'Livres', 'Livre')->set();
+
+$instance = app('themosis.posttype.books');
+
+$instance = App::make('themosis.posttype.books');
 ```
 
 Custom status
 -------------
 
-The PostType API provides a method to register one or multiple custom statuses for your custom post type.
+The PostType class provides a method to register one or multiple custom statuses for your custom post type.
 
 > Note: This do not work for core post types (post, page, attachment,...).
 
@@ -160,7 +197,7 @@ In the following example, we add a custom publish button text to our `rent` stat
 
 ```php
 $books->status('rent', [
-    'publish_text' => __('Rent the book', THEME_TEXTDOMAIN)
+    'publish_text' => __('Rent the book', 'textdomain')
 ]);
 ```
 
@@ -205,8 +242,6 @@ $books->status([
 ```
 
 The array key is the custom status name and each value is an array of status properties.
-
-> Note: Currently the UI for custom statuses is a work-in-progress. When viewing the list of your custom post type, if you click on `Quick Edit`, it still displays core statuses.
 
 Next
 ----
