@@ -171,10 +171,10 @@ By default you could write the following statement:
 ```html
 {{ isset($name) ? $name : 'Default' }}
 ```
-Instead of writing a ternary statement, Blade allows you to use the following convenient short-cut:
+Instead of writing a ternary statement, Blade allows you to use PHP's built in `??` "null coalesce" operator:
 
 ```html
-{{ $name or 'Default' }}
+{{ $name ?? 'Default' }}
 ```
 
 ### Conditional statements
