@@ -104,7 +104,7 @@ return [
 ];
 ```
 
-The theme is using the PSR-4 autoloading. So you can as many directories and namespace definitions to your custom theme.
+The theme is using the PSR-4 autoloading. So you can add as many directories and namespace definitions to your custom theme as you need.
 
 > If you no longer wish to use the default `Theme` namespace, and for example use your company name as default like `Themosis`, make sure to update all namespace definitions into your theme classes.
 
