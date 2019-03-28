@@ -76,7 +76,7 @@ In the previous example, we used the `{% extends 'layouts/main' %}` syntax. This
 {{ include('footer.twig') }}
 ```
 
-> Compared to the Blade engine, in Twig, you cannot omit the `.twig` file extension when refering to a view layout or a view you would like to include. Qnother comparison, is the path to your views. Where Blade uses a dot notation, with Twig, you stick to classic path notation using the `/` symbol.
+> Compared to the Blade engine, in Twig, you cannot omit the `.twig` file extension when refering to a view layout or a view you would like to include. Another comparison, is the path to your views. Where Blade uses a dot notation, with Twig, you stick to classic path notation using the `/` symbol.
 
 Twig control structures
 ------------------------
