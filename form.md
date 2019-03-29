@@ -181,6 +181,7 @@ When creating a new form from a controller class, you can leverage the `form` he
 $form = (new ContactForm())->build(app('form'), app('field'));
 ```
 
+### Blade
 Now from our `pages.contact` Blade view, we can display the form by calling its `render` method like so:
 
 ```html
@@ -190,6 +191,13 @@ Now from our `pages.contact` Blade view, we can display the form by calling its 
     <h1>Contact Us</h1>
     {!! $form->render() !!}
 @endsection
+```
+
+### Twig
+If you're using the twig rendering system, you'll be able to render form with the following method + filter:
+
+```twig
+    {{ form.render()|raw }}
 ```
 
 Error reporting

@@ -201,6 +201,14 @@ If you need to display a string that is wrapped in curly braces, you may escape 
 {% endverbatim %}
 ```
 
+### Displaying raw content
+
+When outputting text which contains markup (like content from a rich editor or the post thumbnail), you'll want to display it as raw content. You can achieve this result with the `raw` filter:
+
+```twig
+{{ post.post_content|raw }}
+```
+
 ### Comments
 
 Use the `{# ... #}` statements to add comments into your Twig view:
