@@ -126,7 +126,7 @@ WordPress now returns an object when registering a custom post type. In order to
 
 ```php
 $books = PostType::make('books', 'Books', 'Book')->set();
-$type = $books->instance(); // return WP_Post_Type instance
+$type = $books->getInstance(); // return WP_Post_Type instance
 ```
 
 ### Set title placeholder
