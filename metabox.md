@@ -50,7 +50,7 @@ When registering a metabox, you first need to pass a unique identifier. By defau
 
 ```php
 Metabox::make('properties', 'post')
-    -setTitle(_x('Product details', 'metabox', 'textdomain'))
+    ->setTitle(_x('Product details', 'metabox', 'textdomain'))
     ->set();
 ```
 
