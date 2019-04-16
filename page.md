@@ -277,7 +277,7 @@ $page->route('register', function () {
     // Then redirect the user back to the page.
     wp_safe_redirect(add_query_arg([
         'page' => 'demo-page'
-    ], admin_url(admin.php)));
+    ], admin_url('admin.php')));
     exit();
 }, 'post');
 ```
