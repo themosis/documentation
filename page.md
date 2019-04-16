@@ -221,6 +221,11 @@ In general, WordPress performs `POST` request on the `admin-post.php` file locat
 https://domain.com/cms/wp-admin/admin-post.php
 ```
 
+Which can dynamically be created with the `admin_url()` WordPress helper:
+```php
+admin_url('admin-post.php');
+```
+
 Inside the `admin-post.php` file, WordPress is performing a few actions. The one used behind the scene by the API is the call to the following action hook:
 
 ```php
@@ -245,7 +250,7 @@ The page view form must include an input with an `action` name attribute. Here w
 
 ```php
 <h1>Demo Page - Home</h1>
-<form action="https://domain.com/cms/wp-admin/admin-post.php" method="post">
+<form action="{{ admin_url('admin-post.php') }}" method="post">
     <input type="hidden" name="action" value="demo-page_register"/>
     ...
 </form>
