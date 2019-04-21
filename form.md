@@ -318,7 +318,7 @@ class ContactForm implements Formidable
      */
     public function build(FormFactoryInterface $factory, FieldFactoryInterface $fields): FormInterface
     {
-        return $factory->make([
+        return $factory->make(null, [
             'flush' => false
         ])
             ->add($fields->text('fullname', [
@@ -448,7 +448,97 @@ After validation, you may access the form valid data in order to perform specifi
 
 ### Using a data object
 
-> This feature is not yet implemented but is coming for the 2.0 stable release.
+The form class manages plain old PHP data object in order to initialize its data or to populate validated data.
+
+A data object is a simple representation of your form data based on its context: create a post, update a post, ...
+
+You can create a data object and pass it as a first argument to the form `make` method like so:
+
+```php
+public function build(FormFactoryInterface $factory, FieldFactoryInterface $fields): FormInterface
+{
+    $dto = new CreatePostData();
+    
+    return $factory->make($dto)
+        ->add($fields->text('title'))
+        ->add($fields->textarea('content'))
+        ->add($fields->submit('create', [
+            'mapped' => false
+        ]))
+        ->get();
+}
+```
+
+By default, a form instance will try to map all defined fields to a property of a data object. If you do not want to map a field to your DTO object, you can set its `mapped` option to `false`.
+
+The form class is leveraging the [Symfony property access](https://symfony.com/doc/current/components/property_access.html) component. A data object can manage its internal state using public properties or getters and setters. Here is an example of the `CreatePostData` object using public properties:
+
+```php
+<?php
+
+namespace App\Data;
+
+class CreatePostData
+{
+    /**
+     * The post title data.
+     *
+     * @var string
+     */
+    public $title;
+    
+    /**
+     * The post content data.
+     *
+     * @var string
+     */
+    public $content;
+}
+```
+
+#### Initialize form default values using data object
+
+As mentioned earlier, you can initialize your form fields values using a data object. Here is an example, continuing with the `CreatePostData` object:
+
+```php
+// From a controller, initialize the DTO object and the form.
+public function create()
+{
+    $createData = new CreatePostData();
+    $createData->title = 'A new article';
+    
+    $form = $this->form(new CreatePostForm($createData));
+    
+    return view('posts.create', [
+        'form' => $form
+    ]);
+}
+```
+
+> The data object is a constructor dependency of a `Formidable` instance, you can then pass it to the form factory `make` method.
+
+On render, the form title field is populated with the default value of `A new article`.
+
+#### Populate data object
+
+The form class also populates a data object after a successful validation.
+
+```php
+public function insert(Request $request)
+{
+    $createData = new CreatePostData();
+    
+    $form = $this->form(new CreatePostForm($createData));
+    $form->handleRequest($request);
+    
+    if ($form->isValid()) {
+        Post::create([
+            'title' => $createData->title,
+            'content' => $createData->content
+        ]);
+    }
+}
+```
 
 ### Using the repository
 
@@ -486,10 +576,10 @@ When using the repository methods, use the original name passed when building yo
 Form options
 ------------
 
-Each form instance has a list of options that controls its behavior. In order to customize your form, you can pass an array of options to the form factory `make` method:
+Each form instance has a list of options that controls its behavior. In order to customize your form, you can pass an array of options as a second argument to the form factory `make` method:
 
 ```php
-return $factory->make([
+return $factory->make(null, [
     'attributes' => [
         'id' => 'contact-form'
     ],
@@ -509,7 +599,7 @@ You can, for example, specify the `action` attribute value of your form in order
 ```php
 public function build(FormFactoryInterface $factory, FieldFactoryInterface $fields): FormInterface
 {
-    return $factory->make([
+    return $factory->make(null, [
         'attributes' => [
             'action' => route('settings'), // return http://domain.com/settings URL
             'id' => 'contact-form',
@@ -526,7 +616,7 @@ public function build(FormFactoryInterface $factory, FieldFactoryInterface $fiel
 The `errors` option allows you to inform the form to display or not the errors messages after validation. By default, after a failed validation, if you render the form, each field is displaying its error message below its input. If you want to control where to display form errors on your page, then you can set the `errors` option to `false` and then leverage the `errors` method of your form instance to get the list of messages to display.
 
 ```php
-return $factory->make([
+return $factory->make(null, [
     'errors' => false
 ])
 ...
@@ -569,7 +659,7 @@ The `errors` method is returning a `Illuminate\Contracts\Support\MessageBag` ins
 The `flush` option, as already mentioned, allows you to remove or not validated data after a successful validation. By default the value is set to `true` meaning that the data is removed upon validation. If you want to persist the data in your form instance, set the `flush` option value to `false`.
 
 ```php
-return $factory->make([
+return $factory->make(null, [
     'flush' => false
 ])
 ...
@@ -583,7 +673,7 @@ By default, all form instances generate a WordPress nonce field. By default, the
 It is best to customize the nonce field per form. You can do so by providing a `nonce` and/or a `nonce_action` options to your form instance. Generally, you may want to keep the default nonce name `_themosisnonce` but it is recommended to change the action verb like so:
 
 ```php
-return $factory->make([
+return $factory->make(null, [
     'nonce_action' => 'contact_us'
 ])
 ...
@@ -593,7 +683,7 @@ return $factory->make([
 Also, the WordPress nonce uses a `referer` boolean value. If set to `true`, a referrer field is also adding into the form (default). If set to `false`, no referrer value is defined for the request:
 
 ```php
-return $factory->make([
+return $factory->make(null, [
     'nonce_action' => 'contact_us',
     'referer' => false
 ])
@@ -606,7 +696,7 @@ return $factory->make([
 The `tags` option controls the output of the form HTML tags. If for example, your form should be embedded inside an existing form (for example, inside a WordPress administration page), you may need to output only its fields by setting the `tags` option to `false` like so:
 
 ```php
-return $factory->make([
+return $factory->make(null, [
     'tags' => false
 ])
 ...
@@ -620,7 +710,7 @@ A form and its fields are rendered through a group of pre-defined views. Each gr
 The framework also handles a `bootstrap` theme, which output form elements using the BootstrapCSS classes. In order to change the form theme, simply provide a `theme` option with the group name as a value like so:
 
 ```php
-return $factory->make([
+return $factory->make(null, [
     'theme' => 'bootstrap'
 ])
 ...
