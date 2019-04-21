@@ -228,7 +228,7 @@ If you want to explore what kind of extensions you can add to Twig, please read 
 Now, in order to register your extensions, you need to fetch the Twig Environment instance and call its `addExtension` method:
 
 ```php
-use Themosis\Support\Facade\Twig;
+use Themosis\Support\Facades\Twig;
 
 Twig::addExtension(new \Twig_Extension_Optimizer())
 ```
