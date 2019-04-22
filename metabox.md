@@ -29,7 +29,7 @@ By default, when you create a metabox with the framework, it is setup to display
 In order to create a metabox for your post, page or custom post type, you have to use the `make` method and pass it a unique identifier and a screen parameter. Then, you register the metabox by calling to the `set()` method like so:
 
 ```php
-use Themosis\Support\Facade\Metabox;
+use Themosis\Support\Facades\Metabox;
 
 Metabox::make('properties', 'post')->set();
 ```
