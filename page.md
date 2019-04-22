@@ -299,7 +299,7 @@ use Themosis\Support\Section;
 $page = Page::make('demo-settings', 'Settings')
     ->set();
 
-$page->addSection([
+$page->addSections([
     new Section('general', 'General'),
     new Section('social', 'Social')
 ]);
