@@ -10,6 +10,7 @@ Field
 - [Field options](#field-options)
 - [Field value](#field-value)
 - [Field view](#field-view)
+    - [Field view variables](#field-view-variables)
 - [Field rendering](#field-rendering)
 - [Field as a resource](#field-as-a-resource)
 
@@ -895,6 +896,25 @@ Here is an example of a custom text view using field methods:
 ```
 
 Note the use of the `attributes` method that accepts an array of HTML attributes.
+
+You can also pass custom data to your field view by using the `with` method:
+
+```php
+// Pass single data
+Field::text('note')
+    ->setView('fields.custom')
+    ->with('title', 'Some content for the title');
+    
+// Pass multiple data
+Field::text('note')
+    ->setView('fields.custom')
+    ->with([
+        'title' => 'The title value',
+        'two' => 'Another value' 
+    ]);
+```
+
+The use of the `with` method is only relevant when building custom field views. Core views will ignore passed custom data.
 
 ### Default framework views
 
