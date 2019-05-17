@@ -4,6 +4,7 @@ Installation
 - [Requirements](#requirements)
 - [Install Composer](#install-composer)
 - [Install the Themosis framework](#install-the-themosis-framework)
+    - [The public directory](#the-public-directory)
 - [Install the theme](#install-the-theme)
 - [Laravel Homestead](#laravel-homestead)
 - [Install WordPress](#install-wordpress)
@@ -37,6 +38,12 @@ composer create-project themosis/themosis my-project-name
 ```
 
 This will create a directory called `my-project-name` on your computer and automatically download the latest WordPress version along with the latest Themosis framework version and its dependencies.
+
+### The public directory
+
+The Themosis framework is not configured to be hosted like a classic WordPress project. Compared to a classic WordPress installation, a Themosis project root is not the web server public directory.
+
+When configuring your web server, make sure to point the web server to the project **htdocs** directory.
 
 Laravel Homestead
 -----------------
