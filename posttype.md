@@ -38,7 +38,8 @@ class Books extends Hookable
 
 This will build a basic custom post type accessible in the WordPress administration.
 
-> Note: the custom post type will only be registered if you call the `set()` method.
+> Note: the custom post type will only be registered if you call the `set()` method.  
+> Note: do not forget to register the new Hook in your configuration file `config/app.php`
 
 ### Labels
 
