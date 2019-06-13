@@ -24,6 +24,7 @@ For example, let's register a custom post type in order to handle a list of book
 <?php
 namespace App\Hooks;
 
+use Themosis\Hook\Hookable;
 use Themosis\Support\Facades\PostType;
 
 class Books extends Hookable
