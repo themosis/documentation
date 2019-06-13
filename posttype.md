@@ -24,6 +24,7 @@ For example, let's register a custom post type in order to handle a list of book
 <?php
 namespace App\Hooks;
 
+use Themosis\Hook\Hookable;
 use Themosis\Support\Facades\PostType;
 
 class Books extends Hookable
@@ -37,7 +38,8 @@ class Books extends Hookable
 
 This will build a basic custom post type accessible in the WordPress administration.
 
-> Note: the custom post type will only be registered if you call the `set()` method.
+> Note: the custom post type will only be registered if you call the `set()` method.  
+> Note: do not forget to register the new Hook in your configuration file `config/app.php`
 
 ### Labels
 
