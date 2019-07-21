@@ -718,7 +718,7 @@ Learn more
 
 ### Modifying page title
 
-If you define a custom route in your application and you want to influence the page title you can easily modify it by using the WordPress filter/hook API. The Themosis framework provide a basic wrapper for it.
+If you define a custom route in your application and you want to influence the page title you can easily modify it by using the WordPress filter/hook API. The Themosis framework provides a basic wrapper for it.
 
 ```php
 Route::get('custom/route', function () {
