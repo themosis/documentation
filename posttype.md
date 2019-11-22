@@ -176,11 +176,10 @@ The `status()` method uses the same arguments than the WordPress [register_post_
 First, let's add one custom status `rent`:
 
 ```php
-// Register the custom post type first.
-$books = PostType::make('books', 'Books', 'Book')->set();
-
-// Register the "rent" custom status.
-$books->status('rent');
+// Register the custom post type and add the "rent" custom status.
+$books = PostType::make('books', 'Books', 'Book')
+    ->status('rent')
+    ->set();
 ```
 
 In the example above, one status `rent` is registered. The method assign default properties to the status, the same properties used in the [register_post_status()](https://developer.wordpress.org/reference/functions/register_post_status/) function:
@@ -196,9 +195,11 @@ In the example above, one status `rent` is registered. The method assign default
 In the following example, we add a custom publish button text to our `rent` status:
 
 ```php
-$books->status('rent', [
-    'publish_text' => __('Rent the book', 'textdomain')
-]);
+$books = PostType::make('books', 'Books', 'Book')
+    ->status('rent', [
+        'publish_text' => __('Rent the book', 'textdomain')
+    ])
+    ->set();
 ```
 
 The code above will change the default button text of **Publish** to **Rent the book** when a user is registering its book from the edit screen.
@@ -208,16 +209,14 @@ The code above will change the default button text of **Publish** to **Rent the 
 Using the same `status()` method on your custom post type, you can add more than one status. Just pass an array of custom statuses like so:
 
 ```php
-// Register the custom post type first.
-$books = PostType::make('books', 'Books', 'Book')->set();
-
-// Add our custom statuses: rent, rented, sell, sold
-$books->status([
-    'rent',
-    'rented',
-    'sell',
-    'sold'
-]);
+$books = PostType::make('books', 'Books', 'Book')
+    ->status([
+        'rent',
+        'rented',
+        'sell',
+        'sold'
+    ])
+    ->set();
 ```
 
 These statuses are registered with default properties. If you create a new book in the WordPress administration, you should see this list of statuses inside the publish metabox: _Draft_, _Rent_, _Rented_, _Sell_ and _Sold_.
@@ -225,20 +224,22 @@ These statuses are registered with default properties. If you create a new book 
 You can also define their properties like so:
 
 ```php
-$books->status([
-    'rent' => [
-        'publish_text' => 'Save and rent the book'
-    ],
-    'rented' => [
-        'publish_text' => 'Set the book as rented'
-    ],
-    'sell' => [
-        'publish_text' => 'Sell the book'
-    ],
-    'sold' => [
-        'publish_text' => 'Set the book as sold'
-    ]
-]);
+$books = PostType::make('books', 'Books', 'Book')
+    ->status([
+        'rent' => [
+             'publish_text' => 'Save and rent the book'
+        ],
+        'rented' => [
+            'publish_text' => 'Set the book as rented'
+        ],
+        'sell' => [
+            'publish_text' => 'Sell the book'
+        ],
+        'sold' => [
+            'publish_text' => 'Set the book as sold'
+        ]
+    ])
+    ->set();
 ```
 
 The array key is the custom status name and each value is an array of status properties.
