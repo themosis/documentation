@@ -143,7 +143,7 @@ Run an action
 In order to trigger an action, use the `run()` method. The `run()` method is equivalent to WordPress core function `do_action` and `do_action_ref_array()`. Here is an example:
 
 ```php
-use Themosis\Facades\Action;
+use Themosis\Support\Facades\Action;
 
 Action::run('custom', $args);
 ```
@@ -156,7 +156,7 @@ Check action existence
 You can verify the existence of an action by using the `exists()` method. Current implementation check the existence of any actions registered through the Action class.
 
 ```php
-use Themosis\Facades\Action;
+use Themosis\Support\Facades\Action;
 
 if (Action::exists('custom')) {
     // Run some code...
