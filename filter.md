@@ -143,7 +143,7 @@ Run a filter
 In order to trigger a filter, use the `run()` method. The `run()` method is equivalent to WordPress core function `apply_filters` and `apply_filters_ref_array()`. Here is an example:
 
 ```php
-use Themosis\Facades\Filter;
+use Themosis\Support\Facades\Filter;
 
 Filter::run('custom', $args);
 ```
