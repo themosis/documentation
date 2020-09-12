@@ -259,9 +259,7 @@ $js->inline('var app = app || {}', false);
 Register asset locations
 ------------------------
 
-You can define custom assets locations from the root `config/assets.php` configuration file.
-
-The theme is configured to load assets from its `dist` directory. Same is configured for plugins.
+You can define custom assets locations for your application in the root `config/assets.php` configuration file.
 
 In order to register a new asset location, you can pass a key value pair to the configuration `paths` property where the key is the path to your compiled asset and the value its URL:
 
@@ -271,3 +269,19 @@ In order to register a new asset location, you can pass a key value pair to the 
 ],
 ```
 
+Additional assests locations may also be defined by plugins and themes using the `$theme->assets()` and `$plugin->assets()` calls.
+
+The Themosis theme boilerplate is configured to load assets from its `dist` directory (configured in `functions.php`). Same is configured for Themosis plugin boilerplate (in `plugin-name.php`).
+
+### Assets load order
+
+Themosis searches for the (non-external) assets files set up by `Asset::add()` in the configured assets locations in the order the locations are added.
+
+In other words Themosis loads the first matching asset file found in this order:
+1. Search for the asset file under the locations configured in the root `config/assets.php` file, one-by-one, in the order they are added.
+2. Search for the asset file under the locations configured in the active plugins, one-by-one, in the order they are added.
+3. Search for the asset file under the locations configured in the active theme, one-by-one, in the order they are added.
+
+If the asset file cannot be found under any of these locations, an `AssetException` is thrown.
+
+Please note, that the particular order in which different plugins are loaded is controlled by Wordpress. It is not recommended to rely on the load order of plugins when loading assets. When your application uses multiple Themosis plugins, it is best to use unique asset names to prevent conflicts between them. It is also advisable to set unique name for theme assets, as any matching file in an active plugins assets location can potentially "hijack" the loading of the theme asset files.
