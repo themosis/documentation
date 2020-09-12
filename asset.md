@@ -13,6 +13,7 @@ Asset
 - [Custom attributes](#custom-attributes)
 - [Inline code](#inline-code)
 - [Register asset locations](#register-asset-locations)
+   - [Assets load order](#assets-load-order)
 
 Introduction
 ------------
