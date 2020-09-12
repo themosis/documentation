@@ -10,6 +10,7 @@ Configuration
     - [Fine-tune WordPress configuration](#fine-tune-wordpress-configuration)
 - [Access configuration values](#access-configuration-values)
     - [Retrieve all properties](#retrieve-all-properties)
+    - [Configuration load order](#configuration-load-order)
 
 Introduction
 ------------
@@ -167,6 +168,7 @@ $all = config('theme');
 The above code is fetching all properties from the `theme.php` file stored in the theme `config` folder.
 
 ### Configuration load order
+
 Please note, that if configuration files with the same name are defined under both the root `config` directory as well as plugin or theme folders Themosis does not merge their contents, but the active plugins' config files override the root configuration, and the active theme's configuration files override both. However WordPress loads the global configuration first, active plugins' config files after and the active theme's config at last, which means the value under certain configuration keys would be different at different times during each page load. This can cause unexpected behaviour as it may be hard to predict which configuration file will be effective when accessing the configuration in some parts of your application. Therefore it is best to use unique configuration file names for the root configurations and all active Themosis Plugins and Theme.
 
 Next
