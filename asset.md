@@ -284,4 +284,6 @@ In other words Themosis loads the first matching asset file found in this order:
 
 If the asset file cannot be found under any of these locations, an `AssetException` is thrown.
 
-Please note, that the particular order in which different plugins are loaded is controlled by Wordpress. It is not recommended to rely on the load order of plugins when loading assets. When your application uses multiple Themosis plugins, it is best to use unique asset names to prevent conflicts between them. It is also advisable to set unique name for theme assets, as any matching file in an active plugins assets location can potentially "hijack" the loading of the theme asset files.
+Please note, that the particular order in which different plugins are loaded is controlled by WordPress. Must use plugins are loaded before other plugins, but the exact order between the different plugins may vary. Therefore it is not recommended to rely on the load order of plugins when loading assets.
+
+When your application uses multiple Themosis plugins, it is best to use unique asset names to prevent conflicts between them. It is also advisable to set unique name for theme assets, as any matching file in an active plugins assets location can potentially "hijack" the loading of the theme asset files. A unique asset name may as well be achieved by using an unique subfolder together with a generic filename e.g.: `'js/some-unique-string/main.js'` or `'css/some-unique-string/style.js'`
