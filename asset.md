@@ -283,7 +283,7 @@ In other words Themosis loads the first matching asset file found in this order:
 2. Search for the asset file under the locations configured in the active plugins, one-by-one, in the order they are added.
 3. Search for the asset file under the locations configured in the active theme, one-by-one, in the order they are added.
 
-If the asset file cannot be found under any of these locations, an `AssetException` is thrown.
+If the asset file cannot be found under any of these locations, an `Themosis\Asset\AssetException` is thrown.
 
 Please note, that the particular order in which different plugins are loaded is controlled by WordPress. Must use plugins are loaded before other plugins, but the exact order between the different plugins may vary. Therefore it is not recommended to rely on the load order of plugins when loading assets.
 
