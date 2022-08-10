@@ -2,219 +2,369 @@ Metabox
 =======
 
 - [Basic usage](#basic-usage)
-	- [Set a custom id attribute](#set-a-custom-id-attribute)
-	- [Custom post type metabox](#custom-post-type-metabox)
-	- [Page metabox](#page-metabox)
-- [Sanitize metabox fields](#sanitize-metabox-fields)
-- [Metabox mapping](#metabox-mapping)
+    - [Set a custom title](#set-a-custom-title)
+    - [Set the context](#set-the-context)
+    - [Set the priority](#set-the-priority)
+- [Custom fields](#custom-fields)
+    - [Add custom fields](#add-custom-fields)
+    - [Add custom fields groups](#add-custom-fields-groups)
+    - [Prefixing](#prefixing)
+- [Validation](#validation)
+- [Localization](#localization)
+    - [Get metabox translation](#get-metabox-translation)
 - [Retrieve data](#retrieve-data)
 - [Customize the metabox](#customize-the-metabox)
-- [Send data to your metabox](#send-data-to-your-metabox)
-
-As the name suggests, the `Metabox` class helps you build custom WordPress metabox. A metabox is a UI container for your custom fields (post metadata).
-
-Before digging into the `Metabox` documentation, make sure to read the [Field class guide]({{url}}/field).
+    - [Class callback](#class-callback)
+    - [Callback arguments](#callback-arguments)
+- [Display based on capability](#display-based-on-capability)
+- [Display based on template](#display-based-on-template)
 
 Basic usage
 -----------
 
-In order to create a metabox for your post, page or custom post type, you have to call the `Metabox::make()` method.
+As the name suggests, the `Metabox` class helps you build a custom WordPress metabox. A metabox is a UI container, attached to one or more post types, where you can define and display any custom content.
+
+By default, when you create a metabox with the framework, it is setup to display custom fields. But you are free to add any content into a metabox. See below for customizing the metabox.
+
+In order to create a metabox for your post, page or custom post type, you have to use the `make` method and pass it a unique identifier and a screen parameter. Then, you register the metabox by calling to the `set()` method like so:
 
 ```php
-Metabox::make($title, $postType, $options = [], $view = null)->set($fields);
+use Themosis\Support\Facades\Metabox;
+
+Metabox::make('properties', 'post')->set();
 ```
 
-* **$title**: _string_. The display title of the metabox.
-* **$postType**: _string_. The post type slug to link the metabox with.
-* **$options**: _array_. An array of options. You can set the `context`, `priority` and `id` properties of the metabox.
-* **$view**: _IRenderable_. A view file. Allow you to customize the UI of your metabox.
+The above example will display a metabox with a title of "Properties" in a WordPress post edit screen. It will also display an empty layout as it is configured to display custom fields by default.
 
-Here is an example of a basic metabox, containing one text field, that is displayed inside your posts edit screen:
+You can also attach a metabox to multiple post types by passing an array as a second parameter:
 
 ```php
-Metabox::make('Infos', 'post')->set([
-    Field::text('author')
-]);
+use Themosis\Support\Facades\Metabox;
+
+Metabox::make('properties', ['post', 'page'])->set();
 ```
 
-The code above will render a metabox with a title of _Infos_ and a single custom text field.
+### Set a custom title
 
-> A metabox is not registered/displayed until you call its `set()` method.
+When registering a metabox, you first need to pass a unique identifier. By default, the class is using that id as the metabox title. In order to provide a custom title for your metabox, you may use the `setTitle()` method like so:
 
 ```php
-Metabox::make('Infos', 'post')->set();
+Metabox::make('properties', 'post')
+    ->setTitle(_x('Product details', 'metabox', 'textdomain'))
+    ->set();
 ```
 
-### Set a custom ID attribute
+### Set the context
 
-In some scenarios, you might need to be able to specify an ID to your metabox in order to fetch it for JS scripts or for styling. In order to set the id attribute for your metabox, pass it an `id` option like so:
+By default, a metabox context is set to `normal`. If you want to change the metabox context (display area), you can use the `setContext()` method:
 
 ```php
-Metabox::make('Infos', 'post', [
-    'id' => 'my-custom-id'
-])->set();
+Metabox::make('properties', 'post')
+    ->setContext('side')
+    ->set();
 ```
 
-### Custom post type metabox
+### Set the priority
 
-Here is an example of a metabox attached to a custom post type with a slug of `books`:
+By default, a metabox priority is set to `default`. If you want to change the metabox priority, you may call the `setPriority()` method:
 
 ```php
-// Let's create our custom post type
-$books = PostType::make('books', 'Books', 'Book')->set();
-
-// Attach our metabox to our custom post type
-Metabox::make('Informations', $books->get('name'))->set();
+Metabox::make('properties', 'post')
+    ->setPriority('high')
+    ->set();
 ```
 
-The code above is using the PostType `get()` method in order to fetch the custom post type name. Check the [PostType guide]({{url}}/posttype) for more information.
+By default, the metabox is configured to handle custom fields. If you want to create metabox with a custom user interface, read the section [customize the metabox](#customize-the-metabox) below.
 
-### Page metabox
+Custom fields
+-------------
 
-In this example, a metabox is displayed on all pages edit screen with some custom fields:
+Since release 2.0, the framework is bundled with new custom fields managed by a RestAPI and [ReactJS](https://reactjs.org/) components. The metabox class leverages the Field class in order to add custom fields.
+
+> Please note that not all form fields are available on a metabox. Please see the [field guide]({{url}}/field) for more details.
+
+### Add custom fields
+
+In order to add custom fields to a metabox, use the `add` method:
 
 ```php
-Metabox::make('Informations', 'page')->set([
-    Field::text('name'),
-    Field::text('phone'),
-    Field::textarea('address')
-]);
+use Themosis\Support\Facades\Field;
+
+Metabox::make('properties', 'post')
+    ->add(Field::text('author'))
+    ->add(Field::text('isbn'))
+    ->add(Field::integer('publication_year'))
+    ->set();
 ```
 
-> Note: Make sure to always prefix your custom fields name so they don't conflict with the [WordPress reserved terms](https://codex.wordpress.org/Reserved_Terms).
+The above example will display a metabox with two text fields and a number field. The new Field API for metabox is now handled through JavaScript only and built with ReactJS components.
 
-Sanitize metabox fields
------------------------
+In order for a user to save the data handled by the custom fields, each metabox displays a "Save" button below. If the user click on the main "Publish" or "Update" button for the post, the metabox custom fields data will not be saved. Custom fields data is now saved through a custom RestAPI.
 
-The Metabox API contains an instance of the Validator class which gives you a method to validate/sanitize the custom fields attach to your metabox.
+> Note: the metabox and field RestAPI is using the default `api` middleware group. Be sure to not change the group name.
 
-In order to validate/sanitize your fields, use the `validate()` method like so:
+### Add custom fields groups
+
+It is also possible to organize custom fields by group using the `add` method and by passing a section instance with custom fields:
 
 ```php
-$metabox = Metabox::make('A title', 'page')->set([
-    Field::text('email'),
-    Field::text('name'),
-    Field::text('phone'),
-    Field::textarea('address'),
-    Field::infinite('team', [
-        Field::text('name'),
-        Field::text('age')
-    ])
-]);
+use Themosis\Support\Facades\Field;
+use Themosis\Support\Facades\Metabox;
+use Themosis\Support\Section;
 
-// Let's validate our custom fields
-$metabox->validate([
-    'email'   => ['email'],
-    'name'    => ['textfield', 'min:3', 'alpha'],
-    'phone'   => ['num', 'max:25'],
-    'address' => ['textarea'],
-    'team'    => [
-        'name' => ['textfield', 'alpha', 'min:3', 'max:50'],
-        'age'  => ['num']
-    ]
-]);
+Metabox::make('properties', 'post')
+    ->add(new Section('general', 'General', [
+        Field::text('author'),
+        Field::text('publisher')
+    ]))
+    ->add(new Section('details', 'Details', [
+        Field::text('isbn'),
+        Field::media('cover')
+    ]))
+    ->set();
 ```
 
-> Note how the `infinite` field is validated.
+The above example will display fields organized within 2 tabs: "General" and "Details". Each time you define a section, you have to provide a unique identifier as the first parameter and a display label as the second parameter. The section fields are then defined into the third parameter as an array.
 
-If validation passes, the value entered is registered. In case the validation fails, it returns an empty string value.
+> You need to define at least 2 sections of fields in order to trigger the tabs layout.
 
-The validate method works more like a "sanitizer". This means that currently if an end-user is updating its post and that the value entered in your custom field is not valid, the post is still updated.
+In order to customize your individual fields, please read the documentation on the [field guide]({{url}}/field) for more information.
 
-> Tip: If you want to make required custom fields, currently we suggest to pass a `required` attribute to your custom field. This will avoid the update of the post until a value is defined inside your custom field. A better required API is planned and will come in a future release of the framework.
+### Prefixing
 
-Check the [validation guide]({{url}}/validation) for more information about the validation rules.
+The new field API is automatically prefixing custom fields names. By default if you add a text field with a name of `author`, it stores the value with a meta key of `th_author` in the post meta table.
 
-Metabox mapping
----------------
-
-The metabox class provides a `map()`method that allows you to map a custom field value to one of the current `WP_Post` instance properties.
-
-For example, you might have a custom field with a list of pages you can choose from. The purpose of the custom field here is to set a relation between your current post and the selected page. By default, this value is registered as a `post meta`. Depending on your needs, it might also really useful to store the selected page ID (custom field value) to the `post_parent` property of your edited post. Here is an example:
+If you want to change the default prefix for your metabox fields, you may use the `setPrefix` method:
 
 ```php
-$metabox = Metabox::make('Properties', 'custom-post-slug')->set([
-    Field::select('related_page', $pagesList)
-]);
-
-/*
- * Let's also store the selected page from the custom field to
- * the post_parent property of our post instance.
- */
-$metabox->map([
-    'related_page' => 'post_parent'
-]);
+Metabox::make('properties', 'post')
+    ->setPrefix('wp_')
+    ->add(Field::text('author'))
+    ->set();
 ```
 
-From the above code sample, each time the user is saving its post, the value of the `related_page` custom field will be stored as well to the `post_parent` property of the post.
+Make sure to call the method before adding your custom fields.
 
-> Be careful when using this method. You can't store anything on whatever post object properties. Each WP_Post property as a limit to which data to store based on the SQL schema. Make sure to know the `wp_post` table schema before using this method.
+> Prefixing is enabled by default to avoid any conflicts with core reserved terms and data coming from third party plugins. If you do not want to use prefix, simply pass an empty string to the `setPrefix` method.
 
-You can only map one custom field value to one WP_Post property at the moment but you can define multiple mappings at once like so:
+Validation
+----------
+
+The new field API is leveraging the [illuminate/validation](https://laravel.com/docs/5.7/validation) package from Laravel in order to validate custom fields data. The new user interface also provides error display on each field and also on tabs if you're using groups.
+
+In order to validate data, you need to define a set of `rules` on a per field basis. Here is an example of a text field:
 
 ```php
-$metabox->map([
-    'related_page' => 'post_parent',
-    'custom-field' => 'post_content' // This one will overwrite the content of your post for example... 
-]);
+Metabox::make('settings', 'Parameters')
+    ->add(Field::text('author', [
+        'rules' => 'required|min:3'
+    ]))
+    ->set();
+``` 
+
+The above example sets the author text field as a required value and must have a length of at least 3 characters. If the validation fails, the field data is not saved and the metabox is displaying an error message below the field.
+
+For a list of available validation rules, please read [the official documentation](https://laravel.com/docs/5.7/validation#available-validation-rules).
+
+> When a validation fails, the metabox is displaying a "Saved with errors" message in its footer. This means that valid field data is saved in the database while failed one is not.
+
+### Customize error message
+
+By default, validation messages for the overall application are defined into a `validation.php` file stored in a directory with a name equivalent to the current loaded locale within the `resources/languages/` directory at project root.
+
+If you want to customize the errors messages for your metabox fields, you can pass a `messages` property to each field with an array containing key value pairs. The key is the validation rule and the value is the message.
+
+Let's customize the fields from previous example:
+
+```php
+Metabox::make('settings', 'Parameters')
+    ->add(Field::text('author', [
+        'rules' => 'required|min:3',
+        'messages' => [
+            'required' => 'Required, the :attribute field is.',
+            'min' => [
+                'string' => 'At least :min characters, the :attribute must be.'
+            ]
+        ]
+    ]))
+    ->set();
 ```
+
+The `:attribute` and `:min` are validation placeholders terms. In order to know what type of messages you can define per rule, follow default messages defined into the `validation.php` file.
+
+### Customize validation attribute
+
+On validation, the `:attribute` placeholder term is replaced by the field name (without the prefix). If you want to provide an attribute name different than the field name, you may pass a `placeholder` property to the field like so:
+
+```php
+Metabox::make('settings', 'Parameters')
+    ->add(Field::text('author', [
+        'rules' => 'required',
+        'placeholder' => 'guy'
+    ]))
+    ->set();
+```
+
+The above example will display the following error message:
+
+```html
+The guy field is required.
+```
+
+Localization
+------------
+
+When using the metabox with custom fields, the user interface is displaying texts regarding its current state. Each label can be translated. A translation is associated to a key name. Here is the list of default labels applied to a metabox:
+
+```php
+[
+    'done' => __('Saved'),
+    'error' => __('Saved with errors'),
+    'saving' => __('Saving'),
+    'submit' => sprintf('%s %s', __('Save'), $metabox->getTitle())
+]
+```
+
+You can override the default labels applied to a metabox by calling the `addTranslation` method and pass it the key name and the translation as a value:
+
+```php
+Metabox::make('properties', 'post')
+    ->add(Field::text('author'))
+    ->addTranslation('done', 'Success!')
+    ->set();
+```
+
+### Get metabox translation
+
+You can add as many translations strings as you want to your metabox. Especially when building a custom user interface with it.
+
+A metabox instance provides methods to retrieve translations and use them in your interface. You can use the `getTranslations` method to get the full list of translations or you can call the `getTranslation` method to grab a specific one:
+
+```php
+$box = Metabox::make('custom', 'Options')
+    ->addTranslation('title', __('A title'))
+    ->addTranslation('subtitle', __('The subtitle'))
+    ->set();
+    
+$all = $box->getTranslations();
+
+$title = $box->getTranslation('title');
+```
+
+> You will rarely need to grab a metabox translation out of it. Those methods are useful when you create a custom metabox user interface and want to get optional translation in your interface/view.
 
 Retrieve data
 -------------
 
-In order to retrieve the custom fields data, you can use the core function `get_post_meta()` or use the `Meta` class. Please refer to the [Meta guide]({{url}}/meta).
+In order to retrieve the custom fields data, you can use the core `get_post_meta` function. Here is an example based on an `author` custom text field:
+
+```php
+$author = get_post_meta($post_id, 'th_author', true);
+```
+
+> Please note that custom fields meta key names are now using a [prefix](#prefixing) by default.
 
 Customize the metabox
 ---------------------
 
-You can customize the look and feel and the behaviour of your metabox by defining a custom view (and why not view composers...).
-
-You can pass a custom view to your metabox using the 4th argument of the `Metabox::make()` method like so:
+If you want to create a custom user interface, you can do so by passing a callback to your metabox using the `setCallback` method:
 
 ```php
-// Code below written inside the 'admin/metabox.php' file.
-// File stored inside the 'views/metabox/custom.blade.php'.
-$view = View::make('metabox.custom');
-
-Metabox::make('Properties', 'post', ['priority' => 'high'], $view);
+Metabox::make('custom', 'post')
+    ->setCallback(function () {
+        return view('metabox.custom');
+    })
+    ->set();
 ```
 
-Inside the view file of your metabox you have access to "special" variables by default:
+In the above example, the metabox is displaying the `metabox.custom` view. From a metabox callback you can return a `Renderable` instance (view), a string or even a `Response` instance.
 
-- **$__fields**: Gives you an array of registered fields with your metabox.
-- **$__metabox**: Gives you access to your metabox instance.
-- **$__post**: Gives you access to the current post instance object (WP_Post).
+### Class callback
 
-This allows you to customize as you want the look of your metabox. By also using `View::composer()` method, you might also perform specific actions when the metabox is rendered.
-
-In case you needed to customize the metabox output but still need to output the core custom fields, simply add this code snippet inside your metabox view:
+The metabox API can also handle a class callback using the `ClassName@method` syntax:
 
 ```php
-<!-- Default Themosis metabox view -->
-<table class="form-table themosis-metabox">
-    <tbody>
-        @each('_themosisMetaboxRow', $__fields, 'field')
-    </tbody>
-</table>
+Metabox::make('custom', 'post')
+    ->setCallback('App\Metabox\Custom@show')
+    ->set();
 ```
 
-Send data to your metabox
+Just like in action or filter, you have to provide the full class name, with its namespace, for the callback.
+
+### Callback arguments
+
+By default, the metabox callback receives as a parameter an `$args` array containing an instance of your metabox, an instance of the current post and the screen it is attached to:
+
+```php
+Metabox::make('custom', 'post')
+    ->setCallback(function ($args) {
+        return view('metabox.custom', [
+            'post' => $args['post'],
+            'metabox' => $args['metabox'],
+            'screen' => $args['screen']
+        ]);
+    })
+    ->set();
+```
+
+You can also provide additional data to your metabox by using the `setArguments` method and pass it an array of key value pairs:
+
+```php
+Metabox::make('custom', 'post')
+    ->setCallback('App\Metabox\Custom@show')
+    ->setArguments([
+        'users' => App\User::all()
+    ])
+    ->set();
+````
+
+Those arguments are then provided to your callback:
+
+```php
+<?php
+namespace App\Metabox;
+    
+class Custom
+{
+    public function show($args)
+    {
+        return view('metabox.custom', [
+            'users' => $args['users']
+        ]);
+    }
+}    
+```
+
+Display based on capability
+---------------------------
+
+You can configure your metabox to display based on current user capability. In order to do so, you may use the `setCapability` method:
+
+```php
+Metabox::make('custom', ['post', 'page'])
+    ->setCapability('edit_posts')
+    ->set();
+```
+
+Display based on template
 -------------------------
 
-Each time you create a metabox, a view file is attached to it. If you need to customize the metabox and need to use more data, you can pass data to your metabox view by using the `with` method like so:
+You can limit metabox display to WordPress templates by calling the `setTemplate` method:
 
 ```php
-$metabox = Metabox::make('Infos', 'post')->set();
-
-// Send a custom data to the metabox view
-$metabox->with('key', 'value');
+Metabox::make('custom', ['post', 'page'])
+    ->setTemplate(['featured', 'holidays'], 'post')
+    ->setTemplate('team')
+    ->set();
 ```
 
-Of course, this methods is only useful if you specify a custom view for your metabox. You can also pass an array of `key/value` pairs to the `with` method.
+The `setTemplate` method accepts as a first argument a template name or an array of templates and as a second argument the screen|post type to which the templates are associated to. By default, the screen parameter is set to `page` screen.
+
+> You can chain the `setTemplate` method as many times as you want.
+
 
 Next
 ----
 
-* [Meta guide]({{url}}/meta)
 * [Taxonomy guide]({{url}}/taxonomy)
 * [Page guide]({{url}}/page)

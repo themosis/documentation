@@ -4,7 +4,9 @@ Installation
 - [Requirements](#requirements)
 - [Install Composer](#install-composer)
 - [Install the Themosis framework](#install-the-themosis-framework)
+    - [The public directory](#the-public-directory)
 - [Install the theme](#install-the-theme)
+- [Laravel Homestead](#laravel-homestead)
 - [Install WordPress](#install-wordpress)
 
 Requirements:
@@ -37,18 +39,70 @@ composer create-project themosis/themosis my-project-name
 
 This will create a directory called `my-project-name` on your computer and automatically download the latest WordPress version along with the latest Themosis framework version and its dependencies.
 
+### The public directory
+
+The Themosis framework is not configured to be hosted like a classic WordPress project. Compared to a classic WordPress installation, a Themosis project root is not the web server public directory.
+
+When configuring your web server, make sure to point the web server to the project **htdocs** directory.
+
+Laravel Homestead
+-----------------
+
+By default, the Themosis framework is packaged with [Laravel Homestead](https://laravel.com/docs/5.7/homestead) so you can quickly start a local development environment.
+
+If you want to develop your application with Homestead, you first need to have [Vagrant](https://www.vagrantup.com/) installed on your computer. Once installed, open your Terminal or Console at project root and run the following command:
+
+```bash
+cd my-project-name
+./vendor/bin/homestead make
+```
+
+The code will install at project root a group of files in order to bootstrap your virtual machine. Open the `Homestead.yaml` file and change the `sites -> to` value to point to the framework default public directory `htdocs`. Here is an example of a default configuration:
+
+```yaml
+ip: 192.168.10.10
+memory: 2048
+cpus: 1
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    -
+        map: /Users/username/web/my-project-name
+        to: /home/vagrant/code
+sites:
+    -
+        map: homestead.test
+        to: /home/vagrant/code/htdocs
+databases:
+    - homestead
+name: themosis
+hostname: themosis
+```
+
+> For more information regarding Homestead configuration, please read [the official documentation](https://laravel.com/docs/5.7/homestead).
+
+Once your configuration of Homestead is complete, from the Terminal or Console, run the following command:
+
+```bash
+vagrant up
+```
+
+Before visiting the browser in order to install WordPress, please make sure to first read the [configuration guide]({{url}}/configuration).
+
 Install the theme
 -----------------
 
 By default, the default theme is no longer installed using Composer.
 
-Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install the new theme, run the following command from the terminal:
+Instead, a CLI tool is now bundled with the framework and installed at project root. In order to install the new theme, connect into your [local virtual machine](#laravel-homestead), go to the project root and run the `theme:install` command from the terminal:
 
 ```bash
-php console theme:install
+php console theme:install my-theme
 ```
 
-The command will ask the user for a theme name and then download and unzip the theme into the `htdocs/content/themes` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
+The command will download and unzip a new theme into the `htdocs/content/themes/my-theme` directory. The script is also setting up the theme `style.css` file headers, the theme text domain and set it as the default theme for your WordPress application.
 
 Install WordPress
 -----------------

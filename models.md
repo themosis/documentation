@@ -134,4 +134,4 @@ Read the [official documentation](https://laravel.com/docs/5.7/eloquent) for mor
 
 Next
 ----
-Read the [views guide]({{url}}/views)
+Read the [hooks guide]({{url}}/hooks)

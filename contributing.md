@@ -12,13 +12,16 @@ Introduction
 
 Themosis is an open-source project and anyone can contribute to it. Themosis contains multiple repositories and they're all stored on Github.
 
-If you feel confident writing code, we have 3 repositories handling the different part of the framework:
+If you feel confident writing code, we have 4 repositories handling the different part of the framework:
 
-- [themosis/themosis](https://github.com/themosis/themosis): which provides the full code structure for a collaborative development installing the latest WordPress, framework plugin and theme versions.
-- [themosis/framework](https://github.com/themosis/framework): which is the framework plugin containing all the core APIs.
-- [themosis/theme](https://github.com/themosis/theme): which provides a dedicated code structure for developing your website/application theme.
+- [themosis/themosis](https://github.com/themosis/themosis): which provides the full code structure for a collaborative development installing the latest WordPress, framework and theme versions.
+- [themosis/framework](https://github.com/themosis/framework): which is the framework core containing all the APIs.
+- [themosis/theme](https://github.com/themosis/theme): which provides a boilerplate code structure for developing your website/application theme.
+- [themosis/plugin](https://github.com/themosis/plugin): which provides a boilerplate code structure for developing custom plugins for your application.
 
-For each of these repositories, you can accordingly report any issues you may found or provide pull requests.
+For each of these repositories, you can accordingly report any issues you may find or provide pull requests.
+
+> Make sure to double check before posting a code issue. Generally, code issues should be reported on the `themosis/framework` repository.
 
 We also need help on the documentation. If you see grammar typos or think the docs are lacking some explanation or examples, feel free to complete it:
 
@@ -31,7 +34,7 @@ Regarding `code` issues, please **submit your code with the request** and give *
 
 If your code is in multiple files or is more complex, **setup your own repository** so people can look at it.
 
-We highly encourage you to send pull requests with the bug fix. Make sure to work on the latest stable release and **not** the `master` branch. The framework version `1.3.*` has a `1.3` branch from which you have to write your pull request for. A pull request **must have unit tests** along your code.
+We highly encourage you to send pull requests with the bug fix. Make sure to work on the latest stable release and **not** the `master` branch. The framework version `2.0.*` has a `2.0` branch from which you have to write your pull request for. A pull request **must have unit tests** along your code.
 
 If you're unsure how to retrieve the latest (tagged) stable release, check these resources:
 

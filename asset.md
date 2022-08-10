@@ -3,22 +3,24 @@ Asset
 
 - [Introduction](#introduction)
 - [Load assets](#load-assets)
-	- [Load asset in the WordPress admin](#load-asset-in-the-wordpress-admin)
-	- [Load asset in login screen](#load-asset-in-login-screen)
-	- [Load asset in customizer](#load-asset-in-customizer)
-	- [Load external assets](#load-external-assets)
-	- [Load an asset on a specific request](#load-an-asset-on-a-specific-request)
+    - [Load asset in the WordPress admin](#load-asset-in-the-wordpress-admin)
+    - [Load asset in login screen](#load-asset-in-login-screen)
+    - [Load asset in customizer](#load-asset-in-customizer)
+    - [Load asset in multiple locations](#load-asset-in-multiple-locations)
+    - [Load external assets](#load-external-assets)
+    - [Load an asset on a specific request](#load-an-asset-on-a-specific-request)
 - [Localize](#localize)
 - [Custom attributes](#custom-attributes)
 - [Inline code](#inline-code)
-- [Register assets locations](#register-assets-locations)
+- [Register asset locations](#register-asset-locations)
+   - [Assets load order](#assets-load-order)
 
 Introduction
 ------------
 
-The `Asset` class is responsible to easily load your stylesheet and/or javascript files.
+The `Asset` class is responsible to easily load your stylesheet javascript files.
 
-In order to add/register/enqueue assets, use the `add` method. The method handles both stylesheet and javascript files and the parameters are the same as in the WordPress functions:
+In order to enqueue asset, use the `add()` method. The method handles both stylesheet and javascript files and the parameters are the same as in the WordPress functions:
 
 * [wp\_enqueue\_script](https://developer.wordpress.org/reference/functions/wp_enqueue_script/)
 * [wp\_enqueue\_style](https://developer.wordpress.org/reference/functions/wp_enqueue_style/)
@@ -26,34 +28,35 @@ In order to add/register/enqueue assets, use the `add` method. The method handle
 Here are the method details:
 
 ```php
-Asset::add($handle, $path, $deps = [], $version = '1.0', $mixed = null, $type = '');
+Asset::add($handle, $path, $dependencies = [], $version = null, $arg = null);
 ```
 
 * $handle _string_: Your custom asset handle name.
 * $path _string_: The relative path of your asset from a `dist` directory. You can also provide an external URL.
-* $deps _array or boolean_: An array of asset dependencies. _false_ if nothing.
-* $version _string or boolean_: A string specifying the asset version number or _false_ for no versioning.
-* $mixed _string or boolean_: For stylesheets a _string_ that specify the media type. For javascript files, a _boolean_ that indicate if the asset is loaded before the closing `</head>` tag or in the footer (the theme must insert the `wp_head()` and `wp_footer()` functions).
-* $type _string_: Use this parameter if your external asset do not have a file extension. Use `script` to define a JS file and `style` to define a CSS file.
+* $dependencies _array_: An array of asset dependencies.
+* $version _string_: A string specifying the asset version number or _false_ for no versioning.
+* $arg _string or boolean_: For stylesheets a _string_ that specify the media type. For javascript files, a _boolean_ that indicate if the asset is loaded before the closing `</head>` tag or in the footer (the theme must insert the `wp_head()` and `wp_footer()` functions).
 
 Load assets
 -----------
 
-By default the `add` method loads the assets in the **front-end**.
+Calling the `add` method no longer automatically loads the asset. In order to load the asset, call the `to()` method like so:
 
 ```php
 // Load a CSS file stored in dist/css/screen.css
-Asset::add('my-handle', 'css/screen.css', false, '1.0', 'all');
+Asset::add('my-handle', 'css/screen.css', [], '1.0', 'all')->to();
 
 // Load a JS file stored in dist/js/main.js
-Asset::add('my-other-handle', 'js/main.js', ['jquery'], '1.0', true);
+Asset::add('my-other-handle', 'js/main.js', ['jquery'], '1.0', true)->to();
 ```
 
 This example loads, in the front-end of your website/application, a `screen.css` file in the head for `all` media type and a `main.js` file in the footer.
 
+By default, calling the `to()` method only enqueue the asset on the front-end.
+
 ### Load asset in the WordPress admin
 
-In order to change the location for your asset, simply use the `to()` method on your asset:
+In order to load the asset for the WordPress administration, simply pass the `admin` parameter the `to()` method of your asset:
 
 ```php
 // This js file is loaded in WordPress admin only
@@ -61,44 +64,53 @@ In order to change the location for your asset, simply use the `to()` method on 
 Asset::add('my-handle', 'js/custom.js', ['backbone'], '1.0', true)->to('admin');
 ```
 
-Chain the `to()` method after you added your asset.
-
 ### Load asset in login screen
 
+Pass the `login` parameter on the `to()` method:
 ```php
 Asset::add('my-handle', 'js/custom.js', ['jquery'], '1.0', false)->to('login');
 ```
 
-> Note: You can only load JS files to the login screen using the Asset API. CSS files are not supported by WordPress.
+> Note: you can only load JS files to the login screen using the Asset API. CSS files are not supported by WordPress.
 
 ### Load asset in customizer
+
+In order to load an asset to the customizer, pass the `customizer` parameter on the `to()` method:
 
 ```php
 Asset::add('my-handle', 'js/custom.js', ['backbone'], '2.0', true)->to('customizer');
 ```
 
-The `to()` method only accepts two values:
+### Load asset in multiple locations
 
-* **admin** : Loads the asset in the WordPress admin area.
-* **login** : Loads the asset in the WordPress login area.
-* **customizer** : Loads the asset in the WordPress Customizer area.
+If you need to load an asset on both the front-end and the administration of your application, you can pass an array of locations on the `to()` method like so:
+
+```php
+Asset::add('handle', 'js/script.js', [], '1.0', true)->to(['front', 'admin']);
+```
+
+The `to()` method accepts the following values:
+
+* **front** : Load the asset on the front-end area.
+* **admin** : Load the asset in the WordPress administration area.
+* **login** : Load the asset in the WordPress login area.
+* **customizer** : Load the asset in the WordPress customizer area.
 
 ### Load external assets
 
 The Asset class allows you to load external assets from CDN and others locations,... Simply specify the absolute URL of your asset as a second argument to the `add()` method:
 
 ```php
-Asset::add('gg-jquery', '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js', false, '2.1.1', true);
+Asset::add('gg-jquery', '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js', [], '2.1.1', true);
 ```
-The class is looking for the asset extension in order to define if it is a stylesheet or a javascript file. Some externals assets do not show the file extension. In those cases, simply add the `$type` argument. Use `script` to specify that you load a JS file and use `style` for a CSS file.
+The class is looking for the asset extension in order to define if it is a stylesheet or a javascript file. Some externals assets do not show the file extension. In those cases, simply call the `setType()` method:
 
 ```php
-Asset::add('gg-map', 'https://maps.googleapis.com/maps/api/js?key=mysecretkey', false, '3.22', true, 'script');
+Asset::add('gg-map', 'https://maps.googleapis.com/maps/api/js?key=mysecretkey', [], '3.22', true)
+    ->setType('script');
 ```
 
-This will load the Google Maps API JS file inside the footer of your theme.
-
-> In case if the Asset class can't register your asset, the class returns a `WP_Error` object. Other alternatives to load those assets is to add them in your header file or use the `wp_head` or `wp_footer` action hooks.
+Use `script` to the `setType()` method to specify that you're loading a JavaScript file and use `style` for a CSS file.
 
 ### Load an asset on a specific request
 
@@ -110,7 +122,7 @@ Simply add your code before returning a view:
 
 ```php
 Route::is('home', function () {
-    Asset::add('my-handle', 'js/file.js', ['jquery'], '1.0', true);
+    Asset::add('my-handle', 'js/file.js', ['jquery'], '1.0', true)->to();
     return view('home');
 });
 ```
@@ -124,15 +136,17 @@ Route::is('home', 'Pages@index');
 ```
 
 Then use the constructor or method of your controller to load your asset for this specific URI/page request.
+
 If you're using a controller class to handle multiple routes, call the asset from its constructor will "share" the asset between all requests. Use a controller method instead if you want to load the asset for a specific route.
 
 ```php
-namespace Theme\Controllers;
+<?php
 
-use Themosis\Facades\Asset;
-use Themosis\Route\BaseController;
+namespace App\Http\Controllers;
 
-class Pages extends BaseController
+use Themosis\Support\Facades\Asset;
+
+class Pages extends Controller
 {
     public function __construct()
     {		
@@ -143,7 +157,8 @@ class Pages extends BaseController
     public function index()
     {	
         // This asset is only available to the home page
-        Asset::add('my-handle', 'css/tool.css', ['main-style'], '1.3', 'screen');
+        Asset::add('my-handle', 'css/tool.css', ['main-style'], '1.3', 'screen')->to();
+        
         return view('home');
     }
 }
@@ -151,11 +166,11 @@ class Pages extends BaseController
 
 #### By using a view composer
 
-View composer allows you to run code when a specific view is rendered.
+View composer allows you to run code when a specific view is rendered. You can also enqueue an asset through the view composer call:
 
 ```php
 View::composer('home', function () {
-    Asset::add('my-handle', 'js/myscript.js', false, '1.0.0', true);
+    Asset::add('my-handle', 'js/myscript.js', [], '1.0.0', true)->to();
 });
 ```
 
@@ -164,7 +179,7 @@ Check the [views guide]({{url}}/views) for more information regarding View compo
 Localize
 --------
 
-WordPress allows you to output as a JSON object any data for use in your JS files using the [wp_localize_script()](https://developer.wordpress.org/reference/functions/wp_localize_script/) function.
+WordPress allows you to output as a JSON object any data for use in your JavaScript files using the [wp_localize_script()](https://developer.wordpress.org/reference/functions/wp_localize_script/) function.
 
 The asset API directly implements a `localize()` method with the same benefits plus saving you some character input. Once defined, WordPress will output your data right before your script tag so it's available for script use.
 
@@ -172,7 +187,7 @@ Here is an example of the `localize` method:
 
 ```php
 // Register script asset.
-$asset = Asset::add('js-handle', 'js/myscript.js', ['backbone'], '1.0.0', true);
+$asset = Asset::add('js-handle', 'js/myscript.js', ['backbone'], '1.0.0', true)->to();
 
 // Localize data for script use.
 $asset->localize('variableName', ['book' => 'A book title']);
@@ -190,7 +205,7 @@ The above code will output this:
 </script>
 ```
 
-Simply provide a JS variable name and your data to the `localize` method. You can pass any data you want as a second parameter: _string_, _boolean_, _object_, _array_.
+Simply provide a JavaScript variable name and your data to the `localize` method. You can pass any data you want as a second parameter: _string_, _boolean_, _object_, _array_.
 
 Then inside your `js/myscript.js` file, you can access the data like so:
 
@@ -202,13 +217,13 @@ var title = variableName.book;
 Custom attributes
 -----------------
 
-Since release 1.3.0, you can also define custom HTML attributes to your assets. For example, when using external scripts, sometimes we do want to add a `defer` attribute for better performance.
-
-Use the `addAttributes()` method like so:
+You can also define custom HTML attributes to your assets. Use the `attributes()` method like so:
 
 ```php
-$asset = Asset::add('gg-map', 'https://maps.googleapis.com/maps/api/js?key=mysecretkey', false, '3.22', false, 'script');
-$asset->addAttributes(['defer', 'data-city' => 'Brussels']);
+$asset = Asset::add('gg-map', 'https://maps.googleapis.com/maps/api/js?key=mysecretkey', [], '3.22', false)
+    ->setType('script')
+    ->attributes(['defer', 'data-city' => 'Brussels'])
+    ->to();
 ```
 
 The above code will add the `defer` and `data-city="Brussels"` attributes to your loaded asset.
@@ -216,17 +231,15 @@ The above code will add the `defer` and `data-city="Brussels"` attributes to you
 Inline code
 -----------
 
-You can add inline code in order to accompany your loaded assets, both JS and CSS assets.
-
-Use the `inline()` method in order to add code at asset output like so:
+You can add inline code in order to accompany your loaded assets. Use the `inline()` method in order to add code at asset output like so:
 
 ```php
 // Inline CSS
-$css = Asset::add('my-theme', 'css/screen.min.css', false, '1.3.0', 'all');
+$css = Asset::add('my-theme', 'css/screen.min.css', [], '1.3.0', 'all')->to();
 $css->inline('.panel-main { border: 1px solid blue; }');
 
 // Inline JS
-$js = Asset::add('typekit', 'https://use.typekit.net/fdsjhizo.js', false, false);
+$js = Asset::add('typekit', 'https://use.typekit.net/fdsjhizo.js', [], false)->to();
 $js->inline('try{Typekit.load({ async: true });}catch(e){}');
 ```
 
@@ -236,22 +249,42 @@ By default inline code is always added after loaded asset. For JS assets, you ca
 $js->inline('var app = app || {};', 'before');
 ```
 
-In above example, the inline script is rendered before the JS asset. The position parameters can accept two values:
+In above example, the inline script is rendered before the JavaScript asset.
 
- - _after_ (default)
- - _before_
-
-Register assets locations
--------------------------
-
-You can define custom assets locations different than the pre-configured theme `dist` directory for example. This is useful for plugin development if you need to store custom assets related to your plugin features.
-
-In order to register a new asset location, retrieve an assets finder instance and call its `addPaths()` method and pass it an array of key value pairs where the key is the URL to your (compiled) assets base directory and its value is the PATH:
+The second argument allows you to define the position of the inline code. You can render your code before or after the asset tag. By default, inline code is rendered "after" the asset. If you want to render the inline code before the asset, simply pass `false` to the position parameter:
 
 ```php
-container('asset.finder')->addPaths([
-    themosis_theme_assets() => themosis_path('theme').'dist'
-]);
+$js->inline('var app = app || {}', false);
 ```
 
-You can add multiple locations. The above example is from the `themosis-theme` theme where the `themosis_theme_assets()` helper function return our theme `dist` URL as a key and the value contains the PATH.
+Register asset locations
+------------------------
+
+You can define custom assets locations for your application in the root `config/assets.php` configuration file.
+
+In order to register a new asset location, you can pass a key value pair to the configuration `paths` property where the key is the path to your compiled asset and the value its URL:
+
+```php
+'paths' => [
+    web_path('dist') => rtrim(config('app.url'), '\/').'/dist'
+],
+```
+
+Additional assests locations may also be defined by plugins and themes using the `$plugin->assets()` and `$theme->assets()` calls.
+
+The Themosis theme boilerplate is configured to load assets from its `dist` directory (configured in `functions.php`). Same is configured for Themosis plugin boilerplate (in `plugin-name.php`).
+
+### Assets load order
+
+Themosis searches for the (non-external) assets files set up by `Asset::add()` in the configured assets locations in the order the locations are added.
+
+In other words Themosis loads the first matching asset file found in this order:
+1. Search for the asset file under the locations configured in the root `config/assets.php` file, one-by-one, in the order they are added.
+2. Search for the asset file under the locations configured in the active plugins, one-by-one, in the order they are added.
+3. Search for the asset file under the locations configured in the active theme, one-by-one, in the order they are added.
+
+If the asset file cannot be found under any of these locations, an `Themosis\Asset\AssetException` is thrown.
+
+Please note, that the particular order in which different plugins are loaded is controlled by WordPress. Must use plugins are loaded before other plugins, but the exact order between the different plugins may vary. Therefore it is not recommended to rely on the load order of plugins when loading assets.
+
+When your application uses multiple Themosis plugins, it is best to use unique asset names to prevent conflicts between them. It is also advisable to set unique name for theme assets, as any matching file in an active plugins assets location can potentially "hijack" the loading of the theme asset files. A unique asset name may as well be achieved by using a unique subfolder together with a generic filename e.g.: `'js/some-unique-string/main.js'` or `'css/some-unique-string/style.js'`
