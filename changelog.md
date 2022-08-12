@@ -1,6 +1,32 @@
 Changelog
 =========
 
+3.0
+---
+
+#### New
+
+- PHP >= 8
+- Laravel 8
+- Artisan CLI tool
+- Object cache dropin
+- Scheduler and post scheduling command
+- WordPress functions support in commands
+
+#### Updates
+
+- Twig 3
+- Service provider boot before and after callbacks
+- Add WordPress shutdown hook support
+- Metabox custom fields save sync
+- Administration pages can return RedirectResponse objects 
+
+#### Fixes
+
+- Metabox custom transformers
+- Form value reverse transform
+- Automatic binding of WP_Post if no records
+
 2.0
 ---
 
