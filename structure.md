@@ -20,13 +20,13 @@ Application Structure
 Introduction
 ------------
 
-The Themosis framework application structure is now following most of the Laravel framework one, at least on its root directory.
+The Themosis framework application structure is following the Laravel framework one, at least on its root directory.
 
-WordPress is defined as a dependency and installed on its own `htdocs/cms` public sub-directory.
+Compared to a classic installation, WordPress is defined as a dependency and installed on its own `htdocs/cms` public subdirectory.
 
 Just like previous versions of the Themosis framework, you can still develop your custom theme for the front-end/user facing content and custom plugins in order to extend WordPress and its administration.
 
-However we have brought a new central `app` directory to the stack to help you better manage your code.
+However, we have brought a new central `app` directory to the stack to help you better manage your code.
 
 On this guide, we'd like to give you some details about the choices made for the directory structure and give you some development recommendations for your custom WordPress application. But of course, you're free to organize your application however you like.
 
@@ -43,9 +43,8 @@ When opening your application in your code editor or IDE, you should find the fo
 |  +-- Hooks
 |  +-- Http
    |  +-- Controllers
-|  +-- Mail
+|  +-- Models
 |  +-- Providers
-|  +-- Widgets
 +-- bootstrap/
 +-- config/
 |  +-- app.php
@@ -61,6 +60,8 @@ When opening your application in your code editor or IDE, you should find the fo
 |  +-- languages/
 |  +-- views/
 +-- routes/
+|  +-- api.php
+|  +-- channels.php
 |  +-- console.php
 |  +-- web.php
 +-- storage/
@@ -68,7 +69,9 @@ When opening your application in your code editor or IDE, you should find the fo
 +-- vendor/
 +-- .env
 +-- composer.json
-+-- console
++-- artisan
++-- LocalValetDriver.php
++-- server.php
 +-- wp-cli.yml
 ```
 
@@ -101,9 +104,9 @@ This is not a "best practice" chapter but some explanations on the changes made 
 
 ### Routing
 
-Like for every modern framework, it starts by defining routes. On the previous versions of the Themosis framework, a `routes.php` file was defined into the `resources` directory of the theme. From that file, you list all routes for your application.
+Your journey starts by defining routes. On the previous versions of the Themosis framework, a `routes.php` file was defined into the `resources` directory of the theme. From that file, you list all routes for your application.
 
-Since release 2.0 of the Themosis framework, we decided to move the routes file, just like in Laravel, to the application `routes` directory instead. This change avoid the mix of routes definitions between the file stored in your theme and any other routes file stored in your custom plugin.
+We decided to move the routes file, just like in Laravel, to the application `routes` directory instead. This change avoid the mix of routes definitions between the file stored in your theme and any other routes file stored in your custom plugin.
 
 From now on, all routes for your application should be defined into the `routes/web.php` file stored at project root.
 
@@ -119,13 +122,13 @@ Just like any classic WordPress theme is doing, the new theme provided by the Th
 
 If you feel like you need to customize your application by changing something into the WordPress administration, providing some shared utilities or simply adding some logic, we suggest you to put it into the new `app` directory located at project root, or develop a custom plugin or a custom PHP package.
 
-The new theme is also configured with [Laravel Mix](https://laravel-mix.com/) and is already setup to handle your custom Javascript and Sass files.
+The new theme is also configured with [Laravel Mix](https://laravel-mix.com/) and is already setup to handle your front-end needs.
 
 Please read the [theme guide]({{url}}/structure) for more details.
 
 #### The root views directory
 
-You could provide views for your entire application through the `resources/views` directory located at application root. However we recommend to use it for shared views or views used to customize the WordPress administration.
+You could provide views for your entire application through the `resources/views` directory located at application root. However, we recommend to use it for shared views or views used to customize the WordPress administration.
 
 ### Extend WordPress
 
@@ -149,13 +152,13 @@ As mentioned earlier, the Themosis framework now provides a unique and central `
 
 The `app` directory is where you store your application controllers, models, commands, forms, hooks, widgets and any other classes your application might need to work. The directory is namespaced under `App` and is autoloaded by Composer using the [PSR-4 autoloading standard.](https://www.php-fig.org/psr/psr-4/)
 
-The `app` directory contains many sub-directories that are added when you're using the `make` command from the Console CLI tool provided by the framework.
+The `app` directory contains many subdirectories that are added when you're using the `make` command from the Artisan CLI tool provided by the framework.
 
-However here is a list of the default subdirectories you may find under the `app` folder:
+However, here is a list of the default subdirectories you may find under the `app` folder:
 
 ### The Console directory
 
-The `Console` directory contains all of the custom Console commands for your application. These commands may be generated using the `make:command` command. This directory also houses your console kernel, which is where your custom Console commands are registered and your [scheduled tasks]({{url}}/scheduling) are defined.
+The `Console` directory contains all the custom Artisan commands for your application. These commands may be generated using the `make:command` command. This directory also houses your console kernel, which is where your custom commands are registered and your [scheduled tasks]({{url}}/scheduling) are defined.
 
 ### The Exceptions directory
 
@@ -171,21 +174,23 @@ The `Hooks` directory contains all hookable classes used to customize or extend 
 
 ### The Http directory
 
-The `Http` directory contains your controllers, middleware (and form requests). Almost all of the logic to handle requests entering your application will be placed in this directory.
+The `Http` directory contains your controllers, middleware (and form requests). Almost all the logic to handle requests entering your application will be placed in this directory.
 
 ### The Mail directory
 
-This directory does not exist by default, but will be created for you if you execute the `make:mail` Console command. The `Mail` directory contains all of your classes that represent emails sent by your application. Mail objects allow you to encapsulate all of the logic of building an email in a single, simple class that may be sent using the `Mail::send` method.
+This directory does not exist by default, but will be created for you if you execute the `make:mail` Artisan command. The `Mail` directory contains all of your classes that represent emails sent by your application. Mail objects allow you to encapsulate all the logic for building an email in a single, simple class that may be sent using the `Mail::send` method.
 
 ### The Providers directory
 
-The `Providers` directory contains all of the [service providers]({{url}}/providers) for your application. Service providers bootstrap your application by binding services in the service container, registering events, or performing any other tasks to prepare your application for incoming requests.
+The `Providers` directory contains all the [service providers]({{url}}/providers) for your application. Service providers bootstrap your application by binding services in the service container, registering events, or performing any other tasks to prepare your application for incoming requests.
 
 In a fresh Themosis application, this directory will already contain several providers. You are free to add your own providers to this directory as needed.
 
 ### The Widgets directory
 
 The `Widgets` directory contains all of your WordPress widgets. You can create a new widget by using the `make:widget` Console command and then register it within the `Widgets` hookable class.
+
+> Depending on your WordPress installation, Widgets may no longer be loaded as those are handled through Gutenberg.
 
 Next
 ----
