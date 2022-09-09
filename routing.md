@@ -30,7 +30,7 @@ Routing
 Introduction
 ------------
 
-In order to handle routes, the Themosis framework is leveraging the `illuminate/routing` package coming from [Laravel](https://laravel.com/docs/5.7/routing).
+In order to handle routes, the Themosis framework is leveraging the `illuminate/routing` package coming from [Laravel](https://laravel.com/docs/routing).
 
 Basic routing
 -------------
@@ -73,7 +73,7 @@ Usually WordPress is listening to all HTTP verbs. In order to match WordPress de
 Route::any($uri, $callback);
 ```
 
-If you're using the WordPress Customizer, you might want to use the `any()` method because the Customizer is fetching your pages through a HTTP POST request. So if you're using only the `Route::get()` method for your theme, you get a blank screen when working with the Customizer.
+If you're using the WordPress Customizer, you might want to use the `any()` method because the Customizer is fetching your pages through an HTTP POST request. So if you're using only the `Route::get()` method for your theme, you get a blank screen when working within the Customizer.
 
 Finally, there is also the `Route::match()` method that lets you define which HTTP verbs you want to listen to:
 
@@ -84,7 +84,7 @@ Route::match(['GET', 'POST'], $uri, function () {
 });
 ```
 
-Pass an array of HTTP verbs as the first parameter, followed by an URI (or condition) and a callback.
+Pass an array of HTTP verbs as the first parameter, followed by a URI (or condition) and a callback.
 
 ### Redirect routes
 
@@ -108,7 +108,7 @@ Route::view('/contact', 'contact', ['team' => 'IT']);
 Route parameters
 ----------------
 
-You can now capture segments of an URI thanks to route parameters. For example, you may need to capture the a project's ID from the URL:
+You can now capture segments of a URI thanks to route parameters. For example, you may need to capture a project's ID from the URL:
 
 ```php
 Route::get('/projects/{id}', function ($id) {
@@ -124,7 +124,7 @@ Route::get('/forms/{id}/input/{name}', function ($form_id, $input_name) {
 });
 ```
 
-Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore `_`. Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
+Route parameters are always encased within curly braces `{}` and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore `_`. Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
 
 ### Optional parameters
 
@@ -164,11 +164,11 @@ If you would like a route parameter to always be constrained by a given regular 
 use Themosis\Support\Facades\Route;
 
 public function boot()
-    {
-        Route::pattern('name', '[a-zA-Z]+');
+{
+    Route::pattern('name', '[a-zA-Z]+');
 
-        parent::boot();
-    }
+    parent::boot();
+}
 ```
 
 Once the pattern has been defined, it is automatically applied to all routes using that parameter name:
@@ -305,7 +305,7 @@ Route::prefix('admin')->group(function () {
 
 ### Route name prefixes
 
-The `name()` method may be used to prefix each route name in the group with a given string. For example, you may want to prefix all of the grouped route's names with `admin`. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing `.` character in the prefix:
+The `name()` method may be used to prefix each route name in the group with a given string. For example, you may want to prefix all the grouped route's names with `admin`. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing `.` character in the prefix:
 
 ```php
 Route::name('admin.')->group(function () {
@@ -373,7 +373,7 @@ Route::get('profile/{user}', function ($user) {
 });
 ```
 
-Since we have bound all `{user}` parameters to the `App\User` model, a User instance will be injected into the route. So, for example, a request to `profile/1` will inject the User instance from the database which has an ID of `1`.
+Since we have bound all `{user}` parameters to the `App\User` model, a User instance will be injected into the route. So, for example, a request to `profile/1` will inject the User instance from the database which has an id of `1`.
 
 If a matching model instance is not found in the database, a 404 HTTP response will be automatically generated.
 
@@ -416,14 +416,14 @@ You can also define application routes from a plugin `routes.php` file.
 
 If you define a route from a plugin similar to one of your application routes, the route coming from the plugin will have precedence over the one declared into the root `web.php` file.
 
-Finally we also authorise routes definitions from the theme's `routes.php` file. Any route defined into the theme has precedence over plugin routes and application routes.
+Finally, we also authorise routes definitions from the theme's `routes.php` file. Any route defined into the theme has precedence over plugin routes and application routes.
 
 > We do not recommend to write routes inside your theme but in a scenario where you need to override a route defined by a plugin, you can use the theme's `routes.php` file to define such route.
 
 WordPress routes
 ----------------
 
-In addition to custom routes, the Themosis framework provides a way to define WordPress routes. Those "special" routes are based on the [WordPress template conditional tags](https://codex.wordpress.org/Conditional_Tags).
+In addition to custom routes, the Themosis framework provides a way to define WordPress routes. Those "special" routes are based on the [WordPress template conditional tags](https://developer.wordpress.org/themes/basics/conditional-tags/).
 
 Each WordPress route works by providing a condition instead of a URI. You can find below a list of "condition" terms the framework provides based on WordPress core functions. For example, the condition `home` refers to the WordPress `is_home()` function, the `page` condition to the `is_page()` function and so on...
 
@@ -460,7 +460,7 @@ Here is the current list of available route conditional tags in alphabetical ord
 
 ### Route examples
 
-Before digging into the routing API, remember that when you're developing with the Themosis framework, you're still doing WordPress development. So in WordPress, in order for a route to work, the data has to exists first (usually by posting content from the WordPress administration).
+Before digging into the routing API, remember that when you're developing with the Themosis framework, you're still doing WordPress development. So in WordPress, in order for a route to work, the data has to exist first (usually by posting content from the WordPress administration).
 
 > Please note that routes are read from top to bottom. It may happen that 2 different routes listen to the same URI. For example: a `post-type-archive` and an `archive` routes. The router is always returning the first match. As a best practice, we recommend you to put specific routes (in this case, the `post-type-archive`) on top of your `routes.php` file and generic routes at the bottom or below (in this case the `archive` route).
 
@@ -477,7 +477,7 @@ This route is mapped to core WordPress function `is_home()`. Historically we cou
 
 So there are 2 cases:
 
-- If your website is mainly a blog, you can keep the default behaviour and use it as is for the home page and it listens to requests made to this URI `/`
+- If your website is mainly a blog, you can keep the default behaviour and use it as is for the home page, and it listens to requests made to this URI `/`.
 - If your home page is not a main blog page, a custom WordPress page has been defined to display the list of most recent posts, so the `home` route won't handle requests made to `/` URI but perhaps to a `/blog` URI instead. In order for this scenario to work, you must define a custom page from the WordPress administration -> Settings -> Reading panel.
 
 Here's an example of a route listening to the WordPress home page:
@@ -514,7 +514,7 @@ Route::any('page', function() {
 
 The above code may match requests done to `/about`, `/contact`, `/some-page`, `/parent/child-page`, ... URIs.
 
-> The `page` route without parameters is a generic route and it is best to register it at the bottom of your `routes.php` file.
+> The `page` route without parameters is a generic route, it is best to register it at the bottom of your `routes.php` file.
 
 ##### Route to a specific page
 
@@ -528,7 +528,7 @@ Route::any('page', ['contact', function() {
 }]);
 ```
 
-> We recommend you to write specific page routes above the generic page one.
+> We recommend you to write specific page routes above the more generic "page" route.
 
 As it follows the `is_page()` function, you can pass a string (page title, post name or slug), a page ID or an array as the first parameter of the callback array.
 
@@ -562,7 +562,7 @@ Route::any('single', ['welcome-post', function () {
 }]);
 ```
 
-The above route is only listening to request made to the single post with a slug of `welcome-post`. You can also pass a post ID, title or an array.
+The above route is only listening to request made to the single post with a slug of `welcome-post`. You can also pass a post `ID`, `title` or an array.
 
 ##### Archive post route
 
@@ -613,7 +613,7 @@ Route::any('tag', function () {
 
 The default `tag` route condition is listening to requests made to all tag terms.
 
-If you want to return a different content for a specific category term, simply pass an argument to the first parameter of the callback array like so:
+If you want to return a different content for a specific tag term, simply pass an argument to the first parameter of the callback array like so:
 
 ```php
 // Listens to URI like /tag/framework
@@ -674,7 +674,7 @@ Route::any('post-type-archive', ['my-custom-post-type', function () {
 
 ### Extending WordPress routes
 
-You can manage the list of WordPress route conditions available to your application. All conditions are now managed from the `app.php` file stored in the root `config` directory:
+You can manage the list of WordPress route conditions available to your application. All conditions are managed from the `app.php` file stored in the root `config` directory:
 
 ```php
 'conditions' => [
@@ -718,7 +718,7 @@ Learn more
 
 ### Modifying page title
 
-If you define a custom route in your application and you want to influence the page title you can easily modify it by using the WordPress filter/hook API. The Themosis framework provides a basic wrapper for it.
+If you define a custom route in your application, and you want to influence the page title you can easily modify it by using the WordPress filter/hook API. The Themosis framework provides a basic wrapper for it.
 
 ```php
 Route::get('custom/route', function () {
