@@ -14,7 +14,7 @@ Middleware
 Introduction
 ------------
 
-The Themosis framework is now fully compatible with the middleware mechanism provided by the `illuminate/routing` package.
+The Themosis framework is compatible with the middleware mechanism provided by the `illuminate/routing` package.
 
 Middleware provide a convenient mechanism for filtering HTTP requests entering your application. For example, the Themosis framework includes a middleware that verifies if the current user has the correct capability to visit a URL. If the current user has not the specified capability defined by the middleware, the user is redirected to the home page. Else if the user has the capability, the middleware allow the request to proceed further into the application.
 
@@ -23,10 +23,10 @@ Middleware provide a convenient mechanism for filtering HTTP requests entering y
 Defining middleware
 -------------------
 
-In order to create a new middleware, use the `make:middleware` console command:
+In order to create a new middleware, use the `make:middleware` command:
 
 ```bash
-php console make:middleware CheckUserRole
+php artisan make:middleware CheckUserRole
 ```
 
 This command will create a new `CheckUserRole` class within the `app/Http/Middleware` directory:
@@ -58,11 +58,11 @@ class CheckUserRole
 }
 ```
 
-In the example above, if the given `role` is not an `editor`, the middleware returns a HTTP redirect to the client. Otherwise, the request is passed further into the application. In order to pass the request deeper into the application, call the `$next` callback with the `$request`.
+In the example above, if the given `role` is not an `editor`, the middleware returns an HTTP redirect to the client. Otherwise, the request is passed further into the application. In order to pass the request deeper into the application, call the `$next` callback with the `$request` as a parameter.
 
 It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
 
-> All middleware are resolved via the service container, so you may type-hint any dependencies you need within a middleware's constructor.
+> All middleware are resolved via the service container, so you may type-hint any dependencies you need within the constructor of a middleware.
 
 Registering middleware
 ----------------------
@@ -83,7 +83,7 @@ protected $routeMiddleware = [
 ];
 ```
 
-Once the middleware has been defined in the HTTP kernel, you may use the middleware method to assign middleware to a route:
+Once the middleware has been defined in the HTTP kernel, you may use the `middleware()` method to assign middleware to a route:
 
 ```php
 Route::get('shop/account', function () {
@@ -91,7 +91,7 @@ Route::get('shop/account', function () {
 })->middleware('wp.can');
 ```
 
-You may also assign multiple middleware to the route:
+You may also assign multiple middlewares to the route:
 
 ```php
 Route::get('/', function () {
@@ -113,18 +113,28 @@ Route::get('shop/account', function () {
 
 Sometimes you may want to group several middleware under a single key to make them easier to assign to routes. You may do this using the `$middlewareGroups` property of your HTTP kernel.
 
-Out of the box, the Themosis framework comes with `web` and `api` middleware groups that contain common middleware you may want to apply to your web UI and API routes:
+Out of the box, the Themosis framework comes with `web`, `api` and `admin` middleware groups that contain common middleware you may want to apply to your web UI and API routes:
 
 ```php
 protected $middlewareGroups = [
-     'web' => [
-         'wp.bindings',
-         'bindings'
-     ],
-     'api' => [
-         'wp.can:edit_posts',
-         'bindings'
-     ]
+    'admin' => [
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class
+    ],
+    'web' => [
+        'wp.headers',
+        'wp.bindings',
+        'bindings',
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        'csrf',
+        \Themosis\Route\Middleware\WordPressBodyClass::class
+    ],
+    'api' => [
+        'throttle:60,1',
+        'wp.can:edit_posts',
+        'bindings'
+    ]
 ];
 ```
 
@@ -140,11 +150,11 @@ Route::group(['middleware' => ['web']], function () {
 });
 ```
 
-> The `web` middleware group is automatically applied to your `routes/web.php` file by the `RouteServiceProvider`.
+> The `web` middleware group is **automatically applied** to your `routes/web.php` file by the `RouteServiceProvider`.
 
 ### Sorting middleware
 
-Rarely, you may need your middleware to execute in a specific order but not have control over their order when they are assigned to the route. In this case, you may specify your middleware priority using the `$middlewarePriority` property of your `app/Http/Kernel.php` file:
+You may need your middleware to execute in a specific order but not have control over their order when they are assigned to the route. In this case, you may specify your middleware priority using the `$middlewarePriority` property of your `app/Http/Kernel.php` file:
 
 ```php
 /**
@@ -165,7 +175,7 @@ Middleware parameters
 
 Middleware can also receive additional parameters. For example, your application needs to verify that the current user has a given "capability" before performing a given action, you could create a `CheckCapability` middleware that receives a capability name as an additional argument.
 
-Additional middleware parameters will be passed to the middleware after the `$next` argument:
+Additional middleware parameters will be passed to the middleware after its `$next` argument:
 
 ```php
 <?php
@@ -184,7 +194,7 @@ class CheckCapability
      * @param  string  $cap
      * @return mixed
      */
-    public function handle($request, Closure $next, $cap)
+    public function handle($request, Closure $next, string $cap)
     {
         if (! current_user_can($cap)) {
             // Redirect...
@@ -229,7 +239,9 @@ class Download
 
 The `terminate` method should receive both the request and the response. Once you have defined a terminable middleware, you should add it to the list of route or global middleware in the `app/Http/Kernel.php` file.
 
-When calling the `terminate` method on your middleware, the framework will resolve a fresh instance of the middleware from the [service container](https://laravel.com/docs/5.7/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method.
+When calling the `terminate` method on your middleware, the framework will resolve a fresh instance of the middleware from the [service container](https://laravel.com/docs/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method.
+
+> [More information on middleware](https://laravel.com/docs/middleware)
 
 Next
 ----
