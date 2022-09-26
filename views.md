@@ -13,9 +13,9 @@ Views
 Introduction
 ------------
 
-In order to handle the application views (HTML), the Themosis framework comes with a view API that extends the `illuminate/view` package. Beside providing same API found in the Laravel framework, the Themosis framework views come with 2 great template engines:
+In order to handle the application views (the HTML), the Themosis framework comes with a view API that extends the `Illuminate/View` package. Beside providing same API found in the Laravel framework, the Themosis framework views come with 2 great template engines:
 
-- [Blade](https://laravel.com/docs/5.7/blade)
+- [Blade](https://laravel.com/docs/blade)
 - [Twig](https://twig.symfony.com/)
 
 Depending on your background, you might prefer working with the Twig engine, Blade engine or vanilla PHP, the choice is yours. Regarding the view API, there is one difference to note regarding view composers if you decide to go with the Twig engine (and vanilla PHP as well). See view composers below for the details.
@@ -51,7 +51,13 @@ Then, in order to create a view instance from this view file, call the `make()` 
 $hello = View::make('hello');
 ```
 
-The code above only creates a view instance and do not render anything on screen. The first parameter you pass to the `make()`method is the view name, which is basically the file name (or path) without the its file extension.
+Alternatively, you can also use the `view()` function helper to create a new view instance:
+
+```php
+$hello = view('hello');
+```
+
+The code above only creates a view instance and do not render anything on screen. The first parameter you pass to the `make()`method or the `view()` function is the view name, which is basically the file name (or path) without its file extension.
 
 Render a view
 -------------
@@ -71,6 +77,11 @@ The previous sample is a basic representation of a view rendering. Let's use thi
 Route::get('/', function () {
     return View::make('hello');
 });
+
+// or...
+Route::get('/', function () {
+    return view('hello');
+});
 ```
 
 > Notice that we don't need to call the `render()` method when returning a view instance from a route.
@@ -81,21 +92,16 @@ You can also call the `render()` method and return the compiled view string like
 Route::get('home', function () {
     return View::make('hello')->render();
 });
+
+// or...
+Route::get('home', function () {
+    return view('hello')->render();
+});
 ```
 
 > The advantage of rendering the view before returning it is that if your view code has an error, you'll get an appropriate PHP stack error spotting the right line of code.
 
-Finally, the Themosis framework also includes the `view()` helper function that saves you some typos. Here is our `hello` example using the `view()` function:
-
-```php
-Route::get('home', function () {
-    return view('hello');
-});
-```
-
-> It is recommended to use the `view()` helper function in place of the long form.
-
-Finally views are not only reserved to page templates. Views help you write better presentation code without mixing too much PHP logic with your HTML. From a WordPress perspective, there are many places where you could use views, here is a helper list:
+Finally, views are not only reserved to "pages". Views help you write better presentation code without mixing too much PHP logic with your HTML. From a WordPress perspective, there are many places where you could use views, here is a helper list:
 
 - Metabox
 - Fields
@@ -103,6 +109,7 @@ Finally views are not only reserved to page templates. Views help you write bett
 - Shortcodes
 - List table
 - Email
+- Gutenberg dynamic blocks
 - ...
 
 ...anything that contains HTML.
@@ -119,7 +126,7 @@ wp_mail($to, 'Subject', $message);
 Organize your views
 -------------------
 
-You can organize your views into sub-directories of the `views` directory. Use the "dot" notation to reference your view. For example, if you store a view file at `views/pages/home.php`, you can access it like so:
+You can organize your views into subdirectories of the `views` directory. Use the "dot" notation to reference your view. For example, if you store a view file at `views/pages/home.php`, you can access it like so:
 
 ```php
 return view('pages.home');
@@ -127,7 +134,7 @@ return view('pages.home');
 
 There is no limitation to the number of sub-folders you want to use in order to organize your views.
 
-> Important, if you have multiple view directories shared between your theme and plugins, the view API will use the first view file it found. Meaning that if a plugin has a view stored exactly with the same relative path from its view directory, you may get inappropriate rendering. It is recommended to store plugin views with a higher folder hierarchy. For example, use your company TLD + Domain Name + Plugin Name as sub-directories names to avoid conflicts.
+> Important, if you have multiple view directories shared between your theme and plugins, the view API will use the first view file it found. Meaning that if a plugin has a view stored exactly with the same relative path from its view directory, you may get inappropriate rendering. It is recommended to store plugin views with a higher folder hierarchy. For example, use your company TLD + Domain Name + Plugin Name as subdirectories names to avoid conflicts.
 
 Passing data
 ------------
@@ -164,16 +171,17 @@ As an alternative, you can also use the `with()` method to pass individual or mu
 
 ```php
 // Passing one variable
-$view = View::make('hello')->with('name', 'Joe')->render();
+$view = view('hello')->with('name', 'Joe')->render();
 
 // Passing multiple variables
-$view = View::make('hello')->with(['name' => 'Joe', 'age' => 30])->render();
+$view = view('hello')->with(['name' => 'Joe', 'age' => 30])->render();
 ```
 
-Finally, the view `make()` method also accepts variables as a second argument. Here is an example:
+Finally, the view `make()` method and `view()` function also accept variables as a second argument. Here is an example:
 
 ```php
 $view = View::make('hello', ['name' => 'Joe']);
+$view = view('hello', ['name' => 'Joe']);
 ```
 
 Sharing data
@@ -251,7 +259,7 @@ class MyComposer
 View::composer('pages.home', 'Theme\Library\MyComposer@add');
 ```
 
-You can omit the method name when using a class instance as your composer. By default, the API is looking after a `compose` then a `create` method if the first one do not exists.
+You can omit the method name when using a class instance as your composer. By default, the API is looking after a `compose` then a `create` method if the first one does not exist.
 
 ```php
 // Omit the method name.
@@ -271,7 +279,7 @@ View::composers([
 Template engines
 ----------------
 
-As described in the introduction, the Themosis framework comes with 2 great template engines: Blade and Twig. We recommend you to stick with one template engine per theme and per plugin.
+As described in the introduction, the Themosis framework comes with 2 great template engines: Blade and Twig. We recommend you to stick with one template engine per project.
 
 We have a guide for each template engine covering their basics and specific features added by the Themosis framework:
 
@@ -280,7 +288,7 @@ We have a guide for each template engine covering their basics and specific feat
 
 but for deeper information, we suggest you to read their official documentation:
 
-- [Blade](https://laravel.com/docs/5.7/blade)
+- [Blade](https://laravel.com/docs/blade)
 - [Twig](https://twig.symfony.com/)
 
 Next
