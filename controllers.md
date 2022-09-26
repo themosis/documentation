@@ -55,7 +55,13 @@ Now based on our code example above, we can use this controller and its method/a
 Route::get('/', 'PageController@index');
 ```
 
-Now, when a request matches the specified route URI, the `index` method on the `PageController` class will be executed. Of course, the route parameters will also be passed to the method.
+You can also write the same route in an alternate syntax:
+
+```php
+Route::get('/', [PageController::class, 'index']);
+```
+
+Now, when a request matches the specified route URI (`/`), the `index` method on the `PageController` class will be executed. Of course, the route parameters will also be passed to the method.
 
 > The Themosis framework does not provide all controller base class utility methods you can expect to find from the Laravel framework. Methods currently available are: `validate()` and `middleware()`.
 
@@ -65,6 +71,9 @@ Sometimes routes need more parameters. For example when you define a route for a
 
 ```php
 Route::get('page', ['about-us', 'uses' => 'About@index']);
+
+// or...
+Route::get('page', ['about-us', 'uses' => [About::class, 'index']]);
 ```
 
 ### Controllers and namespaces
@@ -75,6 +84,13 @@ If you choose to nest your controllers deeper into the `App\Http\Controllers` di
 
 ```php
 Route::get('uri', 'Posts\ResourceController@method');
+
+// or...
+<?php
+
+use App\Http\Controllers\Posts\ResourceController;
+
+Route::get('uri', [ResourceController::class, 'method']);
 ```
 
 ### Single action controllers
@@ -110,12 +126,15 @@ When registering routes for single action controllers, you do not need to specif
 
 ```php
 Route::get('user/{id}', 'ShowProfile');
+
+// or...
+Route::get('user/{id}', ShowProfile::class);
 ```
 
 You can create an invokable controller by using the `--invokable` option of the `make:controller` console command:
 
 ```bash
-php console make:controller ShowProfile --invokable
+php artisan make:controller ShowProfile --invokable
 ```
 
 Controller middleware
@@ -164,7 +183,7 @@ Resource controllers
 The framework resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "posts" stored by your application. Using the `make:controller` console command, we can quickly create such a controller:
 
 ```bash
-php console make:controller PostController --resource
+php artisan make:controller PostController --resource
 ```
 
 This command will generate a controller at `app/Http/Controllers/PostController.php`. The controller will contain a method for each of the available resource operations.
@@ -173,11 +192,14 @@ Next, you may register a resourceful route to the controller:
 
 ```php
 Route::resource('posts', 'PostController');
+
+// or...
+Route::resource('posts', PostController::class);
 ```
 
 This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
 
-You may register many resource controllers at once by passing an array to the resources method:
+You may register many resource controllers at once by passing an array to the `resources()` method:
 
 ```php
 Route::resources([
@@ -188,22 +210,22 @@ Route::resources([
 
 #### Actions handled by resource controller
 
-Verb              | URI                          | Action       | Route Name
---------------------|------------------------------|-----------------|---------------------
-GET               | `/posts`                    | index         | posts.index
-GET               | `/posts/create`          | create       | posts.create
-POST             | `/posts`                    | store         | posts.store
-GET               | `/posts/{photo}`        | show         | posts.show
-GET               | `/posts/{photo}/edit` | edit            | posts.edit
-PUT/PATCH | `/posts/{photo}`        | update       | posts.update
-DELETE         | `/posts/{photo}`       | destroy      | posts.destroy
+Verb       | URI                   | Action  | Route Name
+-----------|-----------------------|---------|--------------
+GET        | `/posts`              | index   | posts.index
+GET        | `/posts/create`       |  create | posts.create
+POST       | `/posts`              | store   | posts.store
+GET        | `/posts/{photo}`      | show    | posts.show
+GET        | `/posts/{photo}/edit` | edit    | posts.edit
+PUT/PATCH  | `/posts/{photo}`      | update  | posts.update
+DELETE     | `/posts/{photo}`      | destroy | posts.destroy
 
 #### Specifying the resource model
 
 If you are using route model binding and would like the resource controller's methods to type-hint a model instance, you may use the` --model` option when generating the controller:
 
 ```bash
-php console make:controller PostController --resource --model=Post
+php artisan make:controller PostController --resource --model=Post
 ```
 
 #### Spoofing form methods
@@ -251,7 +273,7 @@ Route::apiResources([
 To quickly generate an API resource controller that does not include the `create` or `edit` methods, use the `--api` option when executing the `make:controller` command:
 
 ```bash
-php console make:controller Api/PostController --api
+php artisan make:controller Api/PostController --api
 ```
 
 ### Naming resource routes
@@ -266,7 +288,7 @@ Route::resource('posts', 'PostController')->names([
 
 ### Naming resource route parameters
 
-By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by using the `parameters()` method. The array passed into the `parameters()` method should be an associative array of resource names and parameter names:
+By default, `Route::resource` will create the route parameters for your resource routes based on the "singular" version of the resource name. You can easily override this on a per-resource basis by using the `parameters()` method. The array passed into the `parameters()` method should be an associative array of resource names and parameter names:
 
 ```php
 Route::resource('posts', 'PostController')->parameters([
@@ -322,7 +344,7 @@ Route::resource('posts', 'PostController');
 Dependency injection
 --------------------
 
-The Themosis framework now implements the [Illuminate\Container](https://laravel.com/docs/5.7/container) in order to resolve controllers. As a result, you can now type-hint any dependencies your controller may need in its constructor or public methods.
+The Themosis framework implements the [Illuminate\Container](https://laravel.com/docs/container) in order to resolve controllers. As a result, you can now type-hint any dependencies your controller may need in its constructor or public methods.
 
 ### Constructor injection
 
@@ -337,22 +359,15 @@ use App\Books;
 
 class HomeController extends Controller
 {
-    /**
-     * A books model instance.
-     */
-    protected $books;
-
     /*
      * Auto-instantiate a App\Books class.
      */
-    public function __construct(Books $books)
-    {
-        $this->books = $books;
-    }
+    public function __construct(private Books $books)
+    {}
 }
 ```
 
-Of course, you may also type-hint any [contract from Laravel](https://laravel.com/docs/5.7/contracts). If the container can resolve it, you can type-hint it. Depending on your application, injecting your dependencies into your controller may provide better testability.
+Of course, you may also type-hint any [contract from Laravel](https://laravel.com/docs/contracts). If the container can resolve it, you can type-hint it. Depending on your application, injecting your dependencies into your controller may provide better testability.
 
 ### Method injection
 
@@ -415,7 +430,7 @@ Route caching
 If your application is exclusively using controller based routes, you should take advantage of route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application's routes. In some cases, your route registration may even be up to 100x faster. To generate a route cache, just execute the `route:cache` console command:
 
 ```php
-php console route:cache
+php artisan route:cache
 ```
 
 After running this command, your cached routes file will be loaded on every request. Remember, if you add any new routes you will need to generate a fresh route cache. Because of this, you should only run the `route:cache` command during your project's deployment.
@@ -423,7 +438,7 @@ After running this command, your cached routes file will be loaded on every requ
 You may use the `route:clear` command to clear the route cache:
 
 ```php
-php console route:clear
+php artisan route:clear
 ```
 
 Next
@@ -432,9 +447,9 @@ Read the [models guide]({{url}}/models)
 
 ### Additional information
 
-You can find below a list of links to the official documentation of the [Laravel](https://laravel.com/) framework that may give you more details about some of the available APIs also implemented into the Themosis framework:
+You can find below a list of links to the official documentation of the [Laravel](https://laravel.com/) framework that may give you more details about the available APIs also implemented into the Themosis framework:
 
-- [Service container](https://laravel.com/docs/5.7/container)
-- [Service providers](https://laravel.com/docs/5.7/providers)
-- [HTTP Requests](https://laravel.com/docs/5.7/requests)
-- [HTTP Responses](https://laravel.com/docs/5.7/responses)
+- [Service container](https://laravel.com/docs/container)
+- [Service providers](https://laravel.com/docs/providers)
+- [HTTP Requests](https://laravel.com/docs/requests)
+- [HTTP Responses](https://laravel.com/docs/responses)
