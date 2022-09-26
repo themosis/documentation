@@ -29,9 +29,9 @@ Blade
 Introduction
 ------------
 
-The Blade template engine is bundled with the `illuminate/view` package. When working with the Themosis framework, you automatically get access to it in order to work out your views.
+The Blade template engine is bundled with the `Illuminate/View` package. When working with the Themosis framework, you automatically get access to it in order to work out your views.
 
-- Read [Blade](https://laravel.com/docs/5.7/blade) official documentation for more details about the template engine features.
+- Read [Blade](https://laravel.com/docs/blade) official documentation for more details about the template engine features.
 
 Basic usage
 -----------
@@ -147,14 +147,14 @@ The `{{ $slot }}` variable will contain the content you wish tin inject into the
 @endcomponent
 ```
 
-> For more information about the component directive, please read the [Blade](https://laravel.com/docs/5.7/blade#components-and-slots) official documentation.
+> For more information about the component directive, please read the [Blade](https://laravel.com/docs/blade#components-and-slots) official documentation.
 
 ### Echo data
 
 ```html
 Hello {{ $name }}
 ```
-By default the double curly braces echo the data and escape it.
+By default, the double curly braces echo the data and escape it.
 
 #### Echo unescaped data
 
@@ -166,7 +166,7 @@ This is useful when you need to display HTML data like for example a post conten
 
 #### Echoing data after checking for existence
 
-By default you could write the following statement:
+By default, you could write the following statement:
 
 ```html
 {{ isset($name) ? $name : 'Default' }}
@@ -235,7 +235,7 @@ The above is the same as:
 @endforeach
 ```
 
-> Check the [official documentation](https://laravel.com/docs/5.7/blade#the-loop-variable) for information about the `$loop` variable.
+> Check the [official documentation](https://laravel.com/docs/blade#the-loop-variable) for information about the `$loop` variable.
 
 ### Displaying raw text
 
@@ -245,7 +245,7 @@ If you need to display a string that is wrapped in curly braces, you may escape 
 @{{ This is not processed by Scout }}
 ```
 
-> Check also the [verbatim](https://laravel.com/docs/5.3/blade#displaying-data) directive for larger text.
+> Check also the [verbatim](https://laravel.com/docs/blade#displaying-data) directive for larger text.
 
 ### Comments
 
@@ -299,11 +299,11 @@ You may push to a stack as many times as needed. To render the complete stack co
 </head>
 ```
 
-> More information about stacks on the official [Blade](https://laravel.com/docs/5.7/blade#stacks) documentation.
+> More information about stacks on the official [Blade](https://laravel.com/docs/blade#stacks) documentation.
 
 ### Service injection
 
-The `@inject` directive may be used to retrieve a service from the [service container](https://laravel.com/docs/5.7/container). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
+The `@inject` directive may be used to retrieve a service from the [service container](https://laravel.com/docs/container). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
 
 ```html
 @inject('metrics', 'App\Services\MetricsService')
@@ -329,7 +329,7 @@ public function boot()
 }
 ```
 
-> We recommend you to register directives from a [service provider](https://laravel.com/docs/5.7/providers) boot method.
+> We recommend you to register directives from a [service provider](https://laravel.com/docs/providers) boot method.
 
 Themosis directives
 -------------------
@@ -383,7 +383,7 @@ The `@query` directive provides a shortcut to run custom WordPress loops:
 
 The array you pass inside the `@query` statement is equivalent to the one you pass when using the `WP_Query` class. Check the [WordPress reference](https://developer.wordpress.org/reference/classes/wp_query/) to customize your loop query. You can also pass the WP_Query instance to the `@query` statement.
 
-> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More informations below.
+> The `Loop` class used in the examples is a core class to be used only inside the WordPress loop. More information below.
 
 ### Head directive
 
@@ -649,7 +649,7 @@ Here is an example of the rendered HTML code with the class attribute:
 Poedit
 ------
 
-By default, Poedit cannot find strings to translate from Blade templates. Here is a list of parameters to add to your Poedit software preferences so it can detect translation strings from your Blade views:
+By default, Poedit cannot find strings to translate from Blade templates. Here is a list of parameters to add to your Poedit software preferences, so it can detect translation strings from your Blade views:
 
 1. Open Poedit
 2. Go to Preferences -> Parsers
