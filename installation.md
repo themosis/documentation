@@ -148,6 +148,8 @@ With the Themosis framework, those configurations are extracted from the web roo
 
 Follow the [configuration guide]({{url}}/configuration) and see how to configure your WordPress application.
 
+> Please note that the environment `APP_DEBUG` variable is now set to `false` by default in your `.env` file. We have turned off this setting due to WordPress still not being fully compatible with PHP8.1 and above. Feel free to turn on debug mode once WordPress is installed during development. 
+
 Next
 ----
 Read the [configuration guide]({{url}}/configuration)

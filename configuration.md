@@ -41,7 +41,7 @@ Open your project `.env` file from your code editor or IDE. The `.env` file cont
 
 ```bash
 APP_ENV=local
-APP_DEBUG=true
+APP_DEBUG=false
 APP_KEY=
 APP_TD=themosis
 
@@ -70,9 +70,9 @@ MAIL_FROM_ADDRESS=noreply@themosis.com
 MAIL_FROM_NAME=Themosis
 ```
 
-The application environment is set for `local` development with debugging option set to `true` by default.
+The application environment is set for `local` development with debugging option set to `false` by default.
 
-> If you remove the `APP_ENV` variable, its value is set to `production` by default.
+> If you remove the `APP_ENV` variable, its value is set to `production` by default. Since release `3.0`, the `APP_DEBUG` variable is set to `false` by default to avoid error exceptions when installing WordPress. Feel free to turn debug mode back on once WordPress is installed.
 
 In order to install the application, you need to fill in the database options as well as defining your local virtual host URL in the `APP_URL` and `WP_URL` configurations.
 
