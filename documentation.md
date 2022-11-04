@@ -3,7 +3,7 @@
 - [Introduction]({{url}}/introduction)
 - [Contribution guide]({{url}}/contributing)
 - [Upgrade guide]({{url}}/upgrade)
-- [Change log]({{url}}/changelog)
+- [Changelog]({{url}}/changelog)
 
 #### Get started:
 
