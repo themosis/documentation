@@ -1,12 +1,41 @@
 Upgrade
 =======
 
+- [Upgrade from 2.0 to 3.0](#upgrade-from-20-to-30)
 - [Upgrade from 1.3.* to 2.0](#upgrade-from-13-to-20)
 - [Upgrade from 1.2.* to 1.3.0](#upgrade-from-12-to-130)
 - [Upgrade from 1.2.0 to 1.2.3](#upgrade-from-120-to-123)
 - [Upgrade from 1.1.* to 1.2.0](#upgrade-from-11-to-120)
 
 These notes cover the steps to follow in order to upgrade major versions of the framework.
+
+Upgrade from 2.0 to 3.0
+-----------------------
+
+The Themosis framework 3.0 shares a lot of 2.0 APIs. The main changes from this release is the support of PHP 8+ mainly.
+
+> Themosis framework 3.0 does not work on PHP 7.x versions
+
+In order to support PHP 8+, the framework is now bundled with Laravel 8.x. Another notable change is also the removal of our `console` CLI script. It is now replaced by Laravel `artisan` CLI file instead. All previous Themosis commands are still available under `artisan`. To view a list of available commands, run the following command in your terminal:
+
+```php
+php artisan
+```
+
+Here is a list of a few things to change when upgrading to version `3.0`:
+
+1. Salt keys are now set directly in your application `.env` file. On an existing application, make sure to copy the variables as found here in the `.env.sample` [file](https://github.com/themosis/themosis/blob/3.0/.env.sample#L6) and then run the `php artisan salts:generate` command from your terminal. Then update the `config/wordpress.php` file to retrieve salt keys values from the [environment variables (example)](https://github.com/themosis/themosis/blob/3.0/config/wordpress.php#L22).
+2. The HTTP kernel is now supporting the WebSocket and API routes. Add the `api.php` and `channels.php` files inside the `routes` root directory. The files can be empty PHP files, or you can copy [the default ones provided by the framework.](https://github.com/themosis/themosis/tree/3.0/routes)
+3. Only PHP 8 and above is supported, so make sure to upgrade any custom code that is no longer supported in PHP 8+.
+4. Laravel 8 is now shipped with the framework. You might need to update some of your custom classes to support Laravel 8 APIs (version 2.0 of Themosis was using Laravel 5 in comparison).
+5. Rename the root `console` file to `artisan` and [replace its content with this one](https://github.com/themosis/themosis/blob/3.0/artisan).
+6. Update your `composer.json` dependencies, [here is the default](https://github.com/themosis/themosis/blob/3.0/composer.json#L45) requirement and run `composer update` from your terminal. Also makes sure to update the `post-autoload-dump` script configuration to use the `@php artisan` script instead of `@php console`.
+
+### Homestead
+
+Users that were or still use Laravel Homestead, the `laravel/homestead` package is no longer set as a default dependency. Laravel Homestead is still supported, just make sure to keep the dependency in your project and [follow official documentation](https://laravel.com/docs/9.x/homestead#main-content) based on your installation preferences.
+
+> The framework ships a Laravel Valet local driver on new installation, feel [free to add it](https://github.com/themosis/themosis/blob/3.0/LocalValetDriver.php) to your project. Only WordPress single installation is supported with Valet. For a **multisite** installation, it is recommended to use Laravel Homestead.
 
 Upgrade from 1.3.* to 2.0
 -------------------------
