@@ -27,6 +27,7 @@
 - [Action]({{url}}/action)
 - [Ajax]({{url}}/ajax)
 - [Asset]({{url}}/asset)
+- [Drop-ins]({{url}}/dropins)
 - [Field]({{url}}/field)
 - [Filter]({{url}}/filter)
 - [Form]({{url}}/form)
