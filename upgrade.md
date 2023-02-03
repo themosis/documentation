@@ -29,7 +29,9 @@ Here is a list of a few things to change when upgrading to version `3.0`:
 3. Only PHP 8 and above is supported, so make sure to upgrade any custom code that is no longer supported in PHP 8+.
 4. Laravel 8 is now shipped with the framework. You might need to update some of your custom classes to support Laravel 8 APIs (version 2.0 of Themosis was using Laravel 5 in comparison).
 5. Rename the root `console` file to `artisan` and [replace its content with this one](https://github.com/themosis/themosis/blob/3.0/artisan).
-6. Update your `composer.json` dependencies, [here is the default](https://github.com/themosis/themosis/blob/3.0/composer.json#L45) requirement and run `composer update` from your terminal. Also makes sure to update the `post-autoload-dump` script configuration to use the `@php artisan` script instead of `@php console`.
+6. Configuration files have beeen updated. Compare your existing configuration files with the ones stored in [our skeleton repository](https://github.com/themosis/themosis/tree/3.0/config)
+7. Update your `config/app.php` file by adding the following service providers: `BroadcastServiceProvider` and `EventServiceProvider` [in the `providers` property.](https://github.com/themosis/themosis/blob/3.0/config/app.php#L139)
+8. Update your `composer.json` dependencies, [here is the default](https://github.com/themosis/themosis/blob/3.0/composer.json#L45) requirement and run `composer update` from your terminal. Also makes sure to update the `post-autoload-dump` script configuration to use the `@php artisan` script instead of `@php console`.
 
 ### Homestead
 
