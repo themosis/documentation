@@ -1,6 +1,7 @@
 Upgrade
 =======
 
+- [Upgrade from 3.0 to 3.1](#upgrade-from-30-to-31)
 - [Upgrade from 2.0 to 3.0](#upgrade-from-20-to-30)
 - [Upgrade from 1.3.* to 2.0](#upgrade-from-13-to-20)
 - [Upgrade from 1.2.* to 1.3.0](#upgrade-from-12-to-130)
@@ -8,6 +9,21 @@ Upgrade
 - [Upgrade from 1.1.* to 1.2.0](#upgrade-from-11-to-120)
 
 These notes cover the steps to follow in order to upgrade major versions of the framework.
+
+Upgrade from 3.0 to 3.1
+-----------------------
+
+The Themosis framework 3.1 is a minor upgrade and should normally not break existing 3.0 applications.
+
+Release 3.1 finally brings a long-awaited feature: support for deprecations and warnings. This change stops converting WordPress user deprecations and warnings to PHP exceptions, which was causing an unpleasant experience while developing with the Themosis framework. From now on, warnings will be reported to a separate log file and no longer interrupt your development cycle while working in debug mode.
+
+In order to upgrade to the Themosis framework 3.1, follow the steps below:
+
+1. Update the `themosis/framework` dependency version inside the root `composer.json` file like so: `"themosis/framework": "^3.1"`
+2. Update the `config/logging.php` of your application to the [new configuration file](https://github.com/themosis/themosis/blob/5dc9970dbdce689f47f16554f9e346c2fa276bfa/config/logging.php). You want to make sure to add the [new channel](https://github.com/themosis/themosis/blob/5dc9970dbdce689f47f16554f9e346c2fa276bfa/config/logging.php#L66) for `deprecations`.
+3. Finally run `composer update` from your terminal to upgrade your application.
+
+See the [changelog]({{url}}/changelog) for more information.
 
 Upgrade from 2.0 to 3.0
 -----------------------

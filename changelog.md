@@ -1,6 +1,18 @@
 Changelog
 =========
 
+3.1
+---
+
+#### New
+
+- Deprecations logging
+- Form option to not flush input if data is invalid
+
+#### Fixes
+
+- Fix submit event on post edit screen for custom fields
+
 3.0
 ---
 
